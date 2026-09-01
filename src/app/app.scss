@@ -1,0 +1,81 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.app-sidenav-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.ohsaveme-sidenav {
+  width: 280px;
+  background-color: transparent;
+  border-right: none;
+  position: absolute;
+  transform: none;
+  left: -280px;
+  transition: left 300ms ease-in-out;
+
+  &.mat-drawer-opened {
+    border-radius: 0px;
+    left: 0;
+  }
+}
+
+@include respond-to('desktop') {
+  .ohsaveme-sidenav.mat-drawer {
+    width: 100%;
+    max-width: none;
+    left: 0;
+    bottom: auto;
+    height: auto;
+    max-height: calc(100vh - var(--header-height));
+    overflow: hidden;
+
+    .o-sidenav__drawer {
+      display: block;
+      transform: translateY(-100%);
+      transition: transform 300ms ease-in-out;
+    }
+
+    &.mat-drawer-opened .o-sidenav__drawer {
+      transform: translateY(0);
+    }
+  }
+}
+
+.app-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+.o-sidenav__wrapper {
+  padding: var(--layout-gutter-mobile, var(--space-2));
+  padding-bottom: calc(56px + 32px);
+  max-width: var(--layout-content-max-width, 1440px);
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+
+  @include respond-to('tablet') {
+    padding: var(--layout-gutter-tablet, var(--space-4));
+    padding-bottom: calc(56px + 32px);
+  }
+
+  @include respond-to('desktop') {
+    padding: var(--layout-gutter-desktop, var(--space-6));
+    padding-bottom: calc(56px + 32px);
+  }
+}
+
+main.app-main-content {
+  margin-top: var(--header-height);
+
+  &--has-insightId,
+  &--has-header-action-row {
+    margin-top: var(--header-total-height);
+  }
+}

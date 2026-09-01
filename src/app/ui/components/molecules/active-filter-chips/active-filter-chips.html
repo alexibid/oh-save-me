@@ -1,0 +1,13 @@
+@if (chips().length > 0) {
+  <div class="m-active-filter-chips">
+    @for (chip of chips(); track chip.id) {
+      <div class="m-active-filter-chips__chip" [class.m-active-filter-chips__chip--tinted]="!!chip.color" [style.--category-color]="chip.color">
+        <span class="m-active-filter-chips__label">{{ chip.label }}</span>
+        <button type="button" class="m-active-filter-chips__remove" (click)="remove.emit(chip.id)" [attr.aria-label]="chip.label">
+          <ibid-icon name="close"></ibid-icon>
+        </button>
+      </div>
+    }
+    <button type="button" class="m-active-filter-chips__clear-all" (click)="clearAll.emit()">{{ 'activeFiltersClearAll' | translate }}</button>
+  </div>
+}

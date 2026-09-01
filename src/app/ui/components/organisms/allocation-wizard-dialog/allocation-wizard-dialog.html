@@ -1,0 +1,193 @@
+<ibid-bottom-sheet-dialog class="m-allocation-wizard" (closeClicked)="onCancel()">
+  <span sheet-title>{{ (isInvestment() ? (isEditing() ? 'walletEditTitle' : 'walletAddTitle') : 'budgetAddTitle') | translate }}</span>
+
+  <form id="projectBudgetForm" (ngSubmit)="onSubmitBudget()" class="m-allocation-wizard__form">
+    @if (isInvestment()) {
+    <ibid-form-field [label]="'walletNameLabel' | translate" class="m-allocation-wizard__field">
+      <input class="a-input" type="text" [(ngModel)]="budgetName" name="walletName" required />
+    </ibid-form-field>
+
+    <ibid-form-field [label]="'walletKindLabel' | translate" class="m-allocation-wizard__field">
+      <ibid-select
+        size="full"
+        dropdownPosition="bottom-left"
+        dropdownWidth="match-button"
+        [value]="walletKind"
+        [options]="walletKindOptions"
+        (valueChange)="setWalletKind($event)">
+      </ibid-select>
+    </ibid-form-field>
+
+    <ibid-form-field [label]="amountLabelKey() | translate" class="m-allocation-wizard__field">
+      <div class="m-allocation-wizard__amount">
+        <input class="a-input" type="number" [(ngModel)]="budgetAmount" name="walletAmount" required min="0.01" step="0.01" />
+        <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+      </div>
+    </ibid-form-field>
+
+    @if (isLoanBacked()) {
+      <ibid-form-field [label]="'walletInvestedAmountLabel' | translate" class="m-allocation-wizard__field">
+        <div class="m-allocation-wizard__amount">
+          <input class="a-input" type="number" [(ngModel)]="budgetTotalAmount" name="walletTotalAmount" min="0.01" step="0.01" />
+          <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+        </div>
+      </ibid-form-field>
+
+      <ibid-form-field [label]="'walletOutstandingDebtLabel' | translate" class="m-allocation-wizard__field">
+        <div class="m-allocation-wizard__amount">
+          <input class="a-input" type="number" [(ngModel)]="outstandingDebt" name="outstandingDebt" required min="0" step="0.01" />
+          <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+        </div>
+      </ibid-form-field>
+
+      <div class="m-allocation-wizard__row">
+        <ibid-form-field [label]="'walletPaidInstalmentsLabel' | translate" class="m-allocation-wizard__field">
+          <input class="a-input" type="number" [(ngModel)]="paidInstalments" name="paidInstalments" required min="0" step="1" />
+        </ibid-form-field>
+        <ibid-form-field [label]="'walletContractedInstalmentsLabel' | translate" class="m-allocation-wizard__field">
+          <input class="a-input" type="number" [(ngModel)]="contractedInstalments" name="contractedInstalments" required min="1" step="1" />
+        </ibid-form-field>
+      </div>
+
+      <ibid-form-field [label]="'walletCurrentValueLabel' | translate" class="m-allocation-wizard__field">
+        <div class="m-allocation-wizard__amount">
+          <input class="a-input" type="number" [(ngModel)]="currentValue" name="currentValue" min="0" step="0.01"
+            [style.color]="appreciationColor()"
+            [style.-webkit-text-fill-color]="appreciationColor()"
+            [style.fontWeight]="currentValue ? 700 : null" />
+          <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+          @if (appreciationPercentFromValue() !== null) {
+            <span class="m-allocation-wizard__percent" [style.color]="appreciationColor()">
+              {{ appreciationPercentFromValue()! > 0 ? '+' : '' }}{{ appreciationPercentFromValue() }}%
+            </span>
+          }
+        </div>
+      </ibid-form-field>
+
+      <p class="m-allocation-wizard__hint">{{ 'walletSpeculativeHint' | translate }}</p>
+    } @else {
+      <ibid-form-field [label]="'walletCurrentValueLabel' | translate" class="m-allocation-wizard__field">
+        <div class="m-allocation-wizard__amount">
+          <input class="a-input" type="number" [(ngModel)]="currentValue" name="currentValue" min="0" step="0.01" />
+          <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+        </div>
+      </ibid-form-field>
+
+      <ibid-form-field [label]="'walletRegisterDateLabel' | translate" class="m-allocation-wizard__field">
+        <ibid-date-input [value]="registerDate" (valueChange)="registerDate = $event"></ibid-date-input>
+      </ibid-form-field>
+
+      <div class="m-allocation-wizard__row">
+        <ibid-form-field [label]="'assistantAnswerAdjustTarget' | translate" class="m-allocation-wizard__field">
+          <div class="m-allocation-wizard__amount">
+            <input class="a-input" type="number" [(ngModel)]="targetProfitPct" name="targetProfitPct" min="1" step="1" placeholder="ex: 15%" />
+            <span class="m-allocation-wizard__currency">%</span>
+          </div>
+        </ibid-form-field>
+        <ibid-form-field [label]="'sellSimulatorMarketValue' | translate" class="m-allocation-wizard__field">
+          <div class="m-allocation-wizard__amount">
+            <input class="a-input" type="number" [(ngModel)]="targetPrice" name="targetPrice" min="0.01" step="0.01" />
+            <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+          </div>
+        </ibid-form-field>
+      </div>
+    }
+
+    } @else {
+    <ibid-form-field [label]="'budgetNameLabel' | translate" class="m-allocation-wizard__field">
+      <input class="a-input" type="text" [(ngModel)]="budgetName" name="budgetName" required />
+    </ibid-form-field>
+
+    <ibid-form-field [label]="'projectKindLabel' | translate" class="m-allocation-wizard__field">
+      <ibid-select
+        size="full"
+        dropdownPosition="bottom-left"
+        dropdownWidth="match-button"
+        [value]="projectKind"
+        [options]="projectKindOptions"
+        (valueChange)="setProjectKind($event)">
+      </ibid-select>
+    </ibid-form-field>
+
+    <ibid-form-field [label]="'budgetTargetLimitLabel' | translate" class="m-allocation-wizard__field">
+      <div class="m-allocation-wizard__amount">
+        <input class="a-input" type="number" [ngModel]="budgetAmount" (ngModelChange)="onAmountChange($event)" name="budgetAmount" required min="0.01" step="0.01" />
+        <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+      </div>
+    </ibid-form-field>
+
+    <div class="m-allocation-wizard__row">
+      <ibid-form-field [label]="'budgetFieldTargetAmount' | translate" class="m-allocation-wizard__field">
+        <div class="m-allocation-wizard__amount">
+          <input class="a-input" type="number" [(ngModel)]="targetAmount" name="targetAmount" min="0.01" step="0.01" />
+          <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+        </div>
+      </ibid-form-field>
+      <ibid-form-field [label]="'budgetFieldTargetDate' | translate" class="m-allocation-wizard__field">
+        <ibid-date-input [value]="targetDate" (valueChange)="targetDate = $event"></ibid-date-input>
+      </ibid-form-field>
+    </div>
+
+    <ibid-form-field [label]="'budgetMonthlyAllocationLabel' | translate" class="m-allocation-wizard__field m-allocation-wizard__group-margin">
+      <div class="m-allocation-wizard__amount">
+        <input class="a-input" type="number" [(ngModel)]="budgetMonthlyAllocation" name="monthlyAllocation" min="0.01" step="0.01" />
+        <span class="m-allocation-wizard__currency">{{ i18n.currencySymbol() }}</span>
+      </div>
+    </ibid-form-field>
+
+    <div class="m-allocation-wizard__project-fields">
+      @if (projectKind === 'vacation') {
+        <div class="m-allocation-wizard__section-title">
+          {{ 'budgetingPeriodLabel' | translate }}
+        </div>
+        <div class="m-allocation-wizard__row">
+          <ibid-form-field [label]="'budgetStartDateLabelProject' | translate" class="m-allocation-wizard__field">
+            <ibid-date-input [value]="startDate" (valueChange)="onBudgetStartDateChange($event)"></ibid-date-input>
+          </ibid-form-field>
+          <ibid-form-field [label]="'budgetEndDateLabelProject' | translate" class="m-allocation-wizard__field">
+            <ibid-date-input [value]="endDate" (valueChange)="onBudgetEndDateChange($event)"></ibid-date-input>
+          </ibid-form-field>
+        </div>
+        @if (budgetPeriodReversed()) {
+          <p class="m-allocation-wizard__error">{{ 'budgetPeriodReversedError' | translate }}</p>
+        }
+
+        <div class="m-allocation-wizard__section-title m-allocation-wizard__section-title--margin-top">
+          {{ 'vacationPeriodLabel' | translate }}
+        </div>
+        <div class="m-allocation-wizard__row">
+          <ibid-form-field [label]="'projectStartDateLabel' | translate" class="m-allocation-wizard__field">
+            <ibid-date-input [value]="projectStartDate" (valueChange)="onStartDateChange($event)"></ibid-date-input>
+          </ibid-form-field>
+          <ibid-form-field [label]="'projectEndDateLabel' | translate" class="m-allocation-wizard__field">
+            <ibid-date-input [value]="projectEndDate" (valueChange)="onProjectEndDateChange($event)"></ibid-date-input>
+          </ibid-form-field>
+        </div>
+        @if (vacationWindowReversed()) {
+          <p class="m-allocation-wizard__error">{{ 'vacationPeriodReversedError' | translate }}</p>
+        }
+      } @else {
+        <div class="m-allocation-wizard__row">
+          <ibid-form-field [label]="'budgetStartDateLabel' | translate" class="m-allocation-wizard__field">
+            <ibid-date-input [value]="startDate" (valueChange)="onBudgetStartDateChange($event)"></ibid-date-input>
+          </ibid-form-field>
+          <ibid-form-field [label]="'budgetEndDateLabel' | translate" class="m-allocation-wizard__field">
+            <ibid-date-input [value]="endDate" (valueChange)="onBudgetEndDateChange($event)"></ibid-date-input>
+          </ibid-form-field>
+        </div>
+        @if (budgetPeriodReversed()) {
+          <p class="m-allocation-wizard__error">{{ 'budgetPeriodReversedError' | translate }}</p>
+        }
+      }
+    </div>
+
+    }
+  </form>
+
+  <div sheet-footer style="display: flex; gap: 12px; justify-content: flex-end; width: 100%;">
+    <ibid-button type="button" variant="outlined" (clicked)="onCancel()">{{ 'budgetCancelBtn' | translate }}</ibid-button>
+    <ibid-button variant="primary" type="button" (clicked)="onSubmitBudget()" [disabled]="isInvestment() ? !canSubmitInvestment() : (!budgetName || !budgetAmount || budgetAmount <= 0 || vacationWindowReversed() || budgetPeriodReversed())">
+      {{ (isInvestment() ? (isEditing() ? 'walletSaveBtn' : 'walletCreateBtn') : 'budgetCreateBtn') | translate }}
+    </ibid-button>
+  </div>
+</ibid-bottom-sheet-dialog>

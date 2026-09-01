@@ -1,0 +1,28 @@
+<ibid-card customClass="m-category-budget-card" (click)="editBudgetClick.emit()">
+  <div class="m-category-budget-card__header">
+    <div class="m-category-budget-card__icon" [style.background-color]="categoryColor || 'var(--color-primary)'">
+      <ibid-icon [name]="categoryIcon || 'category-general'" />
+    </div>
+    <span class="m-category-budget-card__name">{{ categoryName }}</span>
+  </div>
+
+  <div class="m-category-budget-card__content">
+    <span class="m-category-budget-card__label">{{ amountLabelKey | translate }}</span>
+    <ibid-currency-display class="m-category-budget-card__value" [value]="amountToDisplay" size="lg"
+      [signed]="budgetProgress?.isOverBudget || false"
+      [explanation]="amountExplanation" [explanationTitle]="categoryName" />
+  </div>
+
+  <div class="m-category-budget-card__footer">
+    <div class="m-category-budget-card__progress-track">
+      <div class="m-category-budget-card__progress-bar"
+           [style.width.%]="(budgetProgress?.percentage || 0) > 100 ? 100 : (budgetProgress?.percentage || 0)"
+           [style.background-color]="budgetProgress?.isOverBudget ? 'var(--color-danger, #ef4444)' : (categoryColor || 'var(--color-primary)')">
+      </div>
+    </div>
+    <div class="m-category-budget-card__footer-text">
+      <span><ibid-currency-display [value]="(budgetProgress?.spent || 0)" size="sm" /> {{ 'budgetCardSpent' | translate }}</span>
+      <span>{{ 'budgetOf' | translate }} <ibid-currency-display [value]="(budgetProgress?.periodAllocation || budgetProgress?.budget?.amount || 0)" size="sm" /></span>
+    </div>
+  </div>
+</ibid-card>

@@ -1,0 +1,99 @@
+<ibid-bottom-sheet-dialog class="c-allocation-dialog" (closeClicked)="onClose()">
+  <span sheet-title>{{ titleKey | translate }}</span>
+
+  <div class="c-allocation-dialog__budget-info">
+    <span class="c-allocation-dialog__budget-name">{{ budget.name }}</span>
+    <div class="c-allocation-dialog__budget-tags">
+      @for (tag of budget.tags; track tag) {
+        <span class="c-allocation-dialog__tag">#{{ tag }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="c-allocation-dialog__tabs">
+    <button
+      type="button"
+      class="c-allocation-dialog__tab"
+      [class.c-allocation-dialog__tab--active]="activeTab() === 'associated'"
+      (click)="activeTab.set('associated')"
+    >
+      {{ 'budgetMovementsTabAssociated' | translate }}
+      ({{ associatedItems().length }})
+    </button>
+    <button
+      type="button"
+      class="c-allocation-dialog__tab"
+      [class.c-allocation-dialog__tab--active]="activeTab() === 'available'"
+      (click)="activeTab.set('available')"
+    >
+      {{ 'budgetMovementsTabAvailable' | translate }}
+      ({{ availableItems().length }})
+    </button>
+  </div>
+
+  <div class="c-allocation-dialog__search">
+    <ibid-search-input
+      [value]="searchQuery()"
+      [placeholder]="'budgetMovementsSearchPlaceholder' | translate"
+      [clearLabel]="'searchInputClearLabel' | translate"
+      (valueChange)="searchQuery.set($event)"
+    ></ibid-search-input>
+
+    <button
+      type="button"
+      class="c-allocation-dialog__group-toggle"
+
+      (click)="onSelectAllListed()"
+      [title]="'budgetMovementsGroupTooltip' | translate"
+    >
+      <ibid-icon name="done-all"></ibid-icon>
+      <span>{{ (activeTab() === 'available' ? 'budgetMovementsSelectAll' : 'budgetMovementsClearAll') | translate }}</span>
+    </button>
+  </div>
+
+  <div class="c-allocation-dialog__body">
+    @if (activeTab() === 'associated') {
+      @if (associatedTransactions().length > 0) {
+        <ohsaveme-transactions-table
+          [transactions]="associatedTransactions()"
+          [categoryOptions]="categoryOptions()"
+          [showActions]="false"
+          [showTitle]="false"
+          [showTabs]="false"
+          [selectionMode]="true"
+          [selectedIds]="associatedIds()"
+          (selectionToggle)="onAssociationToggle($event)"
+          (categoryApplied)="onCategoryApplied($event)"
+          (budgetApplied)="onBudgetApplied($event)"
+        ></ohsaveme-transactions-table>
+      } @else {
+        <div class="c-allocation-dialog__empty">
+          <ibid-icon name="link-off" class="c-allocation-dialog__empty-icon"></ibid-icon>
+          <p>{{ 'budgetMovementsNoAssociated' | translate }}</p>
+        </div>
+      }
+    }
+
+    @if (activeTab() === 'available') {
+      @if (availableTransactions().length > 0) {
+        <ohsaveme-transactions-table
+          [transactions]="availableTransactions()"
+          [categoryOptions]="categoryOptions()"
+          [showActions]="false"
+          [showTitle]="false"
+          [showTabs]="false"
+          [selectionMode]="true"
+          [selectedIds]="associatedIds()"
+          (selectionToggle)="onAssociationToggle($event)"
+          (categoryApplied)="onCategoryApplied($event)"
+          (budgetApplied)="onBudgetApplied($event)"
+        ></ohsaveme-transactions-table>
+      } @else {
+        <div class="c-allocation-dialog__empty">
+          <ibid-icon name="done-all" class="c-allocation-dialog__empty-icon"></ibid-icon>
+          <p class="c-allocation-dialog__empty-title">{{ 'budgetMovementsNoAvailable' | translate }}</p>
+        </div>
+      }
+    }
+  </div>
+</ibid-bottom-sheet-dialog>

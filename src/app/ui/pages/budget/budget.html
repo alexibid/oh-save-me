@@ -1,0 +1,45 @@
+<div class="p-budget">
+  <header class="p-budget__header">
+    <div class="p-budget__header-top">
+      <h1 class="p-budget__title">
+        {{ 'budgetTitle' | translate }}
+      </h1>
+    </div>
+    <p class="p-budget__subtitle">
+      {{ 'budgetSubtitle' | translate }}
+    </p>
+    <ohsaveme-budget-actions-banner (openProjectWizard)="onOpenProjectWizard()"></ohsaveme-budget-actions-banner>
+  </header>
+
+  <ohsaveme-balance-summary-card
+      [freeBalance]="freeBalance()"
+      [totalWalletBalance]="totalWalletBalance()"
+      [totalWalletBalanceExplanation]="totalWalletBalanceExplanation()"
+      [activeProjectReserve]="activeProjectReserve()"
+      [categoryRemainingReserve]="categoryRemainingReserve()"
+      [categoryBudgetedTotal]="categoryBudgetedTotal()"
+      [categoryOverspendTotal]="categoryOverspendTotal()"
+      [categorySpentWithinBudget]="categorySpentWithinBudget()"
+      [investedValue]="investedValue()"
+      [totalPatrimony]="totalPatrimony()"
+    ></ohsaveme-balance-summary-card>
+  
+  <ohsaveme-allocations-dashboard id="allocations-dashboard"></ohsaveme-allocations-dashboard>
+
+  <ohsaveme-allocation-detailed-cards
+    (saveBudget)="onSaveCategoryBudget($event)"
+    (adjustTransactions)="onAdjustCategoryTransactions($event)"
+    (viewMovements)="onViewCategoryMovements($event)">
+  </ohsaveme-allocation-detailed-cards>
+
+  <ohsaveme-category-budgets-dashboard id="category-budgets-dashboard"></ohsaveme-category-budgets-dashboard>
+
+  <ohsaveme-budget-execution-summary
+    [periodBudgetsProgress]="periodBudgetsProgress()"
+    (categoryItemClick)="onAdjustCategoryTransactions($event)"
+    (projectItemClick)="onOpenProjectFromSummary($event)"
+    (categoryMovementsClick)="onViewCategoryMovements($event)"
+    (projectMovementsClick)="onOpenProjectMovements($event)"
+  ></ohsaveme-budget-execution-summary>
+  
+</div>

@@ -1,0 +1,91 @@
+<ibid-bottom-sheet-dialog class="c-allocation-edit-dialog" (closeClicked)="onCancel()">
+  <span sheet-title>{{ 'budgetEditTitle' | translate }}</span>
+
+  <form id="budgetEditForm" (submit)="onSave()" class="c-allocation-edit-dialog__body">
+
+    <ibid-form-field [label]="'budgetNameLabel' | translate">
+      <input type="text" [(ngModel)]="budgetName" name="name" class="a-input" required />
+    </ibid-form-field>
+
+    <ibid-form-field [label]="'budgetTargetAmountLabel' | translate">
+      <input type="number" [(ngModel)]="budgetAmount" name="amount" class="a-input" min="1" required />
+    </ibid-form-field>
+
+    <ibid-form-field [label]="'budgetMonthlyAllocationLabelDialog' | translate">
+      <input type="number" [(ngModel)]="budgetMonthlyAllocation" name="monthlyAllocation" class="a-input" min="0" placeholder="Ex: 100" />
+    </ibid-form-field>
+
+    <div *ngIf="budget.type === 'project'" class="c-allocation-edit-dialog__project-fields">
+      <ng-container *ngIf="budget.kind === 'vacation'; else defaultProjectDates">
+        <div class="c-allocation-edit-dialog__section-title">
+          {{ 'budgetingPeriodLabel' | translate }}
+        </div>
+        <div class="c-allocation-edit-dialog__form-row">
+          <ibid-form-field [label]="'budgetStartDateLabelProject' | translate">
+            <ibid-date-input [value]="budgetStartDate" (valueChange)="budgetStartDate = $event"></ibid-date-input>
+          </ibid-form-field>
+          <ibid-form-field [label]="'budgetEndDateLabelProject' | translate">
+            <ibid-date-input [value]="budgetEndDate" (valueChange)="budgetEndDate = $event"></ibid-date-input>
+          </ibid-form-field>
+        </div>
+        @if (budgetPeriodReversed()) {
+          <p class="c-allocation-edit-dialog__error">{{ 'budgetPeriodReversedError' | translate }}</p>
+        }
+
+        <div class="c-allocation-edit-dialog__section-title" style="margin-top: 12px;">
+          {{ 'vacationPeriodLabel' | translate }}
+        </div>
+        <div class="c-allocation-edit-dialog__form-row">
+          <ibid-form-field [label]="'projectStartDateLabel' | translate">
+            <ibid-date-input [value]="vacationStartDate" (valueChange)="vacationStartDate = $event"></ibid-date-input>
+          </ibid-form-field>
+          <ibid-form-field [label]="'projectEndDateLabel' | translate">
+            <ibid-date-input [value]="vacationEndDate" (valueChange)="vacationEndDate = $event"></ibid-date-input>
+          </ibid-form-field>
+        </div>
+        @if (vacationWindowReversed()) {
+          <p class="c-allocation-edit-dialog__error">{{ 'vacationPeriodReversedError' | translate }}</p>
+        }
+      </ng-container>
+
+      <ng-template #defaultProjectDates>
+        <div class="c-allocation-edit-dialog__form-row">
+          <ibid-form-field [label]="'budgetStartDateLabelDialog' | translate">
+            <ibid-date-input [value]="budgetStartDate" (valueChange)="budgetStartDate = $event"></ibid-date-input>
+          </ibid-form-field>
+          <ibid-form-field [label]="'budgetEndDateLabelDialog' | translate">
+            <ibid-date-input [value]="budgetEndDate" (valueChange)="budgetEndDate = $event"></ibid-date-input>
+          </ibid-form-field>
+        </div>
+        @if (budgetPeriodReversed()) {
+          <p class="c-allocation-edit-dialog__error">{{ 'budgetPeriodReversedError' | translate }}</p>
+        }
+      </ng-template>
+    </div>
+
+    <div class="c-allocation-edit-dialog__scope-field">
+      <label class="c-allocation-edit-dialog__field-label">{{ 'accountCreateScopeQuestion' | translate }}</label>
+      <ibid-segmented-control [options]="scopeOptions" [value]="budgetScope" (valueChange)="onScopeChange($event)"></ibid-segmented-control>
+    </div>
+
+    @if (budgetScope === 'joint') {
+      <div class="c-allocation-edit-dialog__share-section">
+        <ohsaveme-share-access-manager [(selectedEmails)]="budgetSharedEmails"></ohsaveme-share-access-manager>
+      </div>
+    }
+  </form>
+
+  <div sheet-footer class="c-allocation-edit-dialog__footer">
+    <button type="button" class="c-allocation-edit-dialog__btn c-allocation-edit-dialog__btn--secondary" (click)="onCancel()">
+      {{ 'budgetCancelBtn' | translate }}
+    </button>
+    <button
+      type="submit"
+      form="budgetEditForm"
+      class="c-allocation-edit-dialog__btn c-allocation-edit-dialog__btn--primary"
+      [disabled]="!budgetName || !budgetAmount || budgetAmount <= 0 || vacationWindowReversed() || budgetPeriodReversed()"
+    >
+      {{ 'budgetSaveBtn' | translate }}
+    </button>
+  </div>
+</ibid-bottom-sheet-dialog>

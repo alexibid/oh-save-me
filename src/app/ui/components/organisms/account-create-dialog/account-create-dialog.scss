@@ -1,0 +1,117 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.o-account-create-dialog {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &--row {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  &__input,
+  &__select {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+    @include transition-standard;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-ink);
+    }
+  }
+
+  &__preset-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-height: 240px;
+    overflow-y: auto;
+    padding-top: 4px;
+  }
+
+  &__preset-category {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted);
+  }
+
+  &__preset-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  &__preset-chip {
+    padding: 8px 14px;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    @include transition-standard;
+
+    &--other {
+      margin-top: 4px;
+    }
+
+    &:hover {
+      border-color: var(--color-ink);
+    }
+
+    &--selected {
+      border-color: var(--color-ink);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-weight: var(--weight-semibold);
+    }
+  }
+
+  &__upload-dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--radius-control);
+    padding: 28px 24px;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    @include transition-standard;
+
+    &:hover {
+      border-color: var(--color-ink);
+    }
+  }
+}

@@ -1,0 +1,147 @@
+<ng-template #dialogTemplate>
+  <ibid-bottom-sheet-dialog class="o-account-create-dialog" (closeClicked)="onCancel()">
+    <span sheet-title>{{ 'accountCreateTitle' | translate }}</span>
+
+    <div class="o-account-create-dialog__content">
+      <ng-container *ngIf="step() === 'kind'">
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__label">{{ 'accountCreateKindQuestion' | translate }}</label>
+          <ibid-segmented-control [options]="kindOptions()" [value]="kind()" (valueChange)="selectKind($event)"></ibid-segmented-control>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="step() === 'details' && kind() === 'financial'">
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__label">{{ 'accountCreateNameLabel' | translate }}</label>
+          <input
+            type="text"
+            class="a-input o-account-create-dialog__input"
+            [(ngModel)]="accountName"
+            [attr.aria-label]="'accountCreateNameLabel' | translate"
+            [placeholder]="'accountCreateNamePlaceholder' | translate"
+          />
+        </div>
+
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__label">{{ 'dbAccountTypeLabel' | translate }}</label>
+          <select class="a-select o-account-create-dialog__select" [attr.aria-label]="'dbAccountTypeLabel' | translate" [ngModel]="accountType()" (change)="onAccountTypeChange($event)">
+            <option value="bank_account">{{ 'accountTypeBankAccount' | translate }}</option>
+            <option value="credit_card">{{ 'accountTypeCreditCard' | translate }}</option>
+            <option value="meal_card">{{ 'accountTypeMealCard' | translate }}</option>
+            <option value="investment">{{ 'accountTypeInvestment' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__label">{{ 'accountCreateScopeQuestion' | translate }}</label>
+          <ibid-segmented-control [options]="scopeOptions()" [value]="scope()" (valueChange)="selectScope($event)"></ibid-segmented-control>
+        </div>
+
+        @if (scope() === 'joint') {
+          <div class="o-account-create-dialog__form-group">
+            <ohsaveme-share-access-manager [(selectedEmails)]="sharedWithEmails"></ohsaveme-share-access-manager>
+          </div>
+        }
+
+        <div class="o-account-create-dialog__form-group o-account-create-dialog__form-group--row">
+          <label class="o-account-create-dialog__label">{{ 'accountCreateConsolidatedBalanceToggle' | translate }}</label>
+          <input
+            type="checkbox"
+            class="a-switch"
+            [attr.aria-label]="'accountCreateConsolidatedBalanceToggle' | translate"
+            [checked]="includeInConsolidatedBalance()"
+            (change)="onConsolidatedBalanceToggle($event)"
+          />
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="step() === 'details' && kind() === 'custom'">
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__label">{{ 'accountCreatePresetQuestion' | translate }}</label>
+          <input
+            type="text"
+            class="a-input o-account-create-dialog__input"
+            [(ngModel)]="presetSearch"
+            [attr.aria-label]="'accountCreatePresetQuestion' | translate"
+            [placeholder]="'accountCreatePresetSearchPlaceholder' | translate"
+          />
+          <button
+            type="button"
+            class="o-account-create-dialog__preset-chip o-account-create-dialog__preset-chip--other"
+            [class.o-account-create-dialog__preset-chip--selected]="selectedPresetId() === undefined"
+            (click)="selectOtherPreset()"
+          >{{ 'accountCreatePresetOther' | translate }}</button>
+
+          <div class="o-account-create-dialog__preset-list">
+            <ng-container *ngFor="let group of groupedPresets()">
+              <div class="o-account-create-dialog__preset-category">{{ group.category }}</div>
+              <div class="o-account-create-dialog__preset-grid">
+                <button
+                  type="button"
+                  *ngFor="let preset of group.presets"
+                  class="o-account-create-dialog__preset-chip"
+                  [class.o-account-create-dialog__preset-chip--selected]="selectedPresetId() === preset.id"
+                  (click)="selectPreset(preset)"
+                >{{ preset.label }}</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__label">{{ 'accountCreatePurposeLabel' | translate }}</label>
+          <input
+            type="text"
+            class="a-input o-account-create-dialog__input"
+            [(ngModel)]="purposeText"
+            [attr.aria-label]="'accountCreatePurposeLabel' | translate"
+            [placeholder]="'accountCreatePurposePlaceholder' | translate"
+          />
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="step() === 'upload'">
+        <div class="o-account-create-dialog__form-group">
+          <label class="o-account-create-dialog__upload-dropzone">
+            <input type="file" accept=".csv,.xlsx,.xls" [attr.aria-label]="'importDropzone' | translate" (change)="onFileSelected($event)" hidden />
+            <span *ngIf="!loadedFileName()">{{ 'importDropzone' | translate }}</span>
+            <span *ngIf="loadedFileName() && isAnalyzingFile()">{{ 'importAnalyzingFile' | translate }}</span>
+            <span *ngIf="loadedFileName() && !isAnalyzingFile()">{{ loadedFileName() }}</span>
+          </label>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="step() === 'mapping'">
+        <ohsaveme-column-mapper-dialog
+          [rawRows]="rawFileRows()"
+          [fileName]="loadedFileName()"
+          [mappings]="columnMappings()"
+          [accountKind]="'custom'"
+          (mappingsChange)="columnMappings.set($event)"
+          (measureUnitsChange)="measureUnits.set($event)"
+        ></ohsaveme-column-mapper-dialog>
+      </ng-container>
+    </div>
+
+    <div dialog-footer class="o-account-create-dialog__footer">
+      <ng-container *ngIf="step() === 'kind'">
+        <button type="button" class="a-button a-button--secondary" (click)="onCancel()">{{ 'accountCreateCancelBtn' | translate }}</button>
+        <button type="button" class="a-button a-button--primary" (click)="goToDetails()">{{ 'accountCreateNextBtn' | translate }}</button>
+      </ng-container>
+      <ng-container *ngIf="step() === 'details'">
+        <button type="button" class="a-button a-button--secondary" (click)="goBackToKind()">{{ 'accountCreateBackBtn' | translate }}</button>
+        <button type="button" class="a-button a-button--primary" [disabled]="isConfirmDisabled()" (click)="proceedFromDetails()">
+          {{ (kind() === 'custom' ? 'accountCreateNextBtn' : 'accountCreateConfirmBtn') | translate }}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="step() === 'upload'">
+        <button type="button" class="a-button a-button--secondary" (click)="goToDetails()">{{ 'accountCreateBackBtn' | translate }}</button>
+        <button type="button" class="a-button a-button--secondary" (click)="skipUpload()">{{ 'accountCreateSkipUploadBtn' | translate }}</button>
+      </ng-container>
+      <ng-container *ngIf="step() === 'mapping'">
+        <button type="button" class="a-button a-button--secondary" (click)="goBackToUpload()">{{ 'accountCreateBackBtn' | translate }}</button>
+        <button type="button" class="a-button a-button--primary" [disabled]="isConfirmDisabled()" (click)="confirm()">{{ 'accountCreateConfirmBtn' | translate }}</button>
+      </ng-container>
+    </div>
+  </ibid-bottom-sheet-dialog>
+</ng-template>

@@ -1,0 +1,250 @@
+<section class="o-transactions-table" [class.o-transactions-table--full-bleed-mobile]="fullBleedMobile">
+  @if (showHeader) {
+    <div class="o-transactions-table__header" ohsavemeDetectSticky 
+      [class.o-transactions-table__header--sticky]="isSticky()"
+      [class.o-transactions-table__header--compact]="!showTitle && !showTabs"
+      (stickyChange)="isSticky.set($event)">
+      
+      @if (showTitle || showSearch) {
+        <div class="o-transactions-table__header-row">
+          @if (showTitle) {
+            <h3 class="o-transactions-table__title" [class.o-transactions-table__title--sticky]="isSticky()">Transações</h3>
+          }
+
+          @if (showSearch) {
+            <ibid-search-input
+              class="o-transactions-table__search"
+              [class.o-transactions-table__search--sticky]="!isSticky()"
+              [value]="searchQuery"
+              [placeholder]="'movementsFilterSearchPlaceholder' | translate"
+              [clearLabel]="'searchInputClearLabel' | translate"
+              (valueChange)="searchQueryChange.emit($event)"
+            ></ibid-search-input>
+          }
+        </div>
+      }
+
+      @if (showTabs) {
+        <ibid-segmented-control class="o-transactions-table__tabs" [value]="activeTab()" [options]="tabOptions"
+          (valueChange)="onTabChange($event)"></ibid-segmented-control>
+      }
+
+      @if (showSort || showSumToggle) {
+        <div class="o-transactions-table__sort-header">
+          @if (showSumToggle) {
+            <button type="button" class="o-transactions-table__sum-toggle-btn"
+              [class.o-transactions-table__sum-toggle-btn--active]="sumModeEnabled"
+              [attr.aria-label]="'sumMovementsTitle' | translate"
+              [attr.aria-pressed]="sumModeEnabled"
+              (click)="sumModeChange.emit(!sumModeEnabled)">
+              <span class="o-transactions-table__sum-toggle-track">
+                <span class="o-transactions-table__sum-toggle-thumb">
+                  <ibid-icon name="sum"></ibid-icon>
+                </span>
+              </span>
+              <span class="o-transactions-table__sum-toggle-label">{{ 'sumMovementsTitle' | translate }}</span>
+            </button>
+          }
+
+          @if (showSort) {
+            <div class="o-transactions-table__sort-btn-group">
+              @if (selectionMode || sumModeEnabled) {
+                <button type="button" class="o-transactions-table__sort-btn"
+                  [class.o-transactions-table__sort-btn--active]="sortField() === 'selected'"
+                  (click)="toggleSort('selected')">
+                  {{ 'thSelected' | translate }}
+                  <ibid-icon name="chevron-down" class="o-transactions-table__sort-icon"
+                    [class.o-transactions-table__sort-icon--active]="sortField() === 'selected'"
+                    [class.o-transactions-table__sort-icon--asc]="sortField() === 'selected' && sortDirection() === 'asc'"></ibid-icon>
+                </button>
+              }
+              <button type="button" class="o-transactions-table__sort-btn"
+                [class.o-transactions-table__sort-btn--active]="sortField() === 'date'"
+                (click)="toggleSort('date')">
+                {{ 'thDate' | translate }}
+                <ibid-icon name="chevron-down" class="o-transactions-table__sort-icon"
+                  [class.o-transactions-table__sort-icon--active]="sortField() === 'date'"
+                  [class.o-transactions-table__sort-icon--asc]="sortField() === 'date' && sortDirection() === 'asc'"></ibid-icon>
+              </button>
+              <button type="button" class="o-transactions-table__sort-btn"
+                [class.o-transactions-table__sort-btn--active]="sortField() === 'amount'"
+                (click)="toggleSort('amount')">
+                {{ 'thAmount' | translate }}
+                <ibid-icon name="chevron-down" class="o-transactions-table__sort-icon"
+                  [class.o-transactions-table__sort-icon--active]="sortField() === 'amount'"
+                  [class.o-transactions-table__sort-icon--asc]="sortField() === 'amount' && sortDirection() === 'asc'"></ibid-icon>
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (sumModeEnabled) {
+    <div class="o-transactions-table__list">
+      @for (tx of selectedGroup; track tx.id; let i = $index) {
+        <ng-container *ngTemplateOutlet="row; context: { $implicit: tx, previousDate: selectedGroup[i - 1]?.date }"></ng-container>
+      } @empty {
+        <ibid-empty-state class="o-transactions-table__cell--empty" [message]="'sumMovementsEmpty' | translate"></ibid-empty-state>
+      }
+    </div>
+
+    <div class="o-transactions-table__sum-divider">
+      <span class="o-transactions-table__sum-divider-label">
+        {{ selectedGroup.length }} {{ 'sumMovementsSelectedLabel' | translate }}
+        <ibid-smart-currency-cell [value]="selectedTotal" variant="secondary"></ibid-smart-currency-cell>
+        <button type="button" class="o-transactions-table__exclude-transfers-btn"
+          [class.o-transactions-table__exclude-transfers-btn--active]="excludeTransfers"
+          [attr.aria-label]="'sumExcludeTransfersLabel' | translate"
+          [attr.aria-pressed]="excludeTransfers"
+          [title]="'sumExcludeTransfersLabel' | translate"
+          (click)="excludeTransfersChange.emit(!excludeTransfers)">
+            <ibid-icon name="sync-alt"></ibid-icon>
+        </button>
+      </span>
+    </div>
+
+    <div class="o-transactions-table__list">
+      @for (tx of unselectedGroup; track tx.id; let i = $index) {
+        <ng-container *ngTemplateOutlet="row; context: { $implicit: tx, previousDate: unselectedGroup[i - 1]?.date }"></ng-container>
+      }
+    </div>
+  } @else {
+    <div class="o-transactions-table__list">
+      @for (tx of displayTransactions; track tx.id; let i = $index) {
+        <ng-container *ngTemplateOutlet="row; context: { $implicit: tx, previousDate: displayTransactions[i - 1]?.date }"></ng-container>
+      } @empty {
+        <ibid-empty-state class="o-transactions-table__cell--empty" [message]="'movementsNoMovementsEmpty' | translate"></ibid-empty-state>
+      }
+    </div>
+  }
+
+  <ng-template #row let-tx let-previousDate="previousDate">
+    <div class="o-transactions-table__row"
+      [attr.data-tx-date]="tx.date"
+      [style.--category-color]="categoryColorFor(tx.category)"
+      [class.o-transactions-table__row--highlighted]="isPinned(tx.id)"
+      [class.o-transactions-table__row--transfer]="!!tx.linkedTransactionId">
+
+      <ibid-smart-icon-cell
+        [iconName]="categoryIconFor(tx.category)"
+        [mode]="(sumModeEnabled || selectionMode) ? 'checkbox' : 'icon'"
+        [ariaLabel]="tx.description"
+        [checked]="sumModeEnabled ? isSelectedForSum(tx.id) : isSelectedForSelection(tx.id)"
+        (checkedChange)="sumModeEnabled ? sumSelectionToggle.emit(tx.id) : selectionToggle.emit(tx.id)"
+      ></ibid-smart-icon-cell>
+
+      <div class="o-transactions-table__main">
+        <div class="o-transactions-table__desc-row">
+          <ibid-smart-text-cell class="o-transactions-table__desc" [value]="tx.description"
+            (truncatedClick)="balloon.toggle()"></ibid-smart-text-cell>
+          @if (tx.linkedTransactionId) {
+            <ibid-icon name="sync-alt"
+              class="o-transactions-table__transfer-icon"
+              [title]="'Transferência interna ligada a ' + getLinkedAccountName(tx)"
+            ></ibid-icon>
+          }
+          @if (tx.tags && tx.tags.length > 0) {
+            <span class="o-transactions-table__tags">
+              @for (tag of tx.tags; track tag) {
+                <span class="o-transactions-table__tag">#{{ tag }}</span>
+              }
+            </span>
+          }
+        </div>
+        <div class="o-transactions-table__meta-row">
+          @if (showCategory) {
+            <ohsaveme-category-recategorize class="o-transactions-table__category"
+              [transaction]="tx" [allTransactions]="transactions" [categories]="categoryOptions"
+              [activeProjects]="getAvailableProjects(tx)"
+              (categoryApplied)="categoryApplied.emit($event)"
+              (budgetApplied)="budgetApplied.emit($event)"
+              (createCategoryClick)="createCategoryClick.emit()"></ohsaveme-category-recategorize>
+          }
+          @if (metaTemplate) {
+            <ng-container *ngTemplateOutlet="metaTemplate; context: { $implicit: tx }"></ng-container>
+          }
+        </div>
+      </div>
+
+      <div class="o-transactions-table__col o-transactions-table__col--account">
+        @if (getAccountName(tx)) {
+          <span class="o-transactions-table__account-badge" [title]="getAccountName(tx)">
+            {{ getAccountName(tx) }}
+          </span>
+        }
+      </div>
+
+      <div class="o-transactions-table__col o-transactions-table__col--date">
+        <ibid-smart-date-cell [value]="tx.date" [previousValue]="previousDate"></ibid-smart-date-cell>
+      </div>
+
+      <div class="o-transactions-table__col o-transactions-table__col--balance">
+        @if (tx.balance !== undefined && tx.balance !== null) {
+          <ibid-currency-display class="o-transactions-table__balance-text" [title]="'movementsHeaderBalance' | translate" [value]="tx.balance" size="sm" />
+        }
+      </div>
+
+      <div class="o-transactions-table__trailing">
+        <div class="o-transactions-table__trailing-values">
+          <ibid-smart-currency-cell [value]="tx.amount" [balance]="tx.balance"></ibid-smart-currency-cell>
+          <ibid-smart-date-cell class="o-transactions-table__mobile-date" [value]="tx.date" [previousValue]="previousDate"></ibid-smart-date-cell>
+        </div>
+        @if (trailingTemplate) {
+          <ng-container *ngTemplateOutlet="trailingTemplate; context: { $implicit: tx }"></ng-container>
+        }
+        <div class="o-transactions-table__trailing-badges" [hidden]="!!trailingTemplate">
+          @if (isRecurringTransaction(tx) && !isRecurrenceConfirmed(tx)) {
+            <ibid-info-balloon
+              iconName="refresh"
+              [title]="'recurringExplanationTitle' | translate"
+              [message]="'recurringExplanationBody' | translate"
+            ></ibid-info-balloon>
+          }
+          @if (showActions && tx.amount > 0) {
+            <button
+              type="button"
+              class="o-transactions-table__recurring-toggle"
+              [class.o-transactions-table__recurring-toggle--on]="isCountedIncome(tx)"
+              [class.o-transactions-table__recurring-toggle--confirmed]="tx.countsAsIncome !== undefined"
+              [attr.aria-pressed]="isCountedIncome(tx)"
+              [attr.aria-label]="incomeLabelKey(tx) | translate"
+              [title]="incomeLabelKey(tx) | translate"
+              (click)="onToggleIncome(tx)"
+            >
+              <ibid-icon name="piggy-bank" class="o-transactions-table__recurring-icon"></ibid-icon>
+            </button>
+          }
+          @if (showActions) {
+            <button
+              type="button"
+              class="o-transactions-table__recurring-toggle"
+              [class.o-transactions-table__recurring-toggle--on]="isRecurringTransaction(tx)"
+              [class.o-transactions-table__recurring-toggle--confirmed]="isRecurrenceConfirmed(tx)"
+              [attr.aria-pressed]="isRecurringTransaction(tx)"
+              [attr.aria-label]="recurrenceLabelKey(tx) | translate"
+              [title]="recurrenceLabelKey(tx) | translate"
+              (click)="onToggleRecurring(tx)"
+            >
+              <ibid-icon name="refresh" class="o-transactions-table__recurring-icon"></ibid-icon>
+            </button>
+          }
+          <ohsaveme-record-detail-balloon #balloon
+            [record]="tx"
+            [schema]="schema"
+            [showActions]="showActions"
+            [isPinned]="isPinned(tx.id)"
+            (pinToggle)="onTogglePin(tx)"
+          ></ohsaveme-record-detail-balloon>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (canLoadMore) {
+    <button type="button" class="o-transactions-table__load-more" (click)="onLoadMore()">
+      {{ 'loadMoreMovements' | translate }} ↓
+    </button>
+  }
+</section>

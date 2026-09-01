@@ -1,0 +1,55 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+:host {
+  display: block;
+}
+
+.o-metrics-summary-card {
+  &__header-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__shared-badge {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: var(--text-m);
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &--shared {
+      @include glass-highlight-surface(-0.8deg, 999px);
+      color: var(--color-primary, #0284c7);
+
+      span, ibid-icon {
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    &--action {
+      background-color: var(--color-surface-container, rgba(0, 0, 0, 0.04));
+      border: 1px dashed var(--color-border, #cbd5e1);
+      color: var(--color-text-muted, #64748b);
+
+      &:hover {
+        background-color: var(--color-primary-container, #e0f2fe);
+        border-color: var(--color-primary, #0284c7);
+        color: var(--color-primary, #0284c7);
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  &__shared-icon {
+    width: 14px;
+    height: 14px;
+  }
+}

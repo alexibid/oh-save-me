@@ -1,0 +1,176 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+@keyframes pMovementsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.p-movements {
+  padding: 0;
+  max-width: var(--layout-content-max-width, 1440px);
+  margin: 0 auto;
+  min-height: 100vh;
+  animation: pMovementsFadeIn 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: var(--space-4);
+
+    @include respond-to('tablet') {
+      align-items: stretch;
+      gap: var(--space-3);
+    }
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-family: var(--font-brand);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  &__overspend-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-danger, #ef4444);
+    background: color-mix(in srgb, var(--color-danger, #ef4444) 10%, transparent);
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-danger, #ef4444);
+  }
+
+  &__count-badge {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+  }
+
+  &__special-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-m);
+    font-weight: 600;
+    background: var(--color-coral-bg);
+    color: var(--color-coral-text);
+  }
+
+  &__special-filter-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+
+    ibid-icon { font-size: 14px; width: 14px; height: 14px; }
+    &:hover { background: rgba(0, 0, 0, 0.08); }
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  &__toggle-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 12px;
+    border-radius: var(--radius-control);
+    background-color: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &--active {
+      border-style: solid;
+      border-color: var(--color-ink);
+      color: var(--color-text);
+    }
+  }
+
+  &__toggle-chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-coral-mid);
+    flex-shrink: 0;
+  }
+
+  &__chart-section {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  &__sum-select-all {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+  }
+
+  &__sum-select-all-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+  }
+}
+
+@include respond-to('desktop') {
+  .p-movements {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: start;
+
+    .p-movements__header,
+    ohsaveme-transactions-table,
+    .p-movements__sum-select-all,
+    .p-movements__overspend-banner,
+    .p-movements__chart-section {
+      grid-column: 1 / -1;
+    }
+  }
+}

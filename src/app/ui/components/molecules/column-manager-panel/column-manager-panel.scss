@@ -1,0 +1,129 @@
+.m-column-manager-panel {
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 10px;
+    border-radius: var(--radius-control);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  &__sheet {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: 0 8px 20px rgba(44, 44, 42, 0.28);
+    overflow: hidden;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--color-bg);
+  }
+
+  &__title {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-m);
+    color: var(--color-text);
+  }
+
+  &__close {
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+
+    &--locked {
+      .m-column-manager-panel__handle,
+      .m-column-manager-panel__label {
+        color: var(--color-text-muted);
+      }
+    }
+  }
+
+  &__handle {
+    display: flex;
+    color: var(--color-text-muted);
+    cursor: grab;
+
+    .m-column-manager-panel__row--locked & {
+      cursor: default;
+    }
+  }
+
+  &__label {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--text-m);
+    color: var(--color-text);
+  }
+
+  &__toggle {
+    position: relative;
+    width: 34px;
+    height: 20px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-border);
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 150ms ease-out;
+
+    &:disabled {
+      cursor: default;
+    }
+
+    &--on {
+      background-color: var(--color-ink);
+    }
+  }
+
+  &__toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    transition: transform 150ms ease-out;
+
+    .m-column-manager-panel__toggle--on & {
+      transform: translateX(14px);
+    }
+  }
+
+  &__row.cdk-drag-preview {
+    box-shadow: 0 4px 12px rgba(44, 44, 42, 0.2);
+    background-color: var(--color-surface);
+    border-radius: 8px;
+  }
+
+  &__row.cdk-drag-placeholder {
+    opacity: 0.3;
+  }
+}

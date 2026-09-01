@@ -1,0 +1,48 @@
+import { AssistantSuggestionTemplate } from './assistant-suggestion.model';
+
+export const ASSISTANT_SUGGESTION_TEMPLATE_FIXTURES: readonly AssistantSuggestionTemplate[] = [
+  {
+    id: 'no_accounts',
+    kind: 'no_accounts',
+    icon: 'wallet',
+    questionKey: 'assistantNoAccountsTitle',
+    subtextKey: 'assistantNoAccountsBody',
+    params: {},
+    filter: null,
+    route: null,
+    action: 'open_add_entry',
+  },
+  {
+    id: 'pending_triage',
+    kind: 'pending_triage',
+    icon: 'checklist',
+    questionKey: 'assistantPendingTriageOther',
+    subtextKey: 'assistantPendingTriageBody',
+    params: { count: 7 },
+    filter: { pendingReview: true },
+    route: '/movements',
+    action: null,
+  },
+  {
+    id: 'uncategorized',
+    kind: 'uncategorized',
+    icon: 'manage-categories',
+    questionKey: 'assistantUncategorizedOther',
+    subtextKey: 'assistantUncategorizedBody',
+    params: { count: 3 },
+    filter: { uncategorized: true },
+    route: '/movements',
+    action: null,
+  },
+  {
+    id: 'outlier_transactions',
+    kind: 'outlier_transactions',
+    icon: 'spending-analytics',
+    questionKey: 'assistantOutlierOne',
+    subtextKey: 'assistantOutlierBody',
+    params: { count: 1 },
+    filter: { amountOutlier: true },
+    route: '/movements',
+    action: null,
+  },
+];

@@ -1,0 +1,19 @@
+<div class="m-category-budgets-dashboard">
+  <div class="m-category-budgets-dashboard__grid">
+    @for (item of budgetCards(); track item.category.id) {
+      <ohsaveme-category-budget-card
+        [categoryName]="i18n.getCategoryName(item.category.id)"
+        [categoryColor]="item.category.color"
+        [categoryIcon]="item.category.icon"
+        [budgetProgress]="item.progress"
+        (defineBudget)="onDefineBudget(item.category.id)"
+        (setLimitClick)="onDefineBudget(item.category.id)"
+        (editBudgetClick)="onDefineBudget(item.category.id)"
+      ></ohsaveme-category-budget-card>
+    }
+  </div>
+
+  @if (budgetCards().length === 0 && !hasSuggestions()) {
+    <ibid-empty-state [message]="'noTransactions' | translate"></ibid-empty-state>
+  }
+</div>

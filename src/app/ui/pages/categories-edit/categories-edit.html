@@ -1,0 +1,215 @@
+<div class="p-categories">
+
+  <div class="p-categories__content">
+    
+    <div class="p-categories__section">
+      <h2 class="p-categories__section-title">
+        Categorias
+      </h2>
+
+      
+      <form class="p-categories__form" (submit)="$event.preventDefault()">
+        <h3 class="p-categories__form-title">
+          {{ isEditing() ? 'Editar Categoria' : 'Adicionar Categoria Personalizada' }}
+        </h3>
+
+        <div class="p-categories__form-group">
+          <ibid-form-field label="Nome da Categoria" class="p-categories__form-field">
+            <input 
+              class="a-input"
+              type="text" 
+              id="catName"
+              [(ngModel)]="formName" 
+              name="formName"
+              placeholder="Ex: Assinaturas, Crianças, etc."
+              required
+            />
+          </ibid-form-field>
+        </div>
+
+        <div class="p-categories__form-group">
+          <label class="p-categories__label">Cor da Categoria</label>
+          <div class="p-categories__colors-grid">
+            @for (color of presetColors; track color) {
+              <button
+                type="button"
+                class="p-categories__color-circle"
+                [style.background-color]="color"
+                [attr.aria-label]="color"
+                [attr.aria-pressed]="color === selectedColor()"
+                [class.p-categories__color-circle--selected]="color === selectedColor()"
+                (click)="selectedColor.set(color)"
+              ></button>
+            }
+          </div>
+        </div>
+
+        <div class="p-categories__form-actions">
+          @if (isEditing()) {
+            <ibid-button type="button" (clicked)="cancelEdit()">Cancelar</ibid-button>
+            <ibid-button type="submit" color="primary" [disabled]="!formName.trim()" (clicked)="saveCategory()">Guardar Alterações</ibid-button>
+          } @else {
+            <ibid-button type="submit" color="primary" [disabled]="!formName.trim()" (clicked)="saveCategory()">Criar Categoria</ibid-button>
+          }
+        </div>
+      </form>
+
+      <div class="p-categories__list">
+        
+        @if (hasCustomCategories()) {
+          @for (cat of categories(); track cat.id) {
+            @if (!isPredefined(cat.id)) {
+              <div 
+                class="p-categories__item"
+                [class.p-categories__item--disabled]="cat.enabled === false"
+              >
+                <div class="p-categories__item-left">
+                  <div 
+                    class="p-categories__item-color-dot"
+                    [style.background-color]="cat.color"
+                  ></div>
+                  <span class="p-categories__item-name">{{ i18n.getCategoryName(cat.id) }}</span>
+                </div>
+
+                <div class="p-categories__item-actions">
+                  <ibid-icon-button type="button" title="Editar Categoria" (clicked)="startEdit(cat)">
+                    <ibid-icon name="edit"></ibid-icon>
+                  </ibid-icon-button>
+                  <ibid-icon-button type="button" color="warn" title="Eliminar Categoria" (clicked)="deleteCategory(cat.id)">
+                    <ibid-icon name="delete-remove"></ibid-icon>
+                  </ibid-icon-button>
+                  <input type="checkbox" class="a-switch"
+                    [checked]="cat.enabled !== false"
+                    (change)="toggleCategory(cat)"
+                    [attr.aria-label]="cat.enabled !== false ? 'Desativar Categoria ' + cat.name : 'Ativar Categoria ' + cat.name"
+                    [title]="cat.enabled !== false ? 'Desativar Categoria' : 'Ativar Categoria'"
+                  />
+                </div>
+              </div>
+            }
+          }
+        } @else {
+          <div style="font-size: 0.85rem; color: var(--color-text-secondary); text-align: center; padding: 1rem; border: 1px dashed var(--color-border); border-radius: 8px; margin-bottom: 1rem;">
+            Nenhuma categoria personalizada criada. Use o formulário acima para adicionar.
+          </div>
+        }
+
+        
+        <div class="p-categories__divider-container">
+          <hr class="a-divider" />
+          <span class="p-categories__divider-label">Categorias Padrão (Sistema)</span>
+        </div>
+
+        
+        @for (cat of categories(); track cat.id) {
+          @if (isPredefined(cat.id)) {
+            <div 
+              class="p-categories__item"
+              [class.p-categories__item--disabled]="cat.enabled === false"
+            >
+              <div class="p-categories__item-left">
+                <div 
+                  class="p-categories__item-color-dot"
+                  [style.background-color]="cat.color"
+                ></div>
+                <span class="p-categories__item-name">{{ i18n.getCategoryName(cat.id) }}</span>
+              </div>
+
+              <div class="p-categories__item-actions">
+                <input type="checkbox" class="a-switch"
+                  [checked]="cat.enabled !== false"
+                  (change)="toggleCategory(cat)"
+                  [attr.aria-label]="cat.enabled !== false ? 'Desativar Categoria ' + i18n.getCategoryName(cat.id) : 'Ativar Categoria ' + i18n.getCategoryName(cat.id)"
+                  [title]="cat.enabled !== false ? 'Desativar Categoria' : 'Ativar Categoria'"
+                />
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    
+    <div class="p-categories__section">
+      <h2 class="p-categories__section-title">
+        <span>Regras de categorização</span>
+        @if (rules().length > 0) {
+          <ibid-button type="button" color="accent" (clicked)="resetMlRules()" title="Limpar todas as correspondências aprendidas">
+            <ibid-icon name="refresh"></ibid-icon>
+            Limpar Memória
+          </ibid-button>
+        }
+      </h2>
+
+      <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">
+        Estas regras associam automaticamente transações a categorias se a descrição contiver a palavra-chave.
+      </p>
+
+      <div class="p-categories__rules-list">
+        
+        @if (rules().length > 0) {
+          <h4 style="margin: 0.5rem 0; font-size: 0.85rem; text-transform: uppercase; color: var(--color-text-secondary);">Regras Personalizadas</h4>
+          @for (rule of rules(); track rule.token) {
+            <div 
+              class="p-categories__rule-item"
+              [class.p-categories__rule-item--disabled]="!rule.enabled"
+            >
+              <div class="p-categories__item-left">
+                <input type="checkbox" class="a-switch"
+                  [checked]="rule.enabled"
+                  (change)="toggleRule(rule)"
+                  [attr.aria-label]="rule.enabled ? 'Desativar Regra ' + rule.token : 'Ativar Regra ' + rule.token"
+                  [title]="rule.enabled ? 'Desativar Regra' : 'Ativar Regra'"
+                />
+                <span class="p-categories__rule-token">{{ rule.token }}</span>
+                <span class="p-categories__rule-arrow">➔</span>
+                <span class="p-categories__item-name">{{ i18n.getCategoryName(rule.category) }}</span>
+              </div>
+              
+              <ibid-icon-button type="button" color="warn" title="Remover Regra de Associação" (clicked)="deleteRule(rule.token)">
+                <ibid-icon name="close"></ibid-icon>
+              </ibid-icon-button>
+            </div>
+          }
+        }
+
+        
+        <h4 style="margin: 1rem 0 0.5rem 0; font-size: 0.85rem; text-transform: uppercase; color: var(--color-text-secondary);">Regras Gerais</h4>
+        @for (rule of genericRules(); track rule.token) {
+          <div 
+            class="p-categories__rule-item"
+            [class.p-categories__rule-item--disabled]="!rule.enabled"
+          >
+            <div class="p-categories__item-left">
+              <input type="checkbox" class="a-switch"
+                [checked]="rule.enabled"
+                (change)="toggleRule(rule)"
+                [attr.aria-label]="rule.enabled ? 'Desativar Regra Geral ' + rule.token : 'Ativar Regra Geral ' + rule.token"
+                [title]="rule.enabled ? 'Desativar Regra' : 'Ativar Regra'"
+              />
+              <span class="p-categories__rule-token">{{ rule.token }}</span>
+              <span class="p-categories__rule-arrow">➔</span>
+              <span class="p-categories__item-name">{{ i18n.getCategoryName(rule.category) }}</span>
+            </div>
+            
+            <ibid-icon-button type="button" title="Regra Padrão do Sistema (Apenas Leitura)" disabled>
+              <ibid-icon name="shield-check"></ibid-icon>
+            </ibid-icon-button>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+
+  
+  <ohsaveme-ml-confirmation-dialog
+    [visible]="showMlDialog()"
+    (visibleChange)="showMlDialog.set($event)"
+    [transactions]="mlSimilarTransactions()"
+    [targetCategory]="mlTargetCategory()"
+    [categories]="categories()"
+    (confirm)="onMlConfirm($event.updatedTransactions)"
+    (cancel)="onMlCancel()"
+  ></ohsaveme-ml-confirmation-dialog>
+</div>

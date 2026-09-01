@@ -1,0 +1,58 @@
+<button
+  #trigger="cdkOverlayOrigin"
+  cdkOverlayOrigin
+  type="button"
+  class="m-column-manager-panel__trigger"
+  (click)="toggle()"
+  [attr.aria-label]="'columnsManagerTitle' | translate"
+  [attr.aria-expanded]="isOpen()"
+>
+  <ibid-icon name="grid"></ibid-icon>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (overlayOutsideClick)="close()"
+>
+  <div class="m-column-manager-panel__sheet" role="dialog" [attr.aria-label]="'columnsManagerTitle' | translate">
+    <div class="m-column-manager-panel__header">
+      <span class="m-column-manager-panel__title">{{ 'columnsManagerTitle' | translate }}</span>
+      <button type="button" class="m-column-manager-panel__close" (click)="close()" [attr.aria-label]="'columnsManagerClose' | translate">
+        <ibid-icon name="close"></ibid-icon>
+      </button>
+    </div>
+
+    <div class="m-column-manager-panel__list" cdkDropList (cdkDropListDropped)="onDrop($event)">
+      @for (item of items(); track item.key) {
+        <div
+          class="m-column-manager-panel__row"
+          [class.m-column-manager-panel__row--locked]="item.locked"
+          cdkDrag
+          [cdkDragDisabled]="item.locked"
+        >
+          <span class="m-column-manager-panel__handle">
+            <ibid-icon name="drag-handle"></ibid-icon>
+          </span>
+          <span class="m-column-manager-panel__label">{{ item.labelKey | translate }}</span>
+          <button
+            type="button"
+            class="m-column-manager-panel__toggle"
+            [class.m-column-manager-panel__toggle--on]="item.visible"
+            [attr.aria-label]="item.labelKey | translate"
+            [attr.aria-pressed]="item.visible"
+            [disabled]="item.locked"
+            (click)="onToggleVisibility(item)"
+          >
+            <span class="m-column-manager-panel__toggle-knob"></span>
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</ng-template>

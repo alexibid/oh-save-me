@@ -1,0 +1,41 @@
+<div class="p-portfolio">
+  <header class="p-portfolio__header">
+    <div class="p-portfolio__header-top">
+      <h1 class="p-portfolio__title">
+        {{ 'portfolioTitle' | translate }}
+      </h1>
+    </div>
+    <p class="p-portfolio__subtitle">
+      {{ 'portfolioSubtitle' | translate }}
+    </p>
+    <ohsaveme-budget-actions-banner labelKey="portfolioCreateBtn" (openProjectWizard)="onOpenProjectWizard()"></ohsaveme-budget-actions-banner>
+  </header>
+
+  <ohsaveme-balance-summary-card
+    mode="portfolio"
+    [totalWalletBalance]="totalWalletBalance()"
+    [totalWalletBalanceExplanation]="totalWalletBalanceExplanation()"
+    [investedValue]="investedValue()"
+    [assetsValue]="assetsValue()"
+    [totalPatrimony]="totalPatrimony()"
+    [realizedResult]="realizedResult()"
+  ></ohsaveme-balance-summary-card>
+
+  <ohsaveme-balance-bar-chart
+    id="asset-balance-chart"
+    [points]="assetBalancePoints()"
+    [seriesName]="'assetBalanceChartSeries' | translate"
+    [caption]="'assetBalanceChartCaption' | translate"
+    [emptyMessage]="'assetBalanceChartEmpty' | translate"
+  ></ohsaveme-balance-bar-chart>
+
+  <ohsaveme-allocations-dashboard source="investments" id="allocations-dashboard"></ohsaveme-allocations-dashboard>
+
+  <ohsaveme-allocation-detailed-cards
+    source="investments"
+    (saveBudget)="onSaveCategoryBudget($event)"
+    (adjustTransactions)="onAdjustCategoryTransactions($event)"
+    (viewMovements)="onViewCategoryMovements($event)">
+  </ohsaveme-allocation-detailed-cards>
+
+</div>

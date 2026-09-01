@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.o-balance-bar-chart {
+  width: 100%;
+  margin-bottom: 16px;
+
+  &__empty {
+    margin: 0;
+    padding: 16px 0;
+    font-size: var(--text-m);
+    text-align: center;
+    color: var(--color-text-muted, #64748b);
+  }
+}

@@ -1,0 +1,219 @@
+.o-db-sync-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  &__title-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: var(--color-ink);
+  }
+
+  &__header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  &__error-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--color-coral-bg, #FAECE7);
+    border: 1px solid var(--color-coral-mid, #F0997B);
+    border-radius: 8px;
+    color: var(--color-coral-text, #712B13);
+    font-size: var(--text-m);
+  }
+
+  &__error-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  &__disconnected-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 4px;
+  }
+
+  &__google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 44px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border, #E5E3DC);
+    border-radius: 8px;
+    color: var(--color-text, #2C2C2A);
+    font-size: var(--text-m);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+
+    &:hover:not(:disabled) {
+      background-color: #F8FAFC;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__google-logo {
+    flex-shrink: 0;
+  }
+
+  &__google-btn-text {
+    line-height: 1;
+  }
+
+  &__connected-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-m);
+  }
+
+  &__info-label {
+    color: var(--color-text-muted);
+  }
+
+  &__info-value {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  &__status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-m);
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+
+    &--success {
+      background-color: var(--color-teal-bg, #E1F5EE);
+      color: var(--color-teal-text, #085041);
+    }
+  }
+
+  &__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+
+  &__vault-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-m);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  &__ownership-tag {
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__sync-btn {
+    flex: 2;
+  }
+
+  &__disconnect-btn {
+    flex: 1;
+  }
+
+  &__btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  &__icon--spinning {
+    animation: spin 1s linear infinite;
+  }
+
+  &__share-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    background-color: var(--color-amber-bg, #FAEEDA);
+    border: 1px solid var(--color-amber-mid, #EF9F27);
+    border-radius: 8px;
+    font-size: var(--text-m);
+    color: var(--color-amber-text, #633806);
+    line-height: 1.4;
+  }
+
+  &__share-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

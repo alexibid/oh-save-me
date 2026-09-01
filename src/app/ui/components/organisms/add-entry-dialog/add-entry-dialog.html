@@ -1,0 +1,27 @@
+<ng-template #dialogTemplate>
+  <ibid-bottom-sheet-dialog class="o-add-entry-dialog" (closeClicked)="onCancel()">
+    <span sheet-title>{{ 'addEntryTitle' | translate }}</span>
+
+    <div class="o-add-entry-dialog__content">
+      <button type="button" class="o-add-entry-dialog__choice" (click)="selectCreateAccount()">
+        <ibid-icon name="wallet-line" class="o-add-entry-dialog__choice-icon"></ibid-icon>
+        <span class="o-add-entry-dialog__choice-text">
+          <strong>{{ 'addEntryCreateAccountLabel' | translate }}</strong>
+          <span>{{ 'addEntryCreateAccountHint' | translate }}</span>
+        </span>
+      </button>
+
+      <button type="button" class="o-add-entry-dialog__choice" (click)="selectImport()">
+        <ibid-icon name="file-upload" class="o-add-entry-dialog__choice-icon"></ibid-icon>
+        <span class="o-add-entry-dialog__choice-text">
+          <strong>{{ 'addEntryImportLabel' | translate }}</strong>
+          <span>{{ 'addEntryImportHint' | translate }}</span>
+        </span>
+      </button>
+    </div>
+
+    <div sheet-footer class="o-add-entry-dialog__footer">
+      <button type="button" class="a-button a-button--secondary" (click)="onCancel()">{{ 'addEntryCancelBtn' | translate }}</button>
+    </div>
+  </ibid-bottom-sheet-dialog>
+</ng-template>

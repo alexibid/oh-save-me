@@ -1,0 +1,29 @@
+<div class="o-category-budget-movement-search">
+  <label class="o-category-budget-movement-search__label">
+    {{ 'categoryBudgetSearchLabel' | translate }}
+  </label>
+  <input
+    type="text"
+    class="o-category-budget-movement-search__input"
+    [attr.aria-label]="'categoryBudgetSearchLabel' | translate"
+    [value]="searchQuery()"
+    (input)="onSearchQueryChange($event)"
+    [placeholder]="'categoryBudgetSearchPlaceholder' | translate"
+  />
+
+  @if (searchQuery().trim().length > 0) {
+    @if (searchResults().length > 0) {
+      <ohsaveme-transactions-table
+        [showCategory]="true"
+        [showActions]="true"
+        [showTitle]="false"
+        [showTabs]="false"
+        [transactions]="searchResults()"
+        [categoryOptions]="categoryOptions()"
+        (categoryApplied)="onCategoryApplied($event)"
+      ></ohsaveme-transactions-table>
+    } @else {
+      <p class="o-category-budget-movement-search__empty">{{ 'categoryBudgetSearchNoResults' | translate }}</p>
+    }
+  }
+</div>

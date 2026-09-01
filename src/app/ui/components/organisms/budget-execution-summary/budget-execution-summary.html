@@ -1,0 +1,79 @@
+<div class="m-budget-execution-summary">
+  <span class="m-budget-execution-summary__label">{{ 'budgetExecutionPeriodTitle' | translate }}</span>
+
+  @if (activeProjectBudgets().length > 0) {
+    <div class="m-budget-execution-summary__group-title">{{ 'budgetGroupProjects' | translate }}</div>
+    <div class="m-budget-execution-summary__list m-budget-execution-summary__list--projects">
+      @for (item of activeProjectBudgets(); track item.budget.id) {
+        <div class="m-budget-execution-summary__item m-budget-execution-summary__item--project">
+          <span class="m-budget-execution-summary__item-name">
+            {{ item.budget.name }}
+            @if (item.budget.scope === 'joint' || (item.budget.tags && item.budget.tags.includes('joint'))) {
+              <span class="m-budget-execution-summary__shared-badge">
+                <ibid-icon name="people" class="m-budget-execution-summary__shared-icon"></ibid-icon>
+                <span>{{ 'accountScopeJoint' | translate }}</span>
+              </span>
+            }
+          </span>
+          <ibid-button variant="outlined" class="m-budget-execution-summary__track-btn"
+            [ariaLabel]="'budgetClickToManageMovementsTooltip' | translate"
+            (clicked)="projectMovementsClick.emit(item.budget)">
+            <div class="m-budget-execution-summary__progress-track">
+              <div class="m-budget-execution-summary__progress-bar"
+                   [style.width.%]="(item.percentage || 0) > 100 ? 100 : (item.percentage || 0)"
+                   [style.background-color]="item.progressColor || 'var(--color-primary)'">
+              </div>
+            </div>
+          </ibid-button>
+          <ibid-button variant="highlight" class="m-budget-execution-summary__values-btn"
+            [ariaLabel]="'budgetViewAssistantTooltip' | translate"
+            (clicked)="projectItemClick.emit(item.budget)">
+            <span class="m-budget-execution-summary__item-values">
+              <ibid-currency-display [value]="item.spent" size="sm" [showInfo]="false" /> / <ibid-currency-display [value]="item.periodAllocation" size="sm" [showInfo]="false" />
+            </span>
+          </ibid-button>
+        </div>
+      }
+    </div>
+  }
+
+  @if (activeCategoryBudgets().length > 0) {
+    <div class="m-budget-execution-summary__group-title">{{ 'budgetGroupCategories' | translate }}</div>
+    <div class="m-budget-execution-summary__list m-budget-execution-summary__list--categories">
+      @for (item of activeCategoryBudgets(); track item.budget.id) {
+        <div class="m-budget-execution-summary__item m-budget-execution-summary__item--category">
+          <div class="m-budget-execution-summary__item-icon" [style.background-color]="item.categoryColor">
+            <ibid-icon [name]="item.categoryIcon || 'category-general'"></ibid-icon>
+          </div>
+          <span class="m-budget-execution-summary__item-name">
+            {{ item.categoryName }}
+            @if (isSuggestedExecution(item)) {
+              <span class="m-budget-execution-summary__item-suggested">({{ 'budgetSuggestedTag' | translate }})</span>
+            }
+          </span>
+          <ibid-button variant="outlined" class="m-budget-execution-summary__track-btn"
+            [ariaLabel]="'budgetClickToManageMovementsTooltip' | translate"
+            (clicked)="onCategoryMovementsClick(item.budget.categoryId)">
+            <div class="m-budget-execution-summary__progress-track">
+              <div class="m-budget-execution-summary__progress-bar"
+                   [style.width.%]="(item.percentage || 0) > 100 ? 100 : (item.percentage || 0)"
+                   [style.background-color]="item.progressColor || 'var(--color-primary)'">
+              </div>
+            </div>
+          </ibid-button>
+          <ibid-button variant="highlight" class="m-budget-execution-summary__values-btn"
+            [ariaLabel]="'budgetViewAssistantTooltip' | translate"
+            (clicked)="onCategoryItemClick(item.budget.categoryId)">
+            <span class="m-budget-execution-summary__item-values">
+              <ibid-currency-display [value]="item.spent" size="sm" [showInfo]="false" /> / <ibid-currency-display [value]="item.periodAllocation" size="sm" [showInfo]="false" />
+            </span>
+          </ibid-button>
+        </div>
+      }
+    </div>
+  }
+
+  @if (activeCategoryBudgets().length === 0 && activeProjectBudgets().length === 0) {
+    <span class="m-budget-execution-summary__empty">{{ 'budgetNoActiveBudgets' | translate }}</span>
+  }
+</div>

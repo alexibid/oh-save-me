@@ -1,0 +1,122 @@
+<div class="o-metrics-grid">
+    
+    <div class="o-metrics-grid__hero-container">
+        <div class="o-metrics-grid__child-card u-bg-coral" ibidHandDrawn>
+            <ibid-view-more-link class="o-metrics-grid__view-more"></ibid-view-more-link>
+            <div class="o-metrics-grid__info">
+                <span class="o-metrics-grid__title">{{ 'metricsRealFreeBalance' | translate }}</span>
+                <span class="o-metrics-grid__caption">
+                    {{ 'metricsRealFreeBalanceCaption' | translate }}
+                </span>
+            </div>
+            <div class="o-metrics-grid__value o-metrics-grid__value--hero">
+                <ibid-currency-display [value]="freeBalance" size="xl" [signed]="freeBalance < 0"
+                    [explanation]="freeBalanceExplanation" [explanationTitle]="'remainingFunds' | translate" />
+            </div>
+            <div class="o-metrics-grid__hero-details">
+                <div class="o-metrics-grid__real-balance">
+                    <span class="o-metrics-grid__real-balance-label">{{ 'budgetLabelAccountsBalance' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__real-balance-value" [value]="walletBalance" size="md"
+                        [explanation]="walletBalanceExplanation" [explanationTitle]="'budgetLabelAccountsBalance' | translate" />
+                </div>
+                <div class="o-metrics-grid__real-balance">
+                    <span class="o-metrics-grid__real-balance-label">{{ 'metricsSavings' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__real-balance-value" [value]="savingsDeduction" size="md"
+                        [explanation]="savingsExplanation" [explanationTitle]="'metricsSavings' | translate" />
+                </div>
+                <div class="o-metrics-grid__real-balance o-metrics-grid__real-balance--total">
+                    <span class="o-metrics-grid__real-balance-label">{{ 'budgetLabelReservedCategories' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__real-balance-value" [value]="categoryDeduction" size="md"
+                        [explanation]="freeBalanceExplanation" [explanationTitle]="'budgetLabelReservedCategories' | translate" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="o-metrics-grid__group-container">
+        
+        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-teal" ibidHandDrawn>
+            <div class="o-metrics-grid__header">
+                <span class="o-metrics-grid__title">{{ 'dashboardStatPeriodBalance' | translate }}</span>
+            </div>
+            <div class="o-metrics-grid__value o-metrics-grid__value--small">
+                <ibid-currency-display [value]="balance" size="md" [signed]="true" [showPositiveSign]="true"
+                    [explanation]="periodBalanceExplanation" [explanationTitle]="'dashboardStatPeriodBalance' | translate" />
+            </div>
+            <div class="o-metrics-grid__details">
+                <div class="o-metrics-grid__detail-item">
+                    <span class="o-metrics-grid__detail-label">{{ 'dashboardStatIncome' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="totalIncome" [signed]="true" [showPositiveSign]="true" />
+                </div>
+                <div class="o-metrics-grid__detail-item">
+                    <span class="o-metrics-grid__detail-label">{{ 'dashboardStatExpense' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="totalExpenses" [signed]="true" />
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-amber" ibidHandDrawn>
+            <div class="o-metrics-grid__header">
+                <span class="o-metrics-grid__title">{{ 'budgetSpent' | translate }}</span>
+            </div>
+            <div class="o-metrics-grid__value o-metrics-grid__value--small">
+                {{ budgetPercent | number:'1.0-0' }}%
+            </div>
+            <div class="o-metrics-grid__details">
+                <div class="o-metrics-grid__detail-item">
+                    <span class="o-metrics-grid__detail-label">{{ 'metricsSpent' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="activeBudgetsSpent" />
+                </div>
+                <div class="o-metrics-grid__detail-item">
+                    <span class="o-metrics-grid__detail-label">{{ 'metricsLimit' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="budgetLimit" />
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-pink" ibidHandDrawn>
+            <div class="o-metrics-grid__header">
+                <span class="o-metrics-grid__title">{{ 'metricsAccumulatedReserve' | translate }}</span>
+            </div>
+            <div class="o-metrics-grid__value o-metrics-grid__value--small">
+                <ibid-currency-display [value]="activeBudgetsReserve" size="md"
+                    [explanation]="reserveExplanation" [explanationTitle]="'metricsAccumulatedReserve' | translate" />
+            </div>
+            <div class="o-metrics-grid__details">
+                <div class="o-metrics-grid__detail-item">
+                    <span class="o-metrics-grid__detail-label">{{ 'metricsMonthlyReserve' | translate }}</span>
+                    <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="activeBudgetsMonthlyReserve" />
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-teal" ibidHandDrawn>
+            <div class="o-metrics-grid__header">
+                <span class="o-metrics-grid__title">{{ 'portfolioBtn' | translate }}</span>
+            </div>
+            <div class="o-metrics-grid__value o-metrics-grid__value--small">
+                <ibid-currency-display [value]="totalPatrimony" size="md"
+                    [explanation]="patrimonyExplanation" [explanationTitle]="'metricsTotalPatrimony' | translate" />
+            </div>
+            <div class="o-metrics-grid__details">
+                @if (investedValue !== 0) {
+                    <div class="o-metrics-grid__detail-item">
+                        <span class="o-metrics-grid__detail-label">{{ 'metricsInvestedValue' | translate }}</span>
+                        <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="investedValue" />
+                    </div>
+                }
+                @if (assetsValue !== 0) {
+                    <div class="o-metrics-grid__detail-item">
+                        <span class="o-metrics-grid__detail-label">{{ 'metricsAssetsPaid' | translate }}</span>
+                        <ibid-currency-display class="o-metrics-grid__detail-value" size="md" [value]="assetsValue" />
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

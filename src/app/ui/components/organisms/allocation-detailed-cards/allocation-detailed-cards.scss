@@ -1,0 +1,220 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.m-allocation-detailed-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  &__card {
+    @include card-surface;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__movements-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: var(--color-surface-hover, rgba(0, 0, 0, 0.04));
+      color: var(--color-text, #0f172a);
+    }
+
+    ibid-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+
+    ::ng-deep ibid-icon {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  &__math {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--color-surface-hover, rgba(0,0,0,0.02));
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  &__math-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-m);
+    color: var(--color-text, #1e293b);
+
+    &--sub {
+      font-size: var(--text-m);
+      color: var(--color-text-muted, #64748b);
+    }
+
+    &--warning {
+      font-size: var(--text-m);
+      color: var(--color-warning, #f59e0b);
+    }
+
+    ::ng-deep .a-button {
+      padding: 4px 8px;
+      min-height: auto;
+      font-size: var(--text-m);
+    }
+  }
+
+  &__progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+
+      .m-allocation-detailed-cards__progress-track {
+        transform: scaleY(1.1);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      }
+    }
+  }
+
+  &__progress-track {
+    height: 12px;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  &__progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  &__progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+  }
+
+  &__form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+
+    ibid-button {
+      height: 56px;
+      display: inline-flex;
+    }
+  }
+
+  &__input-group {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__input {
+    height: 56px;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.75rem;
+    font-weight: 900;
+    padding: 12px 32px 12px 16px;
+    border: 2px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    background: var(--color-surface, #fff);
+    color: var(--color-text, #1e293b);
+    outline: none;
+    transition: border-color 0.2s;
+    text-align: right;
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      border-color: var(--color-primary, #2c2c2a);
+    }
+  }
+
+  &__currency {
+    position: absolute;
+    right: 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    pointer-events: none;
+  }
+}
+
+@include respond-to('desktop') {
+  :host,
+  .m-allocation-detailed-cards {
+    display: contents;
+  }
+
+  .m-allocation-detailed-cards > ibid-card {
+    display: block;
+    break-inside: avoid;
+    width: 100%;
+    margin-bottom: var(--space-4);
+  }
+}

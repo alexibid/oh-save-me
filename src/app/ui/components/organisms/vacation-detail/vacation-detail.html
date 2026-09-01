@@ -1,0 +1,60 @@
+<ng-template #dialogTemplate>
+  <ibid-bottom-sheet-dialog (closeClicked)="onClose()" class="o-vacation-detail">
+    <span sheet-title>{{ budget()?.name }}</span>
+
+    <div class="o-vacation-detail__summary">
+      <div class="o-vacation-detail__summary-value">
+        <span class="o-vacation-detail__summary-label">Total Gasto:</span>
+        <ibid-currency-display class="o-vacation-detail__summary-amount" [value]="totalAtypicalSpent()" size="sm" />
+        <span class="o-vacation-detail__summary-target">
+          de <ibid-currency-display [value]="budget()?.amount" size="sm" />
+        </span>
+      </div>
+
+      <div class="o-vacation-detail__progress-bar">
+        <div class="o-vacation-detail__progress-fill" 
+             [style.width.%]="(totalAtypicalSpent() / (budget()?.amount || 1)) * 100"
+             [class.is-overspent]="totalAtypicalSpent() > (budget()?.amount || 0)">
+        </div>
+      </div>
+    </div>
+
+    <div class="o-vacation-detail__breakdown">
+      @for (day of dailyBreakdown(); track day.date) {
+        <div class="o-vacation-detail__day">
+          <header class="o-vacation-detail__day-header">
+            <span class="o-vacation-detail__day-title">{{ day.displayDate }}</span>
+            <div class="o-vacation-detail__day-totals">
+              <ibid-currency-display class="o-vacation-detail__day-total" [value]="day.dayTotal" size="sm" [showPositiveSign]="true" [signed]="true" />
+              <span class="o-vacation-detail__day-cumulative">
+                (Acumulado: <ibid-currency-display [value]="day.cumulativeTotal" size="sm" />)
+              </span>
+            </div>
+          </header>
+
+          @if (day.transactions.length > 0) {
+            <ul class="o-vacation-detail__tx-list">
+              @for (tx of day.transactions; track tx.id) {
+                <li class="o-vacation-detail__tx-item">
+                  <span class="o-vacation-detail__tx-description">{{ tx.description }}</span>
+                  <span class="o-vacation-detail__tx-category">
+                    {{ tx.category | translate }}
+                  </span>
+                  <ibid-currency-display class="o-vacation-detail__tx-amount" [value]="tx.amount" size="sm" />
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="o-vacation-detail__empty-day">
+              Sem despesas atípicas neste dia.
+            </p>
+          }
+        </div>
+      }
+    </div>
+
+    <div sheet-footer class="o-vacation-detail__footer">
+      <ibid-button variant="outlined" (clicked)="onClose()">Fechar</ibid-button>
+    </div>
+  </ibid-bottom-sheet-dialog>
+</ng-template>

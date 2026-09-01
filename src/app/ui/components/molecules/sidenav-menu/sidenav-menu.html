@@ -1,0 +1,148 @@
+<div class="m-sidenav-menu">
+    <div class="m-sidenav-menu__cycle">
+        <ibid-select
+            class="m-sidenav-menu__cycle-preset"
+            size="full"
+            dropdownPosition="bottom-right"
+            dropdownWidth="content"
+            [value]="store.preset()"
+            [options]="presetOptions()"
+            (valueChange)="onPresetChange($event)">
+        </ibid-select>
+        <ibid-date-input
+            class="m-sidenav-menu__date-input"
+            mode="range"
+            [startDate]="store.startDate()"
+            [endDate]="store.endDate()"
+            [minDate]="store.minAvailableDate()"
+            [maxDate]="store.maxAvailableDate()"
+            (rangeChange)="onRangeChange($event)">
+        </ibid-date-input>
+    </div>
+
+    <nav class="m-sidenav-menu__body">
+        <ul class="m-sidenav-menu__nav">
+            <li class="m-sidenav-menu__item">
+                <button type="button" class="m-sidenav-menu__link" (click)="onAddClick()"
+                    [attr.title]="('headerAddButtonLabelLine1' | translate) + ' ' + ('headerAddButtonLabelLine2' | translate)">
+                    <ibid-icon name="add" class="m-sidenav-menu__icon"></ibid-icon>
+                    <span class="m-sidenav-menu__text">
+                        {{ 'headerAddButtonLabelLine1' | translate }} / {{ 'headerAddButtonLabelLine2' | translate }}
+                    </span>
+                </button>
+            </li>
+            @for (item of mainMenuItems; track item.id) {
+            @if (item.type === 'link') {
+            <li class="m-sidenav-menu__item">
+                <a [routerLink]="item.route" routerLinkActive="m-sidenav-menu__link--active"
+                    [routerLinkActiveOptions]="{exact: item.exact ?? false}" class="m-sidenav-menu__link"
+                    (click)="onLinkClick()"
+                    [attr.title]="item.labelKey | translate">
+                    @if (item.svgIcon) {
+                    <ibid-icon [name]="item.svgIcon" class="m-sidenav-menu__icon"></ibid-icon>
+                    } @else {
+                    <ibid-icon [name]="item.icon || ''" class="m-sidenav-menu__icon" [style.color]="item.color"></ibid-icon>
+                    }
+                    <span class="m-sidenav-menu__text">{{ item.labelKey | translate }}</span>
+                </a>
+            </li>
+            } @else if (item.type === 'expandable') {
+            <li class="m-sidenav-menu__item">
+                <button type="button" class="m-sidenav-menu__link m-sidenav-menu__link--expandable"
+                    [class.m-sidenav-menu__link--expanded]="isExpanded(item.expandSignalKey)"
+                    (click)="toggleExpandable(item.expandSignalKey)" [attr.title]="item.labelKey | translate">
+                    @if (item.svgIcon) {
+                    <ibid-icon [name]="item.svgIcon" class="m-sidenav-menu__icon"></ibid-icon>
+                    } @else {
+                    <ibid-icon [name]="item.icon || ''" class="m-sidenav-menu__icon"></ibid-icon>
+                    }
+                    <span class="m-sidenav-menu__text">{{ item.labelKey | translate }}</span>
+                    <ibid-icon [name]="isExpanded(item.expandSignalKey) ? 'chevron-up' : 'chevron-down'" class="m-sidenav-menu__chevron"></ibid-icon>
+                </button>
+
+                @if (isExpanded(item.expandSignalKey)) {
+                @let children = getChildren(item);
+                @if (children.length > 0) {
+                <div class="m-sidenav-menu__sub-nav">
+                    @for (child of children; track child.id) {
+                    <a [routerLink]="child.route" routerLinkActive="m-sidenav-menu__link--active"
+                        [routerLinkActiveOptions]="{ exact: child.exact ?? true }" class="m-sidenav-menu__sub-link"
+                        (click)="onLinkClick()"
+                        [attr.title]="child.isTranslationKey === false ? child.labelKey : (child.labelKey | translate)">
+                        <span class="m-sidenav-menu__sub-link-label">
+                            {{ child.isTranslationKey === false ? child.labelKey : (child.labelKey | translate) }}
+                        </span>
+                    </a>
+                    }
+                </div>
+                } @else if (item.emptyFallbackKey) {
+                <div class="m-sidenav-menu__sub-nav">
+                    <a [routerLink]="item.emptyFallbackRoute" routerLinkActive="m-sidenav-menu__link--active"
+                        class="m-sidenav-menu__sub-link"
+                        (click)="onLinkClick()">
+                        {{ item.emptyFallbackKey | translate }}
+                    </a>
+                </div>
+                }
+                }
+            </li>
+            }
+            }
+        </ul>
+    </nav>
+
+    <footer class="m-sidenav-menu__footer">
+        @for (item of footerMenuItems; track item.id) {
+        @if (item.type === 'link') {
+        <a [routerLink]="item.route" routerLinkActive="m-sidenav-menu__link--active" class="m-sidenav-menu__link"
+            (click)="onLinkClick()"
+            [attr.title]="item.labelKey | translate">
+            @if (item.svgIcon) {
+            <ibid-icon [name]="item.svgIcon" class="m-sidenav-menu__icon"></ibid-icon>
+            } @else {
+            <ibid-icon [name]="item.icon || ''" class="m-sidenav-menu__icon" [style.color]="item.color"></ibid-icon>
+            }
+            <span class="m-sidenav-menu__text">{{ item.labelKey | translate }}</span>
+        </a>
+        } @else if (item.type === 'expandable') {
+        <button type="button" class="m-sidenav-menu__link m-sidenav-menu__link--expandable"
+            [class.m-sidenav-menu__link--expanded]="isExpanded(item.expandSignalKey)"
+            (click)="toggleExpandable(item.expandSignalKey)" [attr.title]="item.labelKey | translate">
+            @if (item.svgIcon) {
+            <ibid-icon [name]="item.svgIcon" class="m-sidenav-menu__icon"></ibid-icon>
+            } @else {
+            <ibid-icon [name]="item.icon || ''" class="m-sidenav-menu__icon"></ibid-icon>
+            }
+            <span class="m-sidenav-menu__text">{{ item.labelKey | translate }}</span>
+            <ibid-icon [name]="isExpanded(item.expandSignalKey) ? 'chevron-up' : 'chevron-down'" class="m-sidenav-menu__chevron"></ibid-icon>
+        </button>
+
+        <div class="m-sidenav-menu__sub-menu">
+            <div class="m-sidenav-menu__form-group">
+                <label class="m-sidenav-menu__label">{{ 'startDayLabel' | translate }}</label>
+                <ibid-number-input 
+                    class="m-sidenav-menu__input-cycle"
+                    [value]="store.cycleStartDay()" [min]="1" [max]="31"
+                    (valueChange)="onCycleStartDayChange($event)"
+                >
+                </ibid-number-input>
+            </div>
+
+            <div class="m-sidenav-menu__form-group">
+                <label class="m-sidenav-menu__label">{{ 'languageLabel' | translate }}</label>
+                <ibid-select
+                    size="full"
+                    class="m-sidenav-menu__select-language"
+                    [value]="i18n.currentLang()"
+                    [options]="languageOptions()"
+                    (valueChange)="onLanguageChange($event)">
+                </ibid-select>
+            </div>
+        </div>
+        }
+        }
+        <div class="m-sidenav-menu__version">
+            v{{ appVersion }}
+        </div>
+    </footer>
+</div>

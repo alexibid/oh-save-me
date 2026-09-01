@@ -1,0 +1,119 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.m-category-budget-card {
+  @include card-surface;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  &__delete-btn {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-text-muted, #64748b);
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    ::ng-deep .a-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background: var(--color-danger-light, #fee2e2);
+      color: var(--color-danger, #ef4444);
+    }
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+
+    ::ng-deep .a-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: var(--text-m);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__label {
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  &__value {
+    font-size: 2.25rem;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+
+    &--danger {
+      color: var(--color-danger, #ef4444);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__progress-track {
+    height: 6px;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  &__progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  &__footer-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+  }
+}

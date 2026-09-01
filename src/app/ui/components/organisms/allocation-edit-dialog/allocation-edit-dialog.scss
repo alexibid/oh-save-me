@@ -1,0 +1,79 @@
+.c-allocation-edit-dialog {
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__project-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  &__btn {
+    padding: 10px 18px;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    font-weight: var(--weight-semibold);
+    border-radius: var(--radius-control);
+    border: none;
+    cursor: pointer;
+
+    &--secondary {
+      background: none;
+      color: var(--color-text-muted);
+    }
+
+    &--primary {
+      background: var(--color-ink);
+      color: var(--color-surface);
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__section-title {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    font-weight: var(--weight-bold);
+    color: var(--color-ink);
+    margin-bottom: 2px;
+  }
+}
+
+.c-allocation-edit-dialog {
+  &__error {
+    margin: 6px 0 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-danger, #ef4444);
+  }
+
+  &__scope-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__field-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    font-weight: var(--weight-bold);
+    color: var(--color-ink);
+  }
+
+  &__share-section {
+    width: 100%;
+    margin-top: 4px;
+  }
+}

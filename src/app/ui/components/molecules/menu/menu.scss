@@ -1,0 +1,16 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+
+:host {
+  display: inline-block;
+}
+
+.m-menu {
+  display: inline-flex;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+}

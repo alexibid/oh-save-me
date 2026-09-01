@@ -1,0 +1,97 @@
+<div class="m-assistant-expanded-deck">
+  <div class="m-assistant-expanded-deck__header">
+    <div class="m-assistant-expanded-deck__tabs">
+      <button
+        type="button"
+        class="m-assistant-expanded-deck__tab"
+        [class.m-assistant-expanded-deck__tab--active]="currentTab() === 'active'"
+        (click)="currentTab.set('active')"
+      >
+        {{ 'assistantTabActive' | translate }}
+        @if (suggestions().length > 0) {
+          <span class="m-assistant-expanded-deck__count">{{ suggestions().length }}</span>
+        }
+      </button>
+
+      <button
+        type="button"
+        class="m-assistant-expanded-deck__tab"
+        [class.m-assistant-expanded-deck__tab--active]="currentTab() === 'archived'"
+        (click)="currentTab.set('archived')"
+      >
+        {{ 'assistantTabArchived' | translate }}
+        @if (archivedSuggestions().length > 0) {
+          <span class="m-assistant-expanded-deck__count">{{ archivedSuggestions().length }}</span>
+        }
+      </button>
+    </div>
+
+    @if (currentTab() === 'active' && hasMorePages()) {
+      <div class="m-assistant-expanded-deck__nav">
+        <ibid-icon-button [ariaLabel]="'assistantPreviousPage' | translate" (clicked)="onPrevPage()">
+          <ibid-icon name="chevron-left"></ibid-icon>
+        </ibid-icon-button>
+        <ibid-icon-button [ariaLabel]="'assistantNextPage' | translate" (clicked)="onNextPage()">
+          <ibid-icon name="chevron-right"></ibid-icon>
+        </ibid-icon-button>
+      </div>
+    }
+
+    @if (currentTab() === 'archived' && archivedSuggestions().length > 0) {
+      <button
+        type="button"
+        class="m-assistant-expanded-deck__clear-btn"
+        (click)="clearArchive.emit()"
+      >
+        {{ 'assistantClearArchive' | translate }}
+      </button>
+    }
+  </div>
+
+  <div class="m-assistant-expanded-deck__list">
+    @if (currentTab() === 'active') {
+      @for (suggestion of visibleItems(); track suggestion.id) {
+        <ohsaveme-assistant-peek-card
+          [suggestion]="suggestion"
+          [depth]="0"
+          (activated)="cardTapped.emit(suggestion)"
+          (dismissed)="dismissed.emit(suggestion)"
+          (answered)="answered.emit({ card: suggestion, confirmed: $event })"
+        />
+      }
+    } @else {
+      @if (archivedSuggestions().length === 0) {
+        <div class="m-assistant-expanded-deck__empty">
+          <p>{{ 'assistantNoArchived' | translate }}</p>
+        </div>
+      } @else {
+        @for (archived of archivedSuggestions(); track archived.id) {
+          <div class="m-assistant-expanded-deck__archived-item">
+            <div class="m-assistant-expanded-deck__archived-content">
+              <span class="m-assistant-expanded-deck__archived-label">{{ archived.question }}</span>
+              <span class="m-assistant-expanded-deck__archived-body">{{ archived.subtext }}</span>
+            </div>
+            <div class="m-assistant-expanded-deck__archived-actions">
+              <button
+                type="button"
+                class="m-assistant-expanded-deck__archived-action m-assistant-expanded-deck__archived-action--restore"
+                (click)="unarchived.emit(archived)"
+              >
+                <ibid-icon name="refresh"></ibid-icon>
+                <span>{{ 'assistantActionUnarchive' | translate }}</span>
+              </button>
+              <button
+                type="button"
+                class="m-assistant-expanded-deck__archived-action m-assistant-expanded-deck__archived-action--delete"
+                (click)="deleted.emit(archived)"
+              >
+                <ibid-icon name="close"></ibid-icon>
+                <span>{{ 'assistantActionDelete' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        }
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div
+  [class]="'m-assistant-peek-card m-assistant-peek-card--' + accent"
+  [class.m-assistant-peek-card--front]="isFront"
+  [class.m-assistant-peek-card--dragging]="isDragging"
+  [class.m-assistant-peek-card--expanded]="isExpanded()"
+  [style.transform]="dragOffsetPx ? 'translateX(' + dragOffsetPx + 'px)' : null"
+  role="group"
+  [attr.aria-label]="suggestion.question"
+  [attr.aria-current]="isFront ? 'true' : null"
+  (click)="onCardClick()"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="onPointerUp($event)"
+>
+  <div class="m-assistant-peek-card__header">
+    <ibid-accent-icon [svgIcon]="suggestion.icon" [accent]="accent" />
+    <ibid-dismiss-button [accent]="accent" (dismissed)="dismissed.emit()" />
+  </div>
+
+  <div class="m-assistant-peek-card__content">
+    <span class="m-assistant-peek-card__label">{{ suggestion.question }}</span>
+    <span class="m-assistant-peek-card__body">{{ suggestion.subtext }}</span>
+  </div>
+
+  @if (size === 'big' && suggestion.suggestedValue) {
+    <div class="m-assistant-peek-card__footer">
+      <button class="m-assistant-peek-card__value-btn" (click)="onExecute($event)">
+        <span class="m-assistant-peek-card__value-label">{{ suggestion.valueLabel || 'Valor sugerido' }}</span>
+        <strong class="m-assistant-peek-card__value-amount">{{ suggestion.suggestedValue }}</strong>
+        <ibid-icon name="chevron-right"></ibid-icon>
+      </button>
+    </div>
+  }
+
+  @if (isAnswerable) {
+    <div class="m-assistant-peek-card__footer">
+      <div class="m-assistant-peek-card__answers">
+        <button
+          type="button"
+          class="m-assistant-peek-card__answer m-assistant-peek-card__answer--yes"
+          (click)="onAnswer($event, true)"
+        >
+          <ibid-icon name="check-circle"></ibid-icon>
+          <span>{{ suggestion.answer!.acceptLabelKey | translate }}</span>
+        </button>
+        <button
+          type="button"
+          class="m-assistant-peek-card__answer"
+          (click)="onAnswer($event, false)"
+        >
+          <span>{{ suggestion.answer!.rejectLabelKey | translate }}</span>
+        </button>
+      </div>
+    </div>
+  } @else if (hasAction) {
+    <div class="m-assistant-peek-card__footer">
+      <div class="m-assistant-peek-card__actions">
+        <button
+          type="button"
+          class="m-assistant-peek-card__action-btn"
+          (click)="onExecute($event)"
+        >
+          <span>{{ actionLabelKey | translate }}</span>
+          <ibid-icon name="chevron-right"></ibid-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,55 @@
+<ibid-card customClass="o-db-data-viewer__card o-db-data-viewer__card--viewer">
+  <div class="o-db-data-viewer__header">
+    <div class="o-db-data-viewer__title-wrapper">
+      <ibid-icon name="document-search" class="o-db-data-viewer__title-icon"></ibid-icon>
+      <h2 class="o-db-data-viewer__title">
+        {{ 'dbViewerTitle' | translate }} 
+        <span class="o-db-data-viewer__friendly-name">{{ friendlyName }}</span>
+      </h2>
+    </div>
+    <ibid-icon-button class="o-db-data-viewer__close-btn" (clicked)="close.emit()" [ariaLabel]="'close' | translate">
+      <ibid-icon name="close"></ibid-icon>
+    </ibid-icon-button>
+  </div>
+  
+  <div class="o-db-data-viewer__card-content">
+    @if (rows.length === 0) {
+      <div class="o-db-data-viewer__empty-state">
+        {{ 'dbViewerEmpty' | translate }}
+      </div>
+    } @else {
+      <div class="o-db-data-viewer__list-container">
+        <div class="o-db-data-viewer__list-header">
+          <div class="o-db-data-viewer__col o-db-data-viewer__col--id">ID / Key</div>
+          <div class="o-db-data-viewer__col o-db-data-viewer__col--details">{{ 'dbRecordDetails' | translate }}</div>
+          <div class="o-db-data-viewer__col o-db-data-viewer__col--action">{{ 'dbViewerRecordAction' | translate }}</div>
+        </div>
+        <div class="o-db-data-viewer__list-body">
+          @for (row of rows; track row.id || row.key) {
+            <div class="o-db-data-viewer__list-row">
+              <div class="o-db-data-viewer__cell o-db-data-viewer__cell--id">
+                {{ row.id || row.key || '-' }}
+              </div>
+              <div class="o-db-data-viewer__cell o-db-data-viewer__cell--details">
+                {{ getRowDetails(row) }}
+              </div>
+              <div class="o-db-data-viewer__cell o-db-data-viewer__cell--action">
+                @if (dbName.includes('history_logs')) {
+                  <ibid-button variant="primary" (clicked)="undo.emit(row.id)" class="o-db-data-viewer__action-btn">
+                    <ibid-icon name="arrow-back-curved" class="o-db-data-viewer__action-icon"></ibid-icon>
+                    <span>{{ 'dbUndo' | translate }}</span>
+                  </ibid-button>
+                } @else {
+                  <ibid-button variant="outlined" (clicked)="restore.emit(row)" class="o-db-data-viewer__action-btn o-db-data-viewer__action-btn--success">
+                    <ibid-icon name="history" class="o-db-data-viewer__action-icon"></ibid-icon>
+                    <span>{{ 'dbRestore' | translate }}</span>
+                  </ibid-button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</ibid-card>

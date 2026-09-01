@@ -1,0 +1,247 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.m-budget-execution-summary {
+  @include card-surface;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  min-width: 0;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
+  }
+
+  &__label {
+    font-size: var(--text-m);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  &__group-title {
+    font-size: var(--text-m);
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    text-transform: uppercase;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  &__list {
+    display: grid;
+    row-gap: 14px;
+    column-gap: 10px;
+    min-width: 0;
+  }
+
+  &__list--projects {
+    grid-template-columns: 1fr auto;
+  }
+
+  &__list--categories {
+    grid-template-columns: 40px 1fr auto;
+  }
+
+  &__item {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: center;
+    min-width: 0;
+  }
+
+  &__item--project {
+    grid-template-rows: auto auto;
+    row-gap: 6px;
+
+    .m-budget-execution-summary__item-name {
+      grid-column: 1 / 3;
+      grid-row: 1;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .m-budget-execution-summary__track-btn {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .m-budget-execution-summary__values-btn {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .m-budget-execution-summary__progress-track {
+      height: 10px;
+    }
+
+    .m-budget-execution-summary__item-values {
+      font-size: var(--text-m);
+      font-weight: 600;
+    }
+  }
+
+  &__item--category {
+    grid-template-rows: auto auto;
+    row-gap: 4px;
+
+    .m-budget-execution-summary__item-icon {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      align-self: center;
+    }
+
+    .m-budget-execution-summary__item-name {
+      grid-column: 2 / 4;
+      grid-row: 1;
+    }
+
+    .m-budget-execution-summary__track-btn {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .m-budget-execution-summary__values-btn {
+      grid-column: 3;
+      grid-row: 2;
+    }
+  }
+
+  &__item-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+
+    ibid-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__item-name {
+    font-size: var(--text-m);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-text, #0f172a);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__shared-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    font-size: var(--text-m);
+    font-weight: 700;
+    @include glass-highlight-surface(-0.8deg, 999px);
+    color: var(--color-primary, #0284c7);
+
+    span, ibid-icon {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__shared-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  &__item-suggested {
+    font-size: var(--text-m);
+    font-weight: 500;
+    color: var(--color-text-muted, #94a3b8);
+  }
+
+  &__track-btn {
+    min-width: 0;
+    height: auto;
+    display: block;
+    border-radius: 999px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--color-surface-hover, rgba(15, 23, 42, 0.06));
+    }
+
+    ::ng-deep .a-button {
+      all: unset;
+      display: block;
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+
+  &__values-btn {
+    justify-self: end;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding: 3px 10px;
+    @include glass-highlight-surface(-0.8deg, 4px 18px 6px 16px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    ::ng-deep .a-button {
+      all: unset;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  &__progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  &__item-values {
+    display: block;
+    font-size: var(--text-m);
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--color-text, #1e293b);
+    text-align: right;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__empty {
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #94a3b8);
+    margin-top: 12px;
+  }
+}

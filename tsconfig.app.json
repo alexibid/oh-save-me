@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": [],
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.stories.ts"
+  ],
+  "references": [
+    {
+      "path": "../../libs/ibid-ui/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/services/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/testing/tsconfig.lib.json"
+    }
+  ]
+}

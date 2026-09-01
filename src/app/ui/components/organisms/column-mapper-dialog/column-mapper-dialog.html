@@ -1,0 +1,98 @@
+<ng-template #dialogTemplate>
+    <div class="o-column-mapper-dialog">
+        <h2 class="o-column-mapper-dialog__header">Map File Columns</h2>
+
+        <div class="o-column-mapper-dialog__content">
+            <p class="o-column-mapper__subtitle">
+                We found columns in <strong>{{ fileName }}</strong>. Please map the columns below to their correct roles
+                so we can import your transactions.
+            </p>
+
+            
+            <div class="o-column-mapper__chips-container">
+                <span class="o-column-mapper__chips-title">Columns left to map:</span>
+                @if (missingDate) {
+                <span class="o-column-mapper__chip o-column-mapper__chip--pending">Date</span>
+                }
+                @if (missingDesc) {
+                <span class="o-column-mapper__chip o-column-mapper__chip--pending">Description</span>
+                }
+                @if (missingAmount) {
+                <span class="o-column-mapper__chip o-column-mapper__chip--pending">
+                    {{ hasCreditColumnInFile ? 'Debit' : 'Debit / Value' }}
+                </span>
+                }
+                @if (missingCredit) {
+                <span class="o-column-mapper__chip o-column-mapper__chip--pending">Credit</span>
+                }
+                @if (missingBalance) {
+                <span class="o-column-mapper__chip o-column-mapper__chip--pending">Balance (Saldo)</span>
+                }
+                @if (!hasPendingMappings) {
+                <span class="o-column-mapper__chip o-column-mapper__chip--ready">
+                    ✓ Ready to import!
+                </span>
+                }
+            </div>
+
+            @if (validationError) {
+            <div class="o-column-mapper__validation-error">
+                ⚠ {{ validationError }}
+            </div>
+            }
+
+            <div class="o-column-mapper__list-container">
+                <div class="o-column-mapper__list">
+                    <div class="o-column-mapper__list-header">
+                        @for (col of headers; track $index; let cIdx = $index) {
+                        <div class="o-column-mapper__header-cell">
+                            <div class="o-column-mapper__header-title">
+                                {{ col || 'Column ' + (cIdx + 1) }}
+                            </div>
+                            <select class="o-column-mapper__select" (change)="onRoleChange(cIdx, $event)">
+                                <option value="skip" [selected]="mappings[cIdx] === 'skip'">Ignore</option>
+                                <option value="date" [selected]="mappings[cIdx] === 'date'">Date</option>
+                                <option value="desc" [selected]="mappings[cIdx] === 'desc'">Description</option>
+                                <option value="amount" [selected]="mappings[cIdx] === 'amount'">
+                                    {{ hasCreditColumnInFile ? 'Debit' : 'Debit / Value' }}
+                                </option>
+                                @if (hasCreditColumnInFile) {
+                                <option value="credit" [selected]="mappings[cIdx] === 'credit'">Credit</option>
+                                }
+                                @if (hasBalanceColumnInFile) {
+                                <option value="balance" [selected]="mappings[cIdx] === 'balance'">Balance (Saldo)
+                                </option>
+                                }
+                                <option value="shares" [selected]="mappings[cIdx] === 'shares'">Shares (Ações)
+                                </option>
+                                <option value="price" [selected]="mappings[cIdx] === 'price'">Price (Preço)</option>
+                                <option value="fee" [selected]="mappings[cIdx] === 'fee'">Fee (Taxa/Comissão)
+                                </option>
+                                <option value="tax" [selected]="mappings[cIdx] === 'tax'">Tax (Imposto)</option>
+                                <option value="symbol" [selected]="mappings[cIdx] === 'symbol'">Symbol / ISIN
+                                </option>
+                            </select>
+                        </div>
+                        }
+                    </div>
+                    <div class="o-column-mapper__list-body">
+                        @for (row of dataRows; track $index) {
+                        <div class="o-column-mapper__data-row">
+                            @for (cell of row; track $index; let cIdx = $index) {
+                            <div class="o-column-mapper__data-cell">
+                                {{ cell }}
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="o-column-mapper-dialog__footer">
+            <ibid-button type="button" (clicked)="onCancel()">Cancel</ibid-button>
+            <ibid-button type="button" color="primary" [disabled]="hasPendingMappings" (clicked)="onContinue()">Continue</ibid-button>
+        </div>
+    </div>
+</ng-template>

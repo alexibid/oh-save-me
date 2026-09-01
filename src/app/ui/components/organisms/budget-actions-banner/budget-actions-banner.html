@@ -1,0 +1,22 @@
+<div #anchor style="height: 1px; width: 100%; pointer-events: none; margin-bottom: -1px;"></div>
+
+<div class="m-budget-actions-banner" [class.is-hidden]="isSticky()">
+  <ibid-button variant="primary" class="m-budget-actions-banner__btn" (clicked)="onOpenWizard()">
+    <ibid-icon name="budget"></ibid-icon>
+    <span class="m-budget-actions-banner__label">
+      <span class="m-budget-actions-banner__label-text">{{ labelKey | translate }}</span>
+    </span>
+  </ibid-button>
+
+</div>
+
+@if (isSticky()) {
+  <button
+    type="button"
+    class="m-budget-actions-banner__fab"
+    [attr.aria-label]="labelKey | translate"
+    (click)="onOpenWizard()"
+  >
+    <ibid-icon name="budget"></ibid-icon>
+  </button>
+}

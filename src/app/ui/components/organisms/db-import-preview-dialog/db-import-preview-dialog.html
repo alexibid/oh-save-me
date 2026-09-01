@@ -1,0 +1,52 @@
+<ibid-bottom-sheet-dialog class="o-db-import-preview-dialog" (closeClicked)="onCancel()">
+  <span sheet-title>{{ 'dbImportPreviewTitle' | translate }}</span>
+
+  <div class="o-db-import-preview-dialog__body">
+    <div class="o-db-import-preview-dialog__counts">
+      <span class="o-db-import-preview-dialog__count">
+        <strong>{{ data.preview.accountsToImport.length }}</strong> {{ 'dbImportPreviewNewAccounts' | translate }}
+      </span>
+      <span class="o-db-import-preview-dialog__count">
+        <strong>{{ data.preview.categoriesToImport.length }}</strong> {{ 'dbImportPreviewNewCategories' | translate }}
+      </span>
+      <span class="o-db-import-preview-dialog__count">
+        <strong>{{ data.preview.budgetsToImport.length }}</strong> {{ 'dbImportPreviewNewBudgets' | translate }}
+      </span>
+      <span class="o-db-import-preview-dialog__count">
+        <strong>{{ data.preview.customRecordsToImport.length }}</strong> {{ 'dbImportPreviewNewCustomRecords' | translate }}
+      </span>
+    </div>
+
+    @if (data.preview.skippedCounts.transactions > 0) {
+      <p class="o-db-import-preview-dialog__skipped">
+        {{ 'dbImportPreviewSkippedPrefix' | translate }} {{ data.preview.skippedCounts.transactions }}
+        {{ 'dbImportPreviewSkippedSuffix' | translate }}
+      </p>
+    }
+
+    <h3 class="o-db-import-preview-dialog__section-title">
+      {{ 'dbImportPreviewTransactionsTitle' | translate }} ({{ data.preview.transactionsToImport.length }})
+    </h3>
+
+    @if (data.preview.transactionsToImport.length > 0) {
+      <ohsaveme-transactions-table
+        [transactions]="data.preview.transactionsToImport"
+        [categoryOptions]="categoryOptions()"
+        [showActions]="false"
+        [showTitle]="false"
+        [showTabs]="false"
+      ></ohsaveme-transactions-table>
+    } @else {
+      <p class="o-db-import-preview-dialog__empty">{{ 'dbImportPreviewNoNewTransactions' | translate }}</p>
+    }
+  </div>
+
+  <div sheet-footer>
+    <button type="button" class="o-db-import-preview-dialog__btn o-db-import-preview-dialog__btn--secondary" (click)="onCancel()">
+      {{ 'dbCancel' | translate }}
+    </button>
+    <button type="button" class="o-db-import-preview-dialog__btn o-db-import-preview-dialog__btn--primary" (click)="onConfirm()">
+      {{ 'dbImportPreviewConfirmBtn' | translate }}
+    </button>
+  </div>
+</ibid-bottom-sheet-dialog>

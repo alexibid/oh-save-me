@@ -1,0 +1,163 @@
+{
+  "name": "oh-save-me",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "ohsaveme",
+  "sourceRoot": "apps/oh-save-me/src",
+  "tags": [
+    "type:app",
+    "scope:oh-save-me"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "defaultConfiguration": "production",
+      "options": {
+        "styles": [
+          "node_modules/@angular/material/prebuilt-themes/azure-blue.css",
+          "apps/oh-save-me/src/styles.scss"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2MB",
+              "maximumError": "3MB"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "20kB",
+              "maximumError": "30kB"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "playwright test --project=mobile --grep-invert \"Accessibility\"",
+        "cwd": "apps/oh-save-me"
+      }
+    },
+    "e2e-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "playwright test --grep-invert \"Accessibility\"",
+        "cwd": "apps/oh-save-me"
+      }
+    },
+    "test-a11y": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "playwright test --project=mobile --grep \"Accessibility\"",
+        "cwd": "apps/oh-save-me"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular-vite:start-storybook",
+      "options": {
+        "configDir": "apps/oh-save-me/.storybook",
+        "browserTarget": "oh-save-me:build",
+        "port": 6007
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular-vite:build-storybook",
+      "outputs": [
+        "{options.outputDir}"
+      ],
+      "options": {
+        "configDir": "apps/oh-save-me/.storybook",
+        "browserTarget": "oh-save-me:build",
+        "outputDir": "dist/storybook/oh-save-me"
+      }
+    },
+    "desktop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tauri dev --config platforms/desktop/src-tauri/tauri.conf.json",
+        "cwd": "apps/oh-save-me"
+      }
+    },
+    "desktop-build": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/oh-save-me"
+      ],
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "cwd": "apps/oh-save-me",
+        "env": {
+          "CARGO_TARGET_DIR": "../../dist/oh-save-me/desktop"
+        },
+        "commands": [
+          "tauri build --config platforms/desktop/src-tauri/tauri.conf.json",
+          "cd ../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from dist/oh-save-me/desktop/release/bundle --ext dmg,msi,exe,deb,rpm,AppImage"
+        ],
+        "parallel": false
+      }
+    },
+    "mobile-sync": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "command": "npx cap sync",
+        "cwd": "apps/oh-save-me/platforms/mobile"
+      }
+    },
+    "mobile-ios": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "mobile-sync"
+      ],
+      "options": {
+        "command": "npx cap run ios",
+        "cwd": "apps/oh-save-me/platforms/mobile"
+      }
+    },
+    "mobile-android": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "mobile-sync"
+      ],
+      "options": {
+        "command": "npx cap run android",
+        "cwd": "apps/oh-save-me/platforms/mobile"
+      }
+    },
+    "mobile-apk": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/oh-save-me"
+      ],
+      "dependsOn": [
+        "mobile-sync"
+      ],
+      "options": {
+        "cwd": "apps/oh-save-me/platforms/mobile/android",
+        "commands": [
+          "chmod +x gradlew && ./gradlew assembleDebug",
+          "cd ../../../../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from apps/oh-save-me/platforms/mobile/android/app/build/outputs/apk/debug --ext apk"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}

@@ -1,0 +1,328 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+ohsaveme-sidenav-menu,
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.m-sidenav-menu {
+  width: 280px;
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 62px 16px 16px 16px;
+  overflow: hidden;
+  @include glass-highlight-surface;
+  &::before {
+    border-radius: 0px;
+    border: none;
+  }
+  background-color: var(--color-bg-opacity80);
+
+  &__cycle {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #EDEBE3;
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+
+  &__cycle-preset {
+    width: 100%;
+
+    .a-select-field {
+      width: 100%;
+
+      .mdc-text-field--outlined {
+        height: 40px;
+        position: relative;
+        @include glass-highlight-surface;
+
+        .mat-mdc-form-field-infix {
+          min-height: 40px;
+          display: flex;
+          align-items: center;
+          padding-top: 0;
+          padding-bottom: 0;
+          position: relative;
+          z-index: 1;
+        }
+
+        .mat-mdc-select-value,
+        .a-select-field__custom-arrow {
+          position: relative;
+          z-index: 1;
+        }
+      }
+    }
+  }
+
+  &__date-input {
+    width: 100%;
+
+    .a-date-input__trigger {
+      height: 40px;
+      box-sizing: border-box;
+      position: relative;
+      @include glass-highlight-surface;
+
+      .a-date-input__text,
+      ibid-icon,
+      mat-icon {
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+
+  &__cycle-dates {
+    font-family: var(--font-editorial, serif);
+    font-size: 22px;
+    line-height: 28px;
+    color: var(--color-text, #1e293b);
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(44, 44, 42, 0.06);
+      border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(44, 44, 42, 0.28);
+      border-radius: 2px;
+    }
+  }
+
+  &__nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+
+    @include respond-to('desktop') {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+
+    @include respond-to('desktop') {
+      width: auto;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: var(--color-text, #1e293b);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    &--active {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    @include respond-to('desktop') {
+      display: inline-flex;
+      width: auto;
+      white-space: nowrap;
+
+      &--expandable {
+        display: none;
+      }
+    }
+  }
+
+  &__icon {
+    width: 34px;
+    height: 34px;
+    font-size: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    flex: 1;
+    font-family: var(--mat-sys-body-large-font);
+    font-size: var(--text-m);
+    font-weight: 500;
+    line-height: 18px;
+    white-space: normal;
+  }
+
+  &__chevron {
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+    margin-left: auto;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  &__sub-nav {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-bottom: 16px;
+  }
+
+  &__sub-link {
+    display: flex;
+    padding: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--color-text, #1e293b);
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    &--active {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  &__sub-link-label {
+    font-size: var(--text-m);
+    line-height: 16px;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 12px;
+    padding-bottom: 0px;
+    flex-shrink: 0;
+    border-top: 1px solid #EDEBE3;
+    z-index: 1;
+  }
+
+  &__sub-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 24px 12px 40px;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    order: 1;
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__label {
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+  }
+
+  &__version {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    text-align: center;
+    padding-top: 16px;
+    padding-bottom: 8px;
+    font-family: var(--font-sans);
+  }
+}
+@include respond-to('desktop') {
+  .m-sidenav-menu {
+    width: 100%;
+    height: auto;
+    max-width: var(--layout-content-max-width, 1440px);
+    margin: 0 auto;
+    padding-top: var(--header-height);
+    padding-bottom: var(--space-1);
+  }
+
+  .m-sidenav-menu__cycle {
+    display: none;
+  }
+
+  .m-sidenav-menu__footer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .m-sidenav-menu__nav {
+    justify-content: space-between;
+  }
+
+  .m-sidenav-menu__link {
+    order: 1;
+  }
+
+  .m-sidenav-menu__link.m-sidenav-menu__link--expanded {
+    display: none;
+  }
+
+  .m-sidenav-menu__sub-menu {
+    flex-direction: row;
+    padding: 8px;
+    background-color: unset;
+  }
+
+  .m-sidenav-menu__input-cycle {
+    max-width: 50px;
+  }
+
+  .m-sidenav-menu__select-language {
+    min-width: 180px;
+
+     .mdc-text-field--outlined::before {
+      background-color: var(--color-surface);
+     }
+  }
+
+  .m-sidenav-menu__label {
+    font-size: var(--text-xs)
+  }
+
+  .m-sidenav-menu__form-group {
+    gap: 4px
+  }
+} 

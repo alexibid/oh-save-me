@@ -1,0 +1,56 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.p-categories-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.5rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  &__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  &__summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__empty {
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+}
+
+@include respond-to('desktop') {
+  .p-categories-list-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: start;
+
+    .p-categories-list-page__header,
+    ohsaveme-transactions-table,
+    .p-categories-list-page__empty {
+      grid-column: 1 / -1;
+    }
+  }
+}

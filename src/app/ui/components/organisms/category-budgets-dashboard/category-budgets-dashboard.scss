@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.m-category-budgets-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  margin-top: 24px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    padding-bottom: 16px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    width: 100%;
+  }
+
+  &__empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--color-text-muted, #64748b);
+    background: var(--color-surface, #ffffff);
+    border-radius: var(--radius-card);
+    border: 1px dashed var(--color-border, #e2e8f0);
+  }
+
+  &__suggestions-section {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

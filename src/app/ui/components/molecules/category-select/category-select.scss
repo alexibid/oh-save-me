@@ -1,0 +1,133 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+:host {
+  display: inline-flex;
+}
+
+.a-category-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  line-height: 1;
+}
+
+.a-category-select {
+  &__btn {
+    display: inline-flex;
+    align-items: flex-end;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 0;
+
+    &:hover {
+      border-color: var(--color-border, #e5e3dc);
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+  }
+
+  &__input {
+    padding: 2px 3px;
+    min-width: 200px;
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    min-width: 220px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-2) 0;
+  }
+
+  &__section-header {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-m);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #78716c);
+    opacity: 0.8;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-m);
+    color: var(--color-text);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+    }
+
+    &--selected {
+      background-color: var(--color-surface-hover);
+      font-weight: var(--weight-semibold);
+    }
+
+    &--create {
+      font-weight: var(--weight-semibold);
+      color: var(--color-ink);
+      border-bottom: 1px solid var(--color-border);
+      padding-left: calc(var(--space-3) + 18px);
+    }
+
+    &--project {
+      font-weight: var(--weight-semibold);
+      color: var(--color-pink-text, #be185d);
+    }
+  }
+
+  &__checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--color-border-dark, #a8a29e);
+    border-radius: 3px;
+    flex-shrink: 0;
+    color: transparent;
+    transition: all 0.15s ease;
+
+    &--checked {
+      background-color: var(--color-ink, #1c1917);
+      border-color: var(--color-ink, #1c1917);
+      color: #fff;
+    }
+  }
+
+  &__separator {
+    height: 1px;
+    margin: var(--space-2) 0;
+    background-color: var(--color-border);
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  &__category-label,
+  &__project-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

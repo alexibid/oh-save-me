@@ -1,0 +1,44 @@
+<button
+  #trigger="cdkOverlayOrigin"
+  cdkOverlayOrigin
+  type="button"
+  class="m-record-detail-balloon__trigger"
+  (click)="toggle()"
+  [attr.aria-label]="pinLabel()"
+  [attr.aria-expanded]="isOpen()"
+>
+  <ibid-icon name="info"></ibid-icon>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (overlayOutsideClick)="close()"
+>
+  <div class="m-record-detail-balloon__panel" role="dialog" [attr.aria-label]="'recordDetailBalloonTitle' | translate">
+    <div class="m-record-detail-balloon__header">
+      <span class="m-record-detail-balloon__title">{{ 'recordDetailBalloonTitle' | translate }}</span>
+      <button type="button" class="m-record-detail-balloon__close" (click)="close()" [attr.aria-label]="'recordDetailBalloonClose' | translate">
+        <ibid-icon name="close-line"></ibid-icon>
+      </button>
+    </div>
+
+    <div class="m-record-detail-balloon__fields">
+      @for (column of secondaryColumns(); track column.key) {
+        <div class="m-record-detail-balloon__field">
+          <span class="m-record-detail-balloon__label">{{ column.labelKey | translate }}</span>
+          <ng-container *ngComponentOutlet="resolveSmartCellComponent(column.dataType); inputs: { value: column.accessor(record()), interactive: false }"></ng-container>
+        </div>
+      }
+    </div>
+
+    @if (showActions()) {
+      <button type="button" class="m-record-detail-balloon__action" (click)="onPinToggle()">{{ pinLabel() }}</button>
+    }
+  </div>
+</ng-template>

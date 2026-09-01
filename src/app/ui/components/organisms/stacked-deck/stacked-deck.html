@@ -1,0 +1,50 @@
+@if (hasAnySuggestion()) {
+  <div class="o-stacked-deck">
+    @if (layoutMode === 'peek') {
+      @if (visibleSuggestions().length > 0) {
+        <ohsaveme-assistant-peek-deck
+          [suggestions]="visibleSuggestions()"
+          [frontIndex]="frontIndex()"
+          (cardTapped)="onCardTapped($event)"
+          (dismissed)="onDismissed($event)"
+          (answered)="onAnswered($event)"
+          (rotateBy)="onRotateBy($event)"
+        />
+
+        @if (visibleSuggestions().length > 1) {
+          <ibid-stack-dots
+            [count]="visibleSuggestions().length"
+            [activeIndex]="frontIndex()"
+            (dotClicked)="onDotClicked($event)"
+          />
+        }
+      } @else if (archivedSuggestions().length > 0) {
+        <div class="o-stacked-deck__caught-up">
+          <div class="o-stacked-deck__caught-up-header">
+            <ibid-icon name="check-circle"></ibid-icon>
+            <span class="o-stacked-deck__caught-up-title">{{ 'assistantAllCaughtUpTitle' | translate }}</span>
+          </div>
+          <p class="o-stacked-deck__caught-up-body">{{ 'assistantAllCaughtUpBody' | translate }}</p>
+          <button type="button" class="o-stacked-deck__archive-btn" (click)="openArchivedTab.emit()">
+            <ibid-icon name="archive"></ibid-icon>
+            <span>{{ 'assistantViewArchivedTasks' | translate }} ({{ archivedSuggestions().length }})</span>
+          </button>
+        </div>
+      }
+    } @else {
+      <ohsaveme-assistant-expanded-deck
+        [suggestions]="visibleSuggestions()"
+        [archivedSuggestions]="archivedSuggestions()"
+        [frontIndex]="frontIndex()"
+        [initialTab]="initialTab"
+        (cardTapped)="onCardTapped($event)"
+        (dismissed)="onDismissed($event)"
+        (answered)="onAnswered($event)"
+        (rotateBy)="onRotateBy($event)"
+        (unarchived)="onUnarchived($event)"
+        (deleted)="onDeleted($event)"
+        (clearArchive)="onClearArchive()"
+      />
+    }
+  </div>
+}

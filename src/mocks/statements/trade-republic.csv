@@ -1,0 +1,7 @@
+"datetime","date","account_type","category","type","asset_class","name","symbol","shares","price","amount","fee","tax","currency","original_amount","original_currency","fx_rate","description","transaction_id","counterparty_name","counterparty_iban","payment_reference","mcc_code"
+"2026-07-01T09:00:00Z","2026-07-01","SECURITIES","TRADE","BUY","ETF","Global Core MSCI World","IWDA","2.5","98.40","-246.00","1.00","0.00","EUR","-246.00","EUR","1.0","Compra ETF Global Core MSCI World","tr-0001","","","",""
+"2026-07-03T10:15:00Z","2026-07-03","SECURITIES","TRADE","BUY","STOCK","Apple Inc","AAPL","1.0","193.14","-193.14","1.00","0.00","EUR","-193.14","EUR","1.0","Compra Acoes Apple Inc","tr-0002","","","",""
+"2026-07-10T08:30:00Z","2026-07-10","SECURITIES","TRADE","SELL","STOCK","Apple Inc","AAPL","1.0","201.50","201.50","1.00","2.30","EUR","201.50","EUR","1.0","Venda Acoes Apple Inc","tr-0003","","","",""
+"2026-07-15T00:00:00Z","2026-07-15","SECURITIES","INCOME","DIVIDEND","ETF","Global Core MSCI World","IWDA","0.0","0.00","15.20","0.00","2.28","EUR","15.20","EUR","1.0","Pagamento de Dividendos","tr-0004","","","",""
+"2026-07-20T00:00:00Z","2026-07-20","CASH","TRANSFER","DEPOSIT","","","","0.0","0.00","500.00","0.00","0.00","EUR","500.00","EUR","1.0","Deposito de Fundos","tr-0005","","","",""
+"2026-07-31T00:00:00Z","2026-07-31","CASH","INCOME","INTEREST","","","","0.0","0.00","0.50","0.00","0.00","EUR","0.50","EUR","1.0","Rendimento de Juros","tr-0006","","","",""

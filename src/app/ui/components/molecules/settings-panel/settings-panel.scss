@@ -1,0 +1,71 @@
+.m-settings-panel {
+  position: relative;
+  display: inline-block;
+
+  &__btn {
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: none;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+    }
+
+    ibid-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 1000;
+  }
+
+  &__divider {
+    margin: 0.25rem 0;
+    opacity: 0.5;
+  }
+
+  &__reset-container {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  &__reset-icon {
+    color: var(--color-danger, #ef4444);
+  }
+
+  &__reset-btn {
+    width: 100%;
+    
+    ibid-icon {
+      font-size: 18px;
+      margin-right: 0.25rem;
+    }
+  }
+}

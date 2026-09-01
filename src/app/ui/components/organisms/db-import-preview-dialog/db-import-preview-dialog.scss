@@ -1,0 +1,66 @@
+.o-db-import-preview-dialog {
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  &__count {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+
+    strong {
+      color: var(--color-text);
+    }
+  }
+
+  &__section-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+
+  &__empty {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+    padding: var(--space-4);
+  }
+
+  &__skipped {
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  &__btn {
+    padding: 10px 18px;
+    border-radius: var(--radius-control);
+    font-family: var(--font-sans);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-m);
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    &--secondary {
+      background: none;
+      color: var(--color-text-muted);
+    }
+
+    &--primary {
+      background: var(--color-ink);
+      color: var(--color-surface);
+    }
+  }
+}

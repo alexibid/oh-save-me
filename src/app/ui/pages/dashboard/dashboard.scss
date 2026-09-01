@@ -1,0 +1,111 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.p-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding: 0;
+
+  @include respond-to('tablet') {
+    gap: var(--space-5);
+  }
+
+  @include respond-to('desktop') {
+    gap: var(--space-6);
+  }
+
+  &__top-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 100%;
+
+    @include respond-to('desktop') {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: var(--space-5);
+      align-items: start;
+    }
+  }
+
+  &__top-left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__top-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-5);
+    }
+  }
+
+  &__account-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to('desktop-lg') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__budgets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  &__section-title {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--color-text);
+  }
+
+  &__budgets-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 100%;
+  }
+}
+

@@ -1,0 +1,76 @@
+<ibid-card customClass="m-balance-summary-card__card">
+  <span class="m-balance-summary-card__label">
+    {{ (isPortfolio() ? 'metricsTotalPatrimony' : 'metricsRealFreeBalance') | translate }}
+  </span>
+  <strong class="m-balance-summary-card__value"
+    [class.m-balance-summary-card__color--danger]="headlineValue() < 0"
+    [class.m-balance-summary-card__color--success]="headlineValue() >= 0">
+    <ibid-currency-display [value]="headlineValue()" size="xl" />
+  </strong>
+  @if (isPortfolio()) {
+    <span class="m-balance-summary-card__caption">{{ 'metricsTotalPatrimonyCaption' | translate }}</span>
+  }
+
+  <div class="m-balance-summary-card__detail-list">
+    <div class="m-balance-summary-card__detail-row">
+      <span>{{ 'budgetLabelAccountsBalance' | translate }}</span>
+      <ibid-currency-display
+        [value]="totalWalletBalance()"
+        size="sm"
+        [explanation]="totalWalletBalanceExplanation()"
+        [explanationTitle]="'budgetLabelAccountsBalance' | translate"
+      />
+    </div>
+
+    @if (isPortfolio()) {
+      @if (investedValue() !== 0) {
+        <div class="m-balance-summary-card__detail-row">
+          <span>{{ 'metricsInvestedValue' | translate }}</span>
+          <ibid-currency-display [value]="investedValue()" size="sm" />
+        </div>
+      }
+      @if (assetsValue() !== 0) {
+        <div class="m-balance-summary-card__detail-row">
+          <span>{{ 'metricsAssetsPaid' | translate }}</span>
+          <ibid-currency-display [value]="assetsValue()" size="sm" />
+        </div>
+      }
+      @if (realizedResult() !== 0) {
+        <div class="m-balance-summary-card__detail-row">
+          <span>{{ 'walletLabelRealizedResult' | translate }}</span>
+          <strong [style.color]="realizedResult() >= 0 ? '#10b981' : '#ef4444'">
+            <ibid-currency-display [value]="realizedResult()" size="sm" />
+          </strong>
+        </div>
+      }
+    } @else {
+      <div class="m-balance-summary-card__detail-row">
+        <span>{{ 'budgetLabelReservedProjects' | translate }}</span>
+        <ibid-currency-display [value]="activeProjectReserve()" size="sm" />
+      </div>
+      <div class="m-balance-summary-card__detail-row">
+        <span>{{ 'budgetLabelReservedCategories' | translate }}</span>
+        <strong class="m-balance-summary-card__detail-value">
+          <ibid-currency-display [value]="categoryBudgetedTotal()" size="sm" />
+          @if (categoryOverspendTotal() > 0) {
+            <span class="m-balance-summary-card__overspend">
+              <ibid-currency-display [value]="categoryOverspendTotal()" size="sm" /> {{ 'budgetLabelCategoryOverspend' | translate }}
+            </span>
+          }
+        </strong>
+      </div>
+      @if (categorySpentWithinBudget() > 0) {
+        <div class="m-balance-summary-card__detail-row">
+          <span>{{ 'budgetLabelCategorySpentWithinBudget' | translate }}</span>
+          <ibid-currency-display [value]="categorySpentWithinBudget()" size="sm" />
+        </div>
+      }
+      @if (investedValue() > 0) {
+        <div class="m-balance-summary-card__detail-row m-balance-summary-card__detail-row--total">
+          <span>{{ 'metricsTotalPatrimony' | translate }}</span>
+          <ibid-currency-display [value]="totalPatrimony()" size="sm" />
+        </div>
+      }
+    }
+  </div>
+</ibid-card>

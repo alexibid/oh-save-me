@@ -1,0 +1,44 @@
+<ibid-card customClass="o-db-history-logs__card o-db-history-logs__card--history-top">
+  <div class="o-db-history-logs__header">
+    <ibid-icon name="history" iconClass="color-primary"></ibid-icon>
+    <h2 class="o-db-history-logs__title">{{ 'dbHistoryTitle' | translate }}</h2>
+  </div>
+
+  <div class="o-db-history-logs__card-content">
+    @if (logs.length === 0) {
+      <div class="o-db-history-logs__empty-state">
+        {{ 'dbHistoryEmpty' | translate }}
+      </div>
+    } @else {
+      <div class="o-db-history-logs__list">
+        @for (log of logs.slice(0, 8); track log.id) {
+          <div class="o-db-history-logs__list-row">
+            <div class="o-db-history-logs__log-details">
+              <div class="o-db-history-logs__log-title">
+                <span class="o-db-history-logs__action-tag" [ngClass]="'o-db-history-logs__action-tag--' + log.action.toLowerCase()">
+                  {{ log.action }}
+                </span>
+                <span>
+                  {{ log.entity === 'transaction' ? ('dbHistoryTransaction' | translate) : 
+                     log.entity === 'budget' ? ('dbHistoryBudget' | translate) : 
+                     log.entity === 'category' ? ('dbHistoryCategory' | translate) : 
+                     ('dbHistorySetting' | translate) }}
+                </span>
+                <span class="o-db-history-logs__entity-id">(ID: {{ log.entityId }})</span>
+              </div>
+              <div class="o-db-history-logs__timestamp">
+                {{ log.timestamp | date:'medium' }}
+              </div>
+            </div>
+            <div class="o-db-history-logs__action-wrapper">
+              <ibid-button variant="outlined" (clicked)="undo.emit(log.id)" class="o-db-history-logs__undo-btn">
+                <ibid-icon name="arrow-back-curved" class="o-db-history-logs__undo-icon"></ibid-icon>
+                <span>{{ 'dbUndo' | translate }}</span>
+              </ibid-button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ibid-card>

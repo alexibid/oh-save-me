@@ -1,0 +1,79 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.p-budget {
+  padding: 0 0 32px;
+  max-width: var(--layout-content-max-width, 1440px);
+  margin: 0 auto;
+  color: var(--color-text, #0f172a);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    margin-bottom: var(--space-4);
+  }
+
+  &__header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-5);
+    margin-bottom: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    max-width: 800px;
+  }
+
+  &__summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+
+    > * {
+      min-width: 0;
+    }
+  }
+}
+@include respond-to('desktop') {
+  .p-budget {
+    display: block;
+    column-count: 2;
+    column-gap: var(--space-4);
+
+    .p-budget__summary-grid {
+      display: contents;
+    }
+
+    > *,
+    .p-budget__summary-grid > * {
+      break-inside: avoid;
+      width: 100%;
+      margin-bottom: var(--space-4);
+    }
+
+    .p-budget__header {
+      column-span: all;
+    }
+  }
+}
+
+@include respond-to('desktop-lg') {
+  .p-budget {
+    column-count: 3;
+  }
+}

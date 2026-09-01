@@ -1,0 +1,205 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.o-share-access-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: var(--color-surface-container, rgba(0, 0, 0, 0.03));
+  border: 1px solid var(--color-border, #e2e8f0);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--text-m);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text, #0f172a);
+  }
+
+  &__title-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-primary, #0284c7);
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+  }
+
+  &__add-btn {
+    flex-shrink: 0;
+  }
+
+  &__add-form {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px;
+    background-color: var(--color-surface, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 8px;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+  }
+
+  &__input-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+
+  &__add-submit-btn {
+    flex-shrink: 0;
+  }
+
+  &__input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: var(--text-m);
+  }
+
+  &__error-msg {
+    font-size: var(--text-m);
+    font-weight: 600;
+    color: var(--color-danger, #ef4444);
+  }
+
+  &__form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__empty {
+    padding: 8px;
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #94a3b8);
+    text-align: center;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: var(--color-surface, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      border-color: var(--color-primary, #0284c7);
+      background-color: var(--color-surface-hover, #f8fafc);
+    }
+
+    &--selected {
+      border-color: var(--color-primary, #0284c7);
+      background-color: var(--color-primary-container, #f0f9ff);
+    }
+  }
+
+  &__item-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border, #94a3b8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface, #ffffff);
+
+    &--checked {
+      background-color: var(--color-primary, #0284c7);
+      border-color: var(--color-primary, #0284c7);
+      color: #ffffff;
+    }
+  }
+
+  &__check-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  &__email {
+    font-size: var(--text-m);
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+  }
+
+  &__item-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__status-tag {
+    font-size: var(--text-m);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: var(--color-teal-bg);
+    color: var(--color-success);
+  }
+
+  &__remove-btn {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    color: var(--color-text-muted, #94a3b8);
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--color-danger, #ef4444);
+    }
+  }
+
+  &__remove-icon {
+    width: 16px;
+    height: 16px;
+  }
+}

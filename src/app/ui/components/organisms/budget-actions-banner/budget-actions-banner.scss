@@ -1,0 +1,125 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.m-budget-actions-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  &.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  &__btn {
+    position: relative;
+    height: 72px;
+    width: 100%;
+    max-width: 440px;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    @include organic-highlight;
+
+    &::before {
+      background-color: var(--color-teal-mid);
+      opacity: 0.55;
+    }
+
+    ::ng-deep .a-button {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      background-color: transparent;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      color: var(--color-ink);
+      gap: 12px;
+      padding: 0 16px;
+    }
+
+    ::ng-deep ibid-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--color-teal-text);
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      transform: translateY(-3px) scale(1.018);
+
+      &::before {
+        opacity: 0.75;
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  &__label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  &__label-text {
+    position: relative;
+    z-index: 1;
+    font-size: clamp(1.15rem, 4.2vw, 1.6rem);
+    white-space: nowrap;
+  }
+
+
+  &__fab {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 1002;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include glass-surface;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.3s ease forwards;
+
+    &:hover {
+      transform: scale(1.08);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    ::ng-deep ibid-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--color-ink, #2c2c2a);
+    }
+  }
+}

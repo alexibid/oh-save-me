@@ -1,0 +1,106 @@
+<div class="p-movements">
+  
+  <div class="p-movements__header">
+    <div class="p-movements__title-group">
+      <h1 class="p-movements__title">{{ 'movementsTitle' | translate }}</h1>
+      <span class="p-movements__count-badge">
+        {{ filteredTransactions().length }} {{ 'movementsRecordsCount' | translate }}
+      </span>
+    </div>
+
+    
+    <div class="p-movements__filters">
+      <ibid-select
+        [value]="selectedAccountFilter()"
+        [options]="accountFilterOptions()"
+        (valueChange)="onAccountFilterChange($event)"
+      ></ibid-select>
+
+      <ibid-select
+        [value]="selectedCategoryFilter()"
+        [options]="categoryFilterOptions()"
+        (valueChange)="onCategoryFilterChange($event)"
+      ></ibid-select>
+
+      @if (projectFilterOptions().length > 1) {
+        <ibid-select
+          [value]="selectedProjectFilter()"
+          [options]="projectFilterOptions()"
+          (valueChange)="onProjectFilterChange($event)"
+        ></ibid-select>
+      }
+
+      <ibid-select
+        class="p-movements__filter-special"
+        [value]="activeSpecialFilter() ?? 'all'"
+        [options]="specialFilterOptions()"
+        (valueChange)="onSpecialFilterChange($event)"
+      ></ibid-select>
+
+      <ohsaveme-column-manager-panel
+        [items]="columns.items()"
+        (visibilityChange)="columns.setVisibility($event.key, $event.visible)"
+        (reorder)="columns.reorder($event)"
+      ></ohsaveme-column-manager-panel>
+    </div>
+
+    <ohsaveme-active-filter-chips
+      [chips]="activeFilterChips()"
+      (remove)="onRemoveFilterChip($event)"
+      (clearAll)="onClearAllFilterChips()"
+    ></ohsaveme-active-filter-chips>
+  </div>
+
+  @if (overspendBannerText(); as bannerText) {
+    <div class="p-movements__overspend-banner" role="status">
+      <ibid-icon name="warning"></ibid-icon>
+      <span>{{ bannerText }}</span>
+    </div>
+  }
+
+  
+  <div class="p-movements__chart-section">
+    <ohsaveme-movements-chart
+      [transactions]="filteredTransactions()"
+      [windowStart]="chartWindowStart()"
+      [asOfDate]="chartAsOfDate()"
+      [fullBleedMobile]="true"
+    ></ohsaveme-movements-chart>
+  </div>
+
+  
+  @if (sumSelection.enabled()) {
+    <div class="p-movements__sum-select-all">
+      <button type="button" class="p-movements__sum-select-all-btn" (click)="toggleSumSelectAll(!isAllSumSelected())">
+        {{ (isAllSumSelected() ? 'sumClearSelection' : 'sumSelectAll') | translate }}
+      </button>
+    </div>
+  }
+
+  
+  <ohsaveme-transactions-table
+    [fullBleedMobile]="true"
+    [transactions]="filteredTransactions()"
+    [categoryOptions]="store.categories()"
+    [schema]="columns.schema()"
+    [accounts]="store.accounts()"
+    [showSearch]="true"
+    [searchQuery]="searchQuery()"
+    (searchQueryChange)="searchQuery.set($event)"
+    [showSumToggle]="true"
+    [sumModeEnabled]="sumSelection.enabled()"
+    [selectedForSum]="sumSelection.selectedIds()"
+    [excludeTransfers]="sumSelection.excludeTransfers()"
+    (sumModeChange)="sumSelection.setEnabled($event)"
+    (sumSelectionToggle)="sumSelection.toggle($event)"
+    (excludeTransfersChange)="sumSelection.setExcludeTransfers($event)"
+    [selectionMode]="isRecurringSelectionMode()"
+    [selectedIds]="selectedRecurringIds()"
+    (selectionToggle)="onRecurringCheckboxToggle($event)"
+    (categoryApplied)="onCategoryApplied($event)"
+    (budgetApplied)="onBudgetApplied($event)"
+    (recurringToggle)="onRecurringToggle($event)"
+    (incomeToggle)="onIncomeToggle($event)"
+    [showTitle]="false"
+  ></ohsaveme-transactions-table>
+</div>

@@ -1,0 +1,93 @@
+<div class="p-dashboard">
+  
+  <div class="p-dashboard__top-grid">
+    <div class="p-dashboard__top-left">
+      <ohsaveme-metrics-grid 
+        [initialBalance]="startingBalance()" 
+        [currentBalance]="endingBalance()" 
+        [balance]="balance()"
+        [walletBalance]="totalWalletBalance()"
+        [walletBalanceExplanation]="totalWalletBalanceExplanation()"
+        [totalIncome]="totalIncome()"
+        [totalExpenses]="totalExpenses()" 
+        [budgetPercent]="budgetPercent()"
+        [budgetLimit]="budgetLimit()" 
+        [activeBudgetsReserve]="totalActiveAccumulatedReserve()"
+        [categoryCommittedRemaining]="categoryCommittedRemaining()"
+        [activeBudgetsSpent]="totalActiveSpent()"
+        [activeBudgetsMonthlyReserve]="totalActiveMonthlyAllocation()"
+        [freeBalance]="freeBalance()"
+        [investmentBalance]="investmentBalance()"
+        [freeBalanceWithInvestments]="freeBalanceWithInvestments()"
+        [totalPatrimony]="totalPatrimony()"
+        [investedValue]="investedValue()"
+        [assetsValue]="assetsValue()"
+      ></ohsaveme-metrics-grid>
+    </div>
+
+    <div class="p-dashboard__top-right">
+      <ohsaveme-dashboard-insights #insightsSection [focusInsightId]="focusInsight ?? null" (focusApplied)="onInsightFocusApplied()" />
+    </div>
+  </div>
+
+  <ohsaveme-budget-actions-banner [enableFab]="false" (openProjectWizard)="onNewBudgetDashboard()"></ohsaveme-budget-actions-banner>
+
+  
+  <div class="p-dashboard__account-grid">
+    @for (item of accountPeriodMetrics(); track item.account.id) {
+    <ohsaveme-account-summary-card
+      [accountId]="item.account.id"
+      [accountName]="item.account.name"
+      [accountTypeLabel]="getAccountTypeLabel(item.account.type)"
+      [accountType]="item.account.type"
+      [scope]="item.account.scope || 'individual'"
+      [isShared]="item.account.scope === 'joint'"
+      [walletBalance]="item.walletBalance"
+      [periodCashflow]="item.periodCashflow"
+      [totalIncome]="item.totalIncome"
+      [totalExpenses]="item.totalExpenses"
+      [lastUpdateDate]="item.lastUpdateDate"
+      [periodStartDate]="item.periodStartDate"
+      [periodEndDate]="item.periodEndDate"
+      (manageSharing)="onManageSharing($event)"
+    ></ohsaveme-account-summary-card>
+    }
+  </div>
+
+  
+  @if (periodBudgetsProgress().length > 0) {
+    <div class="p-dashboard__budgets">
+      <h2 class="p-dashboard__section-title">{{ 'budgetTitle' | translate }}</h2>
+      
+      <div class="p-dashboard__budgets-list">
+        @for (item of periodBudgetsProgress(); track item.budget.id) {
+          <ohsaveme-budget-summary-row
+            [label]="item.categoryName || item.budget.name"
+            [value]="item.remaining"
+            (rowClick)="onBudgetRowClick()"
+          />
+        }
+      </div>
+    </div>
+  }
+
+  
+  <div class="p-dashboard__content">
+    <ohsaveme-transactions-table [transactions]="filteredTransactions()" [categoryOptions]="categoryOptions()"
+      [accounts]="store.accounts()" [fullBleedMobile]="true"
+      (categoryApplied)="onCategoryApplied($event)" (createCategoryClick)="showCreateCategoryDialog.set(true)">
+    </ohsaveme-transactions-table>
+  </div>
+</div>
+
+<ohsaveme-category-create-dialog [visible]="showCreateCategoryDialog()"
+  (visibleChange)="showCreateCategoryDialog.set($event)" (confirm)="onCategoryCreated($event)"
+  (cancel)="showCreateCategoryDialog.set(false)">
+</ohsaveme-category-create-dialog>
+
+@if (showShareModal()) {
+  <ibid-bottom-sheet-dialog (closeClicked)="showShareModal.set(false)">
+    <span sheet-title>{{ 'shareAccessTitle' | translate }}</span>
+    <ohsaveme-share-access-manager></ohsaveme-share-access-manager>
+  </ibid-bottom-sheet-dialog>
+}

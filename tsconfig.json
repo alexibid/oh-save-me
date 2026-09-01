@@ -1,0 +1,24 @@
+{
+  "extends": "../../tools/builder/tsconfig.app.base.json",
+  "compilerOptions": {
+    "strict": false,
+    "noUnusedLocals": false,
+
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@core/*": ["./src/app/core/*"],
+      "@domain/*": ["./src/app/domain/*"],
+      "@application/*": ["./src/app/application/*"],
+      "@ui/*": ["./src/app/ui/*"],
+      "@infrastructure/*": ["./src/app/infrastructure/*"],
+      "ibid-ui": ["../../libs/ibid-ui/src/index.ts"],
+      "@ibid/utils": ["../../libs/utils/src/index.ts"],
+      "@ibid/services": ["../../libs/services/src/index.ts"],
+      "@ibid/testing": ["../../libs/testing/src/index.ts"]
+    }
+  },
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.spec.json" }]
+}

@@ -1,0 +1,46 @@
+<ohsaveme-loading-curtain></ohsaveme-loading-curtain>
+
+<ohsaveme-header [isSidenavOpen]="sidenav.opened" (toggleSidenav)="sidenav.toggle()"></ohsaveme-header>
+<mat-sidenav-container class="app-sidenav-container">
+  <mat-sidenav #sidenav mode="over" class="ohsaveme-sidenav">
+    <ohsaveme-sidenav [open]="sidenav.opened" (closeClicked)="sidenav.close()"></ohsaveme-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content class="app-sidenav-content o-sidenav__content">
+    
+    <main
+      class="app-main-content o-sidenav__wrapper"
+      [class.app-main-content--has-insightId]="insightId()"
+      [class.app-main-content--has-header-action-row]="hasHeaderActionRow()"
+    >
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ohsaveme-add-entry-dialog 
+  [visible]="showAddEntryChooser()" 
+  (visibleChange)="showAddEntryChooser.set($event)"
+  (createAccountSelected)="onChooseCreateAccount()" 
+  (importSelected)="onChooseImport()">
+</ohsaveme-add-entry-dialog>
+
+<ohsaveme-account-create-dialog [visible]="showAccountCreate()" (visibleChange)="showAccountCreate.set($event)">
+</ohsaveme-account-create-dialog>
+
+<ohsaveme-import-assistant-dialog [visible]="showImportAssistant()" (visibleChange)="showImportAssistant.set($event)"
+  [initialFileEvent]="importFileEvent()" (importCompleted)="onImportCompleted()"
+  (triageReady)="onTriageReady($event)">
+</ohsaveme-import-assistant-dialog>
+
+<ohsaveme-import-triage-dialog [visible]="showTriage()" (visibleChange)="showTriage.set($event)"
+  [transactions]="triageTransactions()" [categories]="store.categories()"
+  [accountType]="triageAccountType()" (resolved)="onTriageResolved($event)">
+</ohsaveme-import-triage-dialog>
+
+<ohsaveme-assistant-system></ohsaveme-assistant-system>
+
+<ohsaveme-vacation-detail
+  [visible]="showVacationDetail()"
+  [budgetId]="activeVacationBudgetId()"
+  (visibleChange)="showVacationDetail.set($event)">
+</ohsaveme-vacation-detail>

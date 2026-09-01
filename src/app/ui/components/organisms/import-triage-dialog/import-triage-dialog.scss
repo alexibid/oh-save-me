@@ -1,0 +1,25 @@
+.o-import-triage-dialog {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  &__table-wrapper {
+    overflow-y: auto;
+    max-height: 55vh;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 8px;
+  }
+}

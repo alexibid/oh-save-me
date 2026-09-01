@@ -1,0 +1,73 @@
+<ibid-header class="o-header" [class.o-header--is-open]="isSidenavOpen" [expanded]="isSidenavOpen">
+  <div headerBrand class="o-header__brands">
+    <a routerLink="/" class="o-header__brand o-header__brand--open" aria-label="Dashboard">
+      <ibid-icon name="savvyjar"></ibid-icon>
+      <h1 class="u-visually-hidden">App</h1>
+    </a>
+  </div>
+
+  <ng-container headerActions>
+    <ibid-icon-button
+      class="o-header__action o-header__action--nav"
+      [class.o-header__action--is-open]="isSidenavOpen"
+      (clicked)="onNavToggle()"
+      ariaLabel="Toggle Navigation Sidenav"
+    >
+      <ibid-icon name="chevron-right" class="o-header__action-icon"></ibid-icon>
+    </ibid-icon-button>
+
+    <ibid-icon-button
+      class="o-header__action o-header__action--add"
+      (clicked)="onAddClick()"
+      ariaLabel="Add Transaction"
+    >
+      <ibid-icon name="add" class="o-header__action-icon"></ibid-icon>
+    </ibid-icon-button>
+  </ng-container>
+
+  <div headerFilters class="o-header__date-selector">
+    <ibid-select
+      class="o-header__preset-dropdown"
+      dropdownPosition="bottom-right"
+      dropdownWidth="content"
+      [value]="store.preset()"
+      [options]="presetOptions()"
+      (valueChange)="onPresetChange($event)">
+    </ibid-select>
+
+    <ibid-date-input
+      class="o-header__date-range"
+      mode="range"
+      [startDate]="store.startDate()"
+      [endDate]="store.endDate()"
+      [minDate]="store.minAvailableDate()"
+      [maxDate]="store.maxAvailableDate()"
+      (rangeChange)="onRangeChange($event)">
+    </ibid-date-input>
+  </div>
+
+  <div headerContext class="o-header__back-to-row">
+    @if (insightId()) {
+      <ibid-icon-button
+        class="o-header__back-to"
+        (clicked)="onBackToInsight()"
+        [ariaLabel]="'insightsBackLabel' | translate"
+      >
+        <ibid-icon name="chevron-left" class="o-header__back-to-icon ibid-icon"></ibid-icon>
+        <span>{{ 'insightsBackLabel' | translate }}</span>
+      </ibid-icon-button>
+    }
+
+    @if (isRecurringMode()) {
+      <ibid-icon-button
+        class="o-header__confirm-recurring"
+        [class.o-header__confirm-recurring--confirmed]="isRecurringConfirmed()"
+        (clicked)="onConfirmRecurring()"
+        [ariaLabel]="recurringActionLabel()"
+      >
+        <ibid-icon [name]="recurringActionIcon()" class="o-header__back-to-icon"></ibid-icon>
+        <span>{{ recurringActionLabel() }}</span>
+      </ibid-icon-button>
+    }
+  </div>
+</ibid-header>

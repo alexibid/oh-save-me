@@ -1,0 +1,18 @@
+<div class="o-loading-curtain" [class.o-loading-curtain--visible]="monitor.isBusy()" aria-hidden="true">
+  <svg class="o-loading-curtain__art" viewBox="0 0 160 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      class="o-loading-curtain__stroke"
+      d="M4 32 C 18 8, 30 54, 44 30 S 66 4, 80 34 S 104 10, 118 32 S 142 6, 156 30"
+      stroke="var(--color-text)"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+  <span class="o-loading-curtain__label">{{ i18n.translate('loadingCurtainLabel') }}</span>
+
+  @if (showTimer) {
+    <span class="o-loading-curtain__timer">{{ monitor.elapsedMs() }}ms</span>
+  }
+</div>

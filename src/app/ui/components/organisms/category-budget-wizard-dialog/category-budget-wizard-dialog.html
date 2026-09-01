@@ -1,0 +1,82 @@
+<ibid-bottom-sheet-dialog class="o-category-budget-wizard-dialog" (closeClicked)="onCancel()">
+  <span sheet-title>
+    {{ (isEditMode() ? 'categoryBudgetWizardTitleEdit' : 'categoryBudgetWizardTitleCreate') | translate }}
+    — {{ resolvedCategoryName() }}
+  </span>
+
+  @if (currentStep() === 1) {
+    <div class="o-category-budget-wizard-dialog__body">
+      <h3 class="o-category-budget-wizard-dialog__step-title">
+        {{ 'categoryBudgetWizardStep1Title' | translate }}
+      </h3>
+
+      <ohsaveme-category-budget-breakdown
+        [categoryId]="data.categoryId"
+          [categoryName]="i18n.getCategoryName(data.categoryId)"
+        [categoryName]="resolvedCategoryName()"
+        (suggestionChange)="onSuggestionLoaded($event)"
+      ></ohsaveme-category-budget-breakdown>
+    </div>
+  }
+
+  @if (currentStep() === 2) {
+    <form id="categoryBudgetForm" (submit)="onSave()" class="o-category-budget-wizard-dialog__body">
+      <h3 class="o-category-budget-wizard-dialog__step-title">
+        {{ 'categoryBudgetWizardStep2Title' | translate }}
+      </h3>
+
+      <div class="o-category-budget-wizard-dialog__form-group">
+        <label class="o-category-budget-wizard-dialog__form-label">
+          {{ 'categoryBudgetWizardAmountLabel' | translate }}
+        </label>
+        <input
+          type="number"
+          [(ngModel)]="budgetAmount"
+          name="amount"
+          [attr.aria-label]="'categoryBudgetWizardAmountLabel' | translate"
+          class="o-category-budget-wizard-dialog__form-input"
+          min="1"
+          required
+        />
+        @if (isEditMode()) {
+          <small class="o-category-budget-wizard-dialog__hint">
+            {{ 'categoryBudgetSuggestedPrefix' | translate }}: <ibid-currency-display [value]="liveSuggestion().average" size="sm" />
+          </small>
+        }
+      </div>
+
+      <div class="o-category-budget-wizard-dialog__form-group">
+        <ohsaveme-share-access-manager></ohsaveme-share-access-manager>
+      </div>
+    </form>
+  }
+
+  <div sheet-footer class="o-category-budget-wizard-dialog__footer">
+    @if (currentStep() === 1) {
+      <button type="button" class="o-category-budget-wizard-dialog__btn o-category-budget-wizard-dialog__btn--secondary" (click)="onCancel()">
+        {{ 'budgetCancelBtn' | translate }}
+      </button>
+      @if (isEditMode()) {
+        <button type="button" class="o-category-budget-wizard-dialog__btn o-category-budget-wizard-dialog__btn--delete" (click)="onDelete()" [title]="'budgetTooltipDelete' | translate">
+          <ibid-icon name="delete-remove"></ibid-icon>
+        </button>
+      }
+      <button type="button" class="o-category-budget-wizard-dialog__btn o-category-budget-wizard-dialog__btn--primary" (click)="onContinue()">
+        {{ 'categoryBudgetWizardContinueBtn' | translate }}
+      </button>
+    }
+    @if (currentStep() === 2) {
+      <button type="button" class="o-category-budget-wizard-dialog__btn o-category-budget-wizard-dialog__btn--secondary" (click)="onBack()">
+        {{ 'categoryBudgetWizardBackBtn' | translate }}
+      </button>
+      @if (isEditMode()) {
+        <button type="button" class="o-category-budget-wizard-dialog__btn o-category-budget-wizard-dialog__btn--delete" (click)="onDelete()" [title]="'budgetTooltipDelete' | translate">
+          <ibid-icon name="delete-remove"></ibid-icon>
+        </button>
+      }
+      <button type="submit" form="categoryBudgetForm" class="o-category-budget-wizard-dialog__btn o-category-budget-wizard-dialog__btn--primary" [disabled]="!canSave()">
+        {{ 'categoryBudgetWizardSaveBtn' | translate }}
+      </button>
+    }
+  </div>
+</ibid-bottom-sheet-dialog>

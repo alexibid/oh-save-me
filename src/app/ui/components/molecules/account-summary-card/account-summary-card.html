@@ -1,0 +1,85 @@
+<ibid-card customClass="o-metrics-summary-card o-metrics-summary-card--compact">
+  <ibid-view-more-link [accountId]="accountId" class="o-metrics-summary-card__view-more"></ibid-view-more-link>
+
+  <div class="o-metrics-summary-card__section">
+    <div class="o-metrics-summary-card__header-line">
+      <span class="o-metrics-summary-card__account-name">{{ accountName }}</span>
+      @if (scope === 'joint' || isShared) {
+        <button
+          type="button"
+          class="o-metrics-summary-card__shared-badge o-metrics-summary-card__shared-badge--shared"
+          [attr.aria-label]="'accountScopeJoint' | translate"
+          (click)="manageSharing.emit(accountId)"
+        >
+          <ibid-icon name="people" class="o-metrics-summary-card__shared-icon"></ibid-icon>
+          <span>{{ 'accountScopeJoint' | translate }}</span>
+        </button>
+      } @else {
+        <button
+          type="button"
+          class="o-metrics-summary-card__shared-badge o-metrics-summary-card__shared-badge--action"
+          [attr.aria-label]="'shareAccessAddBtn' | translate"
+          (click)="manageSharing.emit(accountId)"
+        >
+          <ibid-icon name="link-add" class="o-metrics-summary-card__shared-icon"></ibid-icon>
+          <span>{{ 'shareAccessAddBtn' | translate }}</span>
+        </button>
+      }
+    </div>
+    <span class="o-metrics-summary-card__account-type">{{ accountTypeLabel }}</span>
+  </div>
+
+  @if (showCreditInstallmentCaveat) {
+    <div class="o-metrics-summary-card__caveat" [title]="'creditInstallmentCaveat' | translate">
+      <ibid-icon name="info" class="o-metrics-summary-card__caveat-icon"></ibid-icon>
+      <span>{{ 'creditInstallmentCaveat' | translate }}</span>
+    </div>
+  }
+
+  <div class="o-metrics-summary-card__metrics">
+    
+    <div class="o-metrics-summary-card__child-card u-bg-coral" ibidHandDrawn>
+      <div class="o-metrics-summary-card__info">
+        <span class="o-metrics-summary-card__title">{{ 'accountCardBalance' | translate }}</span>
+        @if (lastUpdateDate) {
+        <span class="o-metrics-summary-card__date">({{ lastUpdateDate | appDate }})</span>
+        }
+      </div>
+      <div class="o-metrics-summary-card__value" [class.o-metrics-summary-card__value--danger]="walletBalance < 0" [class.o-metrics-summary-card__value--success]="walletBalance >= 0">
+        <ibid-currency-display [value]="walletBalance" size="sm" />
+      </div>
+    </div>
+
+    
+    <div class="o-metrics-summary-card__child-card u-bg-teal" ibidHandDrawn>
+      <div class="o-metrics-summary-card__info">
+        <span class="o-metrics-summary-card__title">{{ 'periodCashflow' | translate }}</span>
+        @if (periodStartDate && periodEndDate) {
+        <span class="o-metrics-summary-card__date">
+          ({{ periodStartDate | appDate }} - {{ periodEndDate | appDate }})
+        </span>
+        }
+      </div>
+      <div class="o-metrics-summary-card__value" [class.o-metrics-summary-card__value--danger]="periodCashflow < 0" [class.o-metrics-summary-card__value--success]="periodCashflow >= 0">
+        <ibid-currency-display [value]="periodCashflow" size="sm" />
+      </div>
+    </div>
+
+    
+    <div class="o-metrics-summary-card__child-card u-bg-amber" ibidHandDrawn>
+      <div class="o-metrics-summary-card__header">
+        <span class="o-metrics-summary-card__title">{{ 'incomeExpenses' | translate }}</span>
+      </div>
+      <div class="o-metrics-summary-card__details">
+        <div class="o-metrics-summary-card__detail-item">
+          <span class="o-metrics-summary-card__detail-label">{{ 'income' | translate }}</span>
+          <ibid-currency-display class="o-metrics-summary-card__detail-value o-metrics-summary-card__detail-value--success" [value]="totalIncome" size="sm" [showPositiveSign]="true" [signed]="true" />
+        </div>
+        <div class="o-metrics-summary-card__detail-item">
+          <span class="o-metrics-summary-card__detail-label">{{ 'expenses' | translate }}</span>
+          <ibid-currency-display class="o-metrics-summary-card__detail-value o-metrics-summary-card__detail-value--danger" [value]="totalExpenses" size="sm" />
+        </div>
+      </div>
+    </div>
+  </div>
+</ibid-card>

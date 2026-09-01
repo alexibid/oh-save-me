@@ -1,0 +1,70 @@
+<div class="o-share-access-manager">
+  <div class="o-share-access-manager__header">
+    <div class="o-share-access-manager__header-text">
+      <h4 class="o-share-access-manager__title">
+        <ibid-icon name="people" class="o-share-access-manager__title-icon"></ibid-icon>
+        <span>{{ 'shareAccessTitle' | translate }}</span>
+      </h4>
+      <p class="o-share-access-manager__subtitle">{{ 'shareAccessSubtitle' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="o-share-access-manager__add-form">
+    <div class="o-share-access-manager__input-wrapper">
+      <input
+        type="email"
+        class="a-input o-share-access-manager__input"
+        [(ngModel)]="newEmail"
+        [placeholder]="'shareAccessAddPlaceholder' | translate"
+        (keydown.enter)="addRecipient()"
+      />
+      @if (errorMessage()) {
+        <span class="o-share-access-manager__error-msg">{{ errorMessage() }}</span>
+      }
+    </div>
+
+    <ibid-button variant="highlight" (clicked)="addRecipient()" class="o-share-access-manager__add-submit-btn">
+      <ibid-icon name="add"></ibid-icon>
+      <span>{{ 'shareAccessAddBtn' | translate }}</span>
+    </ibid-button>
+  </div>
+
+  <div class="o-share-access-manager__list">
+    @if (sharedUsers().length === 0) {
+      <div class="o-share-access-manager__empty">
+        <span>{{ 'shareAccessEmpty' | translate }}</span>
+      </div>
+    } @else {
+      @for (user of sharedUsers(); track user.email) {
+        <div
+          class="o-share-access-manager__item"
+          [class.o-share-access-manager__item--selected]="isSelected(user.email)"
+          (click)="toggleEmailSelection(user.email)"
+        >
+          <div class="o-share-access-manager__item-info">
+            <div class="o-share-access-manager__checkbox" [class.o-share-access-manager__checkbox--checked]="isSelected(user.email)">
+              @if (isSelected(user.email)) {
+                <ibid-icon name="check-circle" class="o-share-access-manager__check-icon"></ibid-icon>
+              }
+            </div>
+            <span class="o-share-access-manager__email">{{ user.email }}</span>
+          </div>
+
+          <div class="o-share-access-manager__item-actions">
+            <span class="o-share-access-manager__status-tag">
+              {{ 'shareAccessActive' | translate }}
+            </span>
+            <button
+              type="button"
+              class="o-share-access-manager__remove-btn"
+              [attr.aria-label]="'shareAccessRemove' | translate"
+              (click)="removeRecipient(user.email, $event)"
+            >
+              <ibid-icon name="delete-remove" class="o-share-access-manager__remove-icon"></ibid-icon>
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,83 @@
+import { InjectionToken, inject, Signal, WritableSignal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Transaction } from '@domain/models/transaction';
+import { CategoryInfo, CategoryType } from '@domain/models/category';
+import { Budget } from '@domain/models/budget';
+import { Customization } from '@domain/models/customization';
+import { HistoryLog } from '@domain/models/history-log';
+import { Account } from '@domain/models/account';
+import { ImportBatch } from '@domain/models/import-batch';
+import { Unit } from '@domain/models/unit';
+import { CustomRecord } from '@domain/models/custom-record';
+import { DbImportPreview } from '@domain/shared/db-snapshot.utils';
+
+export interface AppStore {
+  transactions: Signal<Transaction[]>;
+  categories: Signal<CategoryInfo[]>;
+  budgets: Signal<Budget[]>;
+  customizations: Signal<Customization[]>;
+  historyLogs: Signal<HistoryLog[]>;
+  accounts: Signal<Account[]>;
+  importBatches: Signal<ImportBatch[]>;
+  units: Signal<Unit[]>;
+  customRecords: Signal<CustomRecord[]>;
+  startDate: WritableSignal<string>;
+  endDate: WritableSignal<string>;
+  preset: WritableSignal<string>;
+  cycleStartDay: WritableSignal<number>;
+  minAvailableDate: WritableSignal<string>;
+  maxAvailableDate: WritableSignal<string>;
+  loadInitialData(): Promise<void>;
+  updateTransactionCategory(tx: Transaction, category: CategoryType): Promise<void>;
+  applyTransactionCategories(recategorized: readonly Transaction[]): Promise<void>;
+  updateTransactionBudget(tx: Transaction, budgetId: string | undefined): Promise<void>;
+  applyTransactionsBudget(txs: readonly Transaction[], budgetId: string | undefined): Promise<void>;
+  syncVacationWindow(vacation: Budget): Promise<void>;
+  updateTransactionTags(tx: Transaction, tags: string[]): Promise<void>;
+  updateTransactionRecurrence(tx: Transaction, isRecurring: boolean | undefined): Promise<void>;
+  updateTransactionIncomeInclusion(tx: Transaction, countsAsIncome: boolean | undefined): Promise<void>;
+  updateTransactionDuplicateReview(tx: Transaction, isDuplicate: boolean): Promise<void>;
+  learnCategoryRule(description: string, category: CategoryType): void;
+  addBudget(budget: Budget): Promise<void>;
+  updateBudget(budget: Budget): Promise<void>;
+  deleteBudget(id: string): Promise<void>;
+  saveCustomization(key: string, value: string): Promise<void>;
+  deleteCustomization(key: string): Promise<void>;
+  undoChange(logId: string): Promise<void>;
+  applyPreset(preset: string): void;
+  setDates(start: string, end: string): void;
+  setTransactions(list: readonly Transaction[]): void;
+  setCategories(cats: readonly CategoryInfo[]): void;
+  setBudgets(list: readonly Budget[]): void;
+  setCustomizations(list: readonly Customization[]): void;
+  setHistoryLogs(list: readonly HistoryLog[]): void;
+  setAccounts(list: readonly Account[]): void;
+  setImportBatches(list: readonly ImportBatch[]): void;
+  setUnits(list: readonly Unit[]): void;
+  setCustomRecords(list: readonly CustomRecord[]): void;
+  addAccount(account: Account): Promise<void>;
+  updateAccount(account: Account): Promise<void>;
+  deleteAccount(id: string): Promise<void>;
+  addImportBatch(batch: ImportBatch): Promise<void>;
+  addUnit(unit: Unit): Promise<void>;
+  addCustomRecords(records: readonly CustomRecord[]): Promise<void>;
+  importDbSnapshot(preview: DbImportPreview): Promise<void>;
+  setCycleStartDay(day: number): void;
+  importFile(event: Event): void;
+  triggerImportClick(): void;
+  triggerAddClick(): void;
+  openVacationDetail(budgetId: string): void;
+  resetImports(): void;
+  fileSelected$: Observable<Event>;
+  importClicked$: Observable<void>;
+  addClicked$: Observable<void>;
+  openVacationDetail$: Observable<string>;
+  resetImports$: Observable<void>;
+  cycleStartDayChange$: Observable<number>;
+}
+
+export const APP_STORE_TOKEN = new InjectionToken<AppStore>('AppStore');
+
+export function useStore(): AppStore {
+  return inject(APP_STORE_TOKEN);
+}

@@ -1,0 +1,135 @@
+<div class="m-allocation-detailed-cards">
+  @for (item of detailedCards(); track item.category.id) {
+    <ibid-card customClass="m-allocation-detailed-cards__card">
+      <div class="m-allocation-detailed-cards__header">
+        <div class="m-allocation-detailed-cards__icon" [style.background-color]="item.category.color">
+          <ibid-icon [name]="item.category.icon"></ibid-icon>
+        </div>
+        <h3 class="m-allocation-detailed-cards__title">{{ i18n.getCategoryName(item.category.id) }}</h3>
+      </div>
+
+      <div class="m-allocation-detailed-cards__math">
+        <div class="m-allocation-detailed-cards__math-row">
+          <span>{{ 'budgetSuggestionAverage' | translate }}</span>
+          <strong>{{ i18n.formatCurrency(item.suggestion.average) }}</strong>
+        </div>
+        <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+          <span>{{ 'budgetSuggestionCalcText' | translate }} {{ item.suggestion.includedMonths }} {{ 'budgetSuggestionCalcMonths' | translate }}</span>
+        </div>
+        @if (item.suggestion.excludedOutlierMonths > 0) {
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--warning">
+            <span>
+              {{ 'budgetSuggestionOutlierWarn' | translate }}
+              {{ item.suggestion.excludedOutlierMonths }}
+              {{ (item.suggestion.excludedOutlierMonths === 1 ? 'budgetSuggestionOutlierMonthSingular' : 'budgetSuggestionOutlierMonths') | translate }}
+            </span>
+          </div>
+        } @else {
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+            <span>{{ 'budgetSuggestionNoOutliers' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="m-allocation-detailed-cards__progress-section" (click)="onProgressBarClick(item.category.id)">
+        <div class="m-allocation-detailed-cards__progress-track" title="Ver movimentos desta categoria">
+          <div class="m-allocation-detailed-cards__progress-bar"
+               [style.width.%]="(item.progress.percentage || 0) > 100 ? 100 : (item.progress.percentage || 0)"
+               [style.background-color]="item.progress.isOverBudget ? 'var(--color-danger, #ef4444)' : (item.category.color || 'var(--color-primary)')">
+          </div>
+        </div>
+        <div class="m-allocation-detailed-cards__progress-text">
+          <span><ibid-currency-display [value]="item.progress.spent" size="sm" /> {{ 'budgetCardSpent' | translate }}</span>
+          <span>{{ 'budgetOf' | translate }} <ibid-currency-display [value]="item.progress.periodAllocation" size="sm" /></span>
+        </div>
+      </div>
+
+      <div class="m-allocation-detailed-cards__form">
+        <div class="m-allocation-detailed-cards__input-group">
+          <input type="number" 
+                 class="m-allocation-detailed-cards__input" 
+                 [attr.aria-label]="i18n.getCategoryName(item.category.id) + ' ' + ('budgetCardBudget' | translate)"
+                 [value]="getInputValue(item.category.id, item.suggestion.average)" 
+                 (change)="onSave(item.category.id, item.suggestion.average, $event)"
+                 maxlength="5"
+                 step="1"
+                 min="0">
+          <span class="m-allocation-detailed-cards__currency">{{ i18n.currencySymbol() }}</span>
+        </div>
+        <ibid-button variant="primary" (clicked)="onAdjustTransactions(item.category.id)">
+          {{ 'budgetSuggestionAdjustBtn' | translate }}
+        </ibid-button>
+      </div>
+    </ibid-card>
+  }
+
+  @for (asset of assetCards(); track asset.id) {
+    <ibid-card customClass="m-allocation-detailed-cards__card">
+      <div class="m-allocation-detailed-cards__header">
+        <div class="m-allocation-detailed-cards__icon m-allocation-detailed-cards__icon--asset">
+          <ibid-icon [name]="assetKindIcon(asset.kind)"></ibid-icon>
+        </div>
+        <h3 class="m-allocation-detailed-cards__title">{{ asset.name }}</h3>
+        <div class="m-allocation-detailed-cards__actions">
+          <button type="button" class="m-allocation-detailed-cards__movements-btn"
+            (click)="onOpenAssetMovements(asset.id)" [title]="'budgetViewMovementsTooltip' | translate">
+            <ibid-icon name="list-bulleted"></ibid-icon>
+          </button>
+          <ibid-icon-button (clicked)="onEditAsset(asset.id)"
+            [title]="'budgetTooltipEdit' | translate" [ariaLabel]="'budgetTooltipEdit' | translate">
+            <ibid-icon name="edit"></ibid-icon>
+          </ibid-icon-button>
+          <ibid-icon-button (clicked)="onArchiveAsset(asset.id)"
+            [title]="'budgetTooltipArchive' | translate" [ariaLabel]="'budgetTooltipArchive' | translate">
+            <ibid-icon name="archive-download"></ibid-icon>
+          </ibid-icon-button>
+        </div>
+      </div>
+
+      <div class="m-allocation-detailed-cards__math">
+        <div class="m-allocation-detailed-cards__math-row">
+          <span>{{ assetKindLabel(asset.kind) | translate }}</span>
+          <strong [style.color]="asset.investedCost > 0 ? 'var(--color-success, #10b981)' : 'var(--color-danger, #ef4444)'"><ibid-currency-display [value]="asset.investedCost" size="sm" /></strong>
+        </div>
+        @if (asset.contractedInstalments) {
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+            <span>{{ 'walletPaidInstalmentsLabel' | translate }}</span>
+            <strong>{{ asset.paidInstalments ?? 0 }} / {{ asset.contractedInstalments }}</strong>
+          </div>
+        }
+        @if (asset.referenceDate) {
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+            <span>{{ 'walletRegisterDateLabel' | translate }} {{ asset.referenceDate | appDate }}</span>
+          </div>
+        }
+        @if (asset.outstandingDebt !== undefined) {
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+            <span>{{ 'walletOutstandingDebtLabel' | translate }}</span>
+            <ibid-currency-display [value]="asset.outstandingDebt" size="sm" />
+          </div>
+        }
+        @if (asset.result !== 0) {
+          <div class="m-allocation-detailed-cards__math-row">
+            <span>{{ 'walletValuationLabel' | translate }}</span>
+            <ibid-currency-display [value]="asset.currentValue" size="sm" />
+          </div>
+          <div class="m-allocation-detailed-cards__math-row">
+            <span>{{ 'walletResultLabel' | translate }}</span>
+            <strong [style.color]="asset.result > 0 ? 'var(--color-success, #10b981)' : 'var(--color-danger, #ef4444)'">
+              <ibid-currency-display [value]="asset.result" size="sm" />
+            </strong>
+          </div>
+        }
+        @if (asset.appreciatedEstimate !== undefined) {
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+            <span>{{ 'walletSpeculativeHint' | translate }}</span>
+          </div>
+          <div class="m-allocation-detailed-cards__math-row m-allocation-detailed-cards__math-row--sub">
+            <span>{{ 'walletSpeculativeBalanceLabel' | translate }} ({{ asset.appreciationPercent }}%)</span>
+            <ibid-currency-display [value]="asset.appreciatedEstimate" size="sm" />
+          </div>
+        }
+      </div>
+    </ibid-card>
+  }
+</div>

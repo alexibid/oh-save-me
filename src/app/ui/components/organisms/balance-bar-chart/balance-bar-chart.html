@@ -1,0 +1,10 @@
+<section class="o-balance-bar-chart">
+  @if (hasData()) {
+    <ibid-bar-chart
+      [series]="series()"
+      [caption]="caption()"
+    ></ibid-bar-chart>
+  } @else {
+    <p class="o-balance-bar-chart__empty">{{ emptyMessage() }}</p>
+  }
+</section>

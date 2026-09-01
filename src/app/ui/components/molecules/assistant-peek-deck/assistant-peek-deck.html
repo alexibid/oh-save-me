@@ -1,0 +1,15 @@
+<div class="m-assistant-peek-deck">
+  @for (suggestion of suggestions; track suggestion.id; let i = $index) {
+    <ohsaveme-assistant-peek-card
+      [suggestion]="suggestion"
+      [attr.data-testid]="'assistant-task-' + suggestion.id"
+      [size]="size"
+      [depth]="depthOf(i)"
+      [style.z-index]="maxVisibleDepth + 1 - depthOf(i)"
+      (activated)="onCardActivated(suggestion, i)"
+      (dismissed)="dismissed.emit(suggestion)"
+      (answered)="answered.emit({ card: suggestion, confirmed: $event })"
+      (swiped)="onSwiped($event)"
+    />
+  }
+</div>

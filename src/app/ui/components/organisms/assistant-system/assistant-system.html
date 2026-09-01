@@ -1,0 +1,39 @@
+<div class="assistant-system">
+  @if (sheetState() === 'closed') {
+    <ibid-fab [badgeCount]="activeCount()" (clicked)="openAssistant()" />
+  } @else {
+    <ibid-bottom-sheet-dialog
+      class="m-bottom-sheet-dialog--assistant"
+      [class.m-bottom-sheet-dialog--peek]="sheetState() === 'peek'"
+      [class.m-bottom-sheet-dialog--expanded]="sheetState() === 'expanded'"
+      [showFooter]="false"
+      [showHandle]="true"
+      [showHeader]="true"
+      iconName="sparkle"
+      (closeClicked)="closeAssistant()"
+      (pointerdown)="onPointerDown($event)"
+    >
+      <span sheet-title>{{ 'assistantTitle' | translate }}</span>
+      <div sheet-actions class="assistant-system__header-actions">
+        @if (archivedCount() > 0) {
+          <ibid-button
+            variant="outlined"
+            class="assistant-system__chip"
+            [class.assistant-system__chip--active]="sheetState() === 'expanded' && selectedTab() === 'archived'"
+            (clicked)="openArchived()"
+          >
+            <ibid-icon name="archive-download"></ibid-icon>
+            <span class="assistant-system__chip-label">{{ 'assistantTabArchived' | translate }}</span>
+            <span class="assistant-system__chip-badge">{{ archivedCount() }}</span>
+          </ibid-button>
+        }
+      </div>
+      <ohsaveme-stacked-deck
+        [overrideSuggestions]="demoSuggestions()"
+        [layoutMode]="sheetState() === 'expanded' ? 'expanded' : 'peek'"
+        [initialTab]="selectedTab()"
+        (openArchivedTab)="openArchived()"
+      />
+    </ibid-bottom-sheet-dialog>
+  }
+</div>

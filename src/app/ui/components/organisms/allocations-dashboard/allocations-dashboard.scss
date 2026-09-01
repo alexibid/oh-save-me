@@ -1,0 +1,438 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.m-allocations-dashboard {
+  width: 100%;
+
+  &__filters-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    margin-bottom: 16px;
+    padding: 0;
+    width: 100%;
+    gap: 16px;
+  }
+
+  &__filter-tabs {
+    display: flex;
+    gap: 24px;
+    margin-bottom: -1px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__filter-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 4px;
+    font-size: var(--text-m);
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+      color: var(--color-text, #0f172a);
+    }
+
+    &--active {
+      color: var(--color-primary, #1e293b);
+      border-bottom-color: var(--color-primary, #1e293b);
+
+      &:hover {
+        color: var(--color-primary, #1e293b);
+      }
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  &__card {
+    @include card-surface;
+    padding: 24px;
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
+    }
+
+    &--closed {
+      opacity: 0.65;
+      background: var(--color-bg);
+      filter: none;
+      &:hover {
+        transform: none;
+        filter: none;
+      }
+    }
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  &__card-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__card-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__card-status-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--text-m);
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #e2e8f0;
+    color: #475569;
+
+    &--closed {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    &--expired {
+      background: #faf5ff;
+      color: #7e22ce;
+      border: 1px solid #f3e8ff;
+    }
+  }
+
+  &__card-result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--text-m);
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    line-height: 1;
+
+    ibid-icon {
+      font-size: var(--text-m);
+      width: 13px;
+      height: 13px;
+    }
+
+    &--success {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    &--warning {
+      background: #fef9c3;
+      color: #a16207;
+    }
+
+    &--danger {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+  }
+
+  &__card-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    letter-spacing: -0.015em;
+  }
+
+  &__card-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  &__card-action, &__card-delete {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-text-muted, #64748b);
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    ibid-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background: var(--color-surface-hover, #f1f5f9);
+      color: var(--color-text, #0f172a);
+    }
+  }
+
+  &__card-delete {
+    &:hover {
+      background: var(--color-danger-light, #fee2e2);
+      color: var(--color-danger, #ef4444);
+    }
+  }
+
+  &__card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  &__tag-badge {
+    font-size: var(--text-m);
+    font-weight: 600;
+    background: var(--color-surface-hover, #eff6ff);
+    color: var(--color-text, #1d4ed8);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+  }
+
+  &__card-dates {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #64748b);
+    margin-bottom: 16px;
+  }
+
+  &__date-icon {
+    font-size: var(--text-m);
+    width: 14px;
+    height: 14px;
+  }
+
+  &__card-monthly-allocation {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-m);
+    color: var(--color-success, #059669);
+    margin-bottom: 16px;
+    background: #ecfdf5;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  &__monthly-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: var(--color-success, #10b981);
+  }
+
+  &__card-metrics {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  &__metric-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    flex: 1;
+  }
+
+  &__metric-icon-btn {
+    background: transparent;
+    border: none;
+    padding: 0 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary, #3b82f6);
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    ibid-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: var(--color-surface-hover, #eff6ff);
+    }
+  }
+
+  &__metric-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+    align-items: flex-start;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover:not(:disabled) {
+      background: var(--color-surface-hover, #eff6ff);
+    }
+
+    &:disabled {
+      cursor: default;
+      padding: 6px 0;
+    }
+
+    &--right {
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+
+  &__metric-label {
+    font-size: var(--text-m);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  &__progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__progress-track {
+    height: 6px;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  &__progress-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-m);
+    font-weight: 500;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  &__empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    color: var(--color-text-muted, #64748b);
+    text-align: center;
+  }
+
+  &__empty-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: var(--color-border, #cbd5e1);
+  }
+}
+
+.m-allocations-dashboard {
+  &__wallet-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  &__wallet-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+
+    &--result {
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--color-border, #e2e8f0);
+    }
+  }
+
+  &__wallet-label {
+    font-size: var(--text-m);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  &__wallet-value {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--color-text, #0f172a);
+    white-space: nowrap;
+
+    &--positive { color: var(--color-success, #10b981); }
+    &--negative { color: var(--color-danger, #ef4444); }
+  }
+}

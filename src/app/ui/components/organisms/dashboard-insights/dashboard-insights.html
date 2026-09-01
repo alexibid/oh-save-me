@@ -1,0 +1,364 @@
+<section class="o-dashboard-insights" aria-label="Financial Insights">
+  <div class="o-dashboard-insights__header">
+    <h2 class="o-dashboard-insights__title">{{ 'insightsSectionTitle' | translate }}</h2>
+
+    @if (hasArchive() || showArchived()) {
+      <ibid-icon-button
+        class="o-dashboard-insights__archive-toggle"
+        [class.o-dashboard-insights__archive-toggle--active]="showArchived()"
+        (clicked)="onToggleArchive()"
+        [ariaLabel]="archiveToggleLabel()"
+        data-testid="insights-archive-toggle"
+      >
+        <ibid-icon name="history" class="o-dashboard-insights__archive-toggle-icon"></ibid-icon>
+        <span>{{ archiveToggleLabel() }}</span>
+      </ibid-icon-button>
+    }
+  </div>
+
+  @if (hasInsights()) {
+    <div class="o-dashboard-insights__deck">
+      @for (insight of insights(); track insight.id; let i = $index) {
+        <div
+          class="o-dashboard-insights__card-wrapper"
+          [attr.data-depth]="depthOf(i)"
+          [style.z-index]="maxVisibleDepth + 1 - depthOf(i)"
+          (click)="onCardClicked(i)"
+          (pointerdown)="onPointerDown($event, depthOf(i))"
+          (pointerup)="onPointerUp($event, depthOf(i))"
+        >
+          <ibid-card
+            [customClass]="'o-dashboard-insight-card o-dashboard-insight-card--' + insight.visualArchetype + (depthOf(i) === 0 ? ' o-dashboard-insight-card--front' : '')"
+            [attr.data-testid]="'dashboard-insight-' + insight.kind"
+          >
+            @if (depthOf(i) === 0) {
+              @if (showArchived()) {
+                <ibid-icon-button
+                  class="o-dashboard-insight-card__restore-btn"
+                  (clicked)="onRestore(insight, $event)"
+                  [ariaLabel]="'insightsArchiveRestoreLabel' | translate"
+                  data-testid="insight-restore-btn"
+                >
+                  <ibid-icon name="arrow-back-curved"></ibid-icon>
+                </ibid-icon-button>
+                <ibid-icon-button
+                  class="o-dashboard-insight-card__dismiss-btn o-dashboard-insight-card__dismiss-btn--danger"
+                  (clicked)="onDeleteForever(insight, $event)"
+                  [ariaLabel]="'insightsArchiveDeleteLabel' | translate"
+                  data-testid="insight-delete-forever-btn"
+                >
+                  <ibid-icon name="delete-outline"></ibid-icon>
+                </ibid-icon-button>
+              } @else {
+                <ibid-icon-button
+                  class="o-dashboard-insight-card__dismiss-btn"
+                  (clicked)="onDismissCard(insight, $event)"
+                  [ariaLabel]="'insightsDismissLabel' | translate"
+                  data-testid="insight-dismiss-btn"
+                >
+                  <ibid-icon name="archive-download"></ibid-icon>
+                </ibid-icon-button>
+              }
+            }
+            @if (insight.visualArchetype === 'run_rate') {
+              <ibid-legend-item
+                class="o-dashboard-insight-card__status-tag"
+                size="lg"
+                [color]="getStatusColor(asRunRate(insight).status)"
+                [label]="(asRunRate(insight).status === 'on_track' ? 'insightsPaceOnTrack' : asRunRate(insight).status === 'warning' ? 'insightsPaceWarning' : 'insightsPaceCritical') | translate"
+              />
+            }
+
+            <div
+              class="o-dashboard-insight-card__header"
+              [class.o-dashboard-insight-card__header--with-tag]="insight.visualArchetype === 'run_rate'"
+            >
+              <div class="o-dashboard-insight-card__title-row">
+                @if (insight.route && depthOf(i) === 0) {
+                  <ibid-icon-button
+                    class="o-dashboard-insight-card__lead"
+                    (clicked)="onAction(insight)"
+                    [ariaLabel]="insight.title"
+                  >
+                    <ibid-icon [name]="insight.icon"></ibid-icon>
+                  </ibid-icon-button>
+                } @else {
+                  <div class="o-dashboard-insight-card__lead">
+                    <ibid-icon [name]="insight.icon"></ibid-icon>
+                  </div>
+                }
+                <h3 class="o-dashboard-insight-card__title">{{ insight.title }}</h3>
+              </div>
+              <span class="o-dashboard-insight-card__subtext">{{ insight.subtext }}</span>
+            </div>
+
+            <div class="o-dashboard-insight-card__body">
+              @switch (insight.visualArchetype) {
+                @case ('highlight_metric') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-teal" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__child-header">
+                      <span class="o-dashboard-insight-card__child-label">
+                        @if (asHighlightMetric(insight).labelKey) {
+                          {{ asHighlightMetric(insight).labelKey! | translate }}
+                        } @else {
+                          {{ 'insightsSafeToSpendLabel' | translate }}
+                        }
+                      </span>
+                    </div>
+                    <div class="o-dashboard-insight-card__value">
+                      @switch (asHighlightMetric(insight).unit) {
+                        @case ('percent') {
+                          {{ asHighlightMetric(insight).value }}<span class="o-dashboard-insight-card__value-unit">%</span>
+                        }
+                        @case ('months') {
+                          {{ asHighlightMetric(insight).value }}<span class="o-dashboard-insight-card__value-unit">{{ 'insightsMonthsUnit' | translate }}</span>
+                        }
+                        @default {
+                          <ibid-currency-display [value]="asHighlightMetric(insight).value" size="sm" />
+                        }
+                      }
+                    </div>
+                  </div>
+                }
+
+                @case ('run_rate') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-amber" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__child-header">
+                      <span class="o-dashboard-insight-card__child-label">{{ 'insightsSpendingVelocityLabel' | translate }}</span>
+                      <span class="o-dashboard-insight-card__child-secondary">
+                        {{ 'insightsSpendingLimitLabel' | translate }}: <ibid-currency-display [value]="asRunRate(insight).targetAmount" size="sm" />
+                      </span>
+                    </div>
+
+                    <div class="o-dashboard-insight-card__value">
+                      <ibid-currency-display [value]="asRunRate(insight).currentRate" size="sm" /><span class="o-dashboard-insight-card__value-unit">{{ 'insightsPerWeekUnit' | translate }}</span>
+                    </div>
+
+                    <div class="o-dashboard-insight-card__progress-track">
+                      <div
+                        class="o-dashboard-insight-card__progress-bar o-dashboard-insight-card__progress-bar--{{ asRunRate(insight).status }}"
+                        [style.width.%]="asRunRate(insight).percentageSpent"
+                      ></div>
+                    </div>
+                  </div>
+                }
+
+                @case ('trend_table') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-lavender" ibidHandDrawn>
+                    @if (asTrendTable(insight).items.length > 0) {
+                      <div class="o-dashboard-insight-card__mini-list">
+                        @for (item of asTrendTable(insight).items; track item.description) {
+                          <div class="o-dashboard-insight-card__mini-item">
+                            <span class="o-dashboard-insight-card__item-desc">{{ item.description }}</span>
+                            <div class="o-dashboard-insight-card__item-values">
+                              @if (item.changePercentage) {
+                                <span class="o-dashboard-insight-card__item-change">+{{ item.changePercentage }}%</span>
+                              }
+                              <ibid-currency-display class="o-dashboard-insight-card__item-amount" [value]="item.amount" size="sm" />
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+
+                @case ('balance_average') {
+                  <div class="o-dashboard-insight-card__chart-card" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__chart-header">
+                      <ibid-segmented-control
+                        [options]="windowOptions()"
+                        [value]="balanceWindow()"
+                        (valueChange)="onWindowChange($event)"
+                      />
+                    </div>
+
+                    <ibid-chart
+                      class="o-dashboard-insight-card__chart"
+                      [series]="balanceAverageSeries(insight)"
+                      size="default"
+                    />
+                  </div>
+                }
+
+                @case ('composition') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-teal" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__composition-bar">
+                      @for (slice of asComposition(insight).slices; track (slice.labelKey || slice.label)) {
+                        <span
+                          class="o-dashboard-insight-card__composition-segment o-dashboard-insight-card__composition-segment--{{ slice.tone }}"
+                          [style.width.%]="sliceShare(slice, asComposition(insight).total)"
+                        ></span>
+                      }
+                    </div>
+
+                    <div class="o-dashboard-insight-card__mini-list">
+                      @for (slice of asComposition(insight).slices; track (slice.labelKey || slice.label)) {
+                        <div class="o-dashboard-insight-card__mini-item">
+                          <span class="o-dashboard-insight-card__item-desc">
+                            <span class="o-dashboard-insight-card__composition-dot o-dashboard-insight-card__composition-dot--{{ slice.tone }}"></span>
+                            {{ slice.labelKey ? (slice.labelKey | translate) : slice.label }}
+                          </span>
+                          <span class="o-dashboard-insight-card__item-amount">
+                            @if (asComposition(insight).unit === 'count') {
+                              {{ slice.amount }}
+                            } @else {
+                              <ibid-currency-display [value]="slice.amount" size="sm" />
+                            }
+                          </span>
+                        </div>
+                      }
+                    </div>
+
+                    @if (asComposition(insight).items?.length) {
+                      <div class="o-dashboard-insight-card__asset-breakdown">
+                        @for (item of asComposition(insight).items; track item.name) {
+                          <div class="o-dashboard-insight-card__asset-item">
+                            <div class="o-dashboard-insight-card__asset-header">
+                              <span class="o-dashboard-insight-card__asset-name">
+                                <ibid-icon [name]="item.kind === 'car' ? 'car' : 'house'" class="o-dashboard-insight-card__asset-icon"></ibid-icon>
+                                {{ item.name }}
+                              </span>
+                              @if (item.contractedInstalments) {
+                                <span class="o-dashboard-insight-card__asset-inst">
+                                  {{ item.paidInstalments ?? 0 }}/{{ item.contractedInstalments }}
+                                </span>
+                              }
+                            </div>
+                            <div class="o-dashboard-insight-card__asset-values">
+                              <span class="o-dashboard-insight-card__asset-val o-dashboard-insight-card__asset-val--owned">
+                                <ibid-currency-display [value]="item.paidAmount" size="sm" /> ({{ item.paidPercentage }}%)
+                              </span>
+                              <span class="o-dashboard-insight-card__asset-val o-dashboard-insight-card__asset-val--debt">
+                                <ibid-currency-display [value]="item.outstandingDebt" size="sm" /> ({{ item.debtPercentage }}%)
+                              </span>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+
+                @case ('comparison_bars') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-amber" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__bars">
+                      @for (bar of asComparisonBars(insight).bars; track bar.categoryId) {
+                        <div class="o-dashboard-insight-card__bar-column">
+                          <span class="o-dashboard-insight-card__bar-value">{{ bar.percentage }}%</span>
+                          <div class="o-dashboard-insight-card__bar-track">
+                            <div
+                              class="o-dashboard-insight-card__bar-fill"
+                              [class.o-dashboard-insight-card__bar-fill--over]="bar.isOverBudget"
+                              [style.height.%]="bar.percentage > 100 ? 100 : bar.percentage"
+                            ></div>
+                          </div>
+                          <span class="o-dashboard-insight-card__bar-label">{{ bar.label }}</span>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @case ('retrospective') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-teal" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__value">
+                      <ibid-currency-display [value]="asRetrospective(insight).total" size="sm" />
+                    </div>
+
+                    <div class="o-dashboard-insight-card__retro-group">
+                      <span class="o-dashboard-insight-card__child-label">
+                        {{ 'insightsRetrospectiveCostliest' | translate }}
+                      </span>
+                      @for (day of asRetrospective(insight).costliestDays; track day.date) {
+                        <div class="o-dashboard-insight-card__mini-item">
+                          <span class="o-dashboard-insight-card__item-desc">{{ day.date }}</span>
+                          <ibid-currency-display class="o-dashboard-insight-card__item-amount" [value]="day.total" size="sm" />
+                        </div>
+                      }
+                    </div>
+
+                    <div class="o-dashboard-insight-card__retro-group">
+                      <span class="o-dashboard-insight-card__child-label">
+                        {{ 'insightsRetrospectiveCheapest' | translate }}
+                      </span>
+                      @for (day of asRetrospective(insight).cheapestDays; track day.date) {
+                        <div class="o-dashboard-insight-card__mini-item">
+                          <span class="o-dashboard-insight-card__item-desc">{{ day.date }}</span>
+                          <ibid-currency-display class="o-dashboard-insight-card__item-amount" [value]="day.total" size="sm" />
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @case ('overspend_alert') {
+                  <div class="o-dashboard-insight-card__child-card u-bg-coral" ibidHandDrawn>
+                    <div class="o-dashboard-insight-card__child-header">
+                      <span class="o-dashboard-insight-card__child-label o-dashboard-insight-card__child-label--danger">
+                        {{ 'budgetOverBudgetLabel' | translate }}
+                      </span>
+                    </div>
+                    <div class="o-dashboard-insight-card__value o-dashboard-insight-card__value--danger">
+                      <ibid-currency-display [value]="asOverspendAlert(insight).overspendAmount" size="sm" [showPositiveSign]="true" [signed]="true" />
+                    </div>
+                  </div>
+                }
+              }
+            </div>
+
+            @if (insight.route && depthOf(i) === 0) {
+              <div class="o-dashboard-insight-card__footer">
+                @if (canConfirmRecurrence(insight) && !showArchived()) {
+                  <ibid-icon-button
+                    class="o-dashboard-insight-card__action-btn o-dashboard-insight-card__action-btn--action"
+                    (clicked)="onConfirmRecurrence(insight)"
+                    [ariaLabel]="'insightsMarkAllRecurring' | translate"
+                    data-testid="insight-confirm-btn"
+                  >
+                    <ibid-icon name="help-circle" class="o-dashboard-insight-card__action-icon"></ibid-icon>
+                    <span>{{ 'insightsMarkAllRecurring' | translate }}</span>
+                  </ibid-icon-button>
+                } @else if ((showArchived() || isRecurrenceAllConfirmed(insight)) && insight.kind === 'active_subscriptions') {
+                  <div class="o-dashboard-insight-card__status-pill o-dashboard-insight-card__status-pill--confirmed">
+                    <ibid-icon name="check-circle" class="o-dashboard-insight-card__action-icon"></ibid-icon>
+                    <span>{{ 'insightsAllRecurringConfirmed' | translate }}</span>
+                  </div>
+                }
+                <ibid-icon-button
+                  [class]="'o-dashboard-insight-card__action-btn o-dashboard-insight-card__action-btn--' + insight.visualArchetype"
+                  (clicked)="onAction(insight)"
+                  [ariaLabel]="getActionLabel(insight)"
+                  data-testid="insight-action-btn"
+                >
+                  <ibid-icon name="link" class="o-dashboard-insight-card__action-icon"></ibid-icon>
+                  <span>{{ getActionLabel(insight) }}</span>
+                </ibid-icon-button>
+              </div>
+            }
+          </ibid-card>
+        </div>
+      }
+    </div>
+
+    @if (insights().length > 1) {
+      <ibid-stack-dots
+        [count]="insights().length"
+        [activeIndex]="frontIndex()"
+        (dotClicked)="onDotClicked($event)"
+      />
+    }
+  } @else {
+    <div class="o-dashboard-insights__empty" ibidHandDrawn>
+      @if (showArchived()) {
+        <ibid-icon name="history" class="o-dashboard-insights__empty-icon"></ibid-icon>
+        <p class="o-dashboard-insights__empty-title">{{ 'insightsArchiveEmptyTitle' | translate }}</p>
+        <p class="o-dashboard-insights__empty-subtext">{{ 'insightsArchiveEmptySubtext' | translate }}</p>
+      } @else {
+        <ibid-icon name="piggy-bank" class="o-dashboard-insights__empty-icon"></ibid-icon>
+        <p class="o-dashboard-insights__empty-title">{{ 'insightsEmptyTitle' | translate }}</p>
+        <p class="o-dashboard-insights__empty-subtext">{{ 'insightsEmptySubtext' | translate }}</p>
+      }
+    </div>
+  }
+</section>

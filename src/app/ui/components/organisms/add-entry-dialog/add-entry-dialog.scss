@@ -1,0 +1,53 @@
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+
+.o-add-entry-dialog {
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: 420px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  &__choice {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background-color: var(--color-surface);
+    cursor: pointer;
+    text-align: left;
+    @include transition-standard;
+
+    &:hover {
+      border-color: var(--color-ink);
+    }
+  }
+
+  &__choice-icon {
+    flex-shrink: 0;
+    color: var(--color-text);
+  }
+
+  &__choice-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: var(--font-sans);
+    font-size: var(--text-m);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+
+    strong {
+      font-size: var(--text-l);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text);
+    }
+  }
+}

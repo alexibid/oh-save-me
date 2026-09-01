@@ -1,0 +1,42 @@
+<ng-template #dialogTemplate>
+  <ibid-bottom-sheet-dialog class="o-import-triage-dialog" (closeClicked)="onCancel()">
+    <span sheet-title>{{ 'triageTitle' | translate }}</span>
+
+    <div class="o-import-triage-dialog__content">
+      <div class="o-import-triage-dialog__header-actions">
+        <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 13px; cursor: pointer;">
+          <input
+            type="checkbox"
+            class="a-checkbox"
+            [checked]="isAllSelected()"
+            (change)="toggleAll($event)"
+          />
+          Selecionar Todos
+        </label>
+      </div>
+
+      <div class="o-import-triage-dialog__table-wrapper">
+        <ohsaveme-transactions-table
+          [transactions]="displayTransactions()"
+          [categoryOptions]="visibleCategories()"
+          [selectionMode]="true"
+          [showTitle]="false"
+          [showTabs]="false"
+          [selectedIds]="acceptedIdsSet"
+          (selectionToggle)="toggleSelection($event)"
+          (categoryApplied)="onCategoryApplied($event)"
+          (budgetApplied)="onBudgetApplied($event)"
+        ></ohsaveme-transactions-table>
+      </div>
+    </div>
+
+    <div sheet-footer class="o-import-triage-dialog__actions">
+      <button type="button" class="a-button a-button--secondary" (click)="onCancel()">
+        {{ 'dbCancel' | translate }}
+      </button>
+      <button type="button" class="a-button a-button--primary" (click)="onConfirm()">
+        {{ 'triageConfirmBtn' | translate }}
+      </button>
+    </div>
+  </ibid-bottom-sheet-dialog>
+</ng-template>

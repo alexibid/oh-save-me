@@ -1,0 +1,227 @@
+<div class="p-database">
+  <header class="p-database__header">
+    <div class="p-database__header-info">
+      <h1 class="p-database__title">{{ 'dbTitle' | translate }}</h1>
+      <p class="p-database__subtitle">{{ 'dbSubtitle' | translate }}</p>
+    </div>
+  </header>
+
+  <ibid-card customClass="p-database__card p-database__card--accounts">
+    <div class="p-database__card-header">
+      <ibid-icon name="bank" class="p-database__card-icon"></ibid-icon>
+      <h2 class="p-database__card-title">{{ 'dbAccountsManagementTitle' | translate }}</h2>
+    </div>
+    <div class="p-database__card-body">
+      <div class="p-database__accounts-list">
+        @for (acc of financialAccounts(); track acc.id) {
+          <div class="p-database__account-item">
+            @if (editingAccountId() !== acc.id) {
+              <div class="p-database__account-info">
+                <div class="p-database__account-header-line">
+                  <strong class="p-database__account-name">{{ acc.name }}</strong>
+                  @if (acc.scope === 'joint') {
+                    <span class="p-database__shared-badge">
+                      <ibid-icon name="people" class="p-database__shared-icon"></ibid-icon>
+                      <span>{{ 'accountScopeJoint' | translate }}</span>
+                    </span>
+                  }
+                </div>
+                <div class="p-database__account-meta">
+                  <span>{{ getAccountTypeLabel(acc.type) }}</span>
+                  <span class="p-database__account-dot">&bull;</span>
+                  <span>{{ getAccountTransactionCount(acc.id) }} {{ 'dbAccountTransactionsCountSuffix' | translate }}</span>
+                  @if (acc.openingBalance) {
+                    <span class="p-database__account-dot">&bull;</span>
+                    <span>{{ 'dbAccountOpeningBalanceLabel' | translate }}: <ibid-currency-display [value]="acc.openingBalance" size="sm" /></span>
+                  }
+                  @if (acc.type === 'credit_card') {
+                    <ibid-icon
+                      name="info"
+                      class="p-database__account-caveat-icon"
+                      [title]="'creditInstallmentCaveat' | translate"
+                    ></ibid-icon>
+                  }
+                </div>
+              </div>
+              <div class="p-database__account-actions">
+                <ibid-icon-button (clicked)="startEditAccount(acc)" [ariaLabel]="'edit' | translate">
+                  <ibid-icon name="edit"></ibid-icon>
+                </ibid-icon-button>
+                <ibid-icon-button (clicked)="deleteAccount(acc.id, acc.name)" [ariaLabel]="'delete' | translate" class="p-database__account-delete-btn">
+                  <ibid-icon name="delete-remove" class="p-database__account-delete-icon"></ibid-icon>
+                </ibid-icon-button>
+              </div>
+            } @else {
+              <div class="p-database__account-edit-form">
+                <input
+                  type="text"
+                  [(ngModel)]="editAccountName"
+                  [attr.aria-label]="'dbAccountNameLabel' | translate"
+                  [placeholder]="'dbAccountNameLabel' | translate"
+                  class="a-input p-database__account-edit-input"
+                />
+                <select [(ngModel)]="editAccountType" [attr.aria-label]="'dbAccountTypeLabel' | translate" class="a-select p-database__account-edit-select">
+                  <option value="bank_account">{{ 'accountTypeBankAccount' | translate }}</option>
+                  <option value="credit_card">{{ 'accountTypeCreditCard' | translate }}</option>
+                  <option value="meal_card">{{ 'accountTypeMealCard' | translate }}</option>
+                  <option value="investment">{{ 'accountTypeInvestment' | translate }}</option>
+                </select>
+                <input
+                  type="text"
+                  inputmode="decimal"
+                  [(ngModel)]="editAccountOpeningBalance"
+                  [attr.aria-label]="'dbAccountOpeningBalanceLabel' | translate"
+                  [placeholder]="'dbAccountOpeningBalanceLabel' | translate"
+                  class="a-input p-database__account-edit-input"
+                  [title]="'dbAccountOpeningBalanceHint' | translate"
+                />
+
+                <div class="p-database__scope-field">
+                  <label class="p-database__scope-label">{{ 'accountCreateScopeQuestion' | translate }}</label>
+                  <ibid-segmented-control [options]="scopeOptions()" [value]="editAccountScope" (valueChange)="onScopeChange($event)"></ibid-segmented-control>
+                </div>
+
+                @if (editAccountScope === 'joint') {
+                  <div class="p-database__share-section">
+                    <ohsaveme-share-access-manager [(selectedEmails)]="editAccountSharedEmails"></ohsaveme-share-access-manager>
+                  </div>
+                }
+
+                <div class="p-database__form-actions">
+                  <ibid-button variant="primary" (clicked)="saveEditAccount(acc)">
+                    {{ 'dbSaveAccountBtn' | translate }}
+                  </ibid-button>
+                  <ibid-button variant="outlined" (clicked)="cancelEditAccount()">
+                    {{ 'cancel' | translate }}
+                  </ibid-button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </ibid-card>
+
+  <ibid-card customClass="p-database__card p-database__card--sync">
+    <ohsaveme-db-sync-card></ohsaveme-db-sync-card>
+  </ibid-card>
+
+  <ibid-card customClass="p-database__card p-database__card--backups">
+    <div class="p-database__card-header">
+      <ibid-icon name="cloud-upload" class="p-database__card-icon"></ibid-icon>
+      <h2 class="p-database__card-title">{{ 'dbBackupsTitle' | translate }}</h2>
+    </div>
+    <div class="p-database__card-body">
+      <div class="p-database__backup-actions">
+        <ibid-button variant="primary" (clicked)="exportBackup()" class="p-database__btn">
+          <div class="p-database__btn-content">
+            <ibid-icon name="cloud-download"></ibid-icon>
+            <span>{{ 'dbExportBackup' | translate }}</span>
+          </div>
+        </ibid-button>
+        <ibid-button variant="outlined" (clicked)="fileInput.click()" class="p-database__btn">
+          <div class="p-database__btn-content">
+            <ibid-icon name="file-upload"></ibid-icon>
+            <span>{{ 'dbImportBackup' | translate }}</span>
+          </div>
+        </ibid-button>
+        <input #fileInput type="file" accept=".db,.json" [attr.aria-label]="'dbImportBackup' | translate" (change)="triggerFileImport($event)" class="p-database__hidden-input" />
+      </div>
+    </div>
+  </ibid-card>
+
+  <ibid-card customClass="p-database__card p-database__card--danger">
+    <div class="p-database__card-header">
+      <ibid-icon name="delete-remove" class="p-database__card-icon p-database__card-icon--danger"></ibid-icon>
+      <h2 class="p-database__card-title p-database__card-title--danger">{{ 'dbClearTitle' | translate }}</h2>
+    </div>
+    <div class="p-database__card-body">
+      <div class="p-database__reset-section">
+        <h3 class="p-database__section-title">{{ 'dbClearMovementsTitle' | translate }}</h3>
+        <p class="p-database__help-text">{{ 'dbClearMovementsHelp' | translate }}</p>
+        @if (!isConfirmResetImports()) {
+          <ibid-button variant="outlined" (clicked)="askResetImports()" class="p-database__btn p-database__btn--warning">
+            <div class="p-database__btn-content">
+              <ibid-icon name="clear-sweep"></ibid-icon>
+              <span>{{ 'dbClearMovementsBtn' | translate }}</span>
+            </div>
+          </ibid-button>
+        } @else {
+          <div class="p-database__confirm-box p-database__confirm-box--warning">
+            <span class="p-database__confirm-text">{{ 'dbClearMovementsConfirm' | translate }}</span>
+            <div class="p-database__confirm-actions">
+              <ibid-button variant="primary" (clicked)="confirmResetImports()" class="p-database__btn--danger-bg">
+                {{ 'dbClearMovementsConfirmBtn' | translate }}
+              </ibid-button>
+              <ibid-button variant="outlined" (clicked)="cancelResetImports()">
+                {{ 'dbCancel' | translate }}
+              </ibid-button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <hr class="p-database__divider" />
+
+      <div class="p-database__reset-section">
+        <h3 class="p-database__section-title p-database__section-title--danger">{{ 'dbFactoryResetTitle' | translate }}</h3>
+        <p class="p-database__help-text">Repõe o estado inicial da aplicação. Elimina definitivamente todas as contas, orçamentos, categorias e configurações.</p>
+        @if (!isConfirmReset()) {
+          <ibid-button variant="primary" (clicked)="askResetDatabase()" class="p-database__btn p-database__btn--danger">
+            <div class="p-database__btn-content">
+              <ibid-icon name="delete-remove"></ibid-icon>
+              <span>{{ 'dbFactoryResetBtn' | translate }}</span>
+            </div>
+          </ibid-button>
+        } @else {
+          <div class="p-database__confirm-box p-database__confirm-box--danger">
+            <span class="p-database__confirm-text">{{ 'dbFactoryResetConfirm' | translate }}</span>
+            <div class="p-database__confirm-actions">
+              <ibid-button variant="primary" (clicked)="confirmResetDatabase()" class="p-database__btn--danger-bg">
+                {{ 'dbFactoryResetConfirmBtn' | translate }}
+              </ibid-button>
+              <ibid-button variant="outlined" (clicked)="cancelResetDatabase()">
+                {{ 'dbCancel' | translate }}
+              </ibid-button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </ibid-card>
+
+  <ohsaveme-db-history-logs [logs]="store.historyLogs()" (undo)="triggerUndo($event)"></ohsaveme-db-history-logs>
+
+  @if (selectedDBName()) {
+    <ohsaveme-db-data-viewer
+      [dbName]="selectedDBName()"
+      [friendlyName]="getFriendlyDBName(selectedDBName())"
+      [rows]="dbRows()"
+      [transactionsData]="store.transactions()"
+      [accountsData]="store.accounts()"
+      [categoriesData]="store.categories()"
+      [budgetsData]="store.budgets()"
+      (close)="selectedDBName.set('')"
+      (undo)="triggerUndo($event)"
+      (restore)="restoreRow($event)"
+    ></ohsaveme-db-data-viewer>
+  }
+
+  @if (showShareModal() && sharingAccount()) {
+    <ibid-bottom-sheet-dialog (closeClicked)="showShareModal.set(false)">
+      <span sheet-title>{{ 'shareAccessTitle' | translate }} — {{ sharingAccount()?.name }}</span>
+      <div class="p-database__share-dialog-body">
+        <ohsaveme-share-access-manager [(selectedEmails)]="sharingEmails"></ohsaveme-share-access-manager>
+        <div class="p-database__share-dialog-actions">
+          <ibid-button variant="primary" (clicked)="saveShareModal()">
+            {{ 'dbSaveAccountBtn' | translate }}
+          </ibid-button>
+          <ibid-button variant="outlined" (clicked)="showShareModal.set(false)">
+            {{ 'cancel' | translate }}
+          </ibid-button>
+        </div>
+      </div>
+    </ibid-bottom-sheet-dialog>
+  }
+</div>

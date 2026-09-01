@@ -1,0 +1,135 @@
+
+
+.o-db-history-logs {
+  &__card--history-top {
+    margin-bottom: 0;
+    display: block;
+
+    @media (max-width: 767px) {
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--text-m);
+    font-weight: 700;
+    color: var(--color-text, #1e293b);
+  }
+
+  &__card-content {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  &__empty-state {
+    padding: 24px;
+    text-align: center;
+    color: var(--color-text-muted, #64748b);
+    font-style: italic;
+    font-size: var(--text-m);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--color-border, #e2e8f0);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__log-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__log-title {
+    font-size: var(--text-m);
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  &__action-tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-m);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+
+    &--insert {
+      background: #ecfdf5;
+      color: #059669;
+    }
+
+    &--delete {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    &--update {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+  }
+
+  &__entity-id {
+    color: var(--color-text-muted, #64748b);
+    font-weight: 400;
+    font-size: var(--text-m);
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__timestamp {
+    font-size: var(--text-m);
+    color: var(--color-text-muted, #94a3b8);
+    margin-top: 2px;
+  }
+
+  &__action-wrapper {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  &__undo-btn {
+    font-size: var(--text-m);
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__undo-icon {
+    font-size: 14px;
+    margin-right: 4px;
+  }
+}
+
