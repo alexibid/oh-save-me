@@ -1,10 +1,10 @@
 import { Locator, Page, expect } from '@playwright/test';
 
-const SHEET = 'app-bottom-sheet-dialog';
-const CARD = `${SHEET} app-assistant-peek-card`;
+const SHEET = 'ibid-bottom-sheet-dialog';
+const CARD = `${SHEET} ohsaveme-assistant-peek-card`;
 
 export async function openAssistant(page: Page): Promise<void> {
-  const fab = page.locator('app-assistant-fab');
+  const fab = page.locator('ibid-fab');
   await expect(fab).toBeVisible({ timeout: 10000 });
   await fab.click();
   await expect(page.locator(`${SHEET} .m-assistant-peek-card--front`).first()).toBeVisible();
@@ -32,7 +32,7 @@ export async function bringTaskToFront(page: Page, kind: string): Promise<Locato
   expect(index, `task "${kind}" is not in the deck (${kinds.join(', ')})`).toBeGreaterThan(-1);
 
   if (kinds.length > 1) {
-    await page.locator(`${SHEET} app-stack-dots .a-stack-dots__dot`).nth(index).click();
+    await page.locator(`${SHEET} ibid-stack-dots .a-stack-dots__dot`).nth(index).click();
   }
 
   const card = page.locator(CARD).nth(index).locator('.m-assistant-peek-card');

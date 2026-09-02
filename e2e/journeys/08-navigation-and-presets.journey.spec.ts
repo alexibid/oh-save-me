@@ -48,7 +48,7 @@ test.describe('User Journey 08: Global Navigation, Presets and Language Toggle',
       await expect(settingsBtn).toBeVisible({ timeout: 10000 });
       await settingsBtn.click();
 
-      const langSelect = page.locator('.m-sidenav-menu__sub-menu app-select').first();
+      const langSelect = page.locator('.m-sidenav-menu__sub-menu ibid-select').first();
       await expect(langSelect).toBeVisible({ timeout: 10000 });
       await langSelect.click();
 

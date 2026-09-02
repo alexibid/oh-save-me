@@ -11,7 +11,7 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
       await page.goto('/database');
       await expect(page.locator('.p-database')).toBeVisible({ timeout: 15000 });
 
-      const syncCard = page.locator('app-db-sync-card').first();
+      const syncCard = page.locator('ohsaveme-db-sync-card').first();
       await expect(syncCard).toBeVisible({ timeout: 10000 });
       await expect(syncCard.locator('.o-db-sync-card__google-btn')).toBeVisible();
 
@@ -64,7 +64,7 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
       await page.goto('/database#access_token=ya29.e2e-test-valid-access-token-999&expires_in=3600');
       await expect(page.locator('.p-database')).toBeVisible({ timeout: 15000 });
 
-      const syncCard = page.locator('app-db-sync-card').first();
+      const syncCard = page.locator('ohsaveme-db-sync-card').first();
       await expect(syncCard).toBeVisible({ timeout: 10000 });
 
       await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible({ timeout: 10000 });
@@ -74,7 +74,7 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
     });
 
     await test.step('Step 3: Trigger multi-vault cloud synchronization', async () => {
-      const syncCard = page.locator('app-db-sync-card').first();
+      const syncCard = page.locator('ohsaveme-db-sync-card').first();
       const syncBtn = syncCard.locator('.o-db-sync-card__sync-btn');
       await expect(syncBtn).toBeEnabled();
 
@@ -89,14 +89,14 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
       await page.reload();
       await expect(page.locator('.p-database')).toBeVisible({ timeout: 15000 });
 
-      const syncCard = page.locator('app-db-sync-card').first();
+      const syncCard = page.locator('ohsaveme-db-sync-card').first();
       await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible({ timeout: 10000 });
 
       await flow.step(4, 'verify-session-persistence', 'auth-session-persisted-after-reload');
     });
 
     await test.step('Step 5: Disconnect Google account and verify return to initial disconnected state', async () => {
-      const syncCard = page.locator('app-db-sync-card').first();
+      const syncCard = page.locator('ohsaveme-db-sync-card').first();
       const disconnectBtn = syncCard.locator('.o-db-sync-card__disconnect-btn');
       await expect(disconnectBtn).toBeVisible();
 

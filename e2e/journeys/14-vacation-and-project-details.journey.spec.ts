@@ -14,7 +14,7 @@ test.describe('User Journey 14: Vacation Projects and Detail Breakdown Bottom Sh
     });
 
     await test.step('Step 2: Inspect execution summary', async () => {
-      const executionSummary = page.locator('app-budget-execution-summary').first();
+      const executionSummary = page.locator('ohsaveme-budget-execution-summary').first();
       await expect(executionSummary).toBeVisible({ timeout: 10000 });
       await flow.step(2, 'inspect-execution-summary', 'project-progress-visible');
     });

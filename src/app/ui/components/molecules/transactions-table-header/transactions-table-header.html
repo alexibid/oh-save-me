@@ -1,0 +1,119 @@
+    <div
+  class="o-transactions-table__header"
+  ohsavemeDetectSticky
+  [class.o-transactions-table__header--sticky]="isSticky()"
+  [class.o-transactions-table__header--compact]="!showTitle && !showTabs"
+  (stickyChange)="isSticky.set($event)"
+>
+  @if (showTitle || showSearch) {
+    <div class="o-transactions-table__header-row">
+      @if (showTitle) {
+        <h3
+          class="o-transactions-table__title"
+          [class.o-transactions-table__title--sticky]="isSticky()"
+        >
+          Transações
+        </h3>
+      }
+
+      @if (showSearch) {
+        <ibid-search-input
+          class="o-transactions-table__search"
+          [class.o-transactions-table__search--sticky]="!isSticky()"
+          [value]="searchQuery"
+          [placeholder]="'movementsFilterSearchPlaceholder' | translate"
+          [clearLabel]="'searchInputClearLabel' | translate"
+          (valueChange)="searchQueryChange.emit($event)"
+        ></ibid-search-input>
+      }
+    </div>
+  }
+
+  @if (showTabs) {
+    <ibid-segmented-control
+      class="o-transactions-table__tabs"
+      [value]="activeTab"
+      [options]="tabOptions"
+      (valueChange)="tabChange.emit($event)"
+    ></ibid-segmented-control>
+  }
+
+  @if (showSort || showSumToggle) {
+    <div class="o-transactions-table__sort-header">
+      @if (showSumToggle) {
+        <button
+          type="button"
+          class="o-transactions-table__sum-toggle-btn"
+          [class.o-transactions-table__sum-toggle-btn--active]="sumModeEnabled"
+          [attr.aria-label]="'sumMovementsTitle' | translate"
+          [attr.aria-pressed]="sumModeEnabled"
+          (click)="sumModeChange.emit(!sumModeEnabled)"
+        >
+          <span class="o-transactions-table__sum-toggle-track">
+            <span class="o-transactions-table__sum-toggle-thumb">
+              <ibid-icon name="sum"></ibid-icon>
+            </span>
+          </span>
+          <span class="o-transactions-table__sum-toggle-label">{{
+            'sumMovementsTitle' | translate
+          }}</span>
+        </button>
+      }
+
+      @if (showSort) {
+        <div class="o-transactions-table__sort-btn-group">
+          @if (selectionMode || sumModeEnabled) {
+            <button
+              type="button"
+              class="o-transactions-table__sort-btn"
+              [class.o-transactions-table__sort-btn--active]="sortField === 'selected'"
+              (click)="sortToggle.emit('selected')"
+            >
+              {{ 'thSelected' | translate }}
+              <ibid-icon
+                name="chevron-down"
+                class="o-transactions-table__sort-icon"
+                [class.o-transactions-table__sort-icon--active]="sortField === 'selected'"
+                [class.o-transactions-table__sort-icon--asc]="
+                  sortField === 'selected' && sortDirection === 'asc'
+                "
+              ></ibid-icon>
+            </button>
+          }
+          <button
+            type="button"
+            class="o-transactions-table__sort-btn"
+            [class.o-transactions-table__sort-btn--active]="sortField === 'date'"
+            (click)="sortToggle.emit('date')"
+          >
+            {{ 'thDate' | translate }}
+            <ibid-icon
+              name="chevron-down"
+              class="o-transactions-table__sort-icon"
+              [class.o-transactions-table__sort-icon--active]="sortField === 'date'"
+              [class.o-transactions-table__sort-icon--asc]="
+                sortField === 'date' && sortDirection === 'asc'
+              "
+            ></ibid-icon>
+          </button>
+          <button
+            type="button"
+            class="o-transactions-table__sort-btn"
+            [class.o-transactions-table__sort-btn--active]="sortField === 'amount'"
+            (click)="sortToggle.emit('amount')"
+          >
+            {{ 'thAmount' | translate }}
+            <ibid-icon
+              name="chevron-down"
+              class="o-transactions-table__sort-icon"
+              [class.o-transactions-table__sort-icon--active]="sortField === 'amount'"
+              [class.o-transactions-table__sort-icon--asc]="
+                sortField === 'amount' && sortDirection === 'asc'
+              "
+            ></ibid-icon>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

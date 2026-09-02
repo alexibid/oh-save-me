@@ -25,9 +25,17 @@ describe('PerformanceMonitorService', () => {
     expect(result).toBe('hello');
   });
 
-  it('disables log server fetch calls after initial connection failure', async () => {
+  it('does not send remote logs by default when logger is disabled', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch');
+    service.measureSync('op', () => 1);
+    await Promise.resolve();
+    expect(fetchSpy).not.toHaveBeenCalled();
+    fetchSpy.mockRestore();
+  });
+
+  it('disables log server fetch calls after initial connection failure when enabled', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Connection refused'));
-    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    service.enableRemoteLogging();
 
     service.measureSync('first_op', () => 1);
     await Promise.resolve();
@@ -41,6 +49,5 @@ describe('PerformanceMonitorService', () => {
     expect(fetchSpy).not.toHaveBeenCalled();
 
     fetchSpy.mockRestore();
-    consoleWarnSpy.mockRestore();
   });
 });

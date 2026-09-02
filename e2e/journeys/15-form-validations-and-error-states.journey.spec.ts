@@ -70,7 +70,7 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
       const allocationWizard = page.locator('.m-allocation-wizard, .m-bottom-sheet-dialog').first();
       await expect(allocationWizard).toBeVisible({ timeout: 15000 });
 
-      const submitBudgetBtn = allocationWizard.locator('[sheet-footer] app-button[variant="primary"] button, button:has-text("Criar")').first();
+      const submitBudgetBtn = allocationWizard.locator('[sheet-footer] ibid-button[variant="primary"] button, button:has-text("Criar")').first();
       await expect(submitBudgetBtn).toBeVisible({ timeout: 10000 });
       await expect(submitBudgetBtn).toBeDisabled();
       await flow.step(5, 'allocation-wizard-empty', 'submit-button-disabled');
@@ -86,7 +86,7 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
       await expect(submitBudgetBtn).toBeEnabled();
       await flow.step(6, 'allocation-wizard-filled', 'submit-button-enabled');
 
-      const closeWizardBtn = allocationWizard.locator('[sheet-footer] app-button[variant="outlined"] button, button[aria-label*="Fechar"], .o-bottom-sheet-dialog__close').first();
+      const closeWizardBtn = allocationWizard.locator('[sheet-footer] ibid-button[variant="outlined"] button, button[aria-label*="Fechar"], .o-bottom-sheet-dialog__close').first();
       await closeWizardBtn.click();
       await expect(allocationWizard).not.toBeVisible({ timeout: 10000 });
       await flow.step(7, 'close-allocation-wizard', 'wizard-dismissed-cleanly');

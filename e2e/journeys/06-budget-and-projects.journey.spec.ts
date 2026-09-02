@@ -14,7 +14,7 @@ test.describe('User Journey 06: Budget, Category Wizard and Vacation Projects', 
     });
 
     await test.step('Step 2: Inspect balance summary card', async () => {
-      const summaryCard = page.locator('.o-balance-summary-card, app-balance-summary-card').first();
+      const summaryCard = page.locator('.o-balance-summary-card, ohsaveme-balance-summary-card').first();
       await expect(summaryCard).toBeVisible({ timeout: 10000 });
       await flow.step(2, 'view-summary-card', 'patrimony-and-reserves-calculated');
     });

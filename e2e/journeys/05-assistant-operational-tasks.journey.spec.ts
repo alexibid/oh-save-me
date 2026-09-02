@@ -11,7 +11,7 @@ test.describe('User Journey 05: Floating Assistant and Operational Tasks', () =>
       await page.goto('/');
       await expect(page.locator('.p-dashboard')).toBeVisible({ timeout: 15000 });
 
-      const assistantFab = page.locator('app-assistant-fab, .o-assistant-fab, button[aria-label*="Assistente"]').first();
+      const assistantFab = page.locator('ibid-fab, .o-assistant-fab, button[aria-label*="Assistente"]').first();
       await expect(assistantFab).toBeVisible({ timeout: 10000 });
       await flow.step(1, 'view-dashboard-fab', 'assistant-fab-visible-on-dashboard');
       await assistantFab.click();
@@ -29,7 +29,7 @@ test.describe('User Journey 05: Floating Assistant and Operational Tasks', () =>
     });
 
     await test.step('Step 3: Inspect peek card details and dismissal control', async () => {
-      const dismissBtn = frontCard.locator('app-assistant-card-dismiss, button[aria-label*="Fechar"], button[aria-label*="Dispensar"]').first();
+      const dismissBtn = frontCard.locator('ibid-dismiss-button, button[aria-label*="Fechar"], button[aria-label*="Dispensar"]').first();
       await expect(dismissBtn).toBeVisible({ timeout: 5000 });
       await flow.step(3, 'inspect-peek-card-details', 'task-details-and-dismissal-visible');
     });

@@ -42,6 +42,13 @@
         "port": 4200
       }
     },
+    "serve-e2e": {
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4201
+      }
+    },
     "test": {
       "executor": "@angular/build:unit-test"
     },

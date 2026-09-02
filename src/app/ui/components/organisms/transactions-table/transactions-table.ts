@@ -11,19 +11,20 @@ import { useStore } from '@application/app-store';
 import { computed } from '@angular/core';
 import { CategoryRecategorizeComponent, CategoryAppliedEvent } from '@ui/components/organisms/category-recategorize/category-recategorize';
 import { RecordDetailBalloonComponent } from '@ui/components/molecules/record-detail-balloon/record-detail-balloon';
+import { TransactionsTableHeaderComponent } from '@ui/components/molecules/transactions-table-header/transactions-table-header';
 
 import { I18N_SHARED, I18nService, translate } from '@ui/shared/i18n-shared';
-import { DetectStickyDirective } from '@ui/shared/detect-sticky.directive';
 import { classifyRecurringTransactions } from '@domain/shared/recurring-transaction-classifier';
 import { countsAsIncome } from '@domain/shared/essential-spending.utils';
-import { CurrencyDisplayComponent, EmptyStateComponent, IconComponent, InfoBalloonComponent, SearchInputComponent, SegmentOption, SegmentedControlComponent, SmartCurrencyCellComponent, SmartDateCellComponent, SmartIconCellComponent, SmartTextCellComponent } from 'ibid-ui';
+import { CurrencyDisplayComponent, EmptyStateComponent, IconComponent, InfoBalloonComponent, SegmentOption, SmartCurrencyCellComponent, SmartDateCellComponent, SmartIconCellComponent, SmartTextCellComponent } from 'ibid-ui';
 
 const LOAD_MORE_INCREMENT = 20;
 
 @Component({
   selector: 'ohsaveme-transactions-table',
   standalone: true,
-  imports: [CurrencyDisplayComponent,
+  imports: [
+    CurrencyDisplayComponent,
     CommonModule,
     IconComponent,
     forwardRef(() => CategoryRecategorizeComponent),
@@ -31,13 +32,11 @@ const LOAD_MORE_INCREMENT = 20;
     SmartTextCellComponent,
     SmartDateCellComponent,
     SmartCurrencyCellComponent,
-    SearchInputComponent,
     EmptyStateComponent,
     RecordDetailBalloonComponent,
     InfoBalloonComponent,
-    SegmentedControlComponent,
-    I18N_SHARED,
-    DetectStickyDirective
+    TransactionsTableHeaderComponent,
+    I18N_SHARED
   ],
   templateUrl: './transactions-table.html',
   styleUrl: './transactions-table.scss'

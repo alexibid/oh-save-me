@@ -21,7 +21,7 @@ test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
       await flow.step(2, 'search-continente', 'matching-rows-filtered');
     });
 
-    const firstCell = page.locator('app-smart-budget-cell').first();
+    const firstCell = page.locator('ibid-smart-budget-cell').first();
     await test.step('Step 3: Open category/project dropdown in budget cell', async () => {
       await expect(firstCell).toBeVisible({ timeout: 10000 });
       await firstCell.click();
@@ -72,7 +72,7 @@ test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
       await reloadedSearch.fill('Supermercado Continente');
       await reloadedSearch.evaluate(el => el.dispatchEvent(new Event('input', { bubbles: true })));
 
-      const reloadedFirstCell = page.locator('app-smart-budget-cell').first();
+      const reloadedFirstCell = page.locator('ibid-smart-budget-cell').first();
       await expect(reloadedFirstCell).toHaveText(/Férias de Verão/, { timeout: 10000 });
       await expect(reloadedFirstCell).toHaveText(/Refeições/i, { timeout: 10000 });
       await flow.step(8, 'reload-page', 'changes-persisted-in-database');

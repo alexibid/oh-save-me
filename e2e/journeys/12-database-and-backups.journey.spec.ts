@@ -26,7 +26,7 @@ test.describe('User Journey 12: Database Maintenance, RxDB Data Viewer and Histo
     });
 
     await test.step('Step 4: Inspect audit trail history logs', async () => {
-      const historyLogs = page.locator('app-db-history-logs, .o-db-history-logs').first();
+      const historyLogs = page.locator('ohsaveme-db-history-logs, .o-db-history-logs').first();
       await expect(historyLogs).toBeVisible({ timeout: 10000 });
       await flow.step(4, 'inspect-history-logs', 'audit-trail-logs-visible');
     });

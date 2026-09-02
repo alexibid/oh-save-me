@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
 
-const DECK = 'app-dashboard-insights';
+const DECK = 'ohsaveme-dashboard-insights';
 const WRAPPER = `${DECK} .o-dashboard-insights__card-wrapper`;
-const CARD = `${WRAPPER} app-card`;
+const CARD = `${WRAPPER} ibid-card`;
 
 export function insightDeck(page: Page): Locator {
   return page.locator(`${DECK} .o-dashboard-insights`);
@@ -34,7 +34,7 @@ export async function bringInsightToFront(page: Page, kind: string): Promise<Loc
   expect(index, `insight "${kind}" is not in the deck (${kinds.join(', ')})`).toBeGreaterThan(-1);
 
   if (kinds.length > 1) {
-    await page.locator(`${DECK} app-stack-dots .a-stack-dots__dot`).nth(index).click();
+    await page.locator(`${DECK} ibid-stack-dots .a-stack-dots__dot`).nth(index).click();
   }
 
   const wrapper = page.locator(WRAPPER).nth(index);

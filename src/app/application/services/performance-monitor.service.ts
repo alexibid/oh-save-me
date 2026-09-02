@@ -15,12 +15,21 @@ export class PerformanceMonitorService {
   private readonly activeOperations = signal<number>(0);
   private readonly startedAt = signal<number>(0);
   private tickHandle: ReturnType<typeof setInterval> | null = null;
-  private hasWarnedAboutUnreachableLogServer = false;
-  private isLogServerAvailable = true;
+  private isLogServerAvailable = this.checkInitialRemoteLogging();
+  private hasLoggedActiveState = false;
 
   readonly isBusy = computed<boolean>(() => this.activeOperations() > 0);
   readonly currentLabel = signal<string | null>(null);
   readonly elapsedMs = signal<number>(0);
+
+  enableRemoteLogging(): void {
+    this.isLogServerAvailable = true;
+    this.notifyIfActive();
+  }
+
+  disableRemoteLogging(): void {
+    this.isLogServerAvailable = false;
+  }
 
   async measureAsync<T>(label: string, operation: () => Promise<T>, minVisibleMs = 260): Promise<T> {
     this.beginVisibleOperation(label);
@@ -87,17 +96,22 @@ export class PerformanceMonitorService {
   }
 
   private appendToLog(file: string, entry: PerformanceLogEntry): void {
-    if (!isDevMode() || typeof fetch === 'undefined') return;
+    if (!isDevMode()) return;
 
     const line = `${entry.timestamp} | ${entry.durationMs}ms | ${entry.label}`;
     console.debug(`[perf] ${line}`);
 
-    if (!this.isLogServerAvailable) return;
+    if (!this.isLogServerAvailable || typeof fetch === 'undefined') return;
 
     const globalProcess = (globalThis as unknown as { process?: { env?: Record<string, string> } }).process;
-    if (globalProcess?.env?.['VITEST'] && !(globalThis.fetch as any)?.mock) {
+    const isMockedFetch = (candidate: unknown): boolean =>
+      typeof candidate === 'function' && 'mock' in candidate;
+
+    if (globalProcess?.env?.['VITEST'] && !isMockedFetch(globalThis.fetch)) {
       return;
     }
+
+    this.notifyIfActive();
 
     fetch(LOG_ENDPOINT, {
       method: 'POST',
@@ -106,17 +120,21 @@ export class PerformanceMonitorService {
       keepalive: true,
     }).catch(() => {
       this.isLogServerAvailable = false;
-      this.warnLogServerUnreachableOnce();
     });
   }
 
-  private warnLogServerUnreachableOnce(): void {
-    if (this.hasWarnedAboutUnreachableLogServer) return;
-    this.hasWarnedAboutUnreachableLogServer = true;
-    console.warn(
-      `[perf] could not reach the perf log server at ${LOG_ENDPOINT} — ` +
-      'run "npm run perf:log-server" in a separate terminal to write .agents/logs/*.log. ' +
-      'Metrics are still visible above via console.debug.'
-    );
+  private notifyIfActive(): void {
+    if (this.hasLoggedActiveState || !this.isLogServerAvailable) return;
+    this.hasLoggedActiveState = true;
+    console.info(`[perf] Performance log server active at ${LOG_ENDPOINT}`);
+  }
+
+  private checkInitialRemoteLogging(): boolean {
+    if (typeof localStorage === 'undefined') return false;
+    try {
+      return localStorage.getItem('ENABLE_PERF_LOG') === 'true' || localStorage.getItem('ibid_perf_log') === 'true';
+    } catch {
+      return false;
+    }
   }
 }
