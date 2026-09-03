@@ -3,22 +3,21 @@ import { TableSortField, TableTab } from '@domain/models/record-list';
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { DetectStickyDirective } from '@ui/shared/detect-sticky.directive';
 import {
-  IconComponent,
-  SearchInputComponent,
+  CollectionHeaderComponent,
+  IconToggleComponent,
   SegmentOption,
-  SegmentedControlComponent
+  SortButtonComponent
 } from 'ibid-ui';
 
-/** The toolbar above a transactions list: title, search, tabs, sum toggle and sort controls. */
 @Component({
   selector: 'ohsaveme-transactions-table-header',
   standalone: true,
   imports: [
     ...I18N_SHARED,
     DetectStickyDirective,
-    IconComponent,
-    SearchInputComponent,
-    SegmentedControlComponent
+    CollectionHeaderComponent,
+    IconToggleComponent,
+    SortButtonComponent
   ],
   templateUrl: './transactions-table-header.html',
   styleUrl: './transactions-table-header.scss'

@@ -16,7 +16,19 @@ import { TransactionsTableHeaderComponent } from '@ui/components/molecules/trans
 import { I18N_SHARED, I18nService, translate } from '@ui/shared/i18n-shared';
 import { classifyRecurringTransactions } from '@domain/shared/recurring-transaction-classifier';
 import { countsAsIncome } from '@domain/shared/essential-spending.utils';
-import { CurrencyDisplayComponent, EmptyStateComponent, IconComponent, InfoBalloonComponent, SegmentOption, SmartCurrencyCellComponent, SmartDateCellComponent, SmartIconCellComponent, SmartTextCellComponent } from 'ibid-ui';
+import {
+  CollectionListComponent,
+  CurrencyDisplayComponent,
+  EmptyStateComponent,
+  HandDrawnDirective,
+  IconComponent,
+  InfoBalloonComponent,
+  SegmentOption,
+  SmartCurrencyCellComponent,
+  SmartDateCellComponent,
+  SmartIconCellComponent,
+  SmartTextCellComponent
+} from 'ibid-ui';
 
 const LOAD_MORE_INCREMENT = 20;
 
@@ -24,8 +36,10 @@ const LOAD_MORE_INCREMENT = 20;
   selector: 'ohsaveme-transactions-table',
   standalone: true,
   imports: [
+    CollectionListComponent,
     CurrencyDisplayComponent,
     CommonModule,
+    HandDrawnDirective,
     IconComponent,
     forwardRef(() => CategoryRecategorizeComponent),
     SmartIconCellComponent,

@@ -24,7 +24,7 @@
   }
 
   @if (sumModeEnabled) {
-    <div class="o-transactions-table__list">
+    <ibid-collection-list>
       @for (tx of selectedGroup; track tx.id; let i = $index) {
         <ng-container
           *ngTemplateOutlet="
@@ -38,7 +38,7 @@
           [message]="'sumMovementsEmpty' | translate"
         ></ibid-empty-state>
       }
-    </div>
+    </ibid-collection-list>
 
     <div class="o-transactions-table__sum-divider">
       <span class="o-transactions-table__sum-divider-label">
@@ -61,7 +61,7 @@
       </span>
     </div>
 
-    <div class="o-transactions-table__list">
+    <ibid-collection-list>
       @for (tx of unselectedGroup; track tx.id; let i = $index) {
         <ng-container
           *ngTemplateOutlet="
@@ -70,9 +70,9 @@
           "
         ></ng-container>
       }
-    </div>
+    </ibid-collection-list>
   } @else {
-    <div class="o-transactions-table__list">
+    <ibid-collection-list>
       @for (tx of displayTransactions; track tx.id; let i = $index) {
         <ng-container
           *ngTemplateOutlet="
@@ -86,12 +86,13 @@
           [message]="'movementsNoMovementsEmpty' | translate"
         ></ibid-empty-state>
       }
-    </div>
+    </ibid-collection-list>
   }
 
   <ng-template #row let-tx let-previousDate="previousDate">
     <div
       class="o-transactions-table__row"
+      [ibidHandDrawn]="1"
       [attr.data-tx-date]="tx.date"
       [style.--category-color]="categoryColorFor(tx.category)"
       [class.o-transactions-table__row--highlighted]="isPinned(tx.id)"
