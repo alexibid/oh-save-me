@@ -29,7 +29,13 @@
           (pointerup)="onPointerUp($event, depthOf(i))"
         >
           <ibid-card
-            [customClass]="'o-dashboard-insight-card ' + cardColor(i) + ' o-dashboard-insight-card--' + insight.visualArchetype + (depthOf(i) === 0 ? ' o-dashboard-insight-card--front' : '')"
+            [customClass]="
+              'o-dashboard-insight-card ' +
+              cardColor(i) +
+              ' o-dashboard-insight-card--' +
+              insight.visualArchetype +
+              (depthOf(i) === 0 ? ' o-dashboard-insight-card--front' : '')
+            "
             [attr.data-testid]="'dashboard-insight-' + insight.kind"
           >
             @if (depthOf(i) === 0) {
@@ -69,13 +75,22 @@
                 class="o-dashboard-insight-card__status-tag"
                 size="lg"
                 [color]="getStatusColor(asRunRate(insight).status)"
-                [label]="(asRunRate(insight).status === 'on_track' ? 'insightsPaceOnTrack' : asRunRate(insight).status === 'warning' ? 'insightsPaceWarning' : 'insightsPaceCritical') | translate"
+                [label]="
+                  (asRunRate(insight).status === 'on_track'
+                    ? 'insightsPaceOnTrack'
+                    : asRunRate(insight).status === 'warning'
+                      ? 'insightsPaceWarning'
+                      : 'insightsPaceCritical'
+                  ) | translate
+                "
               />
             }
 
             <div
               class="o-dashboard-insight-card__header"
-              [class.o-dashboard-insight-card__header--with-tag]="insight.visualArchetype === 'run_rate'"
+              [class.o-dashboard-insight-card__header--with-tag]="
+                insight.visualArchetype === 'run_rate'
+              "
             >
               <div class="o-dashboard-insight-card__title-row">
                 @if (insight.route && depthOf(i) === 0) {
@@ -99,7 +114,10 @@
             <div class="o-dashboard-insight-card__body">
               @switch (insight.visualArchetype) {
                 @case ('highlight_metric') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__child-header">
                       <span class="o-dashboard-insight-card__child-label">
                         @if (asHighlightMetric(insight).labelKey) {
@@ -112,13 +130,20 @@
                     <div class="o-dashboard-insight-card__value">
                       @switch (asHighlightMetric(insight).unit) {
                         @case ('percent') {
-                          {{ asHighlightMetric(insight).value }}<span class="o-dashboard-insight-card__value-unit">%</span>
+                          {{ asHighlightMetric(insight).value
+                          }}<span class="o-dashboard-insight-card__value-unit">%</span>
                         }
                         @case ('months') {
-                          {{ asHighlightMetric(insight).value }}<span class="o-dashboard-insight-card__value-unit">{{ 'insightsMonthsUnit' | translate }}</span>
+                          {{ asHighlightMetric(insight).value
+                          }}<span class="o-dashboard-insight-card__value-unit">{{
+                            'insightsMonthsUnit' | translate
+                          }}</span>
                         }
                         @default {
-                          <ibid-currency-display [value]="asHighlightMetric(insight).value" size="sm" />
+                          <ibid-currency-display
+                            [value]="asHighlightMetric(insight).value"
+                            size="sm"
+                          />
                         }
                       }
                     </div>
@@ -126,21 +151,37 @@
                 }
 
                 @case ('run_rate') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__child-header">
-                      <span class="o-dashboard-insight-card__child-label">{{ 'insightsSpendingVelocityLabel' | translate }}</span>
+                      <span class="o-dashboard-insight-card__child-label">{{
+                        'insightsSpendingVelocityLabel' | translate
+                      }}</span>
                       <span class="o-dashboard-insight-card__child-secondary">
-                        {{ 'insightsSpendingLimitLabel' | translate }}: <ibid-currency-display [value]="asRunRate(insight).targetAmount" size="sm" />
+                        {{ 'insightsSpendingLimitLabel' | translate }}:
+                        <ibid-currency-display
+                          [value]="asRunRate(insight).targetAmount"
+                          size="sm"
+                        />
                       </span>
                     </div>
 
                     <div class="o-dashboard-insight-card__value">
-                      <ibid-currency-display [value]="asRunRate(insight).currentRate" size="sm" /><span class="o-dashboard-insight-card__value-unit">{{ 'insightsPerWeekUnit' | translate }}</span>
+                      <ibid-currency-display
+                        [value]="asRunRate(insight).currentRate"
+                        size="sm"
+                      /><span class="o-dashboard-insight-card__value-unit">{{
+                        'insightsPerWeekUnit' | translate
+                      }}</span>
                     </div>
 
                     <div class="o-dashboard-insight-card__progress-track">
                       <div
-                        class="o-dashboard-insight-card__progress-bar o-dashboard-insight-card__progress-bar--{{ asRunRate(insight).status }}"
+                        class="o-dashboard-insight-card__progress-bar o-dashboard-insight-card__progress-bar--{{
+                          asRunRate(insight).status
+                        }}"
                         [style.width.%]="asRunRate(insight).percentageSpent"
                       ></div>
                     </div>
@@ -148,17 +189,28 @@
                 }
 
                 @case ('trend_table') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     @if (asTrendTable(insight).items.length > 0) {
                       <div class="o-dashboard-insight-card__mini-list">
                         @for (item of asTrendTable(insight).items; track item.description) {
                           <div class="o-dashboard-insight-card__mini-item">
-                            <span class="o-dashboard-insight-card__item-desc">{{ item.description }}</span>
+                            <span class="o-dashboard-insight-card__item-desc">{{
+                              item.description
+                            }}</span>
                             <div class="o-dashboard-insight-card__item-values">
                               @if (item.changePercentage) {
-                                <span class="o-dashboard-insight-card__item-change">+{{ item.changePercentage }}%</span>
+                                <span class="o-dashboard-insight-card__item-change"
+                                  >+{{ item.changePercentage }}%</span
+                                >
                               }
-                              <ibid-currency-display class="o-dashboard-insight-card__item-amount" [value]="item.amount" size="sm" />
+                              <ibid-currency-display
+                                class="o-dashboard-insight-card__item-amount"
+                                [value]="item.amount"
+                                size="sm"
+                              />
                             </div>
                           </div>
                         }
@@ -168,7 +220,10 @@
                 }
 
                 @case ('balance_average') {
-                  <div [class]="'o-dashboard-insight-card__chart-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__chart-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__chart-header">
                       <ibid-segmented-control
                         [options]="windowOptions()"
@@ -186,21 +241,36 @@
                 }
 
                 @case ('composition') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__composition-bar">
-                      @for (slice of asComposition(insight).slices; track (slice.labelKey || slice.label)) {
+                      @for (
+                        slice of asComposition(insight).slices;
+                        track slice.labelKey || slice.label
+                      ) {
                         <span
-                          class="o-dashboard-insight-card__composition-segment o-dashboard-insight-card__composition-segment--{{ slice.tone }}"
+                          class="o-dashboard-insight-card__composition-segment o-dashboard-insight-card__composition-segment--{{
+                            slice.tone
+                          }}"
                           [style.width.%]="sliceShare(slice, asComposition(insight).total)"
                         ></span>
                       }
                     </div>
 
                     <div class="o-dashboard-insight-card__mini-list">
-                      @for (slice of asComposition(insight).slices; track (slice.labelKey || slice.label)) {
+                      @for (
+                        slice of asComposition(insight).slices;
+                        track slice.labelKey || slice.label
+                      ) {
                         <div class="o-dashboard-insight-card__mini-item">
                           <span class="o-dashboard-insight-card__item-desc">
-                            <span class="o-dashboard-insight-card__composition-dot o-dashboard-insight-card__composition-dot--{{ slice.tone }}"></span>
+                            <span
+                              class="o-dashboard-insight-card__composition-dot o-dashboard-insight-card__composition-dot--{{
+                                slice.tone
+                              }}"
+                            ></span>
                             {{ slice.labelKey ? (slice.labelKey | translate) : slice.label }}
                           </span>
                           <span class="o-dashboard-insight-card__item-amount">
@@ -220,7 +290,10 @@
                           <div class="o-dashboard-insight-card__asset-item">
                             <div class="o-dashboard-insight-card__asset-header">
                               <span class="o-dashboard-insight-card__asset-name">
-                                <ibid-icon [name]="item.kind === 'car' ? 'car' : 'house'" class="o-dashboard-insight-card__asset-icon"></ibid-icon>
+                                <ibid-icon
+                                  [name]="item.kind === 'car' ? 'car' : 'house'"
+                                  class="o-dashboard-insight-card__asset-icon"
+                                ></ibid-icon>
                                 {{ item.name }}
                               </span>
                               @if (item.contractedInstalments) {
@@ -230,11 +303,18 @@
                               }
                             </div>
                             <div class="o-dashboard-insight-card__asset-values">
-                              <span class="o-dashboard-insight-card__asset-val o-dashboard-insight-card__asset-val--owned">
-                                <ibid-currency-display [value]="item.paidAmount" size="sm" /> ({{ item.paidPercentage }}%)
+                              <span
+                                class="o-dashboard-insight-card__asset-val o-dashboard-insight-card__asset-val--owned"
+                              >
+                                <ibid-currency-display [value]="item.paidAmount" size="sm" /> ({{
+                                  item.paidPercentage
+                                }}%)
                               </span>
-                              <span class="o-dashboard-insight-card__asset-val o-dashboard-insight-card__asset-val--debt">
-                                <ibid-currency-display [value]="item.outstandingDebt" size="sm" /> ({{ item.debtPercentage }}%)
+                              <span
+                                class="o-dashboard-insight-card__asset-val o-dashboard-insight-card__asset-val--debt"
+                              >
+                                <ibid-currency-display [value]="item.outstandingDebt" size="sm" />
+                                ({{ item.debtPercentage }}%)
                               </span>
                             </div>
                           </div>
@@ -245,11 +325,16 @@
                 }
 
                 @case ('comparison_bars') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__bars">
                       @for (bar of asComparisonBars(insight).bars; track bar.categoryId) {
                         <div class="o-dashboard-insight-card__bar-column">
-                          <span class="o-dashboard-insight-card__bar-value">{{ bar.percentage }}%</span>
+                          <span class="o-dashboard-insight-card__bar-value"
+                            >{{ bar.percentage }}%</span
+                          >
                           <div class="o-dashboard-insight-card__bar-track">
                             <div
                               class="o-dashboard-insight-card__bar-fill"
@@ -265,7 +350,10 @@
                 }
 
                 @case ('retrospective') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__value">
                       <ibid-currency-display [value]="asRetrospective(insight).total" size="sm" />
                     </div>
@@ -277,7 +365,11 @@
                       @for (day of asRetrospective(insight).costliestDays; track day.date) {
                         <div class="o-dashboard-insight-card__mini-item">
                           <span class="o-dashboard-insight-card__item-desc">{{ day.date }}</span>
-                          <ibid-currency-display class="o-dashboard-insight-card__item-amount" [value]="day.total" size="sm" />
+                          <ibid-currency-display
+                            class="o-dashboard-insight-card__item-amount"
+                            [value]="day.total"
+                            size="sm"
+                          />
                         </div>
                       }
                     </div>
@@ -289,7 +381,11 @@
                       @for (day of asRetrospective(insight).cheapestDays; track day.date) {
                         <div class="o-dashboard-insight-card__mini-item">
                           <span class="o-dashboard-insight-card__item-desc">{{ day.date }}</span>
-                          <ibid-currency-display class="o-dashboard-insight-card__item-amount" [value]="day.total" size="sm" />
+                          <ibid-currency-display
+                            class="o-dashboard-insight-card__item-amount"
+                            [value]="day.total"
+                            size="sm"
+                          />
                         </div>
                       }
                     </div>
@@ -297,14 +393,26 @@
                 }
 
                 @case ('overspend_alert') {
-                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
+                  <div
+                    [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)"
+                    [ibidHandDrawn]="2"
+                  >
                     <div class="o-dashboard-insight-card__child-header">
-                      <span class="o-dashboard-insight-card__child-label o-dashboard-insight-card__child-label--danger">
+                      <span
+                        class="o-dashboard-insight-card__child-label o-dashboard-insight-card__child-label--danger"
+                      >
                         {{ 'budgetOverBudgetLabel' | translate }}
                       </span>
                     </div>
-                    <div class="o-dashboard-insight-card__value o-dashboard-insight-card__value--danger">
-                      <ibid-currency-display [value]="asOverspendAlert(insight).overspendAmount" size="sm" [showPositiveSign]="true" [signed]="true" />
+                    <div
+                      class="o-dashboard-insight-card__value o-dashboard-insight-card__value--danger"
+                    >
+                      <ibid-currency-display
+                        [value]="asOverspendAlert(insight).overspendAmount"
+                        size="sm"
+                        [showPositiveSign]="true"
+                        [signed]="true"
+                      />
                     </div>
                   </div>
                 }
@@ -321,17 +429,31 @@
                     data-testid="insight-confirm-btn"
                     [ibidHandDrawn]="2"
                   >
-                    <ibid-icon name="help-circle" class="o-dashboard-insight-card__action-icon"></ibid-icon>
+                    <ibid-icon
+                      name="help-circle"
+                      class="o-dashboard-insight-card__action-icon"
+                    ></ibid-icon>
                     <span>{{ 'insightsMarkAllRecurring' | translate }}</span>
                   </ibid-icon-button>
-                } @else if ((showArchived() || isRecurrenceAllConfirmed(insight)) && insight.kind === 'active_subscriptions') {
-                  <div class="o-dashboard-insight-card__status-pill o-dashboard-insight-card__status-pill--confirmed">
-                    <ibid-icon name="check-circle" class="o-dashboard-insight-card__action-icon"></ibid-icon>
+                } @else if (
+                  (showArchived() || isRecurrenceAllConfirmed(insight)) &&
+                  insight.kind === 'active_subscriptions'
+                ) {
+                  <div
+                    class="o-dashboard-insight-card__status-pill o-dashboard-insight-card__status-pill--confirmed"
+                  >
+                    <ibid-icon
+                      name="check-circle"
+                      class="o-dashboard-insight-card__action-icon"
+                    ></ibid-icon>
                     <span>{{ 'insightsAllRecurringConfirmed' | translate }}</span>
                   </div>
                 }
                 <ibid-icon-button
-                  [class]="'o-dashboard-insight-card__action-btn o-dashboard-insight-card__action-btn--' + insight.visualArchetype"
+                  [class]="
+                    'o-dashboard-insight-card__action-btn o-dashboard-insight-card__action-btn--' +
+                    insight.visualArchetype
+                  "
                   (clicked)="onAction(insight)"
                   [ariaLabel]="getActionLabel(insight)"
                   data-testid="insight-action-btn"
@@ -358,8 +480,12 @@
     <div [class]="'o-dashboard-insights__empty ' + cardColor(0)" [ibidHandDrawn]="2">
       @if (showArchived()) {
         <ibid-icon name="history" class="o-dashboard-insights__empty-icon"></ibid-icon>
-        <p class="o-dashboard-insights__empty-title">{{ 'insightsArchiveEmptyTitle' | translate }}</p>
-        <p class="o-dashboard-insights__empty-subtext">{{ 'insightsArchiveEmptySubtext' | translate }}</p>
+        <p class="o-dashboard-insights__empty-title">
+          {{ 'insightsArchiveEmptyTitle' | translate }}
+        </p>
+        <p class="o-dashboard-insights__empty-subtext">
+          {{ 'insightsArchiveEmptySubtext' | translate }}
+        </p>
       } @else {
         <ibid-icon name="piggy-bank" class="o-dashboard-insights__empty-icon"></ibid-icon>
         <p class="o-dashboard-insights__empty-title">{{ 'insightsEmptyTitle' | translate }}</p>

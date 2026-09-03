@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
 
 .p-database {
   padding: var(--spacing-lg, 24px);
@@ -268,7 +269,7 @@
     border-radius: 999px;
     font-size: var(--text-m);
     font-weight: 600;
-    @include glass-highlight-surface(-0.8deg, 999px);
+    @include glass-pane;
     color: var(--color-primary, #0284c7);
 
     span, ibid-icon {

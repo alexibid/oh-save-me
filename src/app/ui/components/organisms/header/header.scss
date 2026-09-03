@@ -59,7 +59,7 @@ $sidenav-width: 240px;
     gap: 12px;
     position: relative;
 
-    min-height: calc(var(--header-logo-size) + 12px);
+    min-height: calc(var(--header-logo-size) + var(--space-5));
 
     @include respond-to('tablet') {
       align-items: center;

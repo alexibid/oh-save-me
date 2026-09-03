@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.8) translateY(20px); }
@@ -14,7 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 18px 0;
+  margin: 1.25rem 0;
   width: 100%;
   box-sizing: border-box;
 
@@ -27,67 +28,36 @@
   }
 
   &__btn {
-    position: relative;
-    height: 72px;
     width: 100%;
     max-width: 440px;
-    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-    @include organic-highlight;
-
-    &::before {
-      background-color: var(--color-teal-mid);
-      opacity: 0.55;
-    }
+    height: 56px;
 
     ::ng-deep .a-button {
-      position: relative;
-      z-index: 1;
+      width: 100%;
       height: 100%;
-      background-color: transparent;
-      border: none;
-      border-radius: 14px;
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-      color: var(--color-ink);
-      gap: 12px;
-      padding: 0 16px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      gap: 0.75rem;
+      padding: 0 1.5rem;
     }
 
     ::ng-deep ibid-icon {
-      width: 32px;
-      height: 32px;
-      color: var(--color-teal-text);
+      width: 28px;
+      height: 28px;
       flex-shrink: 0;
-    }
-
-    &:hover {
-      transform: translateY(-3px) scale(1.018);
-
-      &::before {
-        opacity: 0.75;
-      }
-    }
-
-    &:active {
-      transform: scale(0.97);
     }
   }
 
   &__label {
-    position: relative;
     display: inline-flex;
     align-items: center;
     min-width: 0;
   }
 
   &__label-text {
-    position: relative;
-    z-index: 1;
-    font-size: clamp(1.15rem, 4.2vw, 1.6rem);
+    font-size: clamp(1.1rem, 4vw, 1.35rem);
     white-space: nowrap;
   }
-
 
   &__fab {
     position: fixed;
@@ -99,13 +69,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    @include glass-surface;
+    @include glass-pane;
+    --glass-tint: var(--glass-tint-amber);
+    --glass-edge: var(--glass-edge-amber);
+    --glass-wash: var(--glass-wash-amber);
     border: none;
-    border-radius: 50%;
     cursor: pointer;
     outline: none;
     padding: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(239, 155, 39, 0.25);
     animation: fadeIn 0.3s ease forwards;
 
     &:hover {
@@ -119,7 +91,7 @@
     ::ng-deep ibid-icon {
       width: 24px;
       height: 24px;
-      color: var(--color-ink, #2c2c2a);
+      color: var(--color-amber-text, #92400e);
     }
   }
 }
