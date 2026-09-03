@@ -13,7 +13,7 @@ import {
   NavigationLink
 } from '../../../../application/config/navigation.config';
 import packageJson from '../../../../../../package.json';
-import { DateInputComponent, DateRangeValue, IconComponent, NumberInputComponent, SelectComponent } from 'ibid-ui';
+import { DateInputComponent, DateRangeValue, IconButtonComponent, IconComponent, NumberInputComponent, SelectComponent } from 'ibid-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,6 +23,7 @@ import { DateInputComponent, DateRangeValue, IconComponent, NumberInputComponent
     CommonModule,
     RouterModule,
     IconComponent,
+    IconButtonComponent,
     MATERIAL_SHARED,
     I18N_SHARED,
     NumberInputComponent,

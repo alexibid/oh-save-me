@@ -15,7 +15,7 @@
     background-color: var(--color-bg-opacity80, #f4f3ec);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 10;
+    z-index: 1;
 
     :host-context(.app-main-content--has-header-action-row) &,
     :host-context(.app-main-content--has-insightId) & {

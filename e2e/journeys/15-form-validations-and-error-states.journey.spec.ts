@@ -8,33 +8,34 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
 
     await test.step('Step 1: Open account creation dialog and test empty name validation', async () => {
       await seedE2eDatabase(page, {}, new Date('2026-07-15T10:00:00'));
-      await page.goto('/');
-      await expect(page.locator('.p-dashboard')).toBeVisible({ timeout: 15000 });
+      await page.goto('/', { waitUntil: 'commit' });
+      await expect(page.locator('.p-dashboard')).toBeVisible();
+      await expect(page.locator('.o-loading-curtain--visible')).not.toBeVisible();
 
       const navBtn = page.locator('.o-header__action--nav');
-      await expect(navBtn).toBeVisible({ timeout: 10000 });
+      await expect(navBtn).toBeVisible();
       await navBtn.click();
 
       const addAccountAction = page.locator('.m-sidenav-menu__link').filter({ hasText: /Criar Conta|Importar Extrato/i }).first();
-      await expect(addAccountAction).toBeVisible({ timeout: 10000 });
+      await expect(addAccountAction).toBeVisible();
       await addAccountAction.click();
 
       const addEntryDialog = page.locator('.o-add-entry-dialog').first();
-      await expect(addEntryDialog).toBeVisible({ timeout: 10000 });
+      await expect(addEntryDialog).toBeVisible();
 
       const createAccountBtn = addEntryDialog.locator('.o-add-entry-dialog__choice').first();
-      await expect(createAccountBtn).toBeVisible({ timeout: 10000 });
+      await expect(createAccountBtn).toBeVisible();
       await createAccountBtn.click();
 
       const accountWizard = page.locator('.o-account-create-dialog, .o-bottom-sheet-dialog').first();
-      await expect(accountWizard).toBeVisible({ timeout: 15000 });
+      await expect(accountWizard).toBeVisible();
 
       const continueBtn = accountWizard.locator('button:has-text("Continuar"), button:has-text("Avançar"), .a-button--primary').first();
-      await expect(continueBtn).toBeVisible({ timeout: 10000 });
+      await expect(continueBtn).toBeVisible();
       await continueBtn.click();
 
       const confirmBtn = accountWizard.locator('button:has-text("Confirmar"), button:has-text("Criar"), .a-button--primary').first();
-      await expect(confirmBtn).toBeVisible({ timeout: 10000 });
+      await expect(confirmBtn).toBeVisible();
       await expect(confirmBtn).toBeDisabled();
       await flow.step(1, 'account-dialog-empty-name', 'confirm-button-disabled');
 
@@ -46,15 +47,15 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
 
       const cancelBtn = accountWizard.locator('button:has-text("Cancelar"), button[aria-label*="Fechar"], .o-bottom-sheet-dialog__close').first();
       await cancelBtn.click();
-      await expect(accountWizard).not.toBeVisible({ timeout: 10000 });
+      await expect(accountWizard).not.toBeVisible();
     });
 
     await test.step('Step 2: Open category management and test form validation', async () => {
-      await page.goto('/categories/manage');
-      await expect(page.locator('.p-categories')).toBeVisible({ timeout: 15000 });
+      await page.goto('/categories/manage', { waitUntil: 'commit' });
+      await expect(page.locator('.p-categories')).toBeVisible();
 
       const submitCategoryBtn = page.locator('.p-categories__form-actions button[type="submit"]').first();
-      await expect(submitCategoryBtn).toBeVisible({ timeout: 10000 });
+      await expect(submitCategoryBtn).toBeVisible();
       await expect(submitCategoryBtn).toBeDisabled();
       await flow.step(3, 'category-form-empty', 'submit-button-disabled');
 
@@ -66,12 +67,12 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
     });
 
     await test.step('Step 3: Open allocation wizard and test empty budget validation', async () => {
-      await page.goto('/budget?new=true');
+      await page.goto('/budget?new=true', { waitUntil: 'commit' });
       const allocationWizard = page.locator('.m-allocation-wizard, .m-bottom-sheet-dialog').first();
-      await expect(allocationWizard).toBeVisible({ timeout: 15000 });
+      await expect(allocationWizard).toBeVisible();
 
       const submitBudgetBtn = allocationWizard.locator('[sheet-footer] ibid-button[variant="primary"] button, button:has-text("Criar")').first();
-      await expect(submitBudgetBtn).toBeVisible({ timeout: 10000 });
+      await expect(submitBudgetBtn).toBeVisible();
       await expect(submitBudgetBtn).toBeDisabled();
       await flow.step(5, 'allocation-wizard-empty', 'submit-button-disabled');
 
@@ -88,7 +89,7 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
 
       const closeWizardBtn = allocationWizard.locator('[sheet-footer] ibid-button[variant="outlined"] button, button[aria-label*="Fechar"], .o-bottom-sheet-dialog__close').first();
       await closeWizardBtn.click();
-      await expect(allocationWizard).not.toBeVisible({ timeout: 10000 });
+      await expect(allocationWizard).not.toBeVisible();
       await flow.step(7, 'close-allocation-wizard', 'wizard-dismissed-cleanly');
     });
   });

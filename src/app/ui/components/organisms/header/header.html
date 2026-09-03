@@ -45,29 +45,29 @@
       (rangeChange)="onRangeChange($event)">
     </ibid-date-input>
   </div>
-
-  <div headerContext class="o-header__back-to-row">
-    @if (insightId()) {
-      <ibid-icon-button
-        class="o-header__back-to"
-        (clicked)="onBackToInsight()"
-        [ariaLabel]="'insightsBackLabel' | translate"
-      >
-        <ibid-icon name="chevron-left" class="o-header__back-to-icon ibid-icon"></ibid-icon>
-        <span>{{ 'insightsBackLabel' | translate }}</span>
-      </ibid-icon-button>
-    }
-
-    @if (isRecurringMode()) {
-      <ibid-icon-button
-        class="o-header__confirm-recurring"
-        [class.o-header__confirm-recurring--confirmed]="isRecurringConfirmed()"
-        (clicked)="onConfirmRecurring()"
-        [ariaLabel]="recurringActionLabel()"
-      >
-        <ibid-icon [name]="recurringActionIcon()" class="o-header__back-to-icon"></ibid-icon>
-        <span>{{ recurringActionLabel() }}</span>
-      </ibid-icon-button>
-    }
-  </div>
 </ibid-header>
+
+<div class="o-header__back-to-row">
+  @if (insightId()) {
+    <ibid-icon-button
+      class="o-header__back-to"
+      (clicked)="onBackToInsight()"
+      [ariaLabel]="'insightsBackLabel' | translate"
+    >
+      <ibid-icon name="chevron-left" class="o-header__back-to-icon ibid-icon"></ibid-icon>
+      <span>{{ 'insightsBackLabel' | translate }}</span>
+    </ibid-icon-button>
+  }
+
+  @if (isRecurringMode()) {
+    <ibid-icon-button
+      class="o-header__confirm-recurring"
+      [class.o-header__confirm-recurring--confirmed]="isRecurringConfirmed()"
+      (clicked)="onConfirmRecurring()"
+      [ariaLabel]="recurringActionLabel()"
+    >
+      <ibid-icon [name]="recurringActionIcon()" class="o-header__back-to-icon"></ibid-icon>
+      <span>{{ recurringActionLabel() }}</span>
+    </ibid-icon-button>
+  }
+</div>

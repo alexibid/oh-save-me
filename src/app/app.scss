@@ -1,5 +1,15 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
 
+ohsaveme-header {
+  display: block;
+  position: relative;
+  z-index: 50;
+
+  &:has(.o-header--is-open) {
+    z-index: 1;
+  }
+}
+
 .app-sidenav-container {
   width: 100vw;
   height: 100vh;
@@ -14,11 +24,16 @@
   transform: none;
   left: -280px;
   transition: left 300ms ease-in-out;
+  z-index: 20;
 
   &.mat-drawer-opened {
     border-radius: 0px;
     left: 0;
   }
+}
+
+.mat-drawer-backdrop {
+  z-index: 15;
 }
 
 @include respond-to('desktop') {
@@ -30,6 +45,7 @@
     height: auto;
     max-height: calc(100vh - var(--header-height));
     overflow: hidden;
+    z-index: 5;
 
     .o-sidenav__drawer {
       display: block;
@@ -48,7 +64,7 @@
   flex-direction: column;
   background-color: var(--color-bg);
   position: relative;
-  z-index: 1;
+  z-index: 0;
   isolation: isolate;
 }
 

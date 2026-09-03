@@ -3,7 +3,7 @@
 .assistant-system {
   display: block;
   position: relative;
-  z-index: 1050;
+  z-index: 2;
 }
 
 .m-bottom-sheet-dialog--assistant {
@@ -13,7 +13,7 @@
   right: 0;
   width: 100%;
   max-width: 100vw;
-  z-index: 1050;
+  z-index: 2;
   @include glass-surface;
   backdrop-filter: blur(16px);
   border-top: 1.5px solid var(--color-border);

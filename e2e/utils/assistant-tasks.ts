@@ -5,7 +5,7 @@ const CARD = `${SHEET} ohsaveme-assistant-peek-card`;
 
 export async function openAssistant(page: Page): Promise<void> {
   const fab = page.locator('ibid-fab');
-  await expect(fab).toBeVisible({ timeout: 10000 });
+  await expect(fab).toBeVisible();
   await fab.click();
   await expect(page.locator(`${SHEET} .m-assistant-peek-card--front`).first()).toBeVisible();
 }
@@ -18,7 +18,7 @@ export async function taskKinds(page: Page): Promise<readonly string[]> {
       const settled = count > 0 && count === previous;
       previous = count;
       return settled;
-    }, { timeout: 15000, intervals: [200, 200, 300, 500] })
+    }, { timeout: 1000, intervals: [50, 100, 150] })
     .toBe(true);
 
   return page.locator(CARD).evaluateAll(cards =>

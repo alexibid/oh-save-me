@@ -1,4 +1,17 @@
 <div class="m-sidenav-menu">
+    <div class="m-sidenav-menu__header">
+        <div class="m-sidenav-menu__brand">
+            <ibid-icon name="savvyjar" class="m-sidenav-menu__logo"></ibid-icon>
+        </div>
+        <ibid-icon-button
+            class="m-sidenav-menu__close-btn"
+            (clicked)="closeClicked.emit()"
+            ariaLabel="Close Navigation"
+        >
+            <ibid-icon name="chevron-left"></ibid-icon>
+        </ibid-icon-button>
+    </div>
+
     <div class="m-sidenav-menu__cycle">
         <ibid-select
             class="m-sidenav-menu__cycle-preset"

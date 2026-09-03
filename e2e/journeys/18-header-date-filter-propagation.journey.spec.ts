@@ -37,9 +37,9 @@ test.describe('User Journey 18: Header Date Filter Propagation to Movements Tabl
     await seedE2eDatabase(page);
 
     await test.step('Step 1: Open movements with the default header period', async () => {
-      await page.goto('/movements');
-      await expect(page.locator('.p-movements').first()).toBeVisible({ timeout: 15000 });
-      await expect(page.locator(HEADER_RANGE).first()).toBeVisible({ timeout: 10000 });
+      await page.goto('/movements', { waitUntil: 'commit' });
+      await expect(page.locator('.p-movements').first()).toBeVisible();
+      await expect(page.locator(HEADER_RANGE).first()).toBeVisible();
       await flow.step(1, 'open-movements-default-period', 'header-period-visible');
     });
 
@@ -85,7 +85,7 @@ test.describe('User Journey 18: Header Date Filter Propagation to Movements Tabl
     await test.step('Step 4: Switching the preset to the previous month re-filters table and chart', async () => {
       await page.locator(`${PRESET_DROPDOWN} mat-select`).first().click();
       const previousMonth = page.locator('mat-option', { hasText: /Mês Passado|Last Month/i }).first();
-      await expect(previousMonth).toBeVisible({ timeout: 10000 });
+      await expect(previousMonth).toBeVisible();
       await previousMonth.click();
       await page.waitForTimeout(800);
 
@@ -101,7 +101,7 @@ test.describe('User Journey 18: Header Date Filter Propagation to Movements Tabl
     await test.step('Step 5: A rolling 90-day preset re-filters the table to its own window', async () => {
       await page.locator(`${PRESET_DROPDOWN} mat-select`).first().click();
       const ninetyDays = page.locator('mat-option', { hasText: /Últimos 90 dias|Last 90 days/i }).first();
-      await expect(ninetyDays).toBeVisible({ timeout: 10000 });
+      await expect(ninetyDays).toBeVisible();
       await ninetyDays.click();
       await page.waitForTimeout(800);
 
@@ -122,7 +122,7 @@ test.describe('User Journey 18: Header Date Filter Propagation to Movements Tabl
     await test.step('Step 6: The all-time preset widens the period to every seeded record', async () => {
       await page.locator(`${PRESET_DROPDOWN} mat-select`).first().click();
       const allTime = page.locator('mat-option', { hasText: /Desde sempre|All time/i }).first();
-      await expect(allTime).toBeVisible({ timeout: 10000 });
+      await expect(allTime).toBeVisible();
       await allTime.click();
       await page.waitForTimeout(800);
 
@@ -138,8 +138,8 @@ test.describe('User Journey 18: Header Date Filter Propagation to Movements Tabl
     });
 
     await test.step('Step 7: An explicit URL period overrides the header preset', async () => {
-      await page.goto('/movements?startDate=2026-06-01&endDate=2026-06-30');
-      await expect(page.locator('.p-movements').first()).toBeVisible({ timeout: 15000 });
+      await page.goto('/movements?startDate=2026-06-01&endDate=2026-06-30', { waitUntil: 'commit' });
+      await expect(page.locator('.p-movements').first()).toBeVisible();
       await page.waitForTimeout(600);
 
       const rowDates = await readRowDates(page);
@@ -151,7 +151,7 @@ test.describe('User Journey 18: Header Date Filter Propagation to Movements Tabl
 
     await test.step('Step 8: The period survives a reload', async () => {
       await page.reload();
-      await expect(page.locator('.p-movements').first()).toBeVisible({ timeout: 15000 });
+      await expect(page.locator('.p-movements').first()).toBeVisible();
       await page.waitForTimeout(600);
 
       const rowDates = await readRowDates(page);

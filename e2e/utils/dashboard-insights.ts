@@ -20,7 +20,7 @@ export async function insightKinds(page: Page): Promise<readonly string[]> {
       const settled = count > 0 && count === previous;
       previous = count;
       return settled;
-    }, { timeout: 15000, intervals: [200, 200, 300, 500] })
+    }, { timeout: 1000, intervals: [50, 100, 150] })
     .toBe(true);
 
   return page.locator(CARD).evaluateAll(cards =>

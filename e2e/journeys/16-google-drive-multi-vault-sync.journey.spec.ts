@@ -8,11 +8,11 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
 
     await test.step('Step 1: Open database page and inspect Google Sync card in disconnected state', async () => {
       await seedE2eDatabase(page, {}, new Date('2026-07-15T10:00:00'));
-      await page.goto('/database');
-      await expect(page.locator('.p-database')).toBeVisible({ timeout: 15000 });
+      await page.goto('/database', { waitUntil: 'commit' });
+      await expect(page.locator('.p-database')).toBeVisible();
 
       const syncCard = page.locator('ohsaveme-db-sync-card').first();
-      await expect(syncCard).toBeVisible({ timeout: 10000 });
+      await expect(syncCard).toBeVisible();
       await expect(syncCard.locator('.o-db-sync-card__google-btn')).toBeVisible();
 
       await flow.step(1, 'inspect-disconnected-sync-card', 'google-sync-card-disconnected-visible');
@@ -61,13 +61,13 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
         });
       });
 
-      await page.goto('/database#access_token=ya29.e2e-test-valid-access-token-999&expires_in=3600');
-      await expect(page.locator('.p-database')).toBeVisible({ timeout: 15000 });
+      await page.goto('/database#access_token=ya29.e2e-test-valid-access-token-999&expires_in=3600', { waitUntil: 'commit' });
+      await expect(page.locator('.p-database')).toBeVisible();
 
       const syncCard = page.locator('ohsaveme-db-sync-card').first();
-      await expect(syncCard).toBeVisible({ timeout: 10000 });
+      await expect(syncCard).toBeVisible();
 
-      await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible({ timeout: 10000 });
+      await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible();
       await expect(syncCard.locator('.o-db-sync-card__sync-btn')).toBeVisible();
 
       await flow.step(2, 'oauth-redirect-callback', 'authenticated-connected-state-active');
@@ -80,17 +80,17 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
 
       await syncBtn.click();
 
-      await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible({ timeout: 10000 });
+      await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible();
 
       await flow.step(3, 'trigger-multi-vault-sync', 'sync-completed-with-timestamps');
     });
 
     await test.step('Step 4: Verify session persistence after page reload', async () => {
       await page.reload();
-      await expect(page.locator('.p-database')).toBeVisible({ timeout: 15000 });
+      await expect(page.locator('.p-database')).toBeVisible();
 
       const syncCard = page.locator('ohsaveme-db-sync-card').first();
-      await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible({ timeout: 10000 });
+      await expect(syncCard.locator('.o-db-sync-card__status-badge--success')).toBeVisible();
 
       await flow.step(4, 'verify-session-persistence', 'auth-session-persisted-after-reload');
     });
@@ -102,7 +102,7 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
 
       await disconnectBtn.click();
 
-      await expect(syncCard.locator('.o-db-sync-card__google-btn')).toBeVisible({ timeout: 10000 });
+      await expect(syncCard.locator('.o-db-sync-card__google-btn')).toBeVisible();
 
       await flow.step(5, 'disconnect-google-account', 'google-sync-disconnected-cleanly');
     });

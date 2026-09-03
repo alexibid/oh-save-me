@@ -1,23 +1,26 @@
-import { ViewEncapsulation, Component,
+import {
+  Component,
   EventEmitter,
-  Output,
   Input,
-  inject,
+  Output,
+  ViewEncapsulation,
   computed,
-  signal,
-  NgZone, } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { fromEvent, Subscription } from 'rxjs';
-import { auditTime } from 'rxjs/operators';
 import { I18nService, I18N_SHARED } from '@ui/shared/i18n-shared';
 import { useStore } from '@application/app-store';
 import { Transaction } from '@domain/models/transaction';
 import { injectParsedRouteFilters } from '@ui/shared/route-query.utils';
-import { DateInputComponent, DateRangeValue, HeaderComponent, IconButtonComponent, IconComponent, SelectComponent } from 'ibid-ui';
-
-const SCROLL_COLLAPSE_THRESHOLD = 200;
+import {
+  DateInputComponent,
+  DateRangeValue,
+  HeaderComponent,
+  IconButtonComponent,
+  IconComponent,
+  SelectComponent
+} from 'ibid-ui';
 import { ConfirmRecurringExpenseUseCase } from '@application/use-cases/confirm-recurring-expense.use-case';
 
 @Component({
@@ -42,7 +45,6 @@ export class Header {
   protected readonly store = useStore();
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly ngZone = inject(NgZone);
   private readonly recurrence = inject(ConfirmRecurringExpenseUseCase);
 
   @Input() isSidenavOpen = false;
@@ -114,15 +116,6 @@ export class Header {
     { value: 'custom', label: this.i18n.translate('periodCustom') }
   ]);
 
-  private getScrollContainer(): Element | null {
-    return document.querySelector('.app-sidenav-content');
-  }
-
-  isDashboard(): boolean {
-    const url = this.router.url;
-    return url === '/' || url === '' || (!url.includes('/categories') && !url.includes('/categorias'));
-  }
-
   onNavToggle(): void {
     this.toggleSidenav.emit();
   }
@@ -146,5 +139,4 @@ export class Header {
     if (!insightId) return;
     this.router.navigate(['/'], { queryParams: { focusInsight: insightId } });
   }
-
 }

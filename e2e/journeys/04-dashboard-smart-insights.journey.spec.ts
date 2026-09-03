@@ -7,16 +7,16 @@ test.describe('User Journey 04: Dashboard Consolidation and Smart Financial Insi
     const flow = new FlowRecorder(page, testInfo, '04-dashboard-smart-insights');
 
     await seedE2eDatabase(page, {}, new Date('2026-07-15T10:00:00'));
-    await page.goto('/');
-    await expect(page.locator('.p-dashboard')).toBeVisible({ timeout: 15000 });
+    await page.goto('/', { waitUntil: 'commit' });
+    await expect(page.locator('.p-dashboard')).toBeVisible();
     await flow.step(1, 'load-dashboard', 'consolidation-cards-rendered');
 
     const insightsSection = page.locator('.o-dashboard-insights');
-    await expect(insightsSection).toBeVisible({ timeout: 10000 });
+    await expect(insightsSection).toBeVisible();
     await flow.step(2, 'view-smart-insights', 'deterministic-insights-grid-visible');
 
     const frontCard = page.locator('.o-dashboard-insight-card--front, .o-dashboard-insight-card').first();
-    await expect(frontCard).toBeVisible({ timeout: 10000 });
+    await expect(frontCard).toBeVisible();
     await flow.step(3, 'inspect-front-insight-card', 'front-archetype-details-rendered');
 
     const allCards = page.locator('.o-dashboard-insights__card-wrapper');

@@ -8,20 +8,51 @@ ohsaveme-sidenav-menu,
 }
 
 .m-sidenav-menu {
-  width: 280px;
+  width: 100%;
   height: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 62px 16px 16px 16px;
-  overflow: hidden;
-  @include glass-highlight-surface;
-  &::before {
-    border-radius: 0px;
-    border: none;
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: transparent;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    min-height: 56px;
+    width: 100%;
   }
-  background-color: var(--color-bg-opacity80);
+
+  &__brand {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 56px;
+    width: auto;
+
+    svg {
+      height: 56px;
+      width: auto;
+    }
+  }
+
+  &__close-btn {
+    width: var(--header-elem-height, 38px);
+    height: var(--header-elem-height, 38px);
+    min-width: var(--header-elem-height, 38px);
+    min-height: var(--header-elem-height, 38px);
+    flex-shrink: 0;
+  }
 
   &__cycle {
     display: flex;

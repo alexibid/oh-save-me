@@ -1,1 +1,40 @@
-@use 'libs/ibid-ui/src/styles';
+@use 'libs/ibid-ui/src/themes/glass-surface';
+
+body.glass-surface {
+  --ibid-header-surface-tint: var(--glass-tint-teal);
+  --ibid-header-surface-edge: var(--glass-edge-teal);
+  --ibid-header-surface-wash: var(--glass-wash-teal);
+  --ibid-header-bg-opacity: var(--glass-wash-opacity, 0.12);
+
+  --ibid-header-actions-tint: var(--glass-tint-amber);
+  --ibid-header-actions-edge: var(--glass-edge-amber);
+  --ibid-header-actions-wash: var(--glass-wash-amber);
+  --ibid-header-actions-bg-opacity: var(--glass-wash-opacity, 0.12);
+
+  --ibid-button-font-family: var(--font-ui);
+  --ibid-select-font-family: var(--font-ui);
+  --ibid-date-input-font-family: var(--font-ui);
+
+  --ibid-card-surface-tint: var(--glass-tint-teal);
+  --ibid-card-bg-opacity: var(--glass-wash-opacity, 0.12);
+
+  --ibid-sidenav-surface-tint: var(--glass-tint-coral);
+  --ibid-sidenav-bg-opacity: var(--glass-wash-opacity, 0.12);
+
+  --ibid-dialog-surface-tint: var(--glass-tint-pink);
+  --ibid-dialog-bg-opacity: var(--glass-wash-opacity, 0.12);
+}
+
+ohsaveme-header {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  pointer-events: none;
+
+  &:has(.o-header--is-open) {
+    z-index: 1;
+  }
+}
