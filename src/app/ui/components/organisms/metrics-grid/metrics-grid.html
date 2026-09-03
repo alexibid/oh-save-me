@@ -1,7 +1,7 @@
 <div class="o-metrics-grid">
     
     <div class="o-metrics-grid__hero-container">
-        <div class="o-metrics-grid__child-card u-bg-coral" ibidHandDrawn>
+        <div [class]="'o-metrics-grid__child-card ' + cardColors[0]" [ibidHandDrawn]="2">
             <ibid-view-more-link class="o-metrics-grid__view-more"></ibid-view-more-link>
             <div class="o-metrics-grid__info">
                 <span class="o-metrics-grid__title">{{ 'metricsRealFreeBalance' | translate }}</span>
@@ -36,7 +36,7 @@
     
     <div class="o-metrics-grid__group-container">
         
-        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-teal" ibidHandDrawn>
+        <div [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[1]" [ibidHandDrawn]="2">
             <div class="o-metrics-grid__header">
                 <span class="o-metrics-grid__title">{{ 'dashboardStatPeriodBalance' | translate }}</span>
             </div>
@@ -57,7 +57,7 @@
         </div>
 
         
-        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-amber" ibidHandDrawn>
+        <div [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[2]" [ibidHandDrawn]="2">
             <div class="o-metrics-grid__header">
                 <span class="o-metrics-grid__title">{{ 'budgetSpent' | translate }}</span>
             </div>
@@ -77,7 +77,7 @@
         </div>
 
         
-        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-pink" ibidHandDrawn>
+        <div [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[3]" [ibidHandDrawn]="2">
             <div class="o-metrics-grid__header">
                 <span class="o-metrics-grid__title">{{ 'metricsAccumulatedReserve' | translate }}</span>
             </div>
@@ -94,7 +94,7 @@
         </div>
 
         
-        <div class="o-metrics-grid__child-card o-metrics-grid__child-card--small u-bg-teal" ibidHandDrawn>
+        <div [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[4]" [ibidHandDrawn]="2">
             <div class="o-metrics-grid__header">
                 <span class="o-metrics-grid__title">{{ 'portfolioBtn' | translate }}</span>
             </div>

@@ -26,6 +26,7 @@ import { CardComponent, ChartComponent, CurrencyDisplayComponent, HandDrawnDirec
 
 const MAX_VISIBLE_DEPTH = 3;
 const SWIPE_THRESHOLD_PX = 40;
+const INSIGHT_PALETTE = ['coral', 'amber', 'pink'] as const;
 const WINDOW_LABEL_KEYS: Record<BalanceWindow, string> = {
   quarter: 'insightsWindowQuarter',
   semester: 'insightsWindowSemester',
@@ -59,6 +60,11 @@ export class DashboardInsightsComponent {
   private readonly recurrence = inject(ConfirmRecurringExpenseUseCase);
   private readonly store = useStore();
   protected readonly i18n = inject(I18nService);
+  private readonly colorSeed = Math.floor(Math.random() * INSIGHT_PALETTE.length);
+
+  protected cardColor(index: number): string {
+    return 'u-bg-' + INSIGHT_PALETTE[(index + this.colorSeed) % INSIGHT_PALETTE.length];
+  }
 
   readonly focusInsightId = input<string | null>(null);
   @Output() readonly focusApplied = new EventEmitter<void>();
@@ -293,7 +299,7 @@ export class DashboardInsightsComponent {
     return [
       {
         name: this.i18n.translate('insightsBalanceAverageBarLabel'),
-        color: 'var(--color-teal-mid)',
+        color: 'var(--color-pink-mid)',
         type: 'bar',
         points: points.map(point => this.toChartPoint(point, point.averageNetFlow)),
       },
@@ -315,7 +321,7 @@ export class DashboardInsightsComponent {
   }
 
   getStatusColor(status: 'on_track' | 'warning' | 'critical'): string {
-    if (status === 'on_track') return 'var(--color-teal-mid)';
+    if (status === 'on_track') return 'var(--color-pink-mid)';
     if (status === 'warning') return 'var(--color-amber-mid)';
     return 'var(--color-coral-mid)';
   }

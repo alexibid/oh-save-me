@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
 
 :host {
   display: block;
@@ -31,6 +32,7 @@
 :host([data-depth='3']) { transform: translateY(0px); z-index: 1; }
 
 .m-assistant-peek-card {
+  @include glass-pane;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -39,24 +41,12 @@
   padding: 14px 16px;
   gap: 10px;
   border-radius: var(--radius-card, 16px);
-  border: 1px solid rgba(0, 0, 0, 0.04);
   cursor: pointer;
   overflow: hidden;
   touch-action: pan-y;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
-  &--coral { background-color: var(--color-coral-bg); }
-  &--amber { background-color: var(--color-amber-bg); }
-  &--teal  { background-color: var(--color-teal-bg); }
-  &--pink  { background-color: var(--color-pink-bg); }
-
-  &--coral &__label, &--coral &__body { color: var(--color-coral-text); }
-  &--amber &__label, &--amber &__body { color: var(--color-amber-text); }
-  &--teal &__label,  &--teal &__body  { color: var(--color-teal-text); }
-  &--pink &__label,  &--pink &__body  { color: var(--color-pink-text); }
-
   &--front {
-    box-shadow: 0 4px 12px rgba(44, 44, 42, 0.08);
     @include assistant-suggested-glow;
 
     &:hover {
@@ -271,8 +261,12 @@
 
   :host(:not([data-depth='0'])) {
     pointer-events: auto;
-    opacity: 0.55;
+    opacity: 0.90;
     transform: translateX(0px);
+
+    &:hover {
+      opacity: 0.98;
+    }
   }
   
   :host([data-depth='1']:not([data-depth='0'])) { transform: translateX(60px); }

@@ -9,6 +9,7 @@
         (clicked)="onToggleArchive()"
         [ariaLabel]="archiveToggleLabel()"
         data-testid="insights-archive-toggle"
+        [ibidHandDrawn]="2"
       >
         <ibid-icon name="history" class="o-dashboard-insights__archive-toggle-icon"></ibid-icon>
         <span>{{ archiveToggleLabel() }}</span>
@@ -28,7 +29,7 @@
           (pointerup)="onPointerUp($event, depthOf(i))"
         >
           <ibid-card
-            [customClass]="'o-dashboard-insight-card o-dashboard-insight-card--' + insight.visualArchetype + (depthOf(i) === 0 ? ' o-dashboard-insight-card--front' : '')"
+            [customClass]="'o-dashboard-insight-card ' + cardColor(i) + ' o-dashboard-insight-card--' + insight.visualArchetype + (depthOf(i) === 0 ? ' o-dashboard-insight-card--front' : '')"
             [attr.data-testid]="'dashboard-insight-' + insight.kind"
           >
             @if (depthOf(i) === 0) {
@@ -38,6 +39,7 @@
                   (clicked)="onRestore(insight, $event)"
                   [ariaLabel]="'insightsArchiveRestoreLabel' | translate"
                   data-testid="insight-restore-btn"
+                  [ibidHandDrawn]="2"
                 >
                   <ibid-icon name="arrow-back-curved"></ibid-icon>
                 </ibid-icon-button>
@@ -46,6 +48,7 @@
                   (clicked)="onDeleteForever(insight, $event)"
                   [ariaLabel]="'insightsArchiveDeleteLabel' | translate"
                   data-testid="insight-delete-forever-btn"
+                  [ibidHandDrawn]="2"
                 >
                   <ibid-icon name="delete-outline"></ibid-icon>
                 </ibid-icon-button>
@@ -55,6 +58,7 @@
                   (clicked)="onDismissCard(insight, $event)"
                   [ariaLabel]="'insightsDismissLabel' | translate"
                   data-testid="insight-dismiss-btn"
+                  [ibidHandDrawn]="2"
                 >
                   <ibid-icon name="archive-download"></ibid-icon>
                 </ibid-icon-button>
@@ -95,7 +99,7 @@
             <div class="o-dashboard-insight-card__body">
               @switch (insight.visualArchetype) {
                 @case ('highlight_metric') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-teal" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__child-header">
                       <span class="o-dashboard-insight-card__child-label">
                         @if (asHighlightMetric(insight).labelKey) {
@@ -122,7 +126,7 @@
                 }
 
                 @case ('run_rate') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-amber" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__child-header">
                       <span class="o-dashboard-insight-card__child-label">{{ 'insightsSpendingVelocityLabel' | translate }}</span>
                       <span class="o-dashboard-insight-card__child-secondary">
@@ -144,7 +148,7 @@
                 }
 
                 @case ('trend_table') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-lavender" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     @if (asTrendTable(insight).items.length > 0) {
                       <div class="o-dashboard-insight-card__mini-list">
                         @for (item of asTrendTable(insight).items; track item.description) {
@@ -164,7 +168,7 @@
                 }
 
                 @case ('balance_average') {
-                  <div class="o-dashboard-insight-card__chart-card" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__chart-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__chart-header">
                       <ibid-segmented-control
                         [options]="windowOptions()"
@@ -182,7 +186,7 @@
                 }
 
                 @case ('composition') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-teal" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__composition-bar">
                       @for (slice of asComposition(insight).slices; track (slice.labelKey || slice.label)) {
                         <span
@@ -241,7 +245,7 @@
                 }
 
                 @case ('comparison_bars') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-amber" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__bars">
                       @for (bar of asComparisonBars(insight).bars; track bar.categoryId) {
                         <div class="o-dashboard-insight-card__bar-column">
@@ -261,7 +265,7 @@
                 }
 
                 @case ('retrospective') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-teal" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__value">
                       <ibid-currency-display [value]="asRetrospective(insight).total" size="sm" />
                     </div>
@@ -293,7 +297,7 @@
                 }
 
                 @case ('overspend_alert') {
-                  <div class="o-dashboard-insight-card__child-card u-bg-coral" ibidHandDrawn>
+                  <div [class]="'o-dashboard-insight-card__child-card ' + cardColor(i + 1)" [ibidHandDrawn]="2">
                     <div class="o-dashboard-insight-card__child-header">
                       <span class="o-dashboard-insight-card__child-label o-dashboard-insight-card__child-label--danger">
                         {{ 'budgetOverBudgetLabel' | translate }}
@@ -315,6 +319,7 @@
                     (clicked)="onConfirmRecurrence(insight)"
                     [ariaLabel]="'insightsMarkAllRecurring' | translate"
                     data-testid="insight-confirm-btn"
+                    [ibidHandDrawn]="2"
                   >
                     <ibid-icon name="help-circle" class="o-dashboard-insight-card__action-icon"></ibid-icon>
                     <span>{{ 'insightsMarkAllRecurring' | translate }}</span>
@@ -330,6 +335,7 @@
                   (clicked)="onAction(insight)"
                   [ariaLabel]="getActionLabel(insight)"
                   data-testid="insight-action-btn"
+                  [ibidHandDrawn]="2"
                 >
                   <ibid-icon name="link" class="o-dashboard-insight-card__action-icon"></ibid-icon>
                   <span>{{ getActionLabel(insight) }}</span>
@@ -349,7 +355,7 @@
       />
     }
   } @else {
-    <div class="o-dashboard-insights__empty" ibidHandDrawn>
+    <div [class]="'o-dashboard-insights__empty ' + cardColor(0)" [ibidHandDrawn]="2">
       @if (showArchived()) {
         <ibid-icon name="history" class="o-dashboard-insights__empty-icon"></ibid-icon>
         <p class="o-dashboard-insights__empty-title">{{ 'insightsArchiveEmptyTitle' | translate }}</p>

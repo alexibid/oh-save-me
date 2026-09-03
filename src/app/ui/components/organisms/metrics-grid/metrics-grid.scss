@@ -1,5 +1,6 @@
 
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
 
 .o-metrics-grid {
   display: flex;
@@ -27,6 +28,7 @@
   }
 
   &__child-card {
+    @include glass-pane;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -34,7 +36,6 @@
     padding: 1.25em;
     color: var(--color-ink);
     min-height: 140px;
-    box-shadow: 2px 4px 0px rgba(0,0,0,0.1);
 
     &--small {
       font-size: var(--text-m);

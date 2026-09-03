@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
 
 :host {
   display: block;
@@ -25,8 +26,8 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &--shared {
-      @include glass-highlight-surface(-0.8deg, 999px);
-      color: var(--color-primary, #0284c7);
+      @include glass-pane;
+      color: var(--color-ink, #2c2c2a);
 
       span, ibid-icon {
         position: relative;

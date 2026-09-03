@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
 
 .o-dashboard-insights {
   display: flex;
@@ -26,22 +27,36 @@
   }
 
   &__archive-toggle {
-    display: flex;
+    --ibid-icon-button-padding: 0 1.25rem;
+    --ibid-icon-button-size: auto;
+    display: inline-flex;
     align-items: center;
-    gap: 4px;
-    height: 1.75rem;
-    padding: 0 0.6rem;
-    border-radius: 999px;
-    background: var(--color-surface, #ffffff);
-    color: var(--color-text-muted, #6b6b66);
-    font-size: var(--text-m);
-    font-weight: 700;
-    white-space: nowrap;
-    cursor: pointer;
+    justify-content: center;
+    height: var(--header-elem-height, 38px);
+    min-height: 38px;
+    width: auto;
+    box-sizing: border-box;
 
-    &--active {
-      color: var(--color-text, #2c2c2a);
-      box-shadow: inset 0 0 0 1.5px var(--color-border);
+    button.a-icon-button,
+    .a-icon-button {
+      height: 100%;
+      width: auto;
+      padding: 0 1.25rem !important;
+      border-radius: var(--ibid-contour-edges, 999px);
+      clip-path: var(--ibid-contour-corners, none);
+      @include glass-pane;
+      font-family: var(--font-ui);
+      font-size: var(--text-m);
+      font-weight: 700;
+      color: var(--color-ink, #2c2c2a);
+      box-shadow: 0 2px 8px rgba(44, 44, 42, 0.08);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      gap: 6px;
+
+      &:hover {
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 4px 14px rgba(44, 44, 42, 0.12);
+      }
     }
   }
 
@@ -52,6 +67,7 @@
   }
 
   &__empty {
+    @include glass-pane;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +77,6 @@
     padding: 2rem 1.5rem;
     box-sizing: border-box;
     text-align: center;
-    background: var(--color-surface, #fdfcfa);
   }
 
   &__empty-icon {
@@ -137,39 +152,39 @@
 
     &[data-depth='1'] {
       transform: translateY(12px) scale(0.97);
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     &[data-depth='2'] {
       transform: translateY(24px) scale(0.94);
-      opacity: 0.55;
+      opacity: 0.78;
     }
 
     &[data-depth='3'] {
       transform: translateY(36px) scale(0.91);
-      opacity: 0.3;
+      opacity: 0.65;
     }
 
     &:not([data-depth='0']):hover {
-      opacity: 0.95;
+      opacity: 0.98;
       transform: translateY(8px) scale(0.98);
     }
   }
 }
 
 .o-dashboard-insight-card {
+  @include glass-pane;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
+  gap: 1.25rem;
+  padding: 1.75rem 1.5rem;
   height: 100%;
   box-sizing: border-box;
-  background: var(--color-surface, #ffffff);
   overflow: hidden;
 
   &--front {
-    box-shadow: 0 4px 16px rgba(44, 44, 42, 0.08);
+    @include assistant-suggested-glow;
   }
 
   &__status-tag {
@@ -186,43 +201,62 @@
     width: 1.4em;
     height: 1.4em;
     margin-right: 0.5rem;
-    color: var(--color-ink, #2c2c2a);
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+    color: inherit;
 
     ibid-icon {
-      width: 1em;
-      height: 1em;
+      width: 1.4em;
+      height: 1.4em;
+      display: block;
+    }
+  }
+
+  button.o-dashboard-insight-card__lead {
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.7;
     }
   }
 
   &__header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding-right: 2.75rem;
+    display: block;
+    width: 100%;
 
     &--with-tag {
-      margin-top: 2.25rem;
+      padding-top: 2rem;
     }
   }
 
   &__title-row {
-    display: inline-flex;
-    font-size: 1.15rem;
+    display: block;
+    width: 100%;
+    margin-bottom: 0.25rem;
   }
 
   &__title {
-    font-size: 1em;
-    line-height: 1.4;
+    display: inline;
+    font-size: 1.15rem;
     font-weight: 700;
     font-family: var(--font-brand);
-    color: var(--color-text, #2c2c2a);
+    color: inherit;
+    line-height: 1.35;
     margin: 0;
   }
 
   &__subtext {
+    display: block;
+    clear: both;
     font-size: var(--text-m);
-    color: var(--color-text-muted, #57534e);
-    line-height: 1.4;
+    line-height: 1.45;
+    color: inherit;
+    opacity: 0.85;
+    margin-top: 0.25rem;
   }
 
   &__body {
@@ -233,12 +267,12 @@
   }
 
   &__chart-card {
+    @include glass-pane;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 1rem;
+    padding: 1.25rem;
     box-sizing: border-box;
-    background: var(--color-surface-muted, #f6f5f1);
   }
 
   &__chart-header {
@@ -253,10 +287,11 @@
   }
 
   &__child-card {
+    @include glass-pane;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem 1rem;
+    gap: 0.6rem;
+    padding: 1.25rem 1.25rem;
     box-sizing: border-box;
   }
 
@@ -286,11 +321,13 @@
   }
 
   &__value {
-    font-size: 2.35rem;
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-brand);
     color: inherit;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
 
     &--danger {
       color: var(--color-coral-text);
@@ -298,17 +335,16 @@
   }
 
   &__value-unit {
-    font-size: 1.15rem;
-    font-weight: 600;
-    opacity: 0.75;
-    margin-left: 0.2rem;
+    font-size: var(--text-m);
+    font-weight: 500;
+    opacity: 0.8;
   }
 
   &__progress-track {
     width: 100%;
-    height: 8px;
-    background: rgba(0, 0, 0, 0.08);
+    height: 0.5rem;
     border-radius: 9999px;
+    background-color: rgba(0, 0, 0, 0.08);
     overflow: hidden;
     margin-top: 0.35rem;
   }
@@ -319,7 +355,7 @@
     transition: width 0.3s ease;
 
     &--on_track {
-      background-color: var(--color-teal-mid);
+      background-color: var(--color-pink-mid);
     }
 
     &--warning {
@@ -371,13 +407,13 @@
     border-radius: 9999px;
     font-size: var(--text-m);
     font-weight: 700;
-    background: var(--color-teal-bg, #ccfbf1);
-    color: var(--color-teal-text, #0f766e);
-    border: 1px solid var(--color-teal-mid, #2dd4bf);
+    background: var(--color-pink-bg, #fce7f3);
+    color: var(--color-pink-text, #9d174d);
+    border: 1px solid var(--color-pink-mid, #f472b6);
 
     &--confirmed {
-      background: var(--color-teal-bg, #ccfbf1);
-      color: var(--color-teal-text, #0f766e);
+      background: var(--color-pink-bg, #fce7f3);
+      color: var(--color-pink-text, #9d174d);
     }
   }
 
@@ -389,12 +425,13 @@
   &__footer {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     align-items: center;
     justify-content: center;
     width: 100%;
     margin-top: auto;
-    padding-top: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.25rem;
   }
 
   &__restore-btn {
@@ -446,89 +483,42 @@
   }
 
   &__action-btn {
-    position: relative;
-    max-width: 100%;
+    --ibid-icon-button-padding: 0 1.75rem;
+    --ibid-icon-button-size: auto;
+    --ibid-icon-button-height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    min-height: 38px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    height: 42px;
+    min-height: 42px;
+    width: auto;
+    box-sizing: border-box;
     white-space: nowrap;
 
+    button.a-icon-button,
     .a-icon-button {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.9rem;
-      padding: 0.75rem 2.25rem;
-      max-width: 100%;
-      min-width: 0;
-      min-height: 38px;
-      font-family: var(--font-editorial);
-      font-size: 18px;
+      height: 100%;
+      width: auto;
+      padding: 0 1.75rem !important;
+      font-family: var(--font-brand);
+      font-size: var(--text-m);
       font-weight: 700;
-      color: var(--color-text);
-      background: transparent;
-      border: none;
-      z-index: 1;
-      cursor: pointer;
-    }
+      color: var(--color-ink, #2c2c2a);
+      border-radius: var(--ibid-contour-edges, 999px);
+      clip-path: var(--ibid-contour-corners, none);
+      @include glass-pane;
+      box-shadow: 0 2px 8px rgba(44, 44, 42, 0.08);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      gap: 0.6rem;
 
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      left: -8px;
-      right: -8px;
-      border-radius: 3px 8px 4px 7px;
-      opacity: 0.55;
-      transform: rotate(-1deg);
-      pointer-events: none;
-      z-index: 0;
-      transition: opacity 0.15s ease, transform 0.15s ease;
-    }
-
-    &:hover {
-      transform: translateY(-2px);
-
-      &::before {
-        opacity: 0.85;
-        transform: rotate(-0.5deg) scale(1.03);
+      &:hover {
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 4px 14px rgba(44, 44, 42, 0.12);
       }
-    }
 
-    &:active {
-      transform: translateY(0);
-
-      &::before {
-        opacity: 0.95;
+      &:active {
+        transform: translateY(0) scale(0.99);
       }
-    }
-
-    &--highlight_metric::before {
-      background-color: var(--color-teal-mid);
-    }
-
-    &--run_rate::before {
-      background-color: var(--color-amber-mid);
-    }
-
-    &--trend_table::before {
-      background-color: var(--color-pink-mid);
-    }
-
-    &--overspend_alert::before {
-      background-color: var(--color-coral-mid);
-    }
-
-    &--composition::before {
-      background-color: var(--color-teal-mid);
-    }
-
-    &--action::before {
-      background-color: var(--color-blue-mid, #60a5fa);
     }
   }
 
@@ -638,7 +628,7 @@
     height: 100%;
 
     &--owned {
-      background-color: var(--color-teal-mid);
+      background-color: var(--color-amber-mid);
     }
 
     &--committed {
@@ -646,7 +636,7 @@
     }
 
     &--locked {
-      background-color: var(--color-amber-mid);
+      background-color: var(--color-coral-mid);
     }
   }
 
@@ -658,7 +648,7 @@
     margin-right: 0.375rem;
 
     &--owned {
-      background-color: var(--color-teal-mid);
+      background-color: var(--color-amber-mid);
     }
 
     &--committed {
@@ -666,7 +656,7 @@
     }
 
     &--locked {
-      background-color: var(--color-amber-mid);
+      background-color: var(--color-coral-mid);
     }
   }
 
@@ -723,7 +713,7 @@
     font-weight: 600;
 
     &--owned {
-      color: var(--color-teal-text, #0f766e);
+      color: var(--color-amber-text, #92400e);
     }
 
     &--debt {
