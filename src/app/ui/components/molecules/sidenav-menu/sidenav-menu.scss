@@ -306,6 +306,10 @@ ohsaveme-sidenav-menu,
     padding-bottom: var(--space-1);
   }
 
+  .m-sidenav-menu__header {
+    display: none;
+  }
+
   .m-sidenav-menu__cycle {
     display: none;
   }

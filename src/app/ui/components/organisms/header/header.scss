@@ -7,11 +7,15 @@ ohsaveme-header,
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 50;
+  z-index: var(--z-header);
   pointer-events: none;
 
   &:has(.o-header--is-open) {
-    z-index: 1;
+    z-index: var(--z-card);
+
+    @include respond-to('desktop') {
+      z-index: var(--z-header);
+    }
   }
 }
 
@@ -27,7 +31,11 @@ $sidenav-width: 240px;
   pointer-events: none;
 
   &--is-open {
-    z-index: 1;
+    z-index: var(--z-card);
+
+    @include respond-to('desktop') {
+      z-index: var(--z-header);
+    }
 
     .o-header-shell {
       @include respond-to('tablet-down') {
@@ -40,18 +48,6 @@ $sidenav-width: 240px;
         }
       }
     }
-
-    @include respond-to('tablet-down') {
-      --header-logo-size: 42px;
-
-      .o-header-shell__bar {
-        min-height: 42px;
-      }
-
-      .o-header__brands {
-        margin-left: 16px;
-      }
-    }
   }
 
   .o-header-shell__bar {
@@ -62,10 +58,10 @@ $sidenav-width: 240px;
     width: 100%;
     gap: 12px;
     position: relative;
-    min-height: var(--header-height);
+
+    min-height: calc(var(--header-logo-size) + 12px);
 
     @include respond-to('tablet') {
-      min-height: var(--header-elem-height);
       align-items: center;
     }
   }
@@ -232,6 +228,12 @@ $sidenav-width: 240px;
     flex-shrink: 0;
     width: 100%;
 
+    .a-select__trigger,
+    .a-select-field .mdc-text-field--outlined {
+      height: var(--header-elem-height, 38px);
+      min-height: var(--header-elem-height, 38px);
+    }
+
     @include respond-to('tablet') {
       width: 150px;
     }
@@ -240,6 +242,11 @@ $sidenav-width: 240px;
   &__date-range {
     flex-shrink: 0;
     width: 100%;
+
+    .a-date-input__trigger {
+      height: var(--header-elem-height, 38px);
+      min-height: var(--header-elem-height, 38px);
+    }
 
     @include respond-to('tablet') {
       width: 268px;

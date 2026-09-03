@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/themes/glass-surface';
+@use 'libs/ibid-ui/src/styles/tools/mixins' as *;
 
 body.glass-surface {
   --ibid-header-surface-tint: var(--glass-tint-teal);
@@ -74,13 +75,15 @@ body.glass-surface {
     }
   }
 
-  .a-select-field .mdc-text-field--outlined,
-  div.m-dropdown-panel.mat-mdc-select-panel,
+  .a-select__trigger,
+  .a-select__popover,
+  .a-select-field,
+  div.m-dropdown-panel,
   .a-date-input__trigger,
   .a-date-input__popover,
-  .m-sidenav-menu__cycle-preset .a-select-field .mdc-text-field--outlined,
+  .m-sidenav-menu__cycle-preset .a-select__trigger,
   .m-sidenav-menu__date-input .a-date-input__trigger,
-  .m-sidenav-menu__select-language .a-select-field .mdc-text-field--outlined {
+  .m-sidenav-menu__select-language .a-select__trigger {
     --glass-tint: var(--glass-tint-amber) !important;
     --glass-edge: var(--glass-edge-amber) !important;
     --glass-wash: var(--glass-wash-amber) !important;
@@ -93,10 +96,14 @@ ohsaveme-header {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 50;
+  z-index: var(--z-header);
   pointer-events: none;
 
   &:has(.o-header--is-open) {
-    z-index: 1;
+    z-index: var(--z-card);
+
+    @include respond-to('desktop') {
+      z-index: var(--z-header);
+    }
   }
 }

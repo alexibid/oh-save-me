@@ -3,10 +3,14 @@
 ohsaveme-header {
   display: block;
   position: relative;
-  z-index: 50;
+  z-index: var(--z-header);
 
   &:has(.o-header--is-open) {
-    z-index: 1;
+    z-index: var(--z-card);
+
+    @include respond-to('desktop') {
+      z-index: var(--z-header);
+    }
   }
 }
 
@@ -24,7 +28,7 @@ ohsaveme-header {
   transform: none;
   left: -280px;
   transition: left 300ms ease-in-out;
-  z-index: 20;
+  z-index: var(--z-drawer-mobile);
 
   &.mat-drawer-opened {
     border-radius: 0px;
@@ -33,7 +37,7 @@ ohsaveme-header {
 }
 
 .mat-drawer-backdrop {
-  z-index: 15;
+  z-index: var(--z-backdrop);
 }
 
 @include respond-to('desktop') {
@@ -45,7 +49,7 @@ ohsaveme-header {
     height: auto;
     max-height: calc(100vh - var(--header-height));
     overflow: hidden;
-    z-index: 5;
+    z-index: var(--z-drawer-desktop);
 
     .o-sidenav__drawer {
       display: block;

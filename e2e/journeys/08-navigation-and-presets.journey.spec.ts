@@ -85,7 +85,7 @@ test.describe('User Journey 08: Global Navigation, Header Controls and Presets',
       await expect(presetSelect).toBeVisible();
       await presetSelect.click();
 
-      const presetOption = page.locator('.a-select__option, .a-select-field__option, mat-option').first();
+      const presetOption = page.locator('.a-select__option, .a-select-field__option, .mat-option, mat-option').first();
       await expect(presetOption).toBeVisible();
       await presetOption.click();
       await flow.step(7, 'change-header-preset', 'date-range-and-data-updated');
@@ -127,7 +127,7 @@ test.describe('User Journey 08: Global Navigation, Header Controls and Presets',
       await expect(langSelect).toBeVisible();
       await langSelect.click();
 
-      const langOption = page.locator('.a-select-field__option, mat-option').first();
+      const langOption = page.locator('.a-select__option, .a-select-field__option, .mat-option, mat-option').first();
       await expect(langOption).toBeVisible();
       await langOption.click();
       await flow.step(11, 'toggle-language', 'language-switched');
