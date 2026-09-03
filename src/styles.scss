@@ -9,20 +9,82 @@ body.glass-surface {
   --ibid-header-actions-tint: var(--glass-tint-amber);
   --ibid-header-actions-edge: var(--glass-edge-amber);
   --ibid-header-actions-wash: var(--glass-wash-amber);
+  --ibid-header-actions-color: var(--color-amber-text);
   --ibid-header-actions-bg-opacity: var(--glass-wash-opacity, 0.12);
 
   --ibid-button-font-family: var(--font-ui);
+  --ibid-button-tint: var(--glass-tint-amber);
+  --ibid-button-edge: var(--glass-edge-amber);
+  --ibid-button-wash: var(--glass-wash-amber);
+  --ibid-button-color: var(--color-amber-text);
+
+  --ibid-icon-button-tint: var(--glass-tint-amber);
+  --ibid-icon-button-edge: var(--glass-edge-amber);
+  --ibid-icon-button-wash: var(--glass-wash-amber);
+  --ibid-icon-button-color: var(--color-amber-text);
+
   --ibid-select-font-family: var(--font-ui);
+  --ibid-select-tint: var(--glass-tint-amber);
+  --ibid-select-edge: var(--glass-edge-amber);
+  --ibid-select-wash: var(--glass-wash-amber);
+
   --ibid-date-input-font-family: var(--font-ui);
+  --ibid-date-input-tint: var(--glass-tint-amber);
+  --ibid-date-input-edge: var(--glass-edge-amber);
+  --ibid-date-input-wash: var(--glass-wash-amber);
 
   --ibid-card-surface-tint: var(--glass-tint-teal);
   --ibid-card-bg-opacity: var(--glass-wash-opacity, 0.12);
 
-  --ibid-sidenav-surface-tint: var(--glass-tint-coral);
+  --ibid-sidenav-surface-tint: var(--glass-tint-teal);
+  --ibid-sidenav-surface-edge: var(--glass-edge-teal);
+  --ibid-sidenav-surface-wash: var(--glass-wash-teal);
   --ibid-sidenav-bg-opacity: var(--glass-wash-opacity, 0.12);
 
   --ibid-dialog-surface-tint: var(--glass-tint-pink);
   --ibid-dialog-bg-opacity: var(--glass-wash-opacity, 0.12);
+
+  .a-button,
+  ibid-button button,
+  .a-icon-button,
+  ibid-icon-button button {
+    --glass-tint: var(--glass-tint-amber);
+    --glass-edge: var(--glass-edge-amber);
+    --glass-wash: var(--glass-wash-amber);
+    color: var(--color-amber-text);
+
+    &.a-button--primary {
+      background-color: transparent;
+      --glass-tint: var(--glass-tint-amber);
+      --glass-edge: var(--glass-edge-amber);
+      --glass-wash: var(--glass-wash-amber);
+      color: var(--color-amber-text);
+      box-shadow:
+        0 4px 16px rgba(239, 155, 39, 0.25),
+        0 1px 3px rgba(239, 155, 39, 0.15);
+    }
+
+    &.a-button--secondary,
+    &.a-button--outlined,
+    &.a-button--highlight {
+      --glass-tint: var(--glass-tint-amber);
+      --glass-edge: var(--glass-edge-amber);
+      --glass-wash: var(--glass-wash-amber);
+      color: var(--color-amber-text);
+    }
+  }
+
+  .a-select-field .mdc-text-field--outlined,
+  div.m-dropdown-panel.mat-mdc-select-panel,
+  .a-date-input__trigger,
+  .a-date-input__popover,
+  .m-sidenav-menu__cycle-preset .a-select-field .mdc-text-field--outlined,
+  .m-sidenav-menu__date-input .a-date-input__trigger,
+  .m-sidenav-menu__select-language .a-select-field .mdc-text-field--outlined {
+    --glass-tint: var(--glass-tint-amber) !important;
+    --glass-edge: var(--glass-edge-amber) !important;
+    --glass-wash: var(--glass-wash-amber) !important;
+  }
 }
 
 ohsaveme-header {

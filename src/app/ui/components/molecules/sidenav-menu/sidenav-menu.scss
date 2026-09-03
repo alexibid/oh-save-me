@@ -75,8 +75,6 @@ ohsaveme-sidenav-menu,
 
       .mdc-text-field--outlined {
         height: 40px;
-        position: relative;
-        @include glass-highlight-surface;
 
         .mat-mdc-form-field-infix {
           min-height: 40px;
@@ -103,8 +101,6 @@ ohsaveme-sidenav-menu,
     .a-date-input__trigger {
       height: 40px;
       box-sizing: border-box;
-      position: relative;
-      @include glass-highlight-surface;
 
       .a-date-input__text,
       ibid-icon,
