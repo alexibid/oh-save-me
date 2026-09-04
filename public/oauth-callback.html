@@ -41,10 +41,8 @@
       var search = window.location.search || '';
       var payload = hash || search;
       
-      // Dispatch deep link to Android App
       window.location.href = 'com.ohsaveme.app:/oauth2redirect' + payload;
       
-      // Secondary fallback attempt
       setTimeout(function() {
         window.location.href = 'com.ohsaveme.app:/oauth2redirect' + payload;
       }, 500);
