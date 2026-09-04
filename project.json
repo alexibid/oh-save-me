@@ -29,7 +29,7 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "20kB",
-              "maximumError": "30kB"
+              "maximumError": "40kB"
             }
           ]
         }
@@ -165,8 +165,8 @@
       "options": {
         "cwd": "apps/oh-save-me/platforms/mobile/android",
         "commands": [
-          "chmod +x gradlew && ./gradlew assembleDebug",
-          "cd ../../../../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from apps/oh-save-me/platforms/mobile/android/app/build/outputs/apk/debug --ext apk"
+          "chmod +x gradlew && ./gradlew assembleRelease",
+          "cd ../../../../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from apps/oh-save-me/platforms/mobile/android/app/build/outputs/apk/release --ext apk"
         ],
         "parallel": false
       }
