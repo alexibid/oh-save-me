@@ -115,7 +115,7 @@
         "commands": [
           "cd ../.. && node tools/builder/sync-app-version.mjs --project oh-save-me",
           "tauri build --config platforms/desktop/src-tauri/tauri.conf.json",
-          "cd ../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from dist/oh-save-me/desktop/release/bundle --ext dmg,msi,exe,deb,rpm,AppImage"
+          "cd ../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from apps/oh-save-me/platforms/dist/oh-save-me/desktop/release/bundle --ext dmg,msi,exe,deb,rpm,AppImage"
         ],
         "parallel": false
       }
