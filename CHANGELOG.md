@@ -1,3 +1,21 @@
+## 0.1.3 (2026-09-04)
+
+### 🩹 Fixes
+
+- **tools:** route workflows to self-hosted runner and configure Firebase multi-site delivery ([6a1b7df](https://github.com/alexibid/ibid-workspace/commit/6a1b7df))
+- **oh-save-me:** resolve Gradle 9 Android deprecations and update native platforms ([dc06b06](https://github.com/alexibid/ibid-workspace/commit/dc06b06))
+
+### 🧱 Updated Dependencies
+
+- Updated services to 0.1.3
+- Updated ibid-ui to 0.1.3
+- Updated testing to 0.0.4
+- Updated utils to 0.0.4
+
+### ❤️ Thank You
+
+- alexibid @alexibid
+
 ## 0.1.1 (2026-09-04)
 
 ### 🚀 Features
