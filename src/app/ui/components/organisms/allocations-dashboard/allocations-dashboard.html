@@ -1,27 +1,9 @@
 <div class="m-allocations-dashboard">
   
   <div class="m-allocations-dashboard__filters-bar">
-    <div class="m-allocations-dashboard__filter-tabs">
-      <button type="button" class="m-allocations-dashboard__filter-tab"
-        [class.m-allocations-dashboard__filter-tab--active]="filterState() === 'all'" (click)="filterState.set('all')">
-        {{ 'budgetFilterAll' | translate }}
-      </button>
-      <button type="button" class="m-allocations-dashboard__filter-tab"
-        [class.m-allocations-dashboard__filter-tab--active]="filterState() === 'active'" (click)="filterState.set('active')">
-        {{ 'budgetFilterActive' | translate }}
-      </button>
-      <button type="button" class="m-allocations-dashboard__filter-tab"
-        [class.m-allocations-dashboard__filter-tab--active]="filterState() === 'expired'" (click)="filterState.set('expired')">
-        {{ 'budgetFilterExpired' | translate }}
-      </button>
-      @if (!isPortfolio()) {
-        <button type="button" class="m-allocations-dashboard__filter-tab"
-          [class.m-allocations-dashboard__filter-tab--active]="filterState() === 'closed'" (click)="filterState.set('closed')">
-          {{ 'budgetFilterClosed' | translate }}
-        </button>
-      }
-    </div>
+    <ibid-toggle-tabs [items]="tabItems()" [(value)]="filterState" size="md" />
   </div>
+
 
   @if (isPortfolio()) {
     @if (filteredWallets().length > 0) {

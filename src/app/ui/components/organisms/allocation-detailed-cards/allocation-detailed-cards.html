@@ -2,9 +2,7 @@
   @for (item of detailedCards(); track item.category.id) {
     <ibid-card customClass="m-allocation-detailed-cards__card">
       <div class="m-allocation-detailed-cards__header">
-        <div class="m-allocation-detailed-cards__icon" [style.background-color]="item.category.color">
-          <ibid-icon [name]="item.category.icon"></ibid-icon>
-        </div>
+        <ibid-feature-icon [name]="item.category.icon" [color]="item.category.color" size="md" />
         <h3 class="m-allocation-detailed-cards__title">{{ i18n.getCategoryName(item.category.id) }}</h3>
       </div>
 
@@ -66,9 +64,7 @@
   @for (asset of assetCards(); track asset.id) {
     <ibid-card customClass="m-allocation-detailed-cards__card">
       <div class="m-allocation-detailed-cards__header">
-        <div class="m-allocation-detailed-cards__icon m-allocation-detailed-cards__icon--asset">
-          <ibid-icon [name]="assetKindIcon(asset.kind)"></ibid-icon>
-        </div>
+        <ibid-feature-icon [name]="assetKindIcon(asset.kind)" color="var(--color-primary)" size="md" />
         <h3 class="m-allocation-detailed-cards__title">{{ asset.name }}</h3>
         <div class="m-allocation-detailed-cards__actions">
           <button type="button" class="m-allocation-detailed-cards__movements-btn"

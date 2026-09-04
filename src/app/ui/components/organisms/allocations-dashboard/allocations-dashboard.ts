@@ -15,7 +15,9 @@ import {
   FormFieldComponent,
   HandDrawnDirective,
   IconButtonComponent,
-  IconComponent
+  IconComponent,
+  ToggleTabItem,
+  ToggleTabsComponent
 } from 'ibid-ui';
 
 export type AllocationsSource = 'projects' | 'investments';
@@ -30,6 +32,7 @@ export type AllocationsSource = 'projects' | 'investments';
     HandDrawnDirective,
     IconComponent,
     IconButtonComponent,
+    ToggleTabsComponent,
     ...I18N_SHARED
   ],
   templateUrl: './allocations-dashboard.html',
@@ -48,6 +51,19 @@ export class AllocationsDashboard {
   protected readonly filterState = signal<'all' | 'active' | 'expired' | 'closed'>('active');
 
   protected readonly isPortfolio = computed<boolean>(() => this.source() === 'investments');
+
+  protected readonly tabItems = computed<readonly ToggleTabItem<'all' | 'active' | 'expired' | 'closed'>[]>(() => {
+    const portfolio = this.isPortfolio();
+    const items: ToggleTabItem<'all' | 'active' | 'expired' | 'closed'>[] = [
+      { value: 'all', label: this.i18n.translate('budgetFilterAll') },
+      { value: 'active', label: this.i18n.translate('budgetFilterActive') },
+      { value: 'expired', label: this.i18n.translate('budgetFilterExpired') }
+    ];
+    if (!portfolio) {
+      items.push({ value: 'closed', label: this.i18n.translate('budgetFilterClosed') });
+    }
+    return items;
+  });
 
   protected readonly filteredWallets = computed<readonly WalletEntry[]>(() => {
     const filter = this.filterState();

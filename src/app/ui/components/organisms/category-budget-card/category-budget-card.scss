@@ -44,21 +44,6 @@
     }
   }
 
-  &__icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-
-    ::ng-deep .a-icon {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
   &__name {
     font-weight: 600;
     font-size: var(--text-m);
@@ -118,13 +103,3 @@
   }
 }
 
-:host-context(body.sea-glass-pebbles) .m-category-budget-card,
-body.sea-glass-pebbles .m-category-budget-card {
-  .m-category-budget-card__icon {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    background-color: color-mix(in srgb, var(--category-color, var(--color-primary)) 25%, var(--color-glass-surface, rgba(238, 244, 242, 0.75)));
-    border: 1px solid color-mix(in srgb, var(--category-color, var(--color-primary)) 40%, rgba(255, 255, 255, 0.6));
-    color: color-mix(in srgb, var(--category-color, var(--color-primary)) 85%, #1c1917);
-  }
-}

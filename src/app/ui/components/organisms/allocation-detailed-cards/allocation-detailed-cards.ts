@@ -10,7 +10,7 @@ import { AllocationMovementsDialogComponent } from '@ui/components/organisms/all
 import { useStore } from '@application/app-store';
 
 import { isTransferCategory, isInvestmentCategory } from '@domain/shared/transfer.utils';
-import { ButtonComponent, CardComponent, CurrencyDisplayComponent, IconButtonComponent, IconComponent } from 'ibid-ui';
+import { ButtonComponent, CardComponent, CurrencyDisplayComponent, FeatureIconComponent, IconButtonComponent, IconComponent } from 'ibid-ui';
 
 export type DetailedCardsSource = 'categories' | 'investments';
 
@@ -37,7 +37,17 @@ const WALLET_KIND_ICON: Record<string, string> = {
 @Component({
   selector: 'ohsaveme-allocation-detailed-cards',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, CardComponent, FormsModule, ButtonComponent, IconComponent, IconButtonComponent, ...I18N_SHARED],
+  imports: [
+    CurrencyDisplayComponent,
+    CommonModule,
+    CardComponent,
+    FormsModule,
+    ButtonComponent,
+    FeatureIconComponent,
+    IconComponent,
+    IconButtonComponent,
+    ...I18N_SHARED
+  ],
   templateUrl: './allocation-detailed-cards.html',
   styleUrl: './allocation-detailed-cards.scss'
 })

@@ -43,9 +43,7 @@
     <div class="m-budget-execution-summary__list m-budget-execution-summary__list--categories">
       @for (item of activeCategoryBudgets(); track item.budget.id) {
         <div class="m-budget-execution-summary__item m-budget-execution-summary__item--category">
-          <div class="m-budget-execution-summary__item-icon" [style.background-color]="item.categoryColor">
-            <ibid-icon [name]="item.categoryIcon || 'category-general'"></ibid-icon>
-          </div>
+          <ibid-feature-icon [name]="item.categoryIcon || 'category-general'" [color]="item.categoryColor" size="sm" />
           <span class="m-budget-execution-summary__item-name">
             {{ item.categoryName }}
             @if (isSuggestedExecution(item)) {

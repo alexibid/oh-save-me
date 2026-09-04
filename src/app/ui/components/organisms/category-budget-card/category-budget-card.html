@@ -1,8 +1,6 @@
 <ibid-card customClass="m-category-budget-card" (click)="editBudgetClick.emit()">
   <div class="m-category-budget-card__header">
-    <div class="m-category-budget-card__icon" [style.background-color]="categoryColor || 'var(--color-primary)'">
-      <ibid-icon [name]="categoryIcon || 'category-general'" />
-    </div>
+    <ibid-feature-icon [name]="categoryIcon || 'category-general'" [color]="categoryColor" size="md" />
     <span class="m-category-budget-card__name">{{ categoryName }}</span>
   </div>
 

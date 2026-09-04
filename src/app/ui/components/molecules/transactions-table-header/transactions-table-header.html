@@ -18,6 +18,7 @@
   @if (showSumToggle) {
     <ibid-icon-toggle
       collection-toggle
+      class="o-transactions-table__sum-toggle-btn"
       [checked]="sumModeEnabled"
       icon="sum"
       [label]="'sumMovementsTitle' | translate"
@@ -30,6 +31,7 @@
     <div collection-sort class="m-collection-header__controls-end">
       @if (selectionMode || sumModeEnabled) {
         <ibid-sort-button
+          class="o-transactions-table__sort-btn"
           [label]="'thSelected' | translate"
           [active]="sortField === 'selected'"
           [direction]="sortField === 'selected' ? sortDirection : 'desc'"
@@ -37,12 +39,14 @@
         ></ibid-sort-button>
       }
       <ibid-sort-button
+        class="o-transactions-table__sort-btn"
         [label]="'thDate' | translate"
         [active]="sortField === 'date'"
         [direction]="sortField === 'date' ? sortDirection : 'desc'"
         (clicked)="sortToggle.emit('date')"
       ></ibid-sort-button>
       <ibid-sort-button
+        class="o-transactions-table__sort-btn"
         [label]="'thAmount' | translate"
         [active]="sortField === 'amount'"
         [direction]="sortField === 'amount' ? sortDirection : 'desc'"

@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { BudgetSelectors, BudgetProgress } from '@application/selectors/budget.selectors';
 import { Budget } from '@domain/models/budget';
-import { ButtonComponent, CurrencyDisplayComponent, HandDrawnDirective, IconComponent } from 'ibid-ui';
+import { ButtonComponent, CurrencyDisplayComponent, FeatureIconComponent, HandDrawnDirective, IconComponent } from 'ibid-ui';
 
 const SUGGESTED_BUDGET_ID_PREFIX = 'temp-';
 
 @Component({
   selector: 'ohsaveme-budget-execution-summary',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, IconComponent, ButtonComponent, HandDrawnDirective, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, CommonModule, FeatureIconComponent, IconComponent, ButtonComponent, HandDrawnDirective, ...I18N_SHARED],
   templateUrl: './budget-execution-summary.html',
   styleUrl: './budget-execution-summary.scss'
 })
