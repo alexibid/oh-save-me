@@ -1,5 +1,5 @@
 import { defineConfig } from '@playwright/test';
-import { basePlaywrightConfig } from '../../tools/playwright/playwright.base';
+import { basePlaywrightConfig, E2E_SERVER_TIMEOUT } from '../../tools/playwright/playwright.base';
 
 /**
  * The suite runs its own server through its own Nx target: Nx serialises a target with itself, so
@@ -19,6 +19,6 @@ export default defineConfig({
     cwd: '../..',
     url: BASE_URL,
     reuseExistingServer: !process.env['CI'],
-    timeout: 120 * 1000,
+    timeout: E2E_SERVER_TIMEOUT,
   },
 });

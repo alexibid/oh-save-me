@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.savvyjar.app',
+  appId: 'com.ohsaveme.app',
   appName: 'Oh Save Me!',
   webDir: '../../../../dist/oh-save-me/browser',
   server: {

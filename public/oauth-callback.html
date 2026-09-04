@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Authenticating SavvyJar...</title>
+  <title>Authenticating Oh Save Me!...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -33,7 +33,7 @@
 <body>
   <div>
     <div class="spinner"></div>
-    <p>A autenticar no SavvyJar...</p>
+    <p>A autenticar no Oh Save Me!...</p>
   </div>
   <script>
     (function() {
@@ -42,11 +42,11 @@
       var payload = hash || search;
       
       // Dispatch deep link to Android App
-      window.location.href = 'com.savvyjar.app:/oauth2redirect' + payload;
+      window.location.href = 'com.ohsaveme.app:/oauth2redirect' + payload;
       
       // Secondary fallback attempt
       setTimeout(function() {
-        window.location.href = 'com.savvyjar.app:/oauth2redirect' + payload;
+        window.location.href = 'com.ohsaveme.app:/oauth2redirect' + payload;
       }, 500);
     })();
   </script>

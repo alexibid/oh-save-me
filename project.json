@@ -52,9 +52,6 @@
     "test": {
       "executor": "@angular/build:unit-test"
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
@@ -116,6 +113,7 @@
           "CARGO_TARGET_DIR": "../../dist/oh-save-me/desktop"
         },
         "commands": [
+          "cd ../.. && node tools/builder/sync-app-version.mjs --project oh-save-me",
           "tauri build --config platforms/desktop/src-tauri/tauri.conf.json",
           "cd ../.. && node tools/builder/collect-artifact.mjs --project oh-save-me --from dist/oh-save-me/desktop/release/bundle --ext dmg,msi,exe,deb,rpm,AppImage"
         ],
@@ -128,8 +126,12 @@
         "build"
       ],
       "options": {
-        "command": "npx cap sync",
-        "cwd": "apps/oh-save-me/platforms/mobile"
+        "cwd": "apps/oh-save-me/platforms/mobile",
+        "commands": [
+          "cd ../../../.. && node tools/builder/sync-app-version.mjs --project oh-save-me",
+          "npx cap sync"
+        ],
+        "parallel": false
       }
     },
     "mobile-ios": {

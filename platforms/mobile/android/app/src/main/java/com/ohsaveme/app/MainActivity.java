@@ -1,4 +1,4 @@
-package com.savvyjar.app;
+package com.ohsaveme.app;
 
 import android.os.Bundle;
 import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;

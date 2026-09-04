@@ -29,14 +29,14 @@ test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
     });
 
     await test.step('Step 4: Select Vacation project in multi-select', async () => {
-      const projectOption = page.locator('.a-category-select__option--project').filter({ hasText: 'Férias de Verão' }).first();
+      const projectOption = page.locator('.m-searchable-select__option--project').filter({ hasText: 'Férias de Verão' }).first();
       await expect(projectOption).toBeVisible();
       await projectOption.click();
       await flow.step(4, 'select-project-ferias', 'project-badge-previewed');
     });
 
     await test.step('Step 5: Select Meals category triggering ML confirmation', async () => {
-      const categoryOption = page.locator('.a-category-select__option').filter({ hasText: /Refeições/i }).first();
+      const categoryOption = page.locator('.m-searchable-select__option').filter({ hasText: /Refeições/i }).first();
       await expect(categoryOption).toBeVisible();
       await categoryOption.click();
       await flow.step(5, 'select-category-refeicoes', 'ml-confirmation-dialog-opened');

@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "oh-save-me-tauri",
   "version": "0.1.0",
-  "identifier": "com.savvyjar.app",
+  "identifier": "com.ohsaveme.app",
   "build": {
     "frontendDist": "../../../../../dist/oh-save-me/browser",
     "devUrl": "http://localhost:4200",

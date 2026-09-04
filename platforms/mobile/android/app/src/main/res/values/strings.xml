@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Oh Save Me!</string>
     <string name="title_activity_main">Oh Save Me!</string>
-    <string name="package_name">com.savvyjar.app</string>
-    <string name="custom_url_scheme">com.savvyjar.app</string>
+    <string name="package_name">com.ohsaveme.app</string>
+    <string name="custom_url_scheme">com.ohsaveme.app</string>
     <string name="server_client_id">42192423778-29084n6ihepqgvmedmmagrt2p0vlu9uh.apps.googleusercontent.com</string>
 </resources>

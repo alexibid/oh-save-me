@@ -269,7 +269,7 @@ Build → Test → Deploy Desktop → Deploy Mobile → Deploy Web
 2. **Test** — runs the full unit test suite against that build; its Job Summary lists every suite pass/fail plus a link to the full JSON report.
 3. **Deploy Desktop** — builds Tauri installers (macOS `.dmg`, Windows `.msi`/`.exe`, Linux `.deb`/`.AppImage`) across 3 platforms in parallel, attached to the GitHub Release for the tag.
 4. **Deploy Mobile** — builds the Capacitor Android `.apk`, attached to the same Release.
-5. **Deploy Web** — reuses the artifact from step 1 (no rebuild) and deploys to [savvyjar-app.web.app](https://savvyjar-app.web.app/). Guarded to only run on a real tag push, never on a manual dispatch from an arbitrary branch.
+5. **Deploy Web** — reuses the artifact from step 1 (no rebuild) and deploys to [ohsaveme-app.web.app](https://ohsaveme-app.web.app/). Guarded to only run on a real tag push, never on a manual dispatch from an arbitrary branch.
 
 **Nothing in `release.yml` runs on a plain merge to `master`** — only a tagged release triggers it. To ship a new version:
 ```bash

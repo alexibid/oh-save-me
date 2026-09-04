@@ -34,6 +34,7 @@
         ></ng-container>
       } @empty {
         <ibid-empty-state
+          role="listitem"
           class="o-transactions-table__cell--empty"
           [message]="'sumMovementsEmpty' | translate"
         ></ibid-empty-state>
@@ -82,6 +83,7 @@
         ></ng-container>
       } @empty {
         <ibid-empty-state
+          role="listitem"
           class="o-transactions-table__cell--empty"
           [message]="'movementsNoMovementsEmpty' | translate"
         ></ibid-empty-state>
@@ -92,6 +94,7 @@
   <ng-template #row let-tx let-previousDate="previousDate">
     <div
       class="o-transactions-table__row"
+      role="listitem"
       [ibidHandDrawn]="2"
       [attr.data-tx-date]="tx.date"
       [style.--category-color]="categoryColorFor(tx.category)"
