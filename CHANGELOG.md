@@ -1,3 +1,20 @@
+## 0.1.4 (2026-09-04)
+
+### 🩹 Fixes
+
+- **tools:** follow the running job in xbar and sync the platform versions ([927b7a6](https://github.com/alexibid/ibid-workspace/commit/927b7a6))
+
+### 🧱 Updated Dependencies
+
+- Updated services to 0.1.4
+- Updated ibid-ui to 0.1.4
+- Updated testing to 0.0.5
+- Updated utils to 0.0.5
+
+### ❤️ Thank You
+
+- alexibid @alexibid
+
 ## 0.1.3 (2026-09-04)
 
 ### 🩹 Fixes
