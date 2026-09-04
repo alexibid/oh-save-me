@@ -1,4 +1,23 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+['../node_modules/@codetrix-studio/capacitor-google-auth/android/build.gradle',
+ '../../../../node_modules/@codetrix-studio/capacitor-google-auth/android/build.gradle'].each { path ->
+    def pluginBuildGradle = file(path)
+    if (pluginBuildGradle.exists()) {
+        def text = pluginBuildGradle.text
+        def modified = false
+        if (text.contains('jcenter()')) {
+            text = text.replace('jcenter()', 'mavenCentral()')
+            modified = true
+        }
+        if (text.contains("proguard-android.txt")) {
+            text = text.replace("proguard-android.txt", "proguard-android-optimize.txt")
+            modified = true
+        }
+        if (modified) {
+            pluginBuildGradle.text = text
+        }
+    }
+}
+
 
 buildscript {
 
@@ -9,9 +28,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:9.3.1'
         classpath 'com.google.gms:google-services:4.4.4'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 

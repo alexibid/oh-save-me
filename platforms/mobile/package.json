@@ -2,6 +2,9 @@
   "name": "oh-save-me-mobile",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "postinstall": "node -e \"const fs=require('fs'),p='node_modules/@codetrix-studio/capacitor-google-auth/android/build.gradle';if(fs.existsSync(p)){let t=fs.readFileSync(p,'utf8');t=t.replace(/jcenter\\(\\)/g,'mavenCentral()').replace('proguard-android.txt','proguard-android-optimize.txt');fs.writeFileSync(p,t);}\""
+  },
   "dependencies": {
     "@capacitor/core": "^8.4.2",
     "@capacitor/android": "^8.4.2",
