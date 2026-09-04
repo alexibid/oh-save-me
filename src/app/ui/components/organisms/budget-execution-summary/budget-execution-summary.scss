@@ -1,5 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
-@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles/pane' as *;
 
 :host {
   display: block;
@@ -181,10 +181,11 @@
     height: auto;
     display: block;
     border-radius: 999px;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, transform 0.15s ease;
 
     &:hover {
-      background-color: var(--color-surface-hover, rgba(15, 23, 42, 0.06));
+      background-color: transparent;
+      transform: scale(1.01);
     }
 
     ::ng-deep .a-button {
@@ -216,17 +217,40 @@
   }
 
   &__progress-track {
+    position: relative;
     width: 100%;
-    height: 6px;
-    background: var(--color-border, #e2e8f0);
-    border-radius: 999px;
+    height: 12px;
+    border-radius: var(--ibid-contour-edges, 999px);
+    clip-path: var(--ibid-contour-corners, none);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--glass-edge-white, rgba(255, 255, 255, 0.5));
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     overflow: hidden;
+    box-sizing: border-box;
   }
 
   &__progress-bar {
+    position: relative;
     height: 100%;
-    border-radius: 999px;
-    transition: width 0.3s ease;
+    border-radius: inherit;
+    background-color: color-mix(in srgb, var(--progress-bar-color, var(--color-primary)) 75%, transparent);
+    background-image:
+      linear-gradient(
+        124deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0.25) 42%,
+        rgba(255, 255, 255, 0.05) 60%,
+        transparent 100%
+      );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+      0 0 10px color-mix(in srgb, var(--progress-bar-color, var(--color-primary)) 35%, transparent);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   &__item-values {
@@ -244,5 +268,17 @@
     font-size: var(--text-m);
     color: var(--color-text-muted, #94a3b8);
     margin-top: 12px;
+  }
+}
+
+body.sea-glass-pebbles {
+  .m-budget-execution-summary__progress-track {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--glass-edge-white, rgba(255, 255, 255, 0.6));
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+
+  .m-budget-execution-summary__progress-bar {
+    background-color: color-mix(in srgb, var(--progress-bar-color, var(--color-primary)) 75%, transparent);
   }
 }

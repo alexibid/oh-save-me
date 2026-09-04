@@ -1,5 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
-@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles/pane' as *;
 
 .p-database {
   padding: var(--spacing-lg, 24px);
@@ -209,6 +209,21 @@
       padding: 12px 16px;
     }
   }
+}
+
+:host-context(body.sea-glass-pebbles) .p-database,
+body.sea-glass-pebbles .p-database {
+  .p-database__account-item {
+    position: relative;
+    @include glass-pane;
+    --glass-tint: var(--glass-tint-teal);
+    --glass-edge: var(--glass-edge-teal);
+    --glass-wash: var(--glass-wash-teal);
+    border: 1px solid var(--glass-edge, rgba(255, 255, 255, 0.4));
+  }
+}
+
+.p-database {
 
   &__account-info {
     display: flex;

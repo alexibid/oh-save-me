@@ -1,10 +1,10 @@
-@use 'libs/ibid-ui/src/themes/glass-surface';
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles';
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
 
-body.glass-surface {
-  --ibid-header-surface-tint: var(--glass-tint-teal);
-  --ibid-header-surface-edge: var(--glass-edge-teal);
-  --ibid-header-surface-wash: var(--glass-wash-teal);
+body.sea-glass-pebbles {
+  --ibid-header-surface-tint: var(--glass-tint-brand);
+  --ibid-header-surface-edge: var(--glass-edge-brand);
+  --ibid-header-surface-wash: var(--glass-wash-brand);
   --ibid-header-bg-opacity: var(--glass-wash-opacity, 0.12);
 
   --ibid-header-actions-tint: var(--glass-tint-amber);
@@ -37,13 +37,20 @@ body.glass-surface {
   --ibid-card-surface-tint: var(--glass-tint-teal);
   --ibid-card-bg-opacity: var(--glass-wash-opacity, 0.12);
 
-  --ibid-sidenav-surface-tint: var(--glass-tint-teal);
-  --ibid-sidenav-surface-edge: var(--glass-edge-teal);
-  --ibid-sidenav-surface-wash: var(--glass-wash-teal);
+  --ibid-sidenav-surface-tint: var(--glass-tint-brand);
+  --ibid-sidenav-surface-edge: var(--glass-edge-brand);
+  --ibid-sidenav-surface-wash: var(--glass-wash-brand);
   --ibid-sidenav-bg-opacity: var(--glass-wash-opacity, 0.12);
 
   --ibid-dialog-surface-tint: var(--glass-tint-pink);
   --ibid-dialog-bg-opacity: var(--glass-wash-opacity, 0.12);
+
+  .m-bottom-sheet-dialog--assistant,
+  .m-assistant-peek-card {
+    --glass-tint: var(--glass-tint-brand);
+    --glass-edge: var(--glass-edge-brand);
+    --glass-wash: var(--glass-wash-brand);
+  }
 
   .a-button,
   ibid-button button,
@@ -84,9 +91,9 @@ body.glass-surface {
   .m-sidenav-menu__cycle-preset .a-select__trigger,
   .m-sidenav-menu__date-input .a-date-input__trigger,
   .m-sidenav-menu__select-language .a-select__trigger {
-    --glass-tint: var(--glass-tint-amber) !important;
-    --glass-edge: var(--glass-edge-amber) !important;
-    --glass-wash: var(--glass-wash-amber) !important;
+    --glass-tint: var(--glass-tint-amber);
+    --glass-edge: var(--glass-edge-amber);
+    --glass-wash: var(--glass-wash-amber);
   }
 }
 

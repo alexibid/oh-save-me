@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles/pane' as *;
 
 @keyframes pMovementsFadeIn {
   from {
@@ -172,5 +173,18 @@
     .p-movements__chart-section {
       grid-column: 1 / -1;
     }
+  }
+}
+
+:host-context(body.sea-glass-pebbles) .p-movements,
+body.sea-glass-pebbles .p-movements {
+  .p-movements__overspend-banner {
+    position: relative;
+    @include glass-pane;
+    --glass-tint: var(--glass-tint-red);
+    --glass-edge: var(--glass-edge-red);
+    --glass-wash: var(--glass-wash-red);
+    border: 1px solid var(--glass-edge-red, rgba(239, 68, 68, 0.4));
+    color: var(--color-danger, #ef4444);
   }
 }

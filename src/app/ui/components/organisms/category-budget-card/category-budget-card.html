@@ -10,6 +10,7 @@
     <span class="m-category-budget-card__label">{{ amountLabelKey | translate }}</span>
     <ibid-currency-display class="m-category-budget-card__value" [value]="amountToDisplay" size="lg"
       [signed]="budgetProgress?.isOverBudget || false"
+      [status]="budgetProgress?.isOverBudget ? 'negative' : 'warning'"
       [explanation]="amountExplanation" [explanationTitle]="categoryName" />
   </div>
 
@@ -21,8 +22,8 @@
       </div>
     </div>
     <div class="m-category-budget-card__footer-text">
-      <span><ibid-currency-display [value]="(budgetProgress?.spent || 0)" size="sm" /> {{ 'budgetCardSpent' | translate }}</span>
-      <span>{{ 'budgetOf' | translate }} <ibid-currency-display [value]="(budgetProgress?.periodAllocation || budgetProgress?.budget?.amount || 0)" size="sm" /></span>
+      <span><ibid-currency-display [value]="(budgetProgress?.spent || 0)" size="sm" status="negative" /> {{ 'budgetCardSpent' | translate }}</span>
+      <span>{{ 'budgetOf' | translate }} <ibid-currency-display [value]="(budgetProgress?.periodAllocation || budgetProgress?.budget?.amount || 0)" size="sm" status="warning" /></span>
     </div>
   </div>
 </ibid-card>

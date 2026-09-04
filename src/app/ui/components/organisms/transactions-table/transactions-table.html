@@ -92,7 +92,7 @@
   <ng-template #row let-tx let-previousDate="previousDate">
     <div
       class="o-transactions-table__row"
-      [ibidHandDrawn]="1"
+      [ibidHandDrawn]="2"
       [attr.data-tx-date]="tx.date"
       [style.--category-color]="categoryColorFor(tx.category)"
       [class.o-transactions-table__row--highlighted]="isPinned(tx.id)"
@@ -173,6 +173,7 @@
             [title]="'movementsHeaderBalance' | translate"
             [value]="tx.balance"
             size="sm"
+            [status]="tx.balance >= 0 ? 'positive' : 'negative'"
           />
         }
       </div>

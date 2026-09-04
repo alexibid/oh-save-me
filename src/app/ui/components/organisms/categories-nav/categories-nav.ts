@@ -6,17 +6,20 @@ import { CategoryItem } from '@domain/models/category';
 import { slugify } from '@ibid/utils';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 
+import { HandDrawnDirective } from 'ibid-ui';
+
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'ohsaveme-categories-nav',
   standalone: true,
   imports: [
     I18N_SHARED,
+    HandDrawnDirective,
     SubdividedProgressBarComponent,
     AppMenuComponent
   ],
   template: `
-    <nav class="c-categories-nav">
+    <nav class="c-categories-nav" [ibidHandDrawn]="2">
       <div class="c-categories-nav__menu">
         <ohsaveme-menu
           [activeItemId]="normalizedActiveId"

@@ -1,4 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles/pane' as *;
 
 :host {
   display: block;
@@ -92,7 +93,20 @@
       }
     }
   }
+}
 
+:host-context(body.sea-glass-pebbles) .m-allocations-dashboard__card,
+body.sea-glass-pebbles .m-allocations-dashboard__card {
+  position: relative;
+  @include glass-pane;
+  @include glass-gleam-scatter;
+  --glass-tint: var(--glass-tint-teal);
+  --glass-edge: var(--glass-edge-teal);
+  --glass-wash: var(--glass-wash-teal);
+  border: 1px solid var(--glass-edge, rgba(255, 255, 255, 0.4));
+}
+
+.m-allocations-dashboard {
   &__card-header {
     display: flex;
     justify-content: space-between;
@@ -422,7 +436,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-text-muted, #64748b);
+    color: var(--color-ink, #2c2c2a);
   }
 
   &__wallet-value {

@@ -5,9 +5,9 @@
     <div class="o-vacation-detail__summary">
       <div class="o-vacation-detail__summary-value">
         <span class="o-vacation-detail__summary-label">Total Gasto:</span>
-        <ibid-currency-display class="o-vacation-detail__summary-amount" [value]="totalAtypicalSpent()" size="sm" />
+        <ibid-currency-display class="o-vacation-detail__summary-amount" [value]="totalAtypicalSpent()" size="sm" status="negative" />
         <span class="o-vacation-detail__summary-target">
-          de <ibid-currency-display [value]="budget()?.amount" size="sm" />
+          de <ibid-currency-display [value]="budget()?.amount" size="sm" status="warning" />
         </span>
       </div>
 
@@ -25,9 +25,9 @@
           <header class="o-vacation-detail__day-header">
             <span class="o-vacation-detail__day-title">{{ day.displayDate }}</span>
             <div class="o-vacation-detail__day-totals">
-              <ibid-currency-display class="o-vacation-detail__day-total" [value]="day.dayTotal" size="sm" [showPositiveSign]="true" [signed]="true" />
+              <ibid-currency-display class="o-vacation-detail__day-total" [value]="day.dayTotal" size="sm" [showPositiveSign]="true" [signed]="true" [status]="day.dayTotal >= 0 ? 'positive' : 'negative'" />
               <span class="o-vacation-detail__day-cumulative">
-                (Acumulado: <ibid-currency-display [value]="day.cumulativeTotal" size="sm" />)
+                (Acumulado: <ibid-currency-display [value]="day.cumulativeTotal" size="sm" status="negative" />)
               </span>
             </div>
           </header>
@@ -40,7 +40,7 @@
                   <span class="o-vacation-detail__tx-category">
                     {{ tx.category | translate }}
                   </span>
-                  <ibid-currency-display class="o-vacation-detail__tx-amount" [value]="tx.amount" size="sm" />
+                  <ibid-currency-display class="o-vacation-detail__tx-amount" [value]="tx.amount" size="sm" [status]="tx.amount >= 0 ? 'positive' : 'negative'" />
                 </li>
               }
             </ul>

@@ -15,13 +15,13 @@
     <div class="m-sell-simulator__breakdown">
       <div class="m-sell-simulator__row">
         <span>{{ 'sellSimulatorCostBasis' | translate }}</span>
-        <ibid-currency-display [value]="costBasis" size="sm" />
+        <ibid-currency-display [value]="costBasis" size="sm" status="positive" />
       </div>
 
       <div class="m-sell-simulator__row">
         <span>{{ 'sellSimulatorGrossGain' | translate }}</span>
         <strong [style.color]="grossGain > 0 ? 'var(--color-success, #10b981)' : null">
-          <ibid-currency-display [value]="grossGain" size="sm" [showPositiveSign]="true" [signed]="true" />
+          <ibid-currency-display [value]="grossGain" size="sm" [showPositiveSign]="true" [signed]="true" [status]="grossGain >= 0 ? 'positive' : 'negative'" />
           @if (profitPct > 0) {
             <span class="m-sell-simulator__profit-pill">(+{{ profitPct }}%)</span>
           }
@@ -30,14 +30,14 @@
 
       <div class="m-sell-simulator__row m-sell-simulator__row--tax">
         <span>{{ 'sellSimulatorTaxEst' | translate }}</span>
-        <strong style="color: var(--color-danger, #ef4444);">-<ibid-currency-display [value]="estimatedTax" size="sm" /></strong>
+        <strong style="color: var(--color-danger, #ef4444);">-<ibid-currency-display [value]="estimatedTax" size="sm" status="negative" /></strong>
       </div>
 
       <div class="m-sell-simulator__divider"></div>
 
       <div class="m-sell-simulator__row m-sell-simulator__row--total">
         <span>{{ 'sellSimulatorNetReturn' | translate }}</span>
-        <ibid-currency-display class="m-sell-simulator__net-value" [value]="netPayout" size="sm" />
+        <ibid-currency-display class="m-sell-simulator__net-value" [value]="netPayout" size="sm" status="positive" />
       </div>
     </div>
   </div>

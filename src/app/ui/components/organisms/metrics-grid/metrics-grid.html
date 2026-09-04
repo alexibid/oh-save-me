@@ -1,6 +1,6 @@
 <div class="o-metrics-grid">
   <div class="o-metrics-grid__hero-container">
-    <div [class]="'o-metrics-grid__child-card ' + cardColors[0]" [ibidHandDrawn]="1">
+    <div [class]="'o-metrics-grid__child-card ' + cardColors[0]" [ibidHandDrawn]="2">
       <ibid-view-more-link class="o-metrics-grid__view-more"></ibid-view-more-link>
       <div class="o-metrics-grid__info">
         <span class="o-metrics-grid__title">{{ 'metricsRealFreeBalance' | translate }}</span>
@@ -13,6 +13,7 @@
           [value]="freeBalance"
           size="xl"
           [signed]="freeBalance < 0"
+          [status]="freeBalance >= 0 ? 'positive' : 'negative'"
           [explanation]="freeBalanceExplanation"
           [explanationTitle]="'remainingFunds' | translate"
         />
@@ -26,6 +27,7 @@
             class="o-metrics-grid__real-balance-value"
             [value]="walletBalance"
             size="md"
+            status="positive"
             [explanation]="walletBalanceExplanation"
             [explanationTitle]="'budgetLabelAccountsBalance' | translate"
           />
@@ -36,6 +38,7 @@
             class="o-metrics-grid__real-balance-value"
             [value]="savingsDeduction"
             size="md"
+            status="positive"
             [explanation]="savingsExplanation"
             [explanationTitle]="'metricsSavings' | translate"
           />
@@ -48,6 +51,7 @@
             class="o-metrics-grid__real-balance-value"
             [value]="categoryDeduction"
             size="md"
+            status="warning"
             [explanation]="freeBalanceExplanation"
             [explanationTitle]="'budgetLabelReservedCategories' | translate"
           />
@@ -59,7 +63,7 @@
   <div class="o-metrics-grid__group-container">
     <div
       [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[1]"
-      [ibidHandDrawn]="2"
+      [ibidHandDrawn]="3"
     >
       <div class="o-metrics-grid__header">
         <span class="o-metrics-grid__title">{{ 'dashboardStatPeriodBalance' | translate }}</span>
@@ -70,6 +74,7 @@
           size="md"
           [signed]="true"
           [showPositiveSign]="true"
+          [status]="balance >= 0 ? 'positive' : 'negative'"
           [explanation]="periodBalanceExplanation"
           [explanationTitle]="'dashboardStatPeriodBalance' | translate"
         />
@@ -83,6 +88,7 @@
             [value]="totalIncome"
             [signed]="true"
             [showPositiveSign]="true"
+            status="positive"
           />
         </div>
         <div class="o-metrics-grid__detail-item">
@@ -92,6 +98,7 @@
             size="md"
             [value]="totalExpenses"
             [signed]="true"
+            status="negative"
           />
         </div>
       </div>
@@ -99,7 +106,7 @@
 
     <div
       [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[2]"
-      [ibidHandDrawn]="2"
+      [ibidHandDrawn]="3"
     >
       <div class="o-metrics-grid__header">
         <span class="o-metrics-grid__title">{{ 'budgetSpent' | translate }}</span>
@@ -114,6 +121,7 @@
             class="o-metrics-grid__detail-value"
             size="md"
             [value]="activeBudgetsSpent"
+            status="negative"
           />
         </div>
         <div class="o-metrics-grid__detail-item">
@@ -122,6 +130,7 @@
             class="o-metrics-grid__detail-value"
             size="md"
             [value]="budgetLimit"
+            status="warning"
           />
         </div>
       </div>
@@ -129,7 +138,7 @@
 
     <div
       [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[3]"
-      [ibidHandDrawn]="2"
+      [ibidHandDrawn]="3"
     >
       <div class="o-metrics-grid__header">
         <span class="o-metrics-grid__title">{{ 'metricsAccumulatedReserve' | translate }}</span>
@@ -138,6 +147,7 @@
         <ibid-currency-display
           [value]="activeBudgetsReserve"
           size="md"
+          status="warning"
           [explanation]="reserveExplanation"
           [explanationTitle]="'metricsAccumulatedReserve' | translate"
         />
@@ -151,6 +161,7 @@
             class="o-metrics-grid__detail-value"
             size="md"
             [value]="activeBudgetsMonthlyReserve"
+            status="warning"
           />
         </div>
       </div>
@@ -158,7 +169,7 @@
 
     <div
       [class]="'o-metrics-grid__child-card o-metrics-grid__child-card--small ' + cardColors[4]"
-      [ibidHandDrawn]="2"
+      [ibidHandDrawn]="3"
     >
       <div class="o-metrics-grid__header">
         <span class="o-metrics-grid__title">{{ 'portfolioBtn' | translate }}</span>
@@ -167,6 +178,7 @@
         <ibid-currency-display
           [value]="totalPatrimony"
           size="md"
+          status="positive"
           [explanation]="patrimonyExplanation"
           [explanationTitle]="'metricsTotalPatrimony' | translate"
         />
@@ -181,6 +193,7 @@
               class="o-metrics-grid__detail-value"
               size="md"
               [value]="investedValue"
+              status="positive"
             />
           </div>
         }
@@ -191,6 +204,7 @@
               class="o-metrics-grid__detail-value"
               size="md"
               [value]="assetsValue"
+              status="positive"
             />
           </div>
         }

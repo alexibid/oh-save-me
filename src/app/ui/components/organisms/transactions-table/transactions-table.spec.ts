@@ -259,7 +259,7 @@ describe('TransactionsTableComponent', () => {
   describe('sum toggle in the sort header', () => {
     it('is hidden by default', () => {
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.o-transactions-table__sum-toggle-btn')).toBeFalsy();
+      expect(fixture.nativeElement.querySelector('ibid-icon-toggle')).toBeFalsy();
     });
 
     it('emits sumModeChange with the flipped value when clicked', () => {
@@ -270,7 +270,7 @@ describe('TransactionsTableComponent', () => {
       const emitted: boolean[] = [];
       component.sumModeChange.subscribe((v: boolean) => emitted.push(v));
 
-      const btn: HTMLButtonElement = fixture.nativeElement.querySelector('.o-transactions-table__sum-toggle-btn');
+      const btn: HTMLButtonElement = fixture.nativeElement.querySelector('.a-icon-toggle');
       btn.click();
 
       expect(emitted).toEqual([true]);
@@ -281,8 +281,8 @@ describe('TransactionsTableComponent', () => {
       fixture.componentRef.setInput('sumModeEnabled', true);
       fixture.detectChanges();
 
-      const btn: HTMLButtonElement = fixture.nativeElement.querySelector('.o-transactions-table__sum-toggle-btn');
-      expect(btn.classList.contains('o-transactions-table__sum-toggle-btn--active')).toBe(true);
+      const btn: HTMLButtonElement = fixture.nativeElement.querySelector('.a-icon-toggle');
+      expect(btn.classList.contains('a-icon-toggle--active')).toBe(true);
     });
   });
 });

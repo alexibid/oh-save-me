@@ -27,7 +27,7 @@
     @if (filteredWallets().length > 0) {
       <div class="m-allocations-dashboard__grid">
         @for (item of filteredWallets(); track item.id) {
-          <div class="m-allocations-dashboard__card">
+          <div class="m-allocations-dashboard__card" [ibidHandDrawn]="2">
             <div class="m-allocations-dashboard__card-header">
               <div class="m-allocations-dashboard__card-identity">
                 <div class="m-allocations-dashboard__card-badge-row">
@@ -57,20 +57,20 @@
             <div class="m-allocations-dashboard__wallet-metrics">
               <div class="m-allocations-dashboard__wallet-row">
                 <span class="m-allocations-dashboard__wallet-label">{{ 'walletLabelInvested' | translate }}</span>
-                <ibid-currency-display class="m-allocations-dashboard__wallet-value" [value]="item.investedCost" size="sm" />
+                <ibid-currency-display class="m-allocations-dashboard__wallet-value" [value]="item.investedCost" size="sm" status="positive" />
               </div>
 
               @if (item.status === 'executed') {
                 <div class="m-allocations-dashboard__wallet-row">
                   <span class="m-allocations-dashboard__wallet-label">{{ 'walletLabelSoldFor' | translate }}</span>
-                  <ibid-currency-display class="m-allocations-dashboard__wallet-value" [value]="item.currentValue" size="sm" />
+                  <ibid-currency-display class="m-allocations-dashboard__wallet-value" [value]="item.currentValue" size="sm" status="positive" />
                 </div>
               }
 
               @if (item.income > 0) {
                 <div class="m-allocations-dashboard__wallet-row">
                   <span class="m-allocations-dashboard__wallet-label">{{ 'walletLabelIncome' | translate }}</span>
-                  <ibid-currency-display class="m-allocations-dashboard__wallet-value" [value]="item.income" size="sm" />
+                  <ibid-currency-display class="m-allocations-dashboard__wallet-value" [value]="item.income" size="sm" status="positive" />
                 </div>
               }
 
@@ -80,7 +80,7 @@
                   <strong class="m-allocations-dashboard__wallet-value"
                     [class.m-allocations-dashboard__wallet-value--positive]="item.result > 0"
                     [class.m-allocations-dashboard__wallet-value--negative]="item.result < 0">
-                    <ibid-currency-display [value]="item.result" size="sm" />
+                    <ibid-currency-display [value]="item.result" size="sm" [status]="item.result >= 0 ? 'positive' : 'negative'" />
                   </strong>
                 </div>
               }
@@ -103,7 +103,7 @@
   @if (filteredBudgets().length > 0) {
     <div class="m-allocations-dashboard__grid">
       @for (item of filteredBudgets(); track item.budget.id) {
-      <div class="m-allocations-dashboard__card" [class.m-allocations-dashboard__card--closed]="item.budget.isClosed">
+      <div class="m-allocations-dashboard__card" [ibidHandDrawn]="2" [class.m-allocations-dashboard__card--closed]="item.budget.isClosed">
         <div class="m-allocations-dashboard__card-header">
           <div class="m-allocations-dashboard__card-identity">
             <div class="m-allocations-dashboard__card-badge-row">
@@ -174,7 +174,7 @@
           <ibid-icon name="savings" iconClass="m-allocations-dashboard__monthly-icon"></ibid-icon>
           <span>
             {{ 'budgetMonthlySavingsLabel' | translate }}
-            <strong><ibid-currency-display [value]="item.budget.monthlyAllocation" size="sm" />{{ 'budgetMonthlySavingsSuffix' | translate }}</strong>
+            <strong><ibid-currency-display [value]="item.budget.monthlyAllocation" size="sm" status="positive" />{{ 'budgetMonthlySavingsSuffix' | translate }}</strong>
           </span>
         </div>
 
@@ -184,7 +184,7 @@
             <button type="button" class="m-allocations-dashboard__metric-btn" (click)="onOpenMovements(item.budget)"
               [title]="'budgetClickToManageMovementsTooltip' | translate">
               <span class="m-allocations-dashboard__metric-label">{{ 'budgetSpentLabel' | translate }}</span>
-              <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.spent" size="sm" [showInfo]="false" />
+              <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.spent" size="sm" status="negative" [showInfo]="false" />
             </button>
             <button type="button" class="m-allocations-dashboard__metric-icon-btn"
               (click)="onOpenMovements(item.budget)" [title]="'budgetViewMovementsTooltip' | translate">
@@ -195,7 +195,7 @@
             (click)="onOpenMovements(item.budget)"
             [title]="'budgetClickToManageMovementsTooltip' | translate">
             <span class="m-allocations-dashboard__metric-label">{{ 'budgetLimitLabel' | translate }}</span>
-            <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.budget.amount" size="sm" [showInfo]="false" />
+            <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.budget.amount" size="sm" status="warning" [showInfo]="false" />
           </button>
         </div>
 

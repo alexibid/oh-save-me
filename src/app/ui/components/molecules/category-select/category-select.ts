@@ -19,7 +19,7 @@ import {
       [label]="i18n.getCategoryName(selectedCategory)"
       [color]="selectedCategoryColor"
       [glassColor]="selectedCategoryColor"
-      [handDrawn]="1"
+      [handDrawn]="2"
       [projectName]="selectedProjectName"
       [groups]="groups()"
       [options]="categoryOptions()"

@@ -40,7 +40,7 @@
         />
         @if (isEditMode()) {
           <small class="o-category-budget-wizard-dialog__hint">
-            {{ 'categoryBudgetSuggestedPrefix' | translate }}: <ibid-currency-display [value]="liveSuggestion().average" size="sm" />
+            {{ 'categoryBudgetSuggestedPrefix' | translate }}: <ibid-currency-display [value]="liveSuggestion().average" size="sm" status="warning" />
           </small>
         }
       </div>

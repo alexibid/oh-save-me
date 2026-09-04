@@ -5,7 +5,11 @@
   <strong class="m-balance-summary-card__value"
     [class.m-balance-summary-card__color--danger]="headlineValue() < 0"
     [class.m-balance-summary-card__color--success]="headlineValue() >= 0">
-    <ibid-currency-display [value]="headlineValue()" size="xl" />
+    <ibid-currency-display
+      [value]="headlineValue()"
+      size="xl"
+      [status]="headlineValue() >= 0 ? 'positive' : 'negative'"
+    />
   </strong>
   @if (isPortfolio()) {
     <span class="m-balance-summary-card__caption">{{ 'metricsTotalPatrimonyCaption' | translate }}</span>
@@ -17,6 +21,7 @@
       <ibid-currency-display
         [value]="totalWalletBalance()"
         size="sm"
+        status="positive"
         [explanation]="totalWalletBalanceExplanation()"
         [explanationTitle]="'budgetLabelAccountsBalance' | translate"
       />
@@ -26,35 +31,39 @@
       @if (investedValue() !== 0) {
         <div class="m-balance-summary-card__detail-row">
           <span>{{ 'metricsInvestedValue' | translate }}</span>
-          <ibid-currency-display [value]="investedValue()" size="sm" />
+          <ibid-currency-display [value]="investedValue()" size="sm" status="positive" />
         </div>
       }
       @if (assetsValue() !== 0) {
         <div class="m-balance-summary-card__detail-row">
           <span>{{ 'metricsAssetsPaid' | translate }}</span>
-          <ibid-currency-display [value]="assetsValue()" size="sm" />
+          <ibid-currency-display [value]="assetsValue()" size="sm" status="positive" />
         </div>
       }
       @if (realizedResult() !== 0) {
         <div class="m-balance-summary-card__detail-row">
           <span>{{ 'walletLabelRealizedResult' | translate }}</span>
           <strong [style.color]="realizedResult() >= 0 ? '#10b981' : '#ef4444'">
-            <ibid-currency-display [value]="realizedResult()" size="sm" />
+            <ibid-currency-display
+              [value]="realizedResult()"
+              size="sm"
+              [status]="realizedResult() >= 0 ? 'positive' : 'negative'"
+            />
           </strong>
         </div>
       }
     } @else {
       <div class="m-balance-summary-card__detail-row">
         <span>{{ 'budgetLabelReservedProjects' | translate }}</span>
-        <ibid-currency-display [value]="activeProjectReserve()" size="sm" />
+        <ibid-currency-display [value]="activeProjectReserve()" size="sm" status="warning" />
       </div>
       <div class="m-balance-summary-card__detail-row">
         <span>{{ 'budgetLabelReservedCategories' | translate }}</span>
         <strong class="m-balance-summary-card__detail-value">
-          <ibid-currency-display [value]="categoryBudgetedTotal()" size="sm" />
+          <ibid-currency-display [value]="categoryBudgetedTotal()" size="sm" status="warning" />
           @if (categoryOverspendTotal() > 0) {
             <span class="m-balance-summary-card__overspend">
-              <ibid-currency-display [value]="categoryOverspendTotal()" size="sm" /> {{ 'budgetLabelCategoryOverspend' | translate }}
+              <ibid-currency-display [value]="categoryOverspendTotal()" size="sm" status="negative" /> {{ 'budgetLabelCategoryOverspend' | translate }}
             </span>
           }
         </strong>
@@ -62,13 +71,13 @@
       @if (categorySpentWithinBudget() > 0) {
         <div class="m-balance-summary-card__detail-row">
           <span>{{ 'budgetLabelCategorySpentWithinBudget' | translate }}</span>
-          <ibid-currency-display [value]="categorySpentWithinBudget()" size="sm" />
+          <ibid-currency-display [value]="categorySpentWithinBudget()" size="sm" status="negative" />
         </div>
       }
       @if (investedValue() > 0) {
         <div class="m-balance-summary-card__detail-row m-balance-summary-card__detail-row--total">
           <span>{{ 'metricsTotalPatrimony' | translate }}</span>
-          <ibid-currency-display [value]="totalPatrimony()" size="sm" />
+          <ibid-currency-display [value]="totalPatrimony()" size="sm" status="positive" />
         </div>
       }
     }

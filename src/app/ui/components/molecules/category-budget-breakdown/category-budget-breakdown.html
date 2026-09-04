@@ -3,7 +3,7 @@
   <div class="m-category-budget-breakdown__header-card">
     <div class="m-category-budget-breakdown__suggestion-main">
       <span class="m-category-budget-breakdown__suggestion-label">Sugestão do Assistente:</span>
-      <strong class="m-category-budget-breakdown__suggestion-value"><ibid-currency-display [value]="liveSuggestion().average" size="sm" /> / mês</strong>
+      <strong class="m-category-budget-breakdown__suggestion-value"><ibid-currency-display [value]="liveSuggestion().average" size="sm" status="warning" /> / mês</strong>
       <span class="m-category-budget-breakdown__suggestion-count">
         ({{ liveSuggestion().includedMonths }} movimentos incluídos, {{ liveSuggestion().excludedOutlierMonths }} excluídos)
       </span>
@@ -17,19 +17,19 @@
       <div class="m-category-budget-breakdown__metrics-grid">
         <div class="m-category-budget-breakdown__metric-card">
           <span class="m-category-budget-breakdown__metric-title">Média Recente (Últimos 6m)</span>
-          <ibid-currency-display class="m-category-budget-breakdown__metric-value" [value]="metrics().recent6mAverage" size="sm" />
+          <ibid-currency-display class="m-category-budget-breakdown__metric-value" [value]="metrics().recent6mAverage" size="sm" status="warning" />
         </div>
         <div class="m-category-budget-breakdown__metric-card">
           <span class="m-category-budget-breakdown__metric-title">Média Histórica Global</span>
-          <ibid-currency-display class="m-category-budget-breakdown__metric-value" [value]="metrics().historicalAverage" size="sm" />
+          <ibid-currency-display class="m-category-budget-breakdown__metric-value" [value]="metrics().historicalAverage" size="sm" status="warning" />
         </div>
         <div class="m-category-budget-breakdown__metric-card">
           <span class="m-category-budget-breakdown__metric-title">Mês Mais Elevado (Pico)</span>
-          <ibid-currency-display class="m-category-budget-breakdown__metric-value o-category-budget-breakdown__metric-value--max" [value]="metrics().maxMonthTotal" size="sm" />
+          <ibid-currency-display class="m-category-budget-breakdown__metric-value o-category-budget-breakdown__metric-value--max" [value]="metrics().maxMonthTotal" size="sm" status="negative" />
         </div>
         <div class="m-category-budget-breakdown__metric-card">
           <span class="m-category-budget-breakdown__metric-title">Mês Mais Baixo (Mínimo)</span>
-          <ibid-currency-display class="m-category-budget-breakdown__metric-value o-category-budget-breakdown__metric-value--min" [value]="metrics().minMonthTotal" size="sm" />
+          <ibid-currency-display class="m-category-budget-breakdown__metric-value o-category-budget-breakdown__metric-value--min" [value]="metrics().minMonthTotal" size="sm" status="positive" />
         </div>
       </div>
 
@@ -40,7 +40,7 @@
             @for (m of metrics().recent6mBreakdown; track m.monthKey) {
               <div class="m-category-budget-breakdown__chip">
                 <span class="m-category-budget-breakdown__chip-month">{{ m.monthLabel }}</span>
-                <ibid-currency-display class="m-category-budget-breakdown__chip-val" [value]="m.total" size="sm" />
+                <ibid-currency-display class="m-category-budget-breakdown__chip-val" [value]="m.total" size="sm" status="negative" />
               </div>
             }
           </div>

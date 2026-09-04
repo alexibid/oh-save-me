@@ -52,14 +52,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: var(--text-2xl);
-    color: var(--color-text-muted, #64748b);
+    font-size: var(--text-m);
+    color: var(--color-ink, #2c2c2a);
+
+    span {
+      font-size: var(--text-m);
+      color: var(--color-ink, #2c2c2a);
+    }
 
     strong {
       font-weight: 600;
-      color: var(--color-text, #0f172a);
+      color: var(--color-ink, #2c2c2a);
     }
-
   }
 
   &__detail-row--total {

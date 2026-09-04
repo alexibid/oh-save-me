@@ -1,5 +1,5 @@
 @use 'libs/ibid-ui/src/styles/tools/mixins' as *;
-@use 'libs/ibid-ui/src/themes/glass-surface/pane' as *;
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles/pane' as *;
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.8) translateY(20px); }

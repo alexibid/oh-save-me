@@ -1,3 +1,5 @@
+@use 'libs/ibid-ui/src/themes/sea-glass-pebbles/pane' as *;
+
 .c-categories-nav {
     display: flex;
     align-items: center;
@@ -23,4 +25,14 @@
             overflow: hidden;
         }
     }
+}
+
+:host-context(body.sea-glass-pebbles) .c-categories-nav,
+body.sea-glass-pebbles .c-categories-nav {
+  position: relative;
+  @include glass-pane;
+  --glass-tint: var(--glass-tint-teal);
+  --glass-edge: var(--glass-edge-teal);
+  --glass-wash: var(--glass-wash-teal);
+  border: 1px solid var(--glass-edge, rgba(255, 255, 255, 0.4));
 }

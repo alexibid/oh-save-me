@@ -18,9 +18,10 @@
           <ibid-button variant="outlined" class="m-budget-execution-summary__track-btn"
             [ariaLabel]="'budgetClickToManageMovementsTooltip' | translate"
             (clicked)="projectMovementsClick.emit(item.budget)">
-            <div class="m-budget-execution-summary__progress-track">
+            <div class="m-budget-execution-summary__progress-track" [ibidHandDrawn]="2">
               <div class="m-budget-execution-summary__progress-bar"
                    [style.width.%]="(item.percentage || 0) > 100 ? 100 : (item.percentage || 0)"
+                   [style.--progress-bar-color]="item.progressColor || 'var(--color-primary)'"
                    [style.background-color]="item.progressColor || 'var(--color-primary)'">
               </div>
             </div>
@@ -29,7 +30,7 @@
             [ariaLabel]="'budgetViewAssistantTooltip' | translate"
             (clicked)="projectItemClick.emit(item.budget)">
             <span class="m-budget-execution-summary__item-values">
-              <ibid-currency-display [value]="item.spent" size="sm" [showInfo]="false" /> / <ibid-currency-display [value]="item.periodAllocation" size="sm" [showInfo]="false" />
+              <ibid-currency-display [value]="item.spent" size="sm" status="negative" /> / <ibid-currency-display [value]="item.periodAllocation" size="sm" status="warning" />
             </span>
           </ibid-button>
         </div>
@@ -54,10 +55,11 @@
           <ibid-button variant="outlined" class="m-budget-execution-summary__track-btn"
             [ariaLabel]="'budgetClickToManageMovementsTooltip' | translate"
             (clicked)="onCategoryMovementsClick(item.budget.categoryId)">
-            <div class="m-budget-execution-summary__progress-track">
+            <div class="m-budget-execution-summary__progress-track" [ibidHandDrawn]="2">
               <div class="m-budget-execution-summary__progress-bar"
                    [style.width.%]="(item.percentage || 0) > 100 ? 100 : (item.percentage || 0)"
-                   [style.background-color]="item.progressColor || 'var(--color-primary)'">
+                   [style.--progress-bar-color]="item.progressColor || item.categoryColor || 'var(--color-primary)'"
+                   [style.background-color]="item.progressColor || item.categoryColor || 'var(--color-primary)'">
               </div>
             </div>
           </ibid-button>
@@ -65,7 +67,7 @@
             [ariaLabel]="'budgetViewAssistantTooltip' | translate"
             (clicked)="onCategoryItemClick(item.budget.categoryId)">
             <span class="m-budget-execution-summary__item-values">
-              <ibid-currency-display [value]="item.spent" size="sm" [showInfo]="false" /> / <ibid-currency-display [value]="item.periodAllocation" size="sm" [showInfo]="false" />
+              <ibid-currency-display [value]="item.spent" size="sm" status="negative" /> / <ibid-currency-display [value]="item.periodAllocation" size="sm" status="warning" />
             </span>
           </ibid-button>
         </div>

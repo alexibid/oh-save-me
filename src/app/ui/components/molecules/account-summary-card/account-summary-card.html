@@ -46,7 +46,7 @@
         }
       </div>
       <div class="o-metrics-summary-card__value" [class.o-metrics-summary-card__value--danger]="walletBalance < 0" [class.o-metrics-summary-card__value--success]="walletBalance >= 0">
-        <ibid-currency-display [value]="walletBalance" size="sm" [signed]="walletBalance < 0" />
+        <ibid-currency-display [value]="walletBalance" size="sm" [signed]="walletBalance < 0" [status]="walletBalance >= 0 ? 'positive' : 'negative'" />
       </div>
     </div>
 
@@ -61,7 +61,7 @@
         }
       </div>
       <div class="o-metrics-summary-card__value" [class.o-metrics-summary-card__value--danger]="periodCashflow < 0" [class.o-metrics-summary-card__value--success]="periodCashflow >= 0">
-        <ibid-currency-display [value]="periodCashflow" size="sm" [signed]="true" />
+        <ibid-currency-display [value]="periodCashflow" size="sm" [signed]="true" [status]="periodCashflow >= 0 ? 'positive' : 'negative'" />
       </div>
     </div>
 
@@ -73,11 +73,11 @@
       <div class="o-metrics-summary-card__details">
         <div class="o-metrics-summary-card__detail-item">
           <span class="o-metrics-summary-card__detail-label">{{ 'income' | translate }}</span>
-          <ibid-currency-display class="o-metrics-summary-card__detail-value o-metrics-summary-card__detail-value--success" [value]="totalIncome" size="sm" [showPositiveSign]="true" [signed]="true" />
+          <ibid-currency-display class="o-metrics-summary-card__detail-value o-metrics-summary-card__detail-value--success" [value]="totalIncome" size="sm" [showPositiveSign]="true" [signed]="true" status="positive" />
         </div>
         <div class="o-metrics-summary-card__detail-item">
           <span class="o-metrics-summary-card__detail-label">{{ 'expenses' | translate }}</span>
-          <ibid-currency-display class="o-metrics-summary-card__detail-value o-metrics-summary-card__detail-value--danger" [value]="totalExpenses" size="sm" [signed]="true" />
+          <ibid-currency-display class="o-metrics-summary-card__detail-value o-metrics-summary-card__detail-value--danger" [value]="totalExpenses" size="sm" [signed]="true" status="negative" />
         </div>
       </div>
     </div>

@@ -15,12 +15,23 @@ import { DbSyncCardComponent } from '@ui/components/organisms/db-sync-card/db-sy
 import { ShareAccessManagerComponent } from '@ui/components/organisms/share-access-manager/share-access-manager';
 import { AccountScope } from '@domain/models/account';
 import { downloadBackupJson } from './database-scanner';
-import { BottomSheetDialogComponent, ButtonComponent, CardComponent, CurrencyDisplayComponent, IconButtonComponent, IconComponent, SegmentOption, SegmentedControlComponent } from 'ibid-ui';
+import {
+  BottomSheetDialogComponent,
+  ButtonComponent,
+  CardComponent,
+  CurrencyDisplayComponent,
+  HandDrawnDirective,
+  IconButtonComponent,
+  IconComponent,
+  SegmentOption,
+  SegmentedControlComponent
+} from 'ibid-ui';
 
 @Component({
   selector: 'ohsaveme-database',
   standalone: true,
-  imports: [CurrencyDisplayComponent,
+  imports: [
+    CurrencyDisplayComponent,
     IconComponent,
     CommonModule,
     FormsModule,
@@ -28,6 +39,7 @@ import { BottomSheetDialogComponent, ButtonComponent, CardComponent, CurrencyDis
     AppTranslatePipe,
     CardComponent,
     ButtonComponent,
+    HandDrawnDirective,
     IconButtonComponent,
     DbSyncCardComponent,
     DbHistoryLogsComponent,

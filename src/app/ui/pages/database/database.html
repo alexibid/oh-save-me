@@ -14,7 +14,7 @@
     <div class="p-database__card-body">
       <div class="p-database__accounts-list">
         @for (acc of financialAccounts(); track acc.id) {
-          <div class="p-database__account-item">
+          <div class="p-database__account-item" [ibidHandDrawn]="2">
             @if (editingAccountId() !== acc.id) {
               <div class="p-database__account-info">
                 <div class="p-database__account-header-line">
@@ -32,7 +32,7 @@
                   <span>{{ getAccountTransactionCount(acc.id) }} {{ 'dbAccountTransactionsCountSuffix' | translate }}</span>
                   @if (acc.openingBalance) {
                     <span class="p-database__account-dot">&bull;</span>
-                    <span>{{ 'dbAccountOpeningBalanceLabel' | translate }}: <ibid-currency-display [value]="acc.openingBalance" size="sm" /></span>
+                    <span>{{ 'dbAccountOpeningBalanceLabel' | translate }}: <ibid-currency-display [value]="acc.openingBalance" size="sm" status="positive" /></span>
                   }
                   @if (acc.type === 'credit_card') {
                     <ibid-icon

@@ -8,16 +8,26 @@ import { Budget } from '@domain/models/budget';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { AllocationMovementsDialogComponent } from '@ui/components/organisms/allocation-movements-dialog/allocation-movements-dialog';
 import { AllocationEditDialogComponent } from '@ui/components/organisms/allocation-edit-dialog/allocation-edit-dialog';
-import { ButtonComponent, CardComponent, CurrencyDisplayComponent, FormFieldComponent, IconButtonComponent, IconComponent } from 'ibid-ui';
+import {
+  ButtonComponent,
+  CardComponent,
+  CurrencyDisplayComponent,
+  FormFieldComponent,
+  HandDrawnDirective,
+  IconButtonComponent,
+  IconComponent
+} from 'ibid-ui';
 
 export type AllocationsSource = 'projects' | 'investments';
 
 @Component({
   selector: 'ohsaveme-allocations-dashboard',
   standalone: true,
-  imports: [CurrencyDisplayComponent,
+  imports: [
+    CurrencyDisplayComponent,
     CommonModule,
     DialogModule,
+    HandDrawnDirective,
     IconComponent,
     IconButtonComponent,
     ...I18N_SHARED
