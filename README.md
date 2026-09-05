@@ -28,7 +28,6 @@ apps/oh-save-me/       # a app dentro do monorepo ibid-workspace
 ├── imports/            # Local directory for temporary imports (Git ignored)
 ├── PRD.md              # Product vision, requirements, and active roadmap
 ├── MVP.md              # MVP v0.1.0 spec — shipped feature set
-├── .agents/            # Local directory for custom configurations (Git ignored)
 └── package.json        # Global dependencies and orchestrator scripts
 ```
 

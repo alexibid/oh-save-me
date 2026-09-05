@@ -27,7 +27,6 @@
           (click)="onCardClicked(i)"
           (keydown.enter)="onCardClicked(i)"
           (keydown.space)="onCardClicked(i); $event.preventDefault()"
-          role="button"
           tabindex="0"
           (pointerdown)="onPointerDown($event, depthOf(i))"
           (pointerup)="onPointerUp($event, depthOf(i))"
