@@ -1,3 +1,9 @@
+## 0.1.9 (2026-09-05)
+
+### 🐛 Bug Fixes
+
+- **oh-save-me:** scope joint vault sync and recalculate date preset on import (18d3ef6)
+
 ## 0.1.7 (2026-09-05)
 
 ### 🐛 Bug Fixes
