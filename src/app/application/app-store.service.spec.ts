@@ -78,6 +78,13 @@ describe('AppStoreService — importDbSnapshot', () => {
     expect(mockTransactionRepository.saveAll).not.toHaveBeenCalled();
     expect(mockCustomRecordRepository.saveMany).not.toHaveBeenCalled();
   });
+
+  it('recalculates date range via applyPreset when transactions are imported', async () => {
+    const applyPresetSpy = vi.spyOn(store, 'applyPreset');
+    await store.importDbSnapshot(MOCK_SAVVY_STORE.preview);
+
+    expect(applyPresetSpy).toHaveBeenCalledWith(store.preset());
+  });
 });
 
 describe('Cross-device .db merge — end to end (computeDbImportPreview → AppStoreService.importDbSnapshot)', () => {

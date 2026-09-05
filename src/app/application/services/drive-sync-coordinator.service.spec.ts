@@ -100,4 +100,62 @@ describe('DriveSyncCoordinatorService', () => {
     expect(uploadSpy).toHaveBeenCalled();
     expect(syncSpy).toHaveBeenCalled();
   });
+
+  it('should sync joint vault using joint scope and share with recipients when owner', async () => {
+    const jointAccount = {
+      id: 'acc_joint_1',
+      name: 'Conta Conjunta',
+      kind: 'financial' as const,
+      type: 'bank_account' as const,
+      scope: 'joint' as const,
+      includeInConsolidatedBalance: true,
+      unit: 'EUR',
+      updatedAt: 0
+    };
+    const jointTx = {
+      id: 'tx_joint_1',
+      date: '2026-08-15',
+      description: 'Supermercado',
+      amount: -50,
+      category: 'Groceries',
+      accountId: 'acc_joint_1'
+    };
+
+    mockStore = {
+      ...mockStore,
+      accounts: vi.fn().mockReturnValue([jointAccount]) as unknown as AppStore['accounts'],
+      transactions: vi.fn().mockReturnValue([jointTx]) as unknown as AppStore['transactions']
+    };
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: GoogleAuthService, useValue: authService },
+        { provide: IbidGoogleAuthService, useValue: authService },
+        { provide: APP_STORE_TOKEN, useValue: mockStore }
+      ]
+    });
+    driveSyncService = TestBed.inject(GoogleDriveSyncService);
+    coordinator = TestBed.inject(DriveSyncCoordinatorService);
+
+    vi.spyOn(driveSyncService, 'findPrivateVaultFile').mockResolvedValue(null);
+    vi.spyOn(driveSyncService, 'createPrivateVault').mockResolvedValue('vault-priv-id');
+    vi.spyOn(driveSyncService, 'findJointVaultFile').mockResolvedValue({
+      id: 'vault-joint-123',
+      name: 'vault-joint.json',
+      modifiedTime: '2026-08-30T13:00:00.000Z',
+      isShared: false
+    });
+    vi.spyOn(driveSyncService, 'downloadVaultFile').mockResolvedValue(mockSnapshot);
+    const updateSpy = vi.spyOn(driveSyncService, 'updateVaultFile').mockResolvedValue(true);
+    const shareSpy = vi.spyOn(driveSyncService, 'shareFileWithUser').mockResolvedValue(true);
+
+    const result = await coordinator.syncNow();
+    expect(result).toBe(true);
+    expect(updateSpy).toHaveBeenCalled();
+    const uploadedJson = JSON.parse(updateSpy.mock.calls[0][1]);
+    expect(uploadedJson.data.accounts[0].id).toBe('acc_joint_1');
+    expect(uploadedJson.data.transactions[0].id).toBe('tx_joint_1');
+    expect(shareSpy).toHaveBeenCalledWith('vault-joint-123', 'shared@example.com');
+  });
 });

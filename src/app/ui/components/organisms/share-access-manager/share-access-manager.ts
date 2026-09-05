@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { AppTranslatePipe } from '@ui/pipes/app-translate.pipe';
 import { ButtonComponent, IconComponent } from 'ibid-ui';
+import { GoogleDriveSyncService } from '@ibid/services';
 
 export interface SharedUser {
   readonly email: string;
@@ -23,6 +24,7 @@ export interface SharedUser {
 })
 export class ShareAccessManagerComponent {
   private readonly STORAGE_KEY = 'savvy_shared_recipients';
+  private readonly driveSync?: GoogleDriveSyncService;
 
   @Input() selectedEmails: readonly string[] = [];
   @Output() selectedEmailsChange = new EventEmitter<readonly string[]>();
@@ -33,6 +35,11 @@ export class ShareAccessManagerComponent {
   public errorMessage = signal<string | null>(null);
 
   constructor() {
+    try {
+      this.driveSync = inject(GoogleDriveSyncService, { optional: true }) ?? undefined;
+    } catch {
+      this.driveSync = undefined;
+    }
     this.sharedUsers.set(this.loadRecipients());
   }
 
@@ -104,6 +111,19 @@ export class ShareAccessManagerComponent {
 
     const newSelected = [...this.selectedEmails, cleanEmail];
     this.selectedEmailsChange.emit(newSelected);
+
+    if (this.driveSync) {
+      void this.driveSync.findJointVaultFile().then(vault => {
+        if (vault && !vault.isShared && this.driveSync) {
+          void this.driveSync.shareFileWithUser(vault.id, cleanEmail);
+        }
+      });
+      void this.driveSync.ensureAppFolders().then(folders => {
+        if (folders?.sharedFolderId && this.driveSync) {
+          void this.driveSync.shareFileWithUser(folders.sharedFolderId, cleanEmail);
+        }
+      });
+    }
 
     this.isAdding.set(false);
     this.newEmail = '';

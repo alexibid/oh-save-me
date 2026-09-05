@@ -256,6 +256,11 @@ export class AppStoreService implements AppStore {
         await this.transactionRepository.saveAll(preview.transactionsToImport);
       }
       this.setTransactions([...this.transactions(), ...preview.transactionsToImport]);
+      this.applyPreset(this.preset());
+    }
+
+    if (preview.budgetsToImport.length > 0 || preview.transactionsToImport.length > 0) {
+      await this.autoAssignVacationTransactions();
     }
   }
 

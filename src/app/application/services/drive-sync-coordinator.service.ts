@@ -79,7 +79,38 @@ export class DriveSyncCoordinatorService {
     }
   }
 
+  private getSharedRecipients(): readonly string[] {
+    if (typeof window === 'undefined') return [];
+    try {
+      const stored = localStorage.getItem('savvy_shared_recipients');
+      if (stored) {
+        const parsed = JSON.parse(stored) as ReadonlyArray<{ email?: string }>;
+        return parsed.map(u => u.email?.trim().toLowerCase()).filter((e): e is string => Boolean(e));
+      }
+    } catch {
+      return [];
+    }
+    return ['shared@example.com'];
+  }
+
+  private async ensureJointVaultSharing(vaultFileId: string): Promise<void> {
+    const recipients = this.getSharedRecipients();
+    if (recipients.length === 0) return;
+
+    for (const email of recipients) {
+      await this.driveSync.shareFileWithUser(vaultFileId, email);
+    }
+
+    const folders = await this.driveSync.ensureAppFolders();
+    if (folders?.sharedFolderId) {
+      for (const email of recipients) {
+        await this.driveSync.shareFileWithUser(folders.sharedFolderId, email);
+      }
+    }
+  }
+
   private async syncVaultChannel(
+    scope: 'private' | 'joint',
     localScopedSnapshot: DbSnapshot,
     existingVault: DriveVaultFile | null,
     createVaultFn: (json: string) => Promise<string | null>
@@ -90,6 +121,9 @@ export class DriveSyncCoordinatorService {
       }
       const jsonContent = JSON.stringify(localScopedSnapshot, null, 2);
       const createdId = await createVaultFn(jsonContent);
+      if (createdId && scope === 'joint') {
+        await this.ensureJointVaultSharing(createdId);
+      }
       return Boolean(createdId);
     }
 
@@ -98,7 +132,11 @@ export class DriveSyncCoordinatorService {
       return false;
     }
 
-    const remotePreview = computeDbImportPreview(remoteSnapshot, {
+    const scopedRemoteSnapshot = scope === 'joint'
+      ? partitionSnapshotByScope(remoteSnapshot).jointSnapshot
+      : partitionSnapshotByScope(remoteSnapshot).privateSnapshot;
+
+    const remotePreview = computeDbImportPreview(scopedRemoteSnapshot, {
       accounts: this.store.accounts(),
       transactions: this.store.transactions(),
       categories: this.store.categories(),
@@ -120,14 +158,14 @@ export class DriveSyncCoordinatorService {
     const updatedFullSnapshot = this.createLocalSnapshot();
     const { privateSnapshot: updatedPrivate, jointSnapshot: updatedJoint } =
       partitionSnapshotByScope(updatedFullSnapshot);
-    const updatedScoped = existingVault.isShared ? updatedJoint : updatedPrivate;
+    const updatedScoped = scope === 'joint' ? updatedJoint : updatedPrivate;
 
     const localPreviewOnRemote = computeDbImportPreview(updatedScoped, {
-      accounts: remoteSnapshot.data.accounts,
-      transactions: remoteSnapshot.data.transactions,
-      categories: remoteSnapshot.data.categories,
-      budgets: remoteSnapshot.data.budgets,
-      customRecords: remoteSnapshot.data.customRecords
+      accounts: scopedRemoteSnapshot.data.accounts,
+      transactions: scopedRemoteSnapshot.data.transactions,
+      categories: scopedRemoteSnapshot.data.categories,
+      budgets: scopedRemoteSnapshot.data.budgets,
+      customRecords: scopedRemoteSnapshot.data.customRecords
     });
 
     const hasLocalItemsToPush =
@@ -139,7 +177,15 @@ export class DriveSyncCoordinatorService {
 
     if (hasLocalItemsToPush) {
       const jsonToUpload = JSON.stringify(updatedScoped, null, 2);
-      return await this.driveSync.updateVaultFile(existingVault.id, jsonToUpload);
+      const updated = await this.driveSync.updateVaultFile(existingVault.id, jsonToUpload);
+      if (updated && scope === 'joint' && !existingVault.isShared) {
+        await this.ensureJointVaultSharing(existingVault.id);
+      }
+      return updated;
+    }
+
+    if (scope === 'joint' && !existingVault.isShared) {
+      await this.ensureJointVaultSharing(existingVault.id);
     }
 
     return true;
@@ -161,12 +207,14 @@ export class DriveSyncCoordinatorService {
       const existingJoint = await this.driveSync.findJointVaultFile();
 
       const privateSuccess = await this.syncVaultChannel(
+        'private',
         privateSnapshot,
         existingPrivate,
         json => this.driveSync.createPrivateVault(json)
       );
 
       const jointSuccess = await this.syncVaultChannel(
+        'joint',
         jointSnapshot,
         existingJoint,
         json => this.driveSync.createJointVault(json)
