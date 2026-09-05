@@ -1,3 +1,18 @@
+## 0.1.5 (2026-09-05)
+
+### 🐛 Bug Fixes
+
+- **oh-save-me:** remove redundant button role from dashboard insights and normalize gradle wrapper (9201aa1)
+
+### 🔥 Performance
+
+- **ui:** fix every Angular build budget at its cause (c98f4d8)
+- **ci:** stop shipping the npm cache over the network (8c42139)
+
+### 💅 Refactors
+
+- **oh-save-me:** eliminate every lint warning and lower the ceiling to zero (3419940)
+
 ## 0.1.4 (2026-09-04)
 
 ### 🩹 Fixes
