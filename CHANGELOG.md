@@ -1,3 +1,9 @@
+## 0.1.7 (2026-09-05)
+
+### 🐛 Bug Fixes
+
+- **oh-save-me:** trim the gitignore to what the package needs (ba6f031)
+
 ## 0.1.5 (2026-09-05)
 
 ### 🐛 Bug Fixes
