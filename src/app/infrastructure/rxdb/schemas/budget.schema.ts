@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 
 export interface RxBudgetDocument {
   readonly id: string;

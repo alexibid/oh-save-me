@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { ImportBatch } from '@domain/models/import-batch';
 
 export interface RxImportBatchDocument extends ImportBatch {

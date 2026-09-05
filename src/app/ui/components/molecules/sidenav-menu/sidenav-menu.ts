@@ -2,7 +2,6 @@ import { Component, computed, inject, input, output, signal, ViewEncapsulation }
 
 import { RouterModule } from '@angular/router';
 import { CategoryInfo } from '@domain/models/category';
-import { MATERIAL_SHARED } from '@ui/shared/material-shared';
 import { useStore } from '@application/app-store';
 import { I18nService, I18N_SHARED } from '@ui/shared/i18n-shared';
 import { formatDateDisplay } from '@ibid/utils';
@@ -23,7 +22,6 @@ import { DateInputComponent, DateRangeValue, IconButtonComponent, IconComponent,
     RouterModule,
     IconComponent,
     IconButtonComponent,
-    MATERIAL_SHARED,
     I18N_SHARED,
     NumberInputComponent,
     SelectComponent,

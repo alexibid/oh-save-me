@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { MappingRule } from '@domain/models/mapping-rule';
 
 export interface RxMappingRuleDocument extends MappingRule {

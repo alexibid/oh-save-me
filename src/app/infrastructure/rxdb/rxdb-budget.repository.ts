@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { RxCollection } from 'rxdb';
+import type { RxCollection } from 'rxdb';
 import { Budget, BudgetType } from '@domain/models/budget';
 import { BudgetRepository } from '@domain/repositories/budget.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';

@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { Unit } from '@domain/models/unit';
 
 export interface RxUnitDocument extends Unit {

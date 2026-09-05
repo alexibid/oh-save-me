@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { HistoryLog } from '@domain/models/history-log';
 
 export const RxHistoryLogSchema: RxJsonSchema<HistoryLog> = {

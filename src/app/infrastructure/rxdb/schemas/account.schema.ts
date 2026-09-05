@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { AccountType, AccountScope } from '@domain/models/account';
 
 export interface RxAccountDocument {

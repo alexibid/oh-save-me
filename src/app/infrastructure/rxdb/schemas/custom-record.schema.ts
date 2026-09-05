@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { CustomRecord } from '@domain/models/custom-record';
 
 export interface RxCustomRecordDocument extends CustomRecord {

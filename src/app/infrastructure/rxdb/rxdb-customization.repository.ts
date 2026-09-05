@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { RxCollection } from 'rxdb';
+import type { RxCollection } from 'rxdb';
 import { Customization } from '@domain/models/customization';
 import { CustomizationRepository } from '@domain/repositories/customization.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';

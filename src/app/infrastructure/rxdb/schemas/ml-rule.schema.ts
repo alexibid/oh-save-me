@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { MlRule } from '@domain/models/ml-rule';
 
 export interface RxMlRuleDocument extends MlRule {

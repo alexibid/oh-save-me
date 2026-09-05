@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { CategoryItem } from '@domain/models/category';
 import { slugify } from '@ibid/utils';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
-import { MATERIAL_SHARED } from '@ui/shared/material-shared';
 import { ProgressRowComponent } from 'ibid-ui';
 
 export interface CategorySpendComparison {
@@ -22,7 +21,6 @@ export interface CategorySpendComparison {
     I18N_SHARED,
     ProgressRowComponent,
     SubdividedProgressBarComponent,
-    MATERIAL_SHARED,
     RouterLink
 ],
   template: `

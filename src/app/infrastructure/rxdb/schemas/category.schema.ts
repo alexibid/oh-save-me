@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { CategoryInfo } from '@domain/models/category';
 
 export interface RxCategoryDocument extends CategoryInfo {

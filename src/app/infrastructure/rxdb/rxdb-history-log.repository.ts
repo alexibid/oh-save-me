@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { RxCollection } from 'rxdb';
+import type { RxCollection } from 'rxdb';
 import { HistoryLog } from '@domain/models/history-log';
 import { HistoryLogRepository } from '@domain/repositories/history-log.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';

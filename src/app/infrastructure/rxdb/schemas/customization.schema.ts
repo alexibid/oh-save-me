@@ -1,4 +1,4 @@
-import { RxJsonSchema } from 'rxdb';
+import type { RxJsonSchema } from 'rxdb';
 import { Customization } from '@domain/models/customization';
 
 export const RxCustomizationSchema: RxJsonSchema<Customization> = {
