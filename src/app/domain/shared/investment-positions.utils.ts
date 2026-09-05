@@ -40,7 +40,7 @@ export function buildInvestmentPositions(transactions: readonly Transaction[]): 
   const accumulators = new Map<string, PositionAccumulator>();
 
   const sorted = [...transactions]
-    .filter(transaction => !!transaction.symbol)
+    .filter((transaction): transaction is Transaction & { symbol: string } => !!transaction.symbol)
     .sort((a, b) => a.date.localeCompare(b.date));
 
   for (const transaction of sorted) {
@@ -66,9 +66,9 @@ export function realizedResult(positions: readonly InvestmentPosition[]): number
 
 function accumulatorFor(
   accumulators: Map<string, PositionAccumulator>,
-  transaction: Transaction
+  transaction: Transaction & { symbol: string }
 ): PositionAccumulator {
-  const symbol = transaction.symbol!;
+  const symbol = transaction.symbol;
   const existing = accumulators.get(symbol);
   if (existing) return existing;
 

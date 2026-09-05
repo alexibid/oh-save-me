@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { AccountType } from '@domain/models/account';
 
@@ -19,7 +19,7 @@ function getDeterministicColor(seed: string, offset = 0): string {
 @Component({
   selector: 'ohsaveme-account-summary-card',
   standalone: true,
-  imports: [CurrencyDisplayComponent, IconComponent, CommonModule, CardComponent, ViewMoreLinkComponent, HandDrawnDirective, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, IconComponent, CardComponent, ViewMoreLinkComponent, HandDrawnDirective, ...I18N_SHARED],
   templateUrl: './account-summary-card.html',
   styleUrl: './account-summary-card.scss'
 })

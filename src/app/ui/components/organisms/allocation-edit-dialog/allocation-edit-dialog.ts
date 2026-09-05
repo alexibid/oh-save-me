@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
@@ -18,7 +18,6 @@ export interface AllocationEditDialogData {
   selector: 'ohsaveme-allocation-edit-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     DialogModule,
     BottomSheetDialogComponent,
@@ -27,7 +26,7 @@ export interface AllocationEditDialogData {
     ShareAccessManagerComponent,
     SegmentedControlComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './allocation-edit-dialog.html',
   styleUrl: './allocation-edit-dialog.scss'
 })

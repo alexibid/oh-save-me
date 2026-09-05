@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Account } from '@domain/models/account';
 import { TransactionsTableComponent } from './transactions-table';
 import { I18nService } from '@application/i18n.service';
 import { APP_STORE_TOKEN } from '@application/app-store';
@@ -75,8 +76,8 @@ describe('TransactionsTableComponent', () => {
   });
 
   it('resolves the counterpart account name for a linked internal transfer', () => {
-    fixture.componentRef.setInput('accounts', [{ id: 'acc-2', name: 'Investimentos' } as any]);
-    expect(component['getLinkedAccountName']({ transferAccountId: 'acc-2' } as any)).toBe('Investimentos');
+    fixture.componentRef.setInput('accounts', [{ id: 'acc-2', name: 'Investimentos' } as unknown as Account]);
+    expect(component['getLinkedAccountName']({ transferAccountId: 'acc-2' } as unknown as Transaction)).toBe('Investimentos');
   });
 
   describe('isRecurringTransaction', () => {
@@ -137,7 +138,7 @@ describe('TransactionsTableComponent', () => {
   });
 
   it('returns an empty string when the transaction has no linked transfer', () => {
-    expect(component['getLinkedAccountName']({} as any)).toBe('');
+    expect(component['getLinkedAccountName']({} as unknown as Transaction)).toBe('');
   });
 
   it('resolves a category icon/color from categoryOptions by id', () => {

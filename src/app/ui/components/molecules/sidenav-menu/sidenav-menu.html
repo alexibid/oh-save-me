@@ -132,7 +132,7 @@
 
         <div class="m-sidenav-menu__sub-menu">
             <div class="m-sidenav-menu__form-group">
-                <label class="m-sidenav-menu__label">{{ 'startDayLabel' | translate }}</label>
+                <span class="m-sidenav-menu__label">{{ 'startDayLabel' | translate }}</span>
                 <ibid-number-input 
                     class="m-sidenav-menu__input-cycle"
                     [value]="store.cycleStartDay()" [min]="1" [max]="31"
@@ -142,7 +142,7 @@
             </div>
 
             <div class="m-sidenav-menu__form-group">
-                <label class="m-sidenav-menu__label">{{ 'languageLabel' | translate }}</label>
+                <span class="m-sidenav-menu__label">{{ 'languageLabel' | translate }}</span>
                 <ibid-select
                     size="full"
                     class="m-sidenav-menu__select-language"

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CategoryType, CategoryInfo } from '@domain/models/category';
 import { Budget } from '@domain/models/budget';
 import { I18nService } from '@ui/shared/i18n-shared';
@@ -12,7 +12,7 @@ import {
 @Component({
   selector: 'ohsaveme-category-select',
   standalone: true,
-  imports: [CommonModule, SearchableSelectComponent],
+  imports: [SearchableSelectComponent],
   template: `
     <ibid-searchable-select
       [value]="selectedCategory"

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Dialog } from '@angular/cdk/dialog';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { of } from 'rxjs';
 import { DatabaseComponent } from './database';
 import { APP_STORE_TOKEN } from '@application/app-store';
@@ -36,7 +36,7 @@ describe('DatabaseComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    dialogOpenSpy = vi.spyOn(Dialog.prototype, 'open').mockReturnValue({ closed: of(false) } as any);
+    dialogOpenSpy = vi.spyOn(Dialog.prototype, 'open').mockReturnValue({ closed: of(false) } as unknown as DialogRef<unknown>);
 
   });
 
@@ -52,7 +52,7 @@ describe('DatabaseComponent', () => {
     const originalCreate = document.createElement.bind(document);
     const createSpy = vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
       if (tagName === 'a') {
-        return dummyAnchor as any;
+        return dummyAnchor as unknown as HTMLAnchorElement;
       }
       return originalCreate(tagName);
     });

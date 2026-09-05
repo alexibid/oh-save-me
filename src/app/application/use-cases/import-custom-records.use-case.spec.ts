@@ -14,7 +14,7 @@ describe('ImportCustomRecordsUseCase', () => {
       addCustomRecords: async (records: readonly CustomRecord[]) => { added = [...added, records]; }
     };
     const mockCsvParser = {
-      generateHash: async (date: string, description: string, amount: number, accountId: string, occurrence: number) =>
+      generateHash: async (date: string, description: string, _amount: number, accountId: string, occurrence: number) =>
         `hash_${date}_${accountId}_${occurrence}_${description.length}`
     };
 

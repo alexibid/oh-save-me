@@ -1,19 +1,10 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { CategoryMlService } from './category-ml.service';
-import { MlRuleRepository } from '@domain/repositories/ml-rule.repository';
 
 describe('CategoryMlService Integration', () => {
   let service: CategoryMlService;
-  let mockMlRuleRepo: Partial<MlRuleRepository>;
 
   beforeEach(() => {
-    mockMlRuleRepo = {
-      getAll: vi.fn().mockResolvedValue([]),
-      upsert: vi.fn().mockResolvedValue(undefined),
-      delete: vi.fn().mockResolvedValue(undefined),
-      clear: vi.fn().mockResolvedValue(undefined),
-    };
-
     service = new CategoryMlService();
   });
 

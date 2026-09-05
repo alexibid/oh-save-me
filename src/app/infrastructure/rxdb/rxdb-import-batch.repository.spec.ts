@@ -1,14 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { RxdbImportBatchRepository } from './rxdb-import-batch.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
 
-describe('RxdbImportBatchRepository', () => {
-  let repository: RxdbImportBatchRepository;
-  let mockDbService: Partial<RxDbDatabaseService>;
-  let mockCollection: any;
-
-  beforeEach(() => {
-    mockCollection = {
+const createMockCollection = () => ({
       find: vi.fn().mockReturnValue({
         exec: vi.fn().mockResolvedValue([
           {
@@ -32,17 +27,28 @@ describe('RxdbImportBatchRepository', () => {
           toJSON: () => ({ id: 'batch_1', name: 'Extrato_CGD.csv' }),
         }),
       }),
-    };
+    });
+
+describe('RxdbImportBatchRepository', () => {
+  let repository: RxdbImportBatchRepository;
+  let mockDbService: Partial<RxDbDatabaseService>;
+  let mockCollection: ReturnType<typeof createMockCollection>;
+
+  beforeEach(() => {
+    mockCollection = createMockCollection();
 
     mockDbService = {
       getDatabase: vi.fn().mockResolvedValue({
         collections: {
           import_batches: mockCollection,
         },
-      }) as any,
+      }) as RxDbDatabaseService['getDatabase'],
     };
 
-    repository = new RxdbImportBatchRepository(mockDbService as RxDbDatabaseService);
+    TestBed.configureTestingModule({
+      providers: [{ provide: RxDbDatabaseService, useValue: mockDbService }]
+    });
+    repository = TestBed.inject(RxdbImportBatchRepository);
   });
 
   it('should get all import batches', async () => {

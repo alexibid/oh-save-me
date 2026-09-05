@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MappingRule } from '@domain/models/mapping-rule';
 import { DetectedMapping } from '@domain/models/column-mapping';
 import { QualityStats } from '@domain/models/column-quality-stats';
@@ -9,7 +9,7 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbMappingRuleRepository implements MappingRuleRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

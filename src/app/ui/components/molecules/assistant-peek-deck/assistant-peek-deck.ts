@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AssistantCard } from '@domain/models/assistant-card.model';
 import { AssistantAnswer } from '@domain/models/assistant-card.model';
 import { AssistantPeekCardComponent } from '@ui/components/molecules/assistant-peek-card/assistant-peek-card';
@@ -9,7 +9,7 @@ const MAX_VISIBLE_DEPTH = 3;
 @Component({
   selector: 'ohsaveme-assistant-peek-deck',
   standalone: true,
-  imports: [CommonModule, AssistantPeekCardComponent],
+  imports: [AssistantPeekCardComponent],
   templateUrl: './assistant-peek-deck.html',
   styleUrl: './assistant-peek-deck.scss',
   host: {

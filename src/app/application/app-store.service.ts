@@ -828,7 +828,6 @@ export class AppStoreService implements AppStore {
 
     try {
       const oldObj = log.oldValue ? JSON.parse(log.oldValue) : null;
-      const newObj = log.newValue ? JSON.parse(log.newValue) : null;
 
       if (log.entity === 'transaction') {
         if (this.transactionRepository) {

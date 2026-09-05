@@ -28,7 +28,7 @@
         </div>
 
         <div class="p-categories__form-group">
-          <label class="p-categories__label">Cor da Categoria</label>
+          <span class="p-categories__label">Cor da Categoria</span>
           <div class="p-categories__colors-grid">
             @for (color of presetColors; track color) {
               <button
@@ -210,6 +210,6 @@
     [targetCategory]="mlTargetCategory()"
     [categories]="categories()"
     (confirm)="onMlConfirm($event.updatedTransactions)"
-    (cancel)="onMlCancel()"
+    (cancelled)="onMlCancel()"
   ></ohsaveme-ml-confirmation-dialog>
 </div>

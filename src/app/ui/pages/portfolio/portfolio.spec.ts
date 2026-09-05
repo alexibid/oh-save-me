@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Budget } from '@domain/models/budget';
 import { PortfolioComponent } from './portfolio';
 import { APP_STORE_TOKEN } from '@application/app-store';
 import { createMockStore } from '@/mocks/store.mock';
@@ -60,7 +61,7 @@ describe('PortfolioComponent', () => {
             freeBalance: signal(0),
             categoryBudgetProgress: () => signal(null),
             categoryProgress: (id: string, amount: number) => ({
-              budget: { id, name: id, type: 'category', categoryId: id, amount } as any,
+              budget: { id, name: id, type: 'category', categoryId: id, amount } as unknown as Budget,
               spent: 100,
               percentage: 20,
               remaining: amount - 100,

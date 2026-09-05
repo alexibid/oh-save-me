@@ -1,14 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { RxdbHistoryLogRepository } from './rxdb-history-log.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
 
-describe('RxdbHistoryLogRepository', () => {
-  let repository: RxdbHistoryLogRepository;
-  let mockDbService: Partial<RxDbDatabaseService>;
-  let mockCollection: any;
-
-  beforeEach(() => {
-    mockCollection = {
+const createMockCollection = () => ({
       find: vi.fn().mockReturnValue({
         exec: vi.fn().mockResolvedValue([
           {
@@ -27,17 +22,28 @@ describe('RxdbHistoryLogRepository', () => {
       findOne: vi.fn().mockReturnValue({
         exec: vi.fn().mockResolvedValue({ remove: vi.fn().mockResolvedValue(undefined) }),
       }),
-    };
+    });
+
+describe('RxdbHistoryLogRepository', () => {
+  let repository: RxdbHistoryLogRepository;
+  let mockDbService: Partial<RxDbDatabaseService>;
+  let mockCollection: ReturnType<typeof createMockCollection>;
+
+  beforeEach(() => {
+    mockCollection = createMockCollection();
 
     mockDbService = {
       getDatabase: vi.fn().mockResolvedValue({
         collections: {
           history_logs: mockCollection,
         },
-      }) as any,
+      }) as RxDbDatabaseService['getDatabase'],
     };
 
-    repository = new RxdbHistoryLogRepository(mockDbService as RxDbDatabaseService);
+    TestBed.configureTestingModule({
+      providers: [{ provide: RxDbDatabaseService, useValue: mockDbService }]
+    });
+    repository = TestBed.inject(RxdbHistoryLogRepository);
   });
 
   it('should get all history logs', async () => {

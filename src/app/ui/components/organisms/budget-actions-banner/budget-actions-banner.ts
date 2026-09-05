@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit, OnDestroy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { ButtonComponent, IconComponent } from 'ibid-ui';
 
 @Component({
   selector: 'ohsaveme-budget-actions-banner',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, IconComponent, ...I18N_SHARED],
+  imports: [ButtonComponent, IconComponent, ...I18N_SHARED],
   templateUrl: './budget-actions-banner.html',
   styleUrl: './budget-actions-banner.scss'
 })

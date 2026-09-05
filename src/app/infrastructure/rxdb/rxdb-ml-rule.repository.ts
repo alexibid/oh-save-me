@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MlRule } from '@domain/models/ml-rule';
 import { CategoryType } from '@domain/models/category';
 import { MlRuleRepository } from '@domain/repositories/ml-rule.repository';
@@ -8,7 +8,7 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbMlRuleRepository implements MlRuleRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

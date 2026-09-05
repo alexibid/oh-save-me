@@ -4,7 +4,7 @@ import { CategoryInfo } from '@domain/models/category';
 import { Budget } from '@domain/models/budget';
 import { CustomRecord } from '@domain/models/custom-record';
 import { DbImportPreview, DbSnapshot } from '@domain/shared/db-snapshot.utils';
-import { MOCK_ACCOUNT_BANK, MOCK_ACCOUNT_INVESTMENT } from '@/mocks/accounts.mock';
+import { MOCK_ACCOUNT_BANK } from '@/mocks/accounts.mock';
 import { MOCK_CATEGORIES } from '@/mocks/categories.mock';
 import { MOCK_BUDGET_PROJECT_HOME } from '@/mocks/budgets.mock';
 import { MOCK_TX_SALARY } from '@/mocks/transactions.mock';

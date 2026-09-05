@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { BudgetProgress } from '@application/selectors/budget.selectors';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { CardComponent, CurrencyDisplayComponent, CurrencyExplanationRow, FeatureIconComponent } from 'ibid-ui';
@@ -7,7 +7,7 @@ import { CardComponent, CurrencyDisplayComponent, CurrencyExplanationRow, Featur
 @Component({
   selector: 'ohsaveme-category-budget-card',
   standalone: true,
-  imports: [CurrencyDisplayComponent, FeatureIconComponent, CommonModule, CardComponent, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, FeatureIconComponent, CardComponent, ...I18N_SHARED],
   templateUrl: './category-budget-card.html',
   styleUrl: './category-budget-card.scss'
 })

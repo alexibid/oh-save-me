@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, inject, computed, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Output, EventEmitter, inject, computed, input, signal } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { BudgetSelectors } from '@application/selectors/budget.selectors';
@@ -39,7 +39,6 @@ const WALLET_KIND_ICON: Record<string, string> = {
   standalone: true,
   imports: [
     CurrencyDisplayComponent,
-    CommonModule,
     CardComponent,
     FormsModule,
     ButtonComponent,
@@ -47,7 +46,7 @@ const WALLET_KIND_ICON: Record<string, string> = {
     IconComponent,
     IconButtonComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './allocation-detailed-cards.html',
   styleUrl: './allocation-detailed-cards.scss'
 })
@@ -147,7 +146,7 @@ export class AllocationDetailedCardsComponent {
     }
   }
 
-  onSave(categoryId: string, average: number, event: Event) {
+  onSave(categoryId: string, _average: number, event: Event) {
     const value = (event.target as HTMLInputElement).value;
     const parsed = parseInt(value, 10);
     if (!isNaN(parsed) && parsed >= 0) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Unit } from '@domain/models/unit';
 import { UnitRepository } from '@domain/repositories/unit.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
@@ -7,7 +7,7 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbUnitRepository implements UnitRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

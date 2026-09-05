@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output, signal, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+
+import { RouterModule } from '@angular/router';
 import { CategoryInfo } from '@domain/models/category';
 import { MATERIAL_SHARED } from '@ui/shared/material-shared';
 import { useStore } from '@application/app-store';
@@ -20,7 +20,6 @@ import { DateInputComponent, DateRangeValue, IconButtonComponent, IconComponent,
   selector: 'ohsaveme-sidenav-menu',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     IconComponent,
     IconButtonComponent,
@@ -29,7 +28,7 @@ import { DateInputComponent, DateRangeValue, IconButtonComponent, IconComponent,
     NumberInputComponent,
     SelectComponent,
     DateInputComponent
-  ],
+],
   templateUrl: './sidenav-menu.html',
   styleUrl: './sidenav-menu.scss'
 })
@@ -81,7 +80,7 @@ export class SidenavMenuComponent {
 
   protected getChildren(item: NavigationExpandable): NavigationLink[] {
     if (typeof item.children === 'function') {
-      return item.children(this.categories() as any);
+      return item.children(this.categories());
     }
     return item.children ?? [];
   }

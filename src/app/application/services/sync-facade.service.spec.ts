@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { SyncFacadeService } from './sync-facade.service';
 import { GoogleAuthService } from '@infrastructure/sync/google-auth.service';
-import { GoogleDriveSyncService, GoogleAuthService as IbidGoogleAuthService } from '@ibid/services';
+import { GoogleAuthService as IbidGoogleAuthService } from '@ibid/services';
 import { DriveSyncCoordinatorService } from './drive-sync-coordinator.service';
 import { TestBed } from '@angular/core/testing';
 

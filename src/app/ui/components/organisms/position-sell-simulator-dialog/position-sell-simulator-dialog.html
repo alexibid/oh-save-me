@@ -5,9 +5,9 @@
     <div class="m-sell-simulator__asset-name">{{ data.assetName }}</div>
 
     <div class="m-sell-simulator__input-section">
-      <label class="m-sell-simulator__label">{{ 'sellSimulatorMarketValue' | translate }}</label>
+      <label for="sell-simulator-market-value" class="m-sell-simulator__label">{{ 'sellSimulatorMarketValue' | translate }}</label>
       <div class="m-sell-simulator__amount-input">
-        <input class="a-input" type="number" [(ngModel)]="simulatedValue" min="0.01" step="0.01" />
+        <input id="sell-simulator-market-value" class="a-input" type="number" [(ngModel)]="simulatedValue" min="0.01" step="0.01" />
         <span class="m-sell-simulator__currency">{{ i18n.currencySymbol() }}</span>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { AssistantAnswer, AssistantCard } from '@domain/models/assistant-card.model';
 import { buildFilterParams } from '@domain/services/suggestion-resolver';
@@ -18,7 +18,7 @@ import { IconComponent, StackDotsComponent } from 'ibid-ui';
 @Component({
   selector: 'ohsaveme-stacked-deck',
   standalone: true,
-  imports: [CommonModule, AssistantPeekDeckComponent, AssistantExpandedDeckComponent, StackDotsComponent, IconComponent, ...I18N_SHARED],
+  imports: [AssistantPeekDeckComponent, AssistantExpandedDeckComponent, StackDotsComponent, IconComponent, ...I18N_SHARED],
   templateUrl: './stacked-deck.html',
   styleUrl: './stacked-deck.scss',
 })

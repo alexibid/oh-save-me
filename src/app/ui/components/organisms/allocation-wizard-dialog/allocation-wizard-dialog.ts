@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { isReversedDateRange } from '@ibid/utils';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
@@ -32,7 +32,7 @@ const WALLET_KIND_LABEL: Record<WalletKind, string> = {
 @Component({
   selector: 'ohsaveme-allocation-wizard-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormFieldComponent, ButtonComponent, BottomSheetDialogComponent, DateInputComponent, SelectComponent, ...I18N_SHARED],
+  imports: [FormsModule, FormFieldComponent, ButtonComponent, BottomSheetDialogComponent, DateInputComponent, SelectComponent, ...I18N_SHARED],
   templateUrl: './allocation-wizard-dialog.html',
   styleUrl: './allocation-wizard-dialog.scss',
 })

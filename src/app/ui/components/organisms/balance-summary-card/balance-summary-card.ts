@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { CardComponent, CurrencyDisplayComponent, CurrencyExplanationRow } from 'ibid-ui';
 
@@ -8,7 +8,7 @@ export type BalanceSummaryMode = 'budget' | 'portfolio';
 @Component({
   selector: 'ohsaveme-balance-summary-card',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, CardComponent, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, CardComponent, ...I18N_SHARED],
   templateUrl: './balance-summary-card.html',
   styleUrl: './balance-summary-card.scss'
 })

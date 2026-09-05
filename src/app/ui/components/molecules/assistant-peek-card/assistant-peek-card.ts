@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, signal, HostBinding } from '@angular/core';
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
-import { CommonModule } from '@angular/common';
+
 import { AssistantCard, AssistantCardKind } from '@domain/models/assistant-card.model';
 import { AccentIconComponent, DismissButtonComponent, HandDrawnDirective, IconComponent } from 'ibid-ui';
 
@@ -33,7 +33,7 @@ const SWIPE_THRESHOLD_PX = 40;
 @Component({
   selector: 'ohsaveme-assistant-peek-card',
   standalone: true,
-  imports: [CommonModule, AccentIconComponent, DismissButtonComponent, HandDrawnDirective, IconComponent, ...I18N_SHARED],
+  imports: [AccentIconComponent, DismissButtonComponent, HandDrawnDirective, IconComponent, ...I18N_SHARED],
   templateUrl: './assistant-peek-card.html',
   styleUrl: './assistant-peek-card.scss',
   host: {

@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, inject, computed, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { useStore } from '@application/app-store';
 import { BudgetProgress, BudgetSelectors } from '@application/selectors/budget.selectors';
 import { Transaction } from '@domain/models/transaction';
 import { TRANSACTION_LIST_SCHEMA } from '@domain/models/transaction-list-schema';
-import { formatDateLocal } from '@ibid/utils';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { MovementsChartComponent } from '@ui/components/organisms/movements-chart/movements-chart';
 import { TransactionsTableComponent } from '@ui/components/organisms/transactions-table/transactions-table';
@@ -42,7 +41,6 @@ const SPECIAL_FILTER_LABEL_KEYS: Record<SpecialTransactionFilter, string> = {
   selector: 'ohsaveme-movements',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     IconComponent,
     SelectComponent,
@@ -51,7 +49,7 @@ const SPECIAL_FILTER_LABEL_KEYS: Record<SpecialTransactionFilter, string> = {
     ActiveFilterChipsComponent,
     ColumnManagerPanelComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './movements.html',
   styleUrl: './movements.scss',
 })

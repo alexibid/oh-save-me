@@ -1,14 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { RxdbCustomizationRepository } from './rxdb-customization.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
 
-describe('RxdbCustomizationRepository', () => {
-  let repository: RxdbCustomizationRepository;
-  let mockDbService: Partial<RxDbDatabaseService>;
-  let mockCollection: any;
-
-  beforeEach(() => {
-    mockCollection = {
+const createMockCollection = () => ({
       find: vi.fn().mockReturnValue({
         exec: vi.fn().mockResolvedValue([
           { toJSON: () => ({ key: 'app_lang', value: 'pt' }), remove: vi.fn() }
@@ -18,17 +13,28 @@ describe('RxdbCustomizationRepository', () => {
       findOne: vi.fn().mockReturnValue({
         exec: vi.fn().mockResolvedValue({ remove: vi.fn().mockResolvedValue(undefined) })
       })
-    };
+    });
+
+describe('RxdbCustomizationRepository', () => {
+  let repository: RxdbCustomizationRepository;
+  let mockDbService: Partial<RxDbDatabaseService>;
+  let mockCollection: ReturnType<typeof createMockCollection>;
+
+  beforeEach(() => {
+    mockCollection = createMockCollection();
 
     mockDbService = {
       getDatabase: vi.fn().mockResolvedValue({
         collections: {
           customizations: mockCollection
         }
-      }) as any
+      }) as RxDbDatabaseService['getDatabase']
     };
 
-    repository = new RxdbCustomizationRepository(mockDbService as RxDbDatabaseService);
+    TestBed.configureTestingModule({
+      providers: [{ provide: RxDbDatabaseService, useValue: mockDbService }]
+    });
+    repository = TestBed.inject(RxdbCustomizationRepository);
   });
 
   it('should get all customizations', async () => {

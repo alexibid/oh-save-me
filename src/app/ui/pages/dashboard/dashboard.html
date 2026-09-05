@@ -82,7 +82,7 @@
 
 <ohsaveme-category-create-dialog [visible]="showCreateCategoryDialog()"
   (visibleChange)="showCreateCategoryDialog.set($event)" (confirm)="onCategoryCreated($event)"
-  (cancel)="showCreateCategoryDialog.set(false)">
+  (cancelled)="showCreateCategoryDialog.set(false)">
 </ohsaveme-category-create-dialog>
 
 @if (showShareModal()) {

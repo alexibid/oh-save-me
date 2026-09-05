@@ -5,15 +5,7 @@ import { DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CategoryBudgetWizardDialogComponent } from './category-budget-wizard-dialog';
 import { APP_STORE_TOKEN } from '@application/app-store';
 
-describe('CategoryBudgetWizardDialogComponent', () => {
-  let fixture: ComponentFixture<CategoryBudgetWizardDialogComponent>;
-  let component: CategoryBudgetWizardDialogComponent;
-  let dialogRefSpy: { close: ReturnType<typeof vi.fn> };
-  let mockStore: any;
-
-  beforeEach(async () => {
-    dialogRefSpy = { close: vi.fn() };
-    mockStore = {
+const createMockStore = () => ({
       categoryBudgetSuggestions: signal({}),
       transactions: signal([]),
       startDate: signal(''),
@@ -21,7 +13,17 @@ describe('CategoryBudgetWizardDialogComponent', () => {
       budgets: signal([]),
       categories: signal([]),
       deleteBudget: vi.fn()
-    };
+    });
+
+describe('CategoryBudgetWizardDialogComponent', () => {
+  let fixture: ComponentFixture<CategoryBudgetWizardDialogComponent>;
+  let component: CategoryBudgetWizardDialogComponent;
+  let dialogRefSpy: { close: ReturnType<typeof vi.fn> };
+  let mockStore: ReturnType<typeof createMockStore>;
+
+  beforeEach(async () => {
+    dialogRefSpy = { close: vi.fn() };
+    mockStore = createMockStore();
 
     await TestBed.configureTestingModule({
       imports: [CategoryBudgetWizardDialogComponent, DialogModule],

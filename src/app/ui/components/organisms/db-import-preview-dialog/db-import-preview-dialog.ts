@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
 import { DbImportPreview } from '@domain/shared/db-snapshot.utils';
@@ -14,7 +14,7 @@ export interface DbImportPreviewDialogData {
 @Component({
   selector: 'ohsaveme-db-import-preview-dialog',
   standalone: true,
-  imports: [CommonModule, DialogModule, TransactionsTableComponent, BottomSheetDialogComponent, I18N_SHARED],
+  imports: [DialogModule, TransactionsTableComponent, BottomSheetDialogComponent, I18N_SHARED],
   templateUrl: './db-import-preview-dialog.html',
   styleUrl: './db-import-preview-dialog.scss'
 })

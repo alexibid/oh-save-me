@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { CategoryItem } from '@domain/models/category';
 import { AppCurrencyPipe } from '@ui/pipes/app-currency.pipe';
@@ -9,11 +9,7 @@ import { IconComponent } from 'ibid-ui';
 @Component({
   selector: 'ohsaveme-menu',
   standalone: true,
-  imports: [IconComponent,
-    CommonModule,
-    CdkMenuModule,
-    AppCurrencyPipe
-  ],
+  imports: [IconComponent, CdkMenuModule, AppCurrencyPipe],
   template: `
     <div class="m-menu">
       <button

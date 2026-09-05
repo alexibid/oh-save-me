@@ -1,7 +1,7 @@
-import { Injectable, Inject, Optional, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GoogleAuthService } from '@infrastructure/sync/google-auth.service';
 import { GoogleDriveSyncService, DriveVaultFile } from '@ibid/services';
-import { useStore, AppStore, APP_STORE_TOKEN } from '@application/app-store';
+import { useStore } from '@application/app-store';
 import { DbSnapshot, partitionSnapshotByScope, computeDbImportPreview } from '@domain/shared/db-snapshot.utils';
 import { Transaction } from '@domain/models/transaction';
 import { isFinancialAccount } from '@domain/models/account';
@@ -11,19 +11,12 @@ import { serializeIngestedTransactionsToCsv, buildImportBatchFileName } from '@d
   providedIn: 'root'
 })
 export class DriveSyncCoordinatorService {
-  private readonly store: AppStore;
-  private readonly auth: GoogleAuthService;
-  private readonly driveSync: GoogleDriveSyncService;
+  private readonly auth = inject(GoogleAuthService);
+  private readonly driveSync = inject(GoogleDriveSyncService);
+  private readonly store = useStore();
   private isSyncInProgress = false;
 
-  constructor(
-    auth?: GoogleAuthService,
-    driveSync?: GoogleDriveSyncService,
-    @Optional() @Inject(APP_STORE_TOKEN) store?: AppStore
-  ) {
-    this.auth = auth ?? inject(GoogleAuthService);
-    this.driveSync = driveSync ?? inject(GoogleDriveSyncService);
-    this.store = store ?? useStore();
+  constructor() {
     this.setupWindowListeners();
   }
 

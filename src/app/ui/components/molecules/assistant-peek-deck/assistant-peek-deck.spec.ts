@@ -25,19 +25,19 @@ describe('AssistantPeekDeckComponent', () => {
 
   it('should create and calculate card depth correctly', () => {
     expect(component).toBeTruthy();
-    expect((component as any).depthOf(0)).toBe(0);
-    expect((component as any).depthOf(1)).toBe(1);
+    expect(component['depthOf'](0)).toBe(0);
+    expect(component['depthOf'](1)).toBe(1);
   });
 
   it('should emit cardTapped when front card activated', () => {
     const spy = vi.spyOn(component.cardTapped, 'emit');
-    (component as any).onCardActivated(mockSuggestions[0], 0);
+    component['onCardActivated'](mockSuggestions[0], 0);
     expect(spy).toHaveBeenCalledWith(mockSuggestions[0]);
   });
 
   it('should emit rotateBy when non-front card activated', () => {
     const spy = vi.spyOn(component.rotateBy, 'emit');
-    (component as any).onCardActivated(mockSuggestions[1], 1);
+    component['onCardActivated'](mockSuggestions[1], 1);
     expect(spy).toHaveBeenCalledWith(1);
   });
 });

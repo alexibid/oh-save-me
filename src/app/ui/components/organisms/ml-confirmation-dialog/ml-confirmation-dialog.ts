@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef, signal, computed, forwardRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { Transaction } from '@domain/models/transaction';
 import { CategoryInfo, CategoryType } from '@domain/models/category';
@@ -15,13 +15,12 @@ export type MlSortField = 'date' | 'description' | 'category' | 'amount';
   selector: 'ohsaveme-ml-confirmation-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     DialogModule,
     BottomSheetDialogComponent,
     SmartBudgetCellComponent,
     forwardRef(() => TransactionsTableComponent),
     ...I18N_SHARED
-  ],
+],
   template: `
     <ng-template #dialogTemplate>
       <ibid-bottom-sheet-dialog class="o-ml-confirmation-dialog" (closeClicked)="onCancel()">
@@ -113,7 +112,7 @@ export class MlConfirmationDialogComponent implements OnChanges, OnDestroy {
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() confirm = new EventEmitter<{ updatedTransactions: Transaction[]; keyword: string }>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
 
   protected readonly keyword = signal<string>('');
   protected readonly sortField = signal<MlSortField | null>(null);
@@ -134,14 +133,15 @@ export class MlConfirmationDialogComponent implements OnChanges, OnDestroy {
   }
 
   protected readonly similarTransactions = computed(() => {
-    if (!this.triggerTransaction) {
+    const trigger = this.triggerTransaction;
+    if (!trigger) {
       return this.transactions || [];
     }
     const kw = this.keyword();
     if (!kw) return [];
 
     return this.allTransactions.filter(t => {
-      if (t.id === this.triggerTransaction!.id) return false;
+      if (t.id === trigger.id) return false;
       if (t.category === this.targetCategory) return false;
       return matchesSimilarityKeyword(t.description, kw);
     });
@@ -210,7 +210,7 @@ export class MlConfirmationDialogComponent implements OnChanges, OnDestroy {
         this.dialogRef = undefined;
         this.visibleChange.emit(false);
         if (!this.actionTaken) {
-          this.cancel.emit();
+          this.cancelled.emit();
         }
       });
     }
@@ -270,7 +270,7 @@ export class MlConfirmationDialogComponent implements OnChanges, OnDestroy {
 
   protected onCancel() {
     this.actionTaken = true;
-    this.cancel.emit();
+    this.cancelled.emit();
     this.closeDialog();
   }
 }

@@ -9,14 +9,7 @@ describe('RxdbBudgetRepository', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      providers: [
-        RxDbDatabaseService,
-        {
-          provide: RxdbBudgetRepository,
-          useFactory: (db: RxDbDatabaseService) => new RxdbBudgetRepository(db),
-          deps: [RxDbDatabaseService]
-        }
-      ]
+      providers: [RxDbDatabaseService]
     });
     repository = TestBed.inject(RxdbBudgetRepository);
     dbService = TestBed.inject(RxDbDatabaseService);

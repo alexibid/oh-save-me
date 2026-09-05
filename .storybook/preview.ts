@@ -7,7 +7,7 @@ import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 import { TRANSACTION_REPOSITORY_TOKEN } from '../src/app/application/tokens';
-import { Component, APP_INITIALIZER } from '@angular/core';
+import { Component } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 
 import '../src/styles.scss';

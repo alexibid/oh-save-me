@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Transaction } from '@domain/models/transaction';
 import { AllocationMovementsDialogComponent } from './allocation-movements-dialog';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { signal } from '@angular/core';
@@ -6,9 +7,21 @@ import { APP_STORE_TOKEN } from '@application/app-store';
 import { I18nService } from '@application/i18n.service';
 import { I18nService as UiI18nService } from '@ui/shared/i18n-shared';
 
+const createMockStore = () => ({
+      transactions: signal([
+        { id: 't1', date: '2026-08-05', description: 'Hotel', amount: -800, category: 'Travel' },
+        { id: 't2', date: '2026-08-10', description: 'Restaurante', amount: -630.61, category: 'Restaurants' },
+        { id: 't3', date: '2026-08-30', description: 'Fora do período de férias', amount: -50, category: 'Groceries' }
+      ]),
+      categories: signal([]),
+      startDate: signal('2026-07-28'),
+      endDate: signal('2026-08-28'),
+      updateTransactionBudget: vi.fn()
+    });
+
 describe('AllocationMovementsDialogComponent — vacation project date-range matching', () => {
   let component: AllocationMovementsDialogComponent;
-  let mockStore: any;
+  let mockStore: ReturnType<typeof createMockStore>;
 
   const vacationBudget = {
     id: 'proj-vacation',
@@ -24,17 +37,7 @@ describe('AllocationMovementsDialogComponent — vacation project date-range mat
   };
 
   beforeEach(async () => {
-    mockStore = {
-      transactions: signal([
-        { id: 't1', date: '2026-08-05', description: 'Hotel', amount: -800, category: 'Travel' },
-        { id: 't2', date: '2026-08-10', description: 'Restaurante', amount: -630.61, category: 'Restaurants' },
-        { id: 't3', date: '2026-08-30', description: 'Fora do período de férias', amount: -50, category: 'Groceries' }
-      ]),
-      categories: signal([]),
-      startDate: signal('2026-07-28'),
-      endDate: signal('2026-08-28'),
-      updateTransactionBudget: vi.fn()
-    };
+    mockStore = createMockStore();
 
     await TestBed.configureTestingModule({
       imports: [AllocationMovementsDialogComponent],
@@ -52,23 +55,23 @@ describe('AllocationMovementsDialogComponent — vacation project date-range mat
   });
 
   it('lists a transaction that only matches by vacation date range as associated, even without a tag or explicit budgetId', () => {
-    const associatedIds = (component as any).associatedTransactions().map((t: any) => t.id);
+    const associatedIds = component['associatedTransactions']().map((t: Transaction) => t.id);
     expect(associatedIds).toEqual(['t1', 't2']);
   });
 
   it('excludes a transaction outside the vacation date range from associated, and lists it as available instead', () => {
-    const availableIds = (component as any).availableTransactions().map((t: any) => t.id);
+    const availableIds = component['availableTransactions']().map((t: Transaction) => t.id);
     expect(availableIds).toEqual(['t3']);
   });
 
   it('sums the associated transactions to the same total that the budget progress calculation would report as spent', () => {
-    const associated = (component as any).associatedTransactions() as { amount: number }[];
+    const associated = component['associatedTransactions']() as { amount: number }[];
     const totalSpent = Math.round(-associated.reduce((sum, t) => sum + t.amount, 0) * 100) / 100;
     expect(totalSpent).toBe(1430.61);
   });
 
   it('persists a detach requested from the table, instead of dropping the event', async () => {
-    await (component as any).onBudgetApplied({ transactionId: 't2', budgetId: undefined });
+    await component['onBudgetApplied']({ transactionId: 't2', budgetId: undefined });
 
     expect(mockStore.updateTransactionBudget).toHaveBeenCalledWith(
       expect.objectContaining({ id: 't2' }),
@@ -77,7 +80,7 @@ describe('AllocationMovementsDialogComponent — vacation project date-range mat
   });
 
   it('persists an assignment requested from the available tab', async () => {
-    await (component as any).onBudgetApplied({ transactionId: 't3', budgetId: vacationBudget.id });
+    await component['onBudgetApplied']({ transactionId: 't3', budgetId: vacationBudget.id });
 
     expect(mockStore.updateTransactionBudget).toHaveBeenCalledWith(
       expect.objectContaining({ id: 't3' }),
@@ -86,7 +89,7 @@ describe('AllocationMovementsDialogComponent — vacation project date-range mat
   });
 
   it('ignores an event for a transaction that no longer exists rather than writing a bogus record', async () => {
-    await (component as any).onBudgetApplied({ transactionId: 'gone', budgetId: undefined });
+    await component['onBudgetApplied']({ transactionId: 'gone', budgetId: undefined });
 
     expect(mockStore.updateTransactionBudget).not.toHaveBeenCalled();
   });
@@ -136,7 +139,7 @@ describe('AllocationMovementsDialogComponent — detaching after the window was 
       { id: 't1', date: '2026-08-05', description: 'Hotel', amount: -800, category: 'Travel', budgetId: 'proj-vacation' }
     ]);
 
-    expect((component as any).associatedTransactions().map((t: any) => t.id)).toEqual(['t1']);
+    expect(component['associatedTransactions']().map((t: Transaction) => t.id)).toEqual(['t1']);
   });
 
   it('moves a detached transaction to available even though its date still falls inside the vacation window', () => {
@@ -144,7 +147,7 @@ describe('AllocationMovementsDialogComponent — detaching after the window was 
       { id: 't1', date: '2026-08-05', description: 'Hotel', amount: -800, category: 'Travel' }
     ]);
 
-    expect((component as any).associatedTransactions()).toEqual([]);
-    expect((component as any).availableTransactions().map((t: any) => t.id)).toEqual(['t1']);
+    expect(component['associatedTransactions']()).toEqual([]);
+    expect(component['availableTransactions']().map((t: Transaction) => t.id)).toEqual(['t1']);
   });
 });

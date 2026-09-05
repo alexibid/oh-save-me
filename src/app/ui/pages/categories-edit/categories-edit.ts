@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CATEGORY_REPOSITORY_TOKEN, TRANSACTION_REPOSITORY_TOKEN } from '@application/tokens';
@@ -16,14 +16,13 @@ import { ButtonComponent, FormFieldComponent, IconButtonComponent, IconComponent
   selector: 'ohsaveme-categories-page',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MlConfirmationDialogComponent,
     ButtonComponent,
     IconButtonComponent,
     FormFieldComponent,
     IconComponent
-  ],
+],
   templateUrl: './categories-edit.html',
   styleUrl: './categories-edit.scss'
 })

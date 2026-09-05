@@ -29,7 +29,10 @@
         }
       </div>
 
-      <div class="m-allocation-detailed-cards__progress-section" (click)="onProgressBarClick(item.category.id)">
+      <div class="m-allocation-detailed-cards__progress-section" (click)="onProgressBarClick(item.category.id)"
+           (keydown.enter)="onProgressBarClick(item.category.id)"
+           (keydown.space)="onProgressBarClick(item.category.id); $event.preventDefault()"
+           role="button" tabindex="0">
         <div class="m-allocation-detailed-cards__progress-track" title="Ver movimentos desta categoria">
           <div class="m-allocation-detailed-cards__progress-bar"
                [style.width.%]="(item.progress.percentage || 0) > 100 ? 100 : (item.progress.percentage || 0)"

@@ -7,7 +7,7 @@ import { TRANSACTION_REPOSITORY_TOKEN, CATEGORY_REPOSITORY_TOKEN } from '@applic
 import { TEMPLATE_CATEGORIES } from '@domain/models/category';
 import { APP_STORE_TOKEN, AppStore } from '@application/app-store';
 import { provideAppStore } from '@application/app-store.service';
-import { MOCK_TRANSACTIONS, MOCK_TX_SALARY, MOCK_TX_GROCERIES_1, MOCK_METRICS } from '@/mocks/index';
+import { MOCK_TRANSACTIONS, MOCK_METRICS } from '@/mocks/index';
 
 describe('DashboardComponent - QA & TDD Spec Suite', () => {
   let component: DashboardComponent;

@@ -90,7 +90,7 @@ export class AssistantSystem {
   }
 
   @HostListener('document:pointermove', ['$event'])
-  public onPointerMove(event: PointerEvent): void {
+  public onPointerMove(_event: PointerEvent): void {
     if (!this.isDragging) {
       return;
     }

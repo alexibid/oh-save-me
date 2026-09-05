@@ -3,13 +3,7 @@ import { DbHistoryLogsComponent } from './db-history-logs';
 import { I18nService } from '@application/i18n.service';
 import { HistoryLog } from '@domain/models/history-log';
 
-describe('DbHistoryLogsComponent', () => {
-  let component: DbHistoryLogsComponent;
-  let fixture: ComponentFixture<DbHistoryLogsComponent>;
-  let mockI18nService: any;
-
-  beforeEach(async () => {
-    mockI18nService = {
+const createMockI18nService = () => ({
       currentLang: () => 'pt',
       t: () => ({
         dbHistoryTitle: 'Histórico de Alterações e Undo',
@@ -17,7 +11,15 @@ describe('DbHistoryLogsComponent', () => {
         dbUndo: 'Desfazer',
         dbHistoryTransaction: 'Movimento'
       })
-    };
+    });
+
+describe('DbHistoryLogsComponent', () => {
+  let component: DbHistoryLogsComponent;
+  let fixture: ComponentFixture<DbHistoryLogsComponent>;
+  let mockI18nService: ReturnType<typeof createMockI18nService>;
+
+  beforeEach(async () => {
+    mockI18nService = createMockI18nService();
 
     await TestBed.configureTestingModule({
       imports: [DbHistoryLogsComponent],

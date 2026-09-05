@@ -10,12 +10,9 @@ import {
   CUSTOM_RECORD_REPOSITORY_TOKEN,
   HISTORY_LOG_REPOSITORY_TOKEN
 } from './tokens';
-import { DbImportPreview, DbSnapshot, computeDbImportPreview } from '@domain/shared/db-snapshot.utils';
-import { Account } from '@domain/models/account';
+import { computeDbImportPreview } from '@domain/shared/db-snapshot.utils';
 import { Transaction } from '@domain/models/transaction';
-import { CategoryInfo } from '@domain/models/category';
 import { Budget } from '@domain/models/budget';
-import { CustomRecord } from '@domain/models/custom-record';
 import { CategoryType } from '@domain/models/category';
 import { MOCK_TRANSACTIONS } from '@/mocks/transactions.mock';
 

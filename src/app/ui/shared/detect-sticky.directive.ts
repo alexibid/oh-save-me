@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output, inject } from '@angular/core';
 
 @Directive({
   selector: '[ohsavemeDetectSticky]',
@@ -10,10 +10,8 @@ export class DetectStickyDirective implements OnInit, OnDestroy {
   private isSticky = false;
   private ticking = false;
 
-  constructor(
-    private el: ElementRef,
-    private ngZone: NgZone
-  ) {}
+  private readonly el = inject(ElementRef);
+  private readonly ngZone = inject(NgZone);
 
   ngOnInit() {
     this.ngZone.runOutsideAngular(() => {

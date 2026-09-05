@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Transaction } from '@domain/models/transaction';
 import { Header } from './header';
 import { APP_STORE_TOKEN } from '@application/app-store';
 import { signal } from '@angular/core';
@@ -15,7 +16,7 @@ describe('Header', () => {
     preset: ReturnType<typeof signal<string>>;
     minAvailableDate: ReturnType<typeof signal<string | undefined>>;
     maxAvailableDate: ReturnType<typeof signal<string | undefined>>;
-    transactions: ReturnType<typeof signal<any[]>>;
+    transactions: ReturnType<typeof signal<Transaction[]>>;
     applyPreset: ReturnType<typeof vi.fn>;
     triggerAddClick: ReturnType<typeof vi.fn>;
   };
@@ -107,7 +108,7 @@ describe('Header', () => {
     expect(btn.textContent).toContain('Desmarcar recorrentes');
 
     mockStore.transactions.set([
-      { id: 't1', description: 'Netflix', amount: -10, isRecurring: true } as any
+      { id: 't1', description: 'Netflix', amount: -10, isRecurring: true } as unknown as Transaction
     ]);
     fixture.detectChanges();
 

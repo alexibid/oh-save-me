@@ -85,7 +85,7 @@ export const MOCK_METRICS = computeMockMetrics();
 export function assertMockDataIntegrity(
   transactions: readonly Transaction[] = MOCK_TRANSACTIONS,
   accounts: readonly Account[] = MOCK_ACCOUNTS,
-  budgets: readonly Budget[] = MOCK_BUDGETS
+  _budgets: readonly Budget[] = MOCK_BUDGETS
 ): { readonly isValid: boolean; readonly errors: readonly string[] } {
   const errors: string[] = [];
   const validAccountIds = new Set(accounts.map(a => a.id));

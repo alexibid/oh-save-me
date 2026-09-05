@@ -1,5 +1,5 @@
 import { ViewEncapsulation, Component, Input, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SubdividedProgressBarComponent } from '@ui/components/molecules/subdivided-bar/subdivided-bar';
 import { RouterLink } from '@angular/router';
 import { CategoryItem } from '@domain/models/category';
@@ -19,13 +19,12 @@ export interface CategorySpendComparison {
   selector: 'ohsaveme-categories-chart',
   standalone: true,
   imports: [
-    CommonModule,
     I18N_SHARED,
     ProgressRowComponent,
     SubdividedProgressBarComponent,
     MATERIAL_SHARED,
     RouterLink
-  ],
+],
   template: `
     <div class="o-categories-chart" [class.o-categories-chart--full-bleed-mobile]="fullBleedMobile">
       <h3 class="o-categories-chart__title">{{ 'chartPieTitle' | translate }}</h3>

@@ -1,7 +1,4 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { SuggestionKind } from '@domain/models/assistant-suggestion.model';
-import { AssistantTaskKind } from '@domain/models/assistant-task.model';
-import { FinancialInsightKind } from '@domain/models/financial-insight.model';
 import { CUSTOMIZATION_REPOSITORY_TOKEN } from '@application/tokens';
 import { DEFAULT_INSIGHT_CONFIG, InsightCardKind } from '@domain/services/insight-config';
 import { InsightConfigService } from './insight-config.service';

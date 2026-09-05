@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Transaction } from '@domain/models/transaction';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { CardComponent, CurrencyDisplayComponent } from 'ibid-ui';
@@ -7,11 +7,7 @@ import { CardComponent, CurrencyDisplayComponent } from 'ibid-ui';
 @Component({
   selector: 'ohsaveme-sum-movements-panel',
   standalone: true,
-  imports: [CurrencyDisplayComponent,
-    CommonModule,
-    CardComponent,
-    ...I18N_SHARED
-  ],
+  imports: [CurrencyDisplayComponent, CardComponent, ...I18N_SHARED],
   templateUrl: './sum-movements-panel.html',
   styleUrl: './sum-movements-panel.scss'
 })

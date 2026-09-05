@@ -1,5 +1,5 @@
 import { Component, inject, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
@@ -31,7 +31,6 @@ export interface DisplayItem {
   selector: 'ohsaveme-allocation-movements-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     DialogModule,
     IconComponent,
@@ -39,7 +38,7 @@ export interface DisplayItem {
     SearchInputComponent,
     TransactionsTableComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './allocation-movements-dialog.html',
   styleUrl: './allocation-movements-dialog.scss'
 })
@@ -145,10 +144,12 @@ export class AllocationMovementsDialogComponent {
       const groups = new Map<string, Transaction[]>();
       txs.forEach(t => {
         const descKey = t.description.trim();
-        if (!groups.has(descKey)) {
-          groups.set(descKey, []);
+        const group = groups.get(descKey);
+        if (group) {
+          group.push(t);
+        } else {
+          groups.set(descKey, [t]);
         }
-        groups.get(descKey)!.push(t);
       });
 
       groups.forEach((list, desc) => {

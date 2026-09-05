@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Account, AccountType, AccountScope, isFinancialAccount } from '@domain/models/account';
 import { AccountRepository } from '@domain/repositories/account.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
@@ -58,7 +58,7 @@ function toDocument(account: Readonly<Account>): RxAccountDocument {
   providedIn: 'root'
 })
 export class RxdbAccountRepository implements AccountRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

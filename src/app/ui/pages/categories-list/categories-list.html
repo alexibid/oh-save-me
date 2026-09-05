@@ -3,32 +3,33 @@
 
 <div class="p-categories-list-page">
   @if (category(); as cat) {
-  <ibid-card customClass="p-categories-list-page__summary-card">
-    <div class="p-categories-list-page__header">
-      <h1 class="p-categories-list-page__title" [style.color]="cat.color">
-        <span class="p-categories-list-page__dot" [style.background-color]="cat.color"></span>
-        {{ cat.id | translate }}
-      </h1>
-    </div>
+    <ibid-card customClass="p-categories-list-page__summary-card">
+      <div class="p-categories-list-page__header">
+        <h1 class="p-categories-list-page__title" [style.color]="cat.color">
+          <span class="p-categories-list-page__dot" [style.background-color]="cat.color"></span>
+          {{ cat.id | translate }}
+        </h1>
+      </div>
 
-    <ohsaveme-category-budget-card
-      *ngIf="!isAllCategories()"
-      [categoryName]="i18n.getCategoryName(cat.id)"
-      [budgetProgress]="categoryBudgetProgress()"
-      (defineBudget)="onDefineBudget()"
-      (editBudgetClick)="onDefineBudget()"
-    ></ohsaveme-category-budget-card>
+      @if (!isAllCategories()) {
+        <ohsaveme-category-budget-card
+          [categoryName]="i18n.getCategoryName(cat.id)"
+          [budgetProgress]="categoryBudgetProgress()"
+          (defineBudget)="onDefineBudget()"
+          (editBudgetClick)="onDefineBudget()"
+        ></ohsaveme-category-budget-card>
+      }
 
-    <ohsaveme-summary [items]="summaryItems()"></ohsaveme-summary>
-  </ibid-card>
+      <ohsaveme-summary [items]="summaryItems()"></ohsaveme-summary>
+    </ibid-card>
 
-  <ohsaveme-transactions-table [showCategory]="isAllCategories()" [showActions]="true" [fullBleedMobile]="true"
-    [transactions]="filteredTransactions()" [categoryOptions]="categoryOptions()"
-    (categoryApplied)="onCategoryApplied($event)" (budgetApplied)="onBudgetApplied($event)" (createCategoryClick)="showCreateCategoryDialog.set(true)">
-  </ohsaveme-transactions-table>
+    <ohsaveme-transactions-table [showCategory]="isAllCategories()" [showActions]="true" [fullBleedMobile]="true"
+      [transactions]="filteredTransactions()" [categoryOptions]="categoryOptions()"
+      (categoryApplied)="onCategoryApplied($event)" (budgetApplied)="onBudgetApplied($event)" (createCategoryClick)="showCreateCategoryDialog.set(true)">
+    </ohsaveme-transactions-table>
   } @else {
-  <div class="o-card p-categories-list-page__empty">
-    <h1>{{ 'noTransactions' | translate }}</h1>
-  </div>
+    <div class="o-card p-categories-list-page__empty">
+      <h1>{{ 'noTransactions' | translate }}</h1>
+    </div>
   }
 </div>

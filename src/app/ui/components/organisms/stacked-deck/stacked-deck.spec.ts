@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AssistantCard } from '@domain/models/assistant-card.model';
 import { StackedDeckComponent } from './stacked-deck';
 import { APP_STORE_TOKEN } from '@application/app-store';
 import { createMockStore } from '@/mocks/store.mock';
@@ -37,7 +38,7 @@ describe('StackedDeckComponent', () => {
   it('resets dismissal when onUnarchived is called', () => {
     const dismissalService = TestBed.inject(SuggestionDismissalService);
     const spy = vi.spyOn(dismissalService, 'reset');
-    const mockCard: any = { id: 'test-1', kind: 'no_accounts' };
+    const mockCard = { id: 'test-1', kind: 'no_accounts' } as unknown as AssistantCard;
 
     component.onUnarchived(mockCard);
     expect(spy).toHaveBeenCalledWith('no_accounts', 'test-1');

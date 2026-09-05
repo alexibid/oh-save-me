@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy, computed, input, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AssistantCard } from '@domain/models/assistant-card.model';
 import { AssistantAnswer } from '@domain/models/assistant-card.model';
 import { AssistantPeekCardComponent } from '@ui/components/molecules/assistant-peek-card/assistant-peek-card';
@@ -9,7 +9,7 @@ import { IconButtonComponent, IconComponent } from 'ibid-ui';
 @Component({
   selector: 'ohsaveme-assistant-expanded-deck',
   standalone: true,
-  imports: [CommonModule, AssistantPeekCardComponent, IconComponent, IconButtonComponent, ...I18N_SHARED],
+  imports: [AssistantPeekCardComponent, IconComponent, IconButtonComponent, ...I18N_SHARED],
   templateUrl: './assistant-expanded-deck.html',
   styleUrl: './assistant-expanded-deck.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

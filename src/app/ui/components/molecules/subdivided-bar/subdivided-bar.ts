@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CategoryItem } from '@domain/models/category';
 import { slugify } from '@ibid/utils';
 
@@ -8,7 +8,7 @@ export type BarSegment = CategoryItem;
 @Component({
   selector: 'ohsaveme-subdivided-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="m-subdivided-bar">
       @for (item of items; track item.label) {

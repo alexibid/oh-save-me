@@ -26,10 +26,10 @@
       </h3>
 
       <div class="o-category-budget-wizard-dialog__form-group">
-        <label class="o-category-budget-wizard-dialog__form-label">
+        <label for="category-budget-wizard-amount" class="o-category-budget-wizard-dialog__form-label">
           {{ 'categoryBudgetWizardAmountLabel' | translate }}
         </label>
-        <input
+        <input id="category-budget-wizard-amount"
           type="number"
           [(ngModel)]="budgetAmount"
           name="amount"

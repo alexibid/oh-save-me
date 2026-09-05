@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Budget } from '@domain/models/budget';
 import { MlConfirmationDialogComponent } from './ml-confirmation-dialog';
 import { DialogModule } from '@angular/cdk/dialog';
 import { Transaction } from '@domain/models/transaction';
@@ -76,9 +77,9 @@ describe('MlConfirmationDialogComponent', () => {
   });
 
   it('should get project name for transaction', () => {
-    component.activeProjects = [{ id: 'b-1', name: 'Summer Trip' } as any];
-    expect(component['getProjectNameFor']({ id: 't1', budgetId: 'b-1' } as any)).toBe('Summer Trip');
-    expect(component['getProjectNameFor']({ id: 't2' } as any)).toBeUndefined();
+    component.activeProjects = [{ id: 'b-1', name: 'Summer Trip' } as unknown as Budget];
+    expect(component['getProjectNameFor']({ id: 't1', budgetId: 'b-1' } as unknown as Transaction)).toBe('Summer Trip');
+    expect(component['getProjectNameFor']({ id: 't2' } as unknown as Transaction)).toBeUndefined();
   });
 
   it('should handle keyword input and confirmation emit', () => {
@@ -106,7 +107,7 @@ describe('MlConfirmationDialogComponent', () => {
   });
 
   it('should handle cancel emit', () => {
-    const cancelSpy = vi.spyOn(component.cancel, 'emit');
+    const cancelSpy = vi.spyOn(component.cancelled, 'emit');
     component['onCancel']();
     expect(cancelSpy).toHaveBeenCalled();
   });

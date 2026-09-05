@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChange } from '@angular/core';
 import { signal } from '@angular/core';
 import { DialogModule } from '@angular/cdk/dialog';
 import { AccountCreateDialog } from './account-create-dialog';
@@ -253,7 +254,7 @@ describe('AccountCreateDialog', () => {
     component['step'].set('details');
 
     component.visible = true;
-    component.ngOnChanges({ visible: {} as any });
+    component.ngOnChanges({ visible: {} as unknown as SimpleChange });
 
     expect(component['step']()).toBe('kind');
     expect(component['kind']()).toBe('financial');
@@ -263,7 +264,7 @@ describe('AccountCreateDialog', () => {
 
   it('emits cancel on close', () => {
     let cancelled = false;
-    component.cancel.subscribe(() => { cancelled = true; });
+    component.cancelled.subscribe(() => { cancelled = true; });
 
     component['onCancel']();
 

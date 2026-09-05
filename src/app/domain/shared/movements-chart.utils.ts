@@ -123,7 +123,7 @@ export function buildMovementsBalanceSeries(
       date,
       income: round2(flow.income),
       expenses: round2(flow.expenses),
-      balance: balances.get(date)!
+      balance: balances.get(date) ?? 0
     };
   });
 }

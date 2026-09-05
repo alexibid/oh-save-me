@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { DriveSyncCoordinatorService } from './drive-sync-coordinator.service';
 import { GoogleAuthService } from '@infrastructure/sync/google-auth.service';
 import { GoogleDriveSyncService, GoogleAuthService as IbidGoogleAuthService } from '@ibid/services';
-import { AppStore } from '@application/app-store';
+import { AppStore, APP_STORE_TOKEN } from '@application/app-store';
 import { DbSnapshot } from '@domain/shared/db-snapshot.utils';
 import { MOCK_INGESTED_TRANSACTIONS } from '../../../mocks/ingested-csv.mock';
 
@@ -26,18 +26,11 @@ describe('DriveSyncCoordinatorService', () => {
   };
 
   beforeEach(() => {
+    TestBed.resetTestingModule();
     authService = new GoogleAuthService();
     authService.accessToken.set('valid-token');
     authService.tokenExpiresAt.set(Date.now() + 3600000);
     authService.status.set('connected');
-
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: GoogleAuthService, useValue: authService },
-        { provide: IbidGoogleAuthService, useValue: authService }
-      ]
-    });
-    driveSyncService = TestBed.inject(GoogleDriveSyncService);
 
     mockStore = {
       accounts: vi.fn().mockReturnValue([]) as unknown as AppStore['accounts'],
@@ -48,7 +41,15 @@ describe('DriveSyncCoordinatorService', () => {
       importDbSnapshot: vi.fn().mockResolvedValue(undefined)
     };
 
-    coordinator = new DriveSyncCoordinatorService(authService, driveSyncService, mockStore as AppStore);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: GoogleAuthService, useValue: authService },
+        { provide: IbidGoogleAuthService, useValue: authService },
+        { provide: APP_STORE_TOKEN, useValue: mockStore }
+      ]
+    });
+    driveSyncService = TestBed.inject(GoogleDriveSyncService);
+    coordinator = TestBed.inject(DriveSyncCoordinatorService);
   });
 
   afterEach(() => {
@@ -64,7 +65,7 @@ describe('DriveSyncCoordinatorService', () => {
   it('should create new private vault file when none exists on Drive', async () => {
     vi.spyOn(driveSyncService, 'findPrivateVaultFile').mockResolvedValue(null);
     vi.spyOn(driveSyncService, 'findJointVaultFile').mockResolvedValue(null);
-    const createSpy = vi.spyOn(driveSyncService, 'createPrivateVault').mockResolvedValue('vault-new-id');
+    vi.spyOn(driveSyncService, 'createPrivateVault').mockResolvedValue('vault-new-id');
     const markSyncedSpy = vi.spyOn(driveSyncService, 'markSynced');
 
     const result = await coordinator.syncNow();

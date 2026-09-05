@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { Transaction } from '@domain/models/transaction';
 import { CategoryInfo, CategoryType } from '@domain/models/category';
@@ -15,12 +15,11 @@ export type TriageSortField = 'date' | 'description' | 'amount' | 'category';
   selector: 'ohsaveme-import-triage-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     DialogModule,
     BottomSheetDialogComponent,
     TransactionsTableComponent,
     ...I18N_SHARED
-  ],
+],
 
   templateUrl: './import-triage-dialog.html',
   styleUrl: './import-triage-dialog.scss'
@@ -41,7 +40,7 @@ export class ImportTriageDialog implements OnChanges, OnDestroy {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() confirm = new EventEmitter<readonly Transaction[]>();
   @Output() resolved = new EventEmitter<Transaction[]>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
 
   protected readonly sortField = signal<TriageSortField | null>(null);
   protected readonly sortDirection = signal<'asc' | 'desc'>('desc');
@@ -220,7 +219,10 @@ export class ImportTriageDialog implements OnChanges, OnDestroy {
     } else {
 
       const theId = typeof id === 'string' ? id : '';
-      const accepted = typeof eventOrBool === 'boolean' ? eventOrBool : ((eventOrBool as any)?.target as HTMLInputElement)?.checked;
+      const target = eventOrBool instanceof Event ? eventOrBool.target : null;
+      const accepted = typeof eventOrBool === 'boolean'
+        ? eventOrBool
+        : (target as HTMLInputElement | null)?.checked;
       map.set(theId, accepted);
     }
     this.acceptedMap.set(map);
@@ -257,7 +259,7 @@ export class ImportTriageDialog implements OnChanges, OnDestroy {
   }
 
   protected onCancel() {
-    this.cancel.emit();
+    this.cancelled.emit();
     this.closeDialog();
   }
 }

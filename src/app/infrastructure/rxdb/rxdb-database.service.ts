@@ -6,6 +6,8 @@ import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import { RxTransactionDocument, TRANSACTION_SCHEMA } from './schemas/transaction.schema';
 import { RxCategoryDocument, CATEGORY_SCHEMA } from './schemas/category.schema';
 import { RxBudgetDocument, BUDGET_SCHEMA } from './schemas/budget.schema';
+import { HistoryLog } from '@domain/models/history-log';
+import { Customization } from '@domain/models/customization';
 import { RxHistoryLogSchema } from './schemas/history-log.schema';
 import { RxCustomizationSchema } from './schemas/customization.schema';
 import { RxAccountDocument, ACCOUNT_SCHEMA } from './schemas/account.schema';
@@ -18,12 +20,28 @@ import { RxCustomRecordDocument, CUSTOM_RECORD_SCHEMA } from './schemas/custom-r
 
 addRxPlugin(RxDBMigrationSchemaPlugin);
 
+interface LegacyDocument {
+  [field: string]: unknown;
+  account?: string;
+  accountId?: string;
+  importBatchId?: string;
+  enabled?: boolean;
+  paidInstalments?: number;
+  remainingInstalments?: number;
+  contractedInstalments?: number;
+  kind?: string;
+  scope?: string;
+  unit?: string;
+  includeInConsolidatedBalance?: boolean;
+  includeInFamilyBalance?: boolean;
+}
+
 export interface AppDatabaseCollections {
   transactions: RxCollection<RxTransactionDocument>;
   categories: RxCollection<RxCategoryDocument>;
   budgets: RxCollection<RxBudgetDocument>;
-  history_logs: RxCollection<any>;
-  customizations: RxCollection<any>;
+  history_logs: RxCollection<HistoryLog>;
+  customizations: RxCollection<Customization>;
   accounts: RxCollection<RxAccountDocument>;
   import_batches: RxCollection<RxImportBatchDocument>;
   ml_rules: RxCollection<RxMlRuleDocument>;
@@ -36,7 +54,7 @@ export interface AppDatabaseCollections {
 export type AppDatabase = RxDatabase<AppDatabaseCollections>;
 
 const isTestEnv = typeof window !== 'undefined' &&
-  ('vitest' in window || '__vitest_worker__' in window || (window as any).__karma__ || (window as any).jasmine);
+  ('vitest' in window || '__vitest_worker__' in window || '__karma__' in window || 'jasmine' in window);
 
 @Injectable({
   providedIn: 'root'
@@ -78,37 +96,37 @@ export class RxDbDatabaseService {
           transactions: {
             schema: TRANSACTION_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => {
                 oldDoc.account = 'Extrato Banco';
                 return oldDoc;
               },
-              2: (oldDoc: any) => {
+              2: (oldDoc: LegacyDocument) => {
                 oldDoc.accountId = 'default_account';
                 oldDoc.importBatchId = 'legacy_import';
                 return oldDoc;
               },
-              3: (oldDoc: any) => {
+              3: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              4: (oldDoc: any) => {
+              4: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              5: (oldDoc: any) => {
+              5: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              6: (oldDoc: any) => {
+              6: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              7: (oldDoc: any) => {
+              7: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              8: (oldDoc: any) => {
+              8: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              9: (oldDoc: any) => {
+              9: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              10: (oldDoc: any) => {
+              10: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               }
             }
@@ -116,37 +134,37 @@ export class RxDbDatabaseService {
           categories: {
             schema: CATEGORY_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => {
                 oldDoc.enabled = true;
                 return oldDoc;
               },
-              2: (oldDoc: any) => {
+              2: (oldDoc: LegacyDocument) => {
                 delete oldDoc.enabled;
                 return oldDoc;
               },
-              3: (oldDoc: any) => {
+              3: (oldDoc: LegacyDocument) => {
                 oldDoc.enabled = true;
                 return oldDoc;
               },
-              4: (oldDoc: any) => oldDoc
+              4: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           budgets: {
             schema: BUDGET_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => oldDoc,
-              2: (oldDoc: any) => oldDoc,
-              3: (oldDoc: any) => oldDoc,
-              4: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => oldDoc,
+              2: (oldDoc: LegacyDocument) => oldDoc,
+              3: (oldDoc: LegacyDocument) => oldDoc,
+              4: (oldDoc: LegacyDocument) => {
                 const paid = oldDoc.paidInstalments ?? 0;
                 const remaining = oldDoc.remainingInstalments ?? 0;
                 if (remaining > 0 || paid > 0) oldDoc.contractedInstalments = paid + remaining;
                 delete oldDoc.remainingInstalments;
                 return oldDoc;
               },
-              5: (oldDoc: any) => oldDoc,
-              6: (oldDoc: any) => oldDoc,
-              7: (oldDoc: any) => oldDoc
+              5: (oldDoc: LegacyDocument) => oldDoc,
+              6: (oldDoc: LegacyDocument) => oldDoc,
+              7: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           history_logs: {
@@ -158,22 +176,22 @@ export class RxDbDatabaseService {
           accounts: {
             schema: ACCOUNT_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => oldDoc,
-              2: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => oldDoc,
+              2: (oldDoc: LegacyDocument) => {
                 oldDoc.kind = 'financial';
                 oldDoc.scope = 'individual';
                 oldDoc.includeInConsolidatedBalance = true;
                 oldDoc.unit = 'EUR';
                 return oldDoc;
               },
-              3: (oldDoc: any) => {
+              3: (oldDoc: LegacyDocument) => {
                 if (oldDoc.includeInConsolidatedBalance === undefined) {
                   oldDoc.includeInConsolidatedBalance = oldDoc.includeInFamilyBalance ?? true;
                 }
                 delete oldDoc.includeInFamilyBalance;
                 return oldDoc;
               },
-              4: (oldDoc: any) => oldDoc
+              4: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           import_batches: {
@@ -185,7 +203,7 @@ export class RxDbDatabaseService {
           mapping_rules: {
             schema: MAPPING_RULE_SCHEMA,
             migrationStrategies: {
-              2: (oldDoc: any) => oldDoc
+              2: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           column_classifier_weights: {
@@ -220,37 +238,37 @@ export class RxDbDatabaseService {
           transactions: {
             schema: TRANSACTION_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => {
                 oldDoc.account = 'Extrato Banco';
                 return oldDoc;
               },
-              2: (oldDoc: any) => {
+              2: (oldDoc: LegacyDocument) => {
                 oldDoc.accountId = 'default_account';
                 oldDoc.importBatchId = 'legacy_import';
                 return oldDoc;
               },
-              3: (oldDoc: any) => {
+              3: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              4: (oldDoc: any) => {
+              4: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              5: (oldDoc: any) => {
+              5: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              6: (oldDoc: any) => {
+              6: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              7: (oldDoc: any) => {
+              7: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              8: (oldDoc: any) => {
+              8: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              9: (oldDoc: any) => {
+              9: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               },
-              10: (oldDoc: any) => {
+              10: (oldDoc: LegacyDocument) => {
                 return oldDoc;
               }
             }
@@ -258,37 +276,37 @@ export class RxDbDatabaseService {
           categories: {
             schema: CATEGORY_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => {
                 oldDoc.enabled = true;
                 return oldDoc;
               },
-              2: (oldDoc: any) => {
+              2: (oldDoc: LegacyDocument) => {
                 delete oldDoc.enabled;
                 return oldDoc;
               },
-              3: (oldDoc: any) => {
+              3: (oldDoc: LegacyDocument) => {
                 oldDoc.enabled = true;
                 return oldDoc;
               },
-              4: (oldDoc: any) => oldDoc
+              4: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           budgets: {
             schema: BUDGET_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => oldDoc,
-              2: (oldDoc: any) => oldDoc,
-              3: (oldDoc: any) => oldDoc,
-              4: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => oldDoc,
+              2: (oldDoc: LegacyDocument) => oldDoc,
+              3: (oldDoc: LegacyDocument) => oldDoc,
+              4: (oldDoc: LegacyDocument) => {
                 const paid = oldDoc.paidInstalments ?? 0;
                 const remaining = oldDoc.remainingInstalments ?? 0;
                 if (remaining > 0 || paid > 0) oldDoc.contractedInstalments = paid + remaining;
                 delete oldDoc.remainingInstalments;
                 return oldDoc;
               },
-              5: (oldDoc: any) => oldDoc,
-              6: (oldDoc: any) => oldDoc,
-              7: (oldDoc: any) => oldDoc
+              5: (oldDoc: LegacyDocument) => oldDoc,
+              6: (oldDoc: LegacyDocument) => oldDoc,
+              7: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           history_logs: {
@@ -300,22 +318,22 @@ export class RxDbDatabaseService {
           accounts: {
             schema: ACCOUNT_SCHEMA,
             migrationStrategies: {
-              1: (oldDoc: any) => oldDoc,
-              2: (oldDoc: any) => {
+              1: (oldDoc: LegacyDocument) => oldDoc,
+              2: (oldDoc: LegacyDocument) => {
                 oldDoc.kind = 'financial';
                 oldDoc.scope = 'individual';
                 oldDoc.includeInConsolidatedBalance = true;
                 oldDoc.unit = 'EUR';
                 return oldDoc;
               },
-              3: (oldDoc: any) => {
+              3: (oldDoc: LegacyDocument) => {
                 if (oldDoc.includeInConsolidatedBalance === undefined) {
                   oldDoc.includeInConsolidatedBalance = oldDoc.includeInFamilyBalance ?? true;
                 }
                 delete oldDoc.includeInFamilyBalance;
                 return oldDoc;
               },
-              4: (oldDoc: any) => oldDoc
+              4: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           import_batches: {
@@ -327,7 +345,7 @@ export class RxDbDatabaseService {
           mapping_rules: {
             schema: MAPPING_RULE_SCHEMA,
             migrationStrategies: {
-              2: (oldDoc: any) => oldDoc
+              2: (oldDoc: LegacyDocument) => oldDoc
             }
           },
           column_classifier_weights: {

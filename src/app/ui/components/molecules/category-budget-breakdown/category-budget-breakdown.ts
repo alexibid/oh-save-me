@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject, computed, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { BudgetSelectors } from '@application/selectors/budget.selectors';
 import { useStore } from '@application/app-store';
 import {
@@ -63,7 +63,7 @@ export type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'ohsaveme-category-budget-breakdown',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, TransactionsTableComponent, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, TransactionsTableComponent, ...I18N_SHARED],
   templateUrl: './category-budget-breakdown.html',
   styleUrl: './category-budget-breakdown.scss'
 })
@@ -122,11 +122,13 @@ export class CategoryBudgetBreakdownComponent {
       const amount = item.amount;
       const isOutlier = item.monthIsOutlier || classified[i].isOutlier;
 
+      const txOverride = txOverrides.get(txId);
+      const monthOverride = monthOverrides.get(item.monthKey);
       let included: boolean;
-      if (txOverrides.has(txId)) {
-        included = txOverrides.get(txId)!;
-      } else if (monthOverrides.has(item.monthKey)) {
-        included = monthOverrides.get(item.monthKey)!;
+      if (txOverride !== undefined) {
+        included = txOverride;
+      } else if (monthOverride !== undefined) {
+        included = monthOverride;
       } else {
         included = !isOutlier;
       }
@@ -333,7 +335,7 @@ export class CategoryBudgetBreakdownComponent {
     return movs.some(m => m.included);
   }
 
-  protected toggleInclusion(monthKey: string, event: Event): void {
+  protected toggleInclusion(monthKey: string, _event: Event): void {
     const movs = this.allMovements().filter(m => m.monthKey === monthKey);
     const currentlyIncluded = movs.some(m => m.included);
     const targetState = !currentlyIncluded;

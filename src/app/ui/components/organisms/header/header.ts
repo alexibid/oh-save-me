@@ -7,7 +7,7 @@ import {
   computed,
   inject
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { I18nService, I18N_SHARED } from '@ui/shared/i18n-shared';
 import { useStore } from '@application/app-store';
@@ -28,7 +28,6 @@ import { ConfirmRecurringExpenseUseCase } from '@application/use-cases/confirm-r
   selector: 'ohsaveme-header',
   standalone: true,
   imports: [
-    CommonModule,
     HeaderComponent,
     IconComponent,
     RouterLink,
@@ -36,7 +35,7 @@ import { ConfirmRecurringExpenseUseCase } from '@application/use-cases/confirm-r
     DateInputComponent,
     IconButtonComponent,
     I18N_SHARED
-  ],
+],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })

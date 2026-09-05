@@ -21,7 +21,10 @@ export class RecordColumnState<T> {
       ...this.baseSchema,
       columns: this.items()
         .filter(item => item.locked || item.visible)
-        .map(item => this.baseSchema.columns.find(column => column.key === item.key)!)
+        .flatMap(item => {
+          const column = this.baseSchema.columns.find(candidate => candidate.key === item.key);
+          return column ? [column] : [];
+        })
     }));
   }
 

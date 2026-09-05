@@ -1,5 +1,5 @@
-import { Component, Input, inject, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, computed, signal } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { useStore } from '@application/app-store';
 import { Transaction } from '@domain/models/transaction';
@@ -10,7 +10,7 @@ import { I18N_SHARED } from '@ui/shared/i18n-shared';
 @Component({
   selector: 'ohsaveme-category-budget-movement-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, TransactionsTableComponent, I18N_SHARED],
+  imports: [FormsModule, TransactionsTableComponent, I18N_SHARED],
   templateUrl: './category-budget-movement-search.html',
   styleUrl: './category-budget-movement-search.scss'
 })

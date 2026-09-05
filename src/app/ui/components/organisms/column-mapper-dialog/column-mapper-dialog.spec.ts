@@ -41,8 +41,8 @@ describe('ColumnMapperDialogComponent', () => {
 
     fixture.detectChanges();
 
-    expect((component as any).mappings).toEqual(['skip', 'skip', 'skip', 'skip', 'skip']);
-    expect((component as any).hasPendingMappings).toBe(true);
+    expect(component['mappings']).toEqual(['skip', 'skip', 'skip', 'skip', 'skip']);
+    expect(component['hasPendingMappings']).toBe(true);
   });
 
   it('should require Credit and Balance for account types that need them', () => {
@@ -66,13 +66,13 @@ describe('ColumnMapperDialogComponent', () => {
     fixture.detectChanges();
 
     component.mappings = ['date', 'desc', 'amount', 'skip', 'skip'];
-    expect((component as any).hasPendingMappings).toBe(true);
+    expect(component['hasPendingMappings']).toBe(true);
 
     component.mappings = ['date', 'desc', 'amount', 'credit', 'skip'];
-    expect((component as any).hasPendingMappings).toBe(true);
+    expect(component['hasPendingMappings']).toBe(true);
 
     component.mappings = ['date', 'desc', 'amount', 'credit', 'balance'];
-    expect((component as any).hasPendingMappings).toBe(false);
+    expect(component['hasPendingMappings']).toBe(false);
   });
 
   it('should NOT require Credit or Balance for account types that do not need them', () => {
@@ -95,7 +95,7 @@ describe('ColumnMapperDialogComponent', () => {
 
     component.mappings = ['date', 'desc', 'amount'];
 
-    expect((component as any).hasPendingMappings).toBe(false);
+    expect(component['hasPendingMappings']).toBe(false);
   });
 
   describe('custom accounts (accountKind = "custom")', () => {

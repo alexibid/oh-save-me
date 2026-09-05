@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { Budget } from '@domain/models/budget';
 import { useStore } from '@application/app-store';
@@ -26,7 +26,6 @@ import { CurrencyExplanationRow } from 'ibid-ui';
   selector: 'ohsaveme-budget',
   standalone: true,
   imports: [
-    CommonModule,
     DialogModule,
     BalanceSummaryCard,
     BudgetExecutionSummary,
@@ -35,7 +34,7 @@ import { CurrencyExplanationRow } from 'ibid-ui';
     CategoryBudgetsDashboard,
     AllocationDetailedCardsComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './budget.html',
   styleUrl: './budget.scss',
 })

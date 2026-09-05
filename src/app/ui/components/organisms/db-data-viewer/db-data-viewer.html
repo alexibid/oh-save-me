@@ -7,7 +7,7 @@
         <span class="o-db-data-viewer__friendly-name">{{ friendlyName }}</span>
       </h2>
     </div>
-    <ibid-icon-button class="o-db-data-viewer__close-btn" (clicked)="close.emit()" [ariaLabel]="'close' | translate">
+    <ibid-icon-button class="o-db-data-viewer__close-btn" (clicked)="closed.emit()" [ariaLabel]="'close' | translate">
       <ibid-icon name="close"></ibid-icon>
     </ibid-icon-button>
   </div>

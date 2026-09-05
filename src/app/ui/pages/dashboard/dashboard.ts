@@ -1,15 +1,14 @@
 import { Component, ElementRef, computed, inject, signal, viewChild, Input, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CsvParserService, ColumnMapping } from '@application/csv-parser.service';
+import { CsvParserService } from '@application/csv-parser.service';
 import { CategoryMlService } from '@application/services/category-ml.service';
-import { Transaction } from '@domain/models/transaction';
 import { CategoryInfo } from '@domain/models/category';
 import { AccountType } from '@domain/models/account';
 import { TRANSACTION_REPOSITORY_TOKEN, CATEGORY_REPOSITORY_TOKEN } from '@application/tokens';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
-import { BudgetSelectors, BudgetProgress } from '@application/selectors/budget.selectors';
+import { BudgetSelectors } from '@application/selectors/budget.selectors';
 import { PortfolioSelectors } from '@application/selectors/portfolio.selectors';
 import { useStore } from '@application/app-store';
 import { MetricsGridComponent } from '@ui/components/organisms/metrics-grid/metrics-grid';
@@ -28,7 +27,6 @@ import { BottomSheetDialogComponent, CurrencyExplanationRow } from 'ibid-ui';
   selector: 'ohsaveme-dashboard',
   standalone: true,
   imports: [
-    CommonModule,
     MetricsGridComponent,
     DashboardInsightsComponent,
     TransactionsTableComponent,
@@ -39,7 +37,7 @@ import { BottomSheetDialogComponent, CurrencyExplanationRow } from 'ibid-ui';
     ShareAccessManagerComponent,
     BottomSheetDialogComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

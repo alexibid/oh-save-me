@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ImportBatch } from '@domain/models/import-batch';
 import { ImportBatchRepository } from '@domain/repositories/import-batch.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
@@ -7,7 +7,7 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbImportBatchRepository implements ImportBatchRepository {
-  constructor(private dbService: RxDbDatabaseService) {}
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

@@ -22,232 +22,265 @@
       </div>
     </div>
 
-    
+
     <main class="o-import-assistant__body">
-      
-      
-      <section *ngIf="currentStep() === 1" class="o-import-assistant__step-content animate-fade-in">
-        <div class="o-import-assistant__field-group">
-          <label class="o-import-assistant__label">{{ 'importSelectFile' | translate }}</label>
-          <div class="o-import-assistant__file-dropzone">
-            <input type="file" id="importFileInput" [attr.aria-label]="'importSelectFile' | translate" (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls" class="o-import-assistant__file-input">
-            <label for="importFileInput" class="o-import-assistant__file-label">
-              <ibid-icon [name]="isAnalyzingFile() ? 'refresh' : 'folder-open'" class="o-import-assistant__upload-icon" [class.o-import-assistant__upload-icon--spinning]="isAnalyzingFile()"></ibid-icon>
-              <span *ngIf="!loadedFileName()">{{ 'importDropzone' | translate }}</span>
-              <span *ngIf="loadedFileName() && isAnalyzingFile()">{{ 'importAnalyzingFile' | translate }}</span>
-              <span *ngIf="loadedFileName() && !isAnalyzingFile()" class="o-import-assistant__filename">{{ loadedFileName() }}</span>
-            </label>
-          </div>
-        </div>
 
-        <div class="o-import-assistant__field-group">
-          <div class="o-import-assistant__label-wrapper">
-            <label class="o-import-assistant__label">{{ 'importSelectAccount' | translate }}</label>
-            <button type="button" class="o-import-assistant__text-btn" (click)="showNewAccountForm.set(!showNewAccountForm())">
-              {{ (showNewAccountForm() ? 'importCancelNewAccount' : 'importCreateNewAccount') | translate }}
-            </button>
-          </div>
 
-          
-          <div *ngIf="showNewAccountForm()" class="o-import-assistant__new-account-box animate-slide-down">
-            <div *ngIf="accountSuggestionCandidates().length > 0" class="o-import-assistant__alert o-import-assistant__alert--info o-import-assistant__alert--compact">
-              <ibid-icon name="help-circle" class="o-import-assistant__alert-icon"></ibid-icon>
-              <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-                {{ 'importAccountAmbiguousBody' | translate }}
-                <div class="o-import-assistant__candidate-choices">
-                  <button type="button" *ngFor="let candidate of accountSuggestionCandidates()"
-                    class="o-import-assistant__text-btn o-import-assistant__candidate-choice"
-                    (click)="chooseAccountCandidate(candidate)">
-                    {{ candidate.name }} ({{ accountTypeLabel(candidate.type) }})
-                  </button>
+      @if (currentStep() === 1) {
+        <section class="o-import-assistant__step-content animate-fade-in">
+          <div class="o-import-assistant__field-group">
+            <label for="importFileInput" class="o-import-assistant__label">{{ 'importSelectFile' | translate }}</label>
+            <div class="o-import-assistant__file-dropzone">
+              <input type="file" id="importFileInput" [attr.aria-label]="'importSelectFile' | translate" (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls" class="o-import-assistant__file-input">
+              <label for="importFileInput" class="o-import-assistant__file-label">
+                <ibid-icon [name]="isAnalyzingFile() ? 'refresh' : 'folder-open'" class="o-import-assistant__upload-icon" [class.o-import-assistant__upload-icon--spinning]="isAnalyzingFile()"></ibid-icon>
+                @if (!loadedFileName()) {
+                  <span>{{ 'importDropzone' | translate }}</span>
+                }
+                @if (loadedFileName() && isAnalyzingFile()) {
+                  <span>{{ 'importAnalyzingFile' | translate }}</span>
+                }
+                @if (loadedFileName() && !isAnalyzingFile()) {
+                  <span class="o-import-assistant__filename">{{ loadedFileName() }}</span>
+                }
+              </label>
+            </div>
+          </div>
+          <div class="o-import-assistant__field-group">
+            <div class="o-import-assistant__label-wrapper">
+              <span class="o-import-assistant__label">{{ 'importSelectAccount' | translate }}</span>
+              <button type="button" class="o-import-assistant__text-btn" (click)="showNewAccountForm.set(!showNewAccountForm())">
+                {{ (showNewAccountForm() ? 'importCancelNewAccount' : 'importCreateNewAccount') | translate }}
+              </button>
+            </div>
+            @if (showNewAccountForm()) {
+              <div class="o-import-assistant__new-account-box animate-slide-down">
+                @if (accountSuggestionCandidates().length > 0) {
+                  <div class="o-import-assistant__alert o-import-assistant__alert--info o-import-assistant__alert--compact">
+                    <ibid-icon name="help-circle" class="o-import-assistant__alert-icon"></ibid-icon>
+                    <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                      {{ 'importAccountAmbiguousBody' | translate }}
+                      <div class="o-import-assistant__candidate-choices">
+                        @for (candidate of accountSuggestionCandidates(); track candidate) {
+                          <button type="button"
+                            class="o-import-assistant__text-btn o-import-assistant__candidate-choice"
+                            (click)="chooseAccountCandidate(candidate)">
+                            {{ candidate.name }} ({{ accountTypeLabel(candidate.type) }})
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                }
+                @if (accountSuggestedByAssistant()) {
+                  <div class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
+                    <ibid-icon name="sparkle" class="o-import-assistant__alert-icon"></ibid-icon>
+                    <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                      {{ 'importAccountSuggestedBody' | translate }}
+                      <strong>{{ newAccountName }}</strong> ({{ accountTypeLabel(newAccountType) }}).
+                      {{ 'importAccountSuggestedHint' | translate }}
+                    </div>
+                  </div>
+                }
+                @if (accountSuggestionCandidates().length === 0) {
+                  <div class="o-import-assistant__inline-fields">
+                    <input type="text" [ngModel]="newAccountName" (ngModelChange)="onNewAccountNameChange($event)"
+                      [attr.aria-label]="'importAccountNamePlaceholder' | translate"
+                      [placeholder]="'importAccountNamePlaceholder' | translate" class="a-input o-import-assistant__input-text"
+                      [attr.data-assistant]="accountSuggestedByAssistant()">
+                    <ibid-select class="o-import-assistant__select" [value]="newAccountType" [options]="accountTypeOptions()"
+                    (valueChange)="onNewAccountTypeChange($event)" [attr.data-assistant]="accountSuggestedByAssistant()"></ibid-select>
+                    <button type="button" class="a-button a-button--primary" (click)="createNewAccount()"
+                    [attr.data-assistant]="accountSuggestedByAssistant()">{{ 'importAddAccount' | translate }}</button>
+                  </div>
+                }
+              </div>
+            }
+            @if (!showNewAccountForm()) {
+              <ibid-select class="o-import-assistant__select-large" size="full"
+                [value]="selectedAccountId()" [options]="accountSelectOptions()"
+                [placeholder]="'importSelectAccountPlaceholder' | translate"
+              (valueChange)="selectedAccountId.set($event)"></ibid-select>
+            }
+          </div>
+        </section>
+      }
+
+
+      @if (currentStep() === 2) {
+        <section class="o-import-assistant__step-content o-import-assistant__step-content--fill animate-fade-in">
+          <div class="o-import-assistant__field-group o-import-assistant__field-group--tight">
+            <label for="import-batch-name-label" class="o-import-assistant__label o-import-assistant__label--batch-name">{{ 'importBatchNameLabel' | translate }}</label>
+            <input id="import-batch-name-label" type="text" [ngModel]="batchFriendlyName()" (ngModelChange)="batchFriendlyName.set($event)" [attr.aria-label]="'importBatchNameLabel' | translate" class="a-input o-import-assistant__input-text o-import-assistant__input-text--full">
+          </div>
+          <div class="o-import-assistant__metrics-cards o-import-assistant__metrics-cards--compact">
+            <div class="o-import-assistant__metric-card o-import-assistant__metric-card--compact">
+              <span class="o-import-assistant__metric-label o-import-assistant__metric-label--compact">{{ 'importMetricTransactions' | translate }}</span>
+              <span class="o-import-assistant__metric-val o-import-assistant__metric-val--compact">{{ parsedTransactions().length }}</span>
+            </div>
+            <div class="o-import-assistant__metric-card o-import-assistant__metric-card--compact">
+              <span class="o-import-assistant__metric-label o-import-assistant__metric-label--compact">{{ 'importMetricPeriod' | translate }}</span>
+              <span class="o-import-assistant__metric-val o-import-assistant__metric-val--compact-wrap">
+                {{ startDateStr() | date:'dd/MM/yyyy' }} - {{ endDateStr() | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+          </div>
+          @if (isStatementBalanceRequired()) {
+            <div class="o-import-assistant__field-group o-import-assistant__field-group--tight">
+              <span class="o-import-assistant__label">{{ 'importStatementBalanceLabel' | translate }} *</span>
+              @if (statementBalanceSuggestedByAssistant()) {
+                <div class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
+                  <ibid-icon name="sparkle" class="o-import-assistant__alert-icon"></ibid-icon>
+                  <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                    {{ 'importBalanceSuggestedBody' | translate }} {{ 'importBalanceSuggestedHint' | translate }}
+                  </div>
                 </div>
+              }
+              <input type="text" inputmode="decimal" [ngModel]="statementBalanceInput()"
+                (ngModelChange)="onStatementBalanceChange($event)"
+                class="a-input o-import-assistant__input-text o-import-assistant__input-text--full"
+                [attr.aria-label]="'importStatementBalanceLabel' | translate"
+                [attr.data-assistant]="statementBalanceSuggestedByAssistant()"
+                [placeholder]="'importStatementBalanceHint' | translate">
+            </div>
+          }
+          @if (isStep2Invalid()) {
+            <div class="o-import-assistant__alert o-import-assistant__alert--error o-import-assistant__alert--compact">
+              <ibid-icon name="warning" class="o-import-assistant__alert-icon"></ibid-icon>
+              <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                <strong>{{ 'importAlertIncompleteTitle' | translate }}</strong> {{ 'importAlertIncompleteBody' | translate }} <strong>{{ missingRequiredColumns().join(', ') }}</strong>.
               </div>
             </div>
-
-            <div *ngIf="accountSuggestedByAssistant()" class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
+          }
+          @if (isDuplicateFile()) {
+            <div class="o-import-assistant__alert o-import-assistant__alert--error o-import-assistant__alert--compact">
+              <ibid-icon name="warning" class="o-import-assistant__alert-icon"></ibid-icon>
+              <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                <strong>{{ 'importAlertDuplicateTitle' | translate }}</strong> {{ 'importAlertDuplicateBody' | translate }}
+              </div>
+            </div>
+          }
+          @if (hasOverlap() && !isDuplicateFile()) {
+            <div class="o-import-assistant__alert o-import-assistant__alert--warning o-import-assistant__alert--compact">
+              <ibid-icon name="info" class="o-import-assistant__alert-icon"></ibid-icon>
+              <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                <strong>{{ 'importAlertOverlapTitle' | translate }}</strong> {{ 'importAlertOverlapBody' | translate }}
+              </div>
+            </div>
+          }
+          @if (!hasOverlap() && !isDuplicateFile() && !isStep2Invalid()) {
+            <div class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
+              <ibid-icon name="check-circle" class="o-import-assistant__alert-icon"></ibid-icon>
+              <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                <strong>{{ 'importAlertReadyTitle' | translate }}</strong> {{ 'importAlertReadyBody' | translate }}
+              </div>
+            </div>
+          }
+          @if (!detectionNeedsReview() && !showMapperManually()) {
+            <div class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
               <ibid-icon name="sparkle" class="o-import-assistant__alert-icon"></ibid-icon>
               <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-                {{ 'importAccountSuggestedBody' | translate }}
-                <strong>{{ newAccountName }}</strong> ({{ accountTypeLabel(newAccountType) }}).
-                {{ 'importAccountSuggestedHint' | translate }}
+                {{ 'importAutoDetectedBody' | translate }}
+              </div>
+              <button type="button" class="o-import-assistant__text-btn" (click)="showMapperManually.set(true)">
+                {{ 'importAdjustMappingBtn' | translate }}
+              </button>
+            </div>
+          }
+          @if (detectionNeedsReview()) {
+            <div class="o-import-assistant__alert o-import-assistant__alert--warning o-import-assistant__alert--compact">
+              <ibid-icon name="info" class="o-import-assistant__alert-icon"></ibid-icon>
+              <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
+                {{ 'importNeedsReviewBody' | translate }}
               </div>
             </div>
-            <div class="o-import-assistant__inline-fields" *ngIf="accountSuggestionCandidates().length === 0">
-              <input type="text" [ngModel]="newAccountName" (ngModelChange)="onNewAccountNameChange($event)"
-                [attr.aria-label]="'importAccountNamePlaceholder' | translate"
-                [placeholder]="'importAccountNamePlaceholder' | translate" class="a-input o-import-assistant__input-text"
-                [attr.data-assistant]="accountSuggestedByAssistant()">
-              <ibid-select class="o-import-assistant__select" [value]="newAccountType" [options]="accountTypeOptions()"
-                (valueChange)="onNewAccountTypeChange($event)" [attr.data-assistant]="accountSuggestedByAssistant()"></ibid-select>
-              <button type="button" class="a-button a-button--primary" (click)="createNewAccount()"
-                [attr.data-assistant]="accountSuggestedByAssistant()">{{ 'importAddAccount' | translate }}</button>
+          }
+          @if (detectionNeedsReview() || showMapperManually()) {
+            <div class="o-import-assistant__mapper-wrapper">
+              <ohsaveme-column-mapper-dialog
+                [rawRows]="rawFileRows()"
+                [fileName]="loadedFileName()"
+                [mappings]="columnMappings()"
+                [requiredFields]="requiredFieldsForMapper()"
+                (mappingsChange)="columnMappings.set($event); analyzeFile()">
+              </ohsaveme-column-mapper-dialog>
+            </div>
+          }
+          @if (previewWithBalance().length > 0) {
+            <div class="o-import-assistant__preview-wrapper">
+              <ohsaveme-transactions-table
+                [transactions]="previewWithBalance()"
+                [categoryOptions]="categoryOptions()"
+                [showActions]="false"
+                [showTitle]="false"
+                [showTabs]="false"
+                [showCategory]="false"
+                (categoryApplied)="onPreviewCategoryApplied($event)"
+              ></ohsaveme-transactions-table>
+            </div>
+          }
+        </section>
+      }
+
+
+      @if (currentStep() === 3) {
+        <section class="o-import-assistant__step-content animate-fade-in text-center">
+          <div class="o-import-assistant__success-illustration">
+            <ibid-icon name="verified" class="o-import-assistant__success-icon"></ibid-icon>
+          </div>
+          <h3 class="o-import-assistant__confirm-title">{{ 'importStep3Title' | translate }}</h3>
+          <p class="o-import-assistant__confirm-desc">
+            {{ 'importStep3DescPrefix' | translate }} <strong>{{ batchFriendlyName() }}</strong>.
+          </p>
+          <div class="o-import-assistant__batch-summary-box">
+            <div class="o-import-assistant__summary-row">
+              <span>{{ 'importSummaryAccountLabel' | translate }}</span>
+              <strong>{{ accounts.find(a => a.id === selectedAccountId())?.name }}</strong>
+            </div>
+            <div class="o-import-assistant__summary-row">
+              <span>{{ 'importMetricPeriod' | translate }}:</span>
+              <strong>{{ startDateStr() | date:'dd/MM/yyyy' }} {{ 'importDateRangeSeparator' | translate }} {{ endDateStr() | date:'dd/MM/yyyy' }}</strong>
+            </div>
+            <div class="o-import-assistant__summary-row">
+              <span>{{ 'importSummaryTotalTransactionsLabel' | translate }}</span>
+              <strong>{{ parsedTransactions().length }}</strong>
             </div>
           </div>
-
-          <ibid-select *ngIf="!showNewAccountForm()" class="o-import-assistant__select-large" size="full"
-            [value]="selectedAccountId()" [options]="accountSelectOptions()"
-            [placeholder]="'importSelectAccountPlaceholder' | translate"
-            (valueChange)="selectedAccountId.set($event)"></ibid-select>
-        </div>
-      </section>
-
-      
-      <section *ngIf="currentStep() === 2" class="o-import-assistant__step-content o-import-assistant__step-content--fill animate-fade-in">
-        <div class="o-import-assistant__field-group o-import-assistant__field-group--tight">
-          <label class="o-import-assistant__label o-import-assistant__label--batch-name">{{ 'importBatchNameLabel' | translate }}</label>
-          <input type="text" [ngModel]="batchFriendlyName()" (ngModelChange)="batchFriendlyName.set($event)" [attr.aria-label]="'importBatchNameLabel' | translate" class="a-input o-import-assistant__input-text o-import-assistant__input-text--full">
-        </div>
-
-        <div class="o-import-assistant__metrics-cards o-import-assistant__metrics-cards--compact">
-          <div class="o-import-assistant__metric-card o-import-assistant__metric-card--compact">
-            <span class="o-import-assistant__metric-label o-import-assistant__metric-label--compact">{{ 'importMetricTransactions' | translate }}</span>
-            <span class="o-import-assistant__metric-val o-import-assistant__metric-val--compact">{{ parsedTransactions().length }}</span>
-          </div>
-          <div class="o-import-assistant__metric-card o-import-assistant__metric-card--compact">
-            <span class="o-import-assistant__metric-label o-import-assistant__metric-label--compact">{{ 'importMetricPeriod' | translate }}</span>
-            <span class="o-import-assistant__metric-val o-import-assistant__metric-val--compact-wrap">
-              {{ startDateStr() | date:'dd/MM/yyyy' }} - {{ endDateStr() | date:'dd/MM/yyyy' }}
-            </span>
-          </div>
-        </div>
-
-        <div class="o-import-assistant__field-group o-import-assistant__field-group--tight" *ngIf="isStatementBalanceRequired()">
-          <label class="o-import-assistant__label">{{ 'importStatementBalanceLabel' | translate }} *</label>
-          <div *ngIf="statementBalanceSuggestedByAssistant()" class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
-            <ibid-icon name="sparkle" class="o-import-assistant__alert-icon"></ibid-icon>
-            <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-              {{ 'importBalanceSuggestedBody' | translate }} {{ 'importBalanceSuggestedHint' | translate }}
-            </div>
-          </div>
-          <input type="text" inputmode="decimal" [ngModel]="statementBalanceInput()"
-            (ngModelChange)="onStatementBalanceChange($event)"
-            class="a-input o-import-assistant__input-text o-import-assistant__input-text--full"
-            [attr.aria-label]="'importStatementBalanceLabel' | translate"
-            [attr.data-assistant]="statementBalanceSuggestedByAssistant()"
-            [placeholder]="'importStatementBalanceHint' | translate">
-        </div>
-
-        <div *ngIf="isStep2Invalid()" class="o-import-assistant__alert o-import-assistant__alert--error o-import-assistant__alert--compact">
-          <ibid-icon name="warning" class="o-import-assistant__alert-icon"></ibid-icon>
-          <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-            <strong>{{ 'importAlertIncompleteTitle' | translate }}</strong> {{ 'importAlertIncompleteBody' | translate }} <strong>{{ missingRequiredColumns().join(', ') }}</strong>.
-          </div>
-        </div>
-
-        <div *ngIf="isDuplicateFile()" class="o-import-assistant__alert o-import-assistant__alert--error o-import-assistant__alert--compact">
-          <ibid-icon name="warning" class="o-import-assistant__alert-icon"></ibid-icon>
-          <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-            <strong>{{ 'importAlertDuplicateTitle' | translate }}</strong> {{ 'importAlertDuplicateBody' | translate }}
-          </div>
-        </div>
-
-        <div *ngIf="hasOverlap() && !isDuplicateFile()" class="o-import-assistant__alert o-import-assistant__alert--warning o-import-assistant__alert--compact">
-          <ibid-icon name="info" class="o-import-assistant__alert-icon"></ibid-icon>
-          <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-            <strong>{{ 'importAlertOverlapTitle' | translate }}</strong> {{ 'importAlertOverlapBody' | translate }}
-          </div>
-        </div>
-
-        <div *ngIf="!hasOverlap() && !isDuplicateFile() && !isStep2Invalid()" class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
-          <ibid-icon name="check-circle" class="o-import-assistant__alert-icon"></ibid-icon>
-          <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-            <strong>{{ 'importAlertReadyTitle' | translate }}</strong> {{ 'importAlertReadyBody' | translate }}
-          </div>
-        </div>
-
-        <div *ngIf="!detectionNeedsReview() && !showMapperManually()" class="o-import-assistant__alert o-import-assistant__alert--success o-import-assistant__alert--compact">
-          <ibid-icon name="sparkle" class="o-import-assistant__alert-icon"></ibid-icon>
-          <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-            {{ 'importAutoDetectedBody' | translate }}
-          </div>
-          <button type="button" class="o-import-assistant__text-btn" (click)="showMapperManually.set(true)">
-            {{ 'importAdjustMappingBtn' | translate }}
-          </button>
-        </div>
-
-        <div *ngIf="detectionNeedsReview()" class="o-import-assistant__alert o-import-assistant__alert--warning o-import-assistant__alert--compact">
-          <ibid-icon name="info" class="o-import-assistant__alert-icon"></ibid-icon>
-          <div class="o-import-assistant__alert-text o-import-assistant__alert-text--compact">
-            {{ 'importNeedsReviewBody' | translate }}
-          </div>
-        </div>
-
-        <div class="o-import-assistant__mapper-wrapper" *ngIf="detectionNeedsReview() || showMapperManually()">
-          <ohsaveme-column-mapper-dialog
-            [rawRows]="rawFileRows()"
-            [fileName]="loadedFileName()"
-            [mappings]="columnMappings()"
-            [requiredFields]="requiredFieldsForMapper()"
-            (mappingsChange)="columnMappings.set($event); analyzeFile()">
-          </ohsaveme-column-mapper-dialog>
-        </div>
-
-        <div class="o-import-assistant__preview-wrapper" *ngIf="previewWithBalance().length > 0">
-          <ohsaveme-transactions-table
-            [transactions]="previewWithBalance()"
-            [categoryOptions]="categoryOptions()"
-            [showActions]="false"
-            [showTitle]="false"
-            [showTabs]="false"
-            [showCategory]="false"
-            (categoryApplied)="onPreviewCategoryApplied($event)"
-          ></ohsaveme-transactions-table>
-        </div>
-      </section>
-
-      
-      <section *ngIf="currentStep() === 3" class="o-import-assistant__step-content animate-fade-in text-center">
-        <div class="o-import-assistant__success-illustration">
-          <ibid-icon name="verified" class="o-import-assistant__success-icon"></ibid-icon>
-        </div>
-        <h3 class="o-import-assistant__confirm-title">{{ 'importStep3Title' | translate }}</h3>
-        <p class="o-import-assistant__confirm-desc">
-          {{ 'importStep3DescPrefix' | translate }} <strong>{{ batchFriendlyName() }}</strong>.
-        </p>
-
-        <div class="o-import-assistant__batch-summary-box">
-          <div class="o-import-assistant__summary-row">
-            <span>{{ 'importSummaryAccountLabel' | translate }}</span>
-            <strong>{{ accounts.find(a => a.id === selectedAccountId())?.name }}</strong>
-          </div>
-          <div class="o-import-assistant__summary-row">
-            <span>{{ 'importMetricPeriod' | translate }}:</span>
-            <strong>{{ startDateStr() | date:'dd/MM/yyyy' }} {{ 'importDateRangeSeparator' | translate }} {{ endDateStr() | date:'dd/MM/yyyy' }}</strong>
-          </div>
-          <div class="o-import-assistant__summary-row">
-            <span>{{ 'importSummaryTotalTransactionsLabel' | translate }}</span>
-            <strong>{{ parsedTransactions().length }}</strong>
-          </div>
-        </div>
-      </section>
+        </section>
+      }
 
     </main>
 
-    
+
     <div sheet-footer class="o-import-assistant__footer">
       <button type="button" class="a-button a-button--secondary" (click)="cancel()">{{ 'importCancelBtn' | translate }}</button>
       <div class="o-import-assistant__action-btns">
-        <button type="button" class="a-button a-button--secondary" *ngIf="currentStep() > 1" (click)="currentStep.set(currentStep() - 1)">{{ 'importBackBtn' | translate }}</button>
-        
-        <button type="button" class="a-button a-button--primary" 
-                *ngIf="currentStep() === 1" 
-                [disabled]="!loadedFileName() || !selectedAccountId()" 
-                (click)="analyzeFile()">
-          {{ 'importContinueBtn' | translate }}
-        </button>
+        @if (currentStep() > 1) {
+          <button type="button" class="a-button a-button--secondary" (click)="currentStep.set(currentStep() - 1)">{{ 'importBackBtn' | translate }}</button>
+        }
 
-        <button type="button" class="a-button a-button--primary"
-                *ngIf="currentStep() === 2"
-                [disabled]="isStep2Invalid()"
-                (click)="proceedToStep3()">
-          {{ 'importNextBtn' | translate }}
-        </button>
+        @if (currentStep() === 1) {
+          <button type="button" class="a-button a-button--primary"
+            [disabled]="!loadedFileName() || !selectedAccountId()"
+            (click)="analyzeFile()">
+            {{ 'importContinueBtn' | translate }}
+          </button>
+        }
 
-        <button type="button" class="a-button a-button--primary" 
-                *ngIf="currentStep() === 3" 
-                (click)="confirmAndProcess()">
-          {{ 'importConfirmBtn' | translate }}
-        </button>
+        @if (currentStep() === 2) {
+          <button type="button" class="a-button a-button--primary"
+            [disabled]="isStep2Invalid()"
+            (click)="proceedToStep3()">
+            {{ 'importNextBtn' | translate }}
+          </button>
+        }
+
+        @if (currentStep() === 3) {
+          <button type="button" class="a-button a-button--primary"
+            (click)="confirmAndProcess()">
+            {{ 'importConfirmBtn' | translate }}
+          </button>
+        }
       </div>
     </div>
   </ibid-bottom-sheet-dialog>

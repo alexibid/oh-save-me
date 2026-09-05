@@ -28,8 +28,8 @@ describe('AssistantExpandedDeckComponent', () => {
 
   it('should create and compute visible items correctly', () => {
     expect(component).toBeTruthy();
-    expect((component as any).visibleItems().length).toBe(4);
-    expect((component as any).hasMorePages()).toBe(true);
+    expect(component['visibleItems']().length).toBe(4);
+    expect(component['hasMorePages']()).toBe(true);
   });
 
   it('should emit rotateBy on next page click', () => {

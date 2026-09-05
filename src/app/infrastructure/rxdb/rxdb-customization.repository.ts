@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RxCollection } from 'rxdb';
 import { Customization } from '@domain/models/customization';
 import { CustomizationRepository } from '@domain/repositories/customization.repository';
@@ -8,9 +8,9 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbCustomizationRepository implements CustomizationRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
-  private async getCollection(): Promise<RxCollection<any>> {
+  private async getCollection(): Promise<RxCollection<Customization>> {
     const db = await this.dbService.getDatabase();
     return db.collections.customizations;
   }

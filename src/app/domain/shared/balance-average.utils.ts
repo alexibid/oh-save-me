@@ -34,10 +34,6 @@ function daysBetween(from: string, to: string): number {
   return Math.round((new Date(`${to}T00:00:00Z`).getTime() - new Date(`${from}T00:00:00Z`).getTime()) / MS_PER_DAY);
 }
 
-function lastDayOfMonth(month: string): string {
-  return toDay(new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0)));
-}
-
 function edgeDayAround(month: string, monthOffset: number): string {
   const year = Number(month.slice(0, 4));
   const index = Number(month.slice(5, 7)) - 1;
@@ -69,7 +65,7 @@ export function buildMonthlyNetFlow(
   const owned = transactions.filter(t => t.date && (!t.accountId || consolidated.has(t.accountId)));
 
   const withBalance = owned
-    .filter(t => t.balance !== undefined && t.balance !== null)
+    .filter((t): t is Transaction & { balance: number } => t.balance !== undefined && t.balance !== null)
     .sort((a, b) => a.date.localeCompare(b.date));
 
   if (withBalance.length === 0) return [];
@@ -77,7 +73,7 @@ export function buildMonthlyNetFlow(
   const balanceByAccount = new Map<string, number>();
   const closingBalance = new Map<string, number>();
   for (const transaction of withBalance) {
-    balanceByAccount.set(transaction.accountId ?? '', transaction.balance!);
+    balanceByAccount.set(transaction.accountId ?? '', transaction.balance);
     const total = [...balanceByAccount.values()].reduce((sum, value) => sum + value, 0);
     closingBalance.set(transaction.date.slice(0, 7), round(total));
   }

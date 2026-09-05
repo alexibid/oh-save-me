@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CustomRecord, CustomRecordMeasure } from '@domain/models/custom-record';
 import { CustomRecordRepository } from '@domain/repositories/custom-record.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
@@ -7,7 +7,7 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbCustomRecordRepository implements CustomRecordRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

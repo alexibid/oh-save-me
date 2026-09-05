@@ -4,20 +4,25 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { signal } from '@angular/core';
 import { APP_STORE_TOKEN } from '@application/app-store';
 
-describe('AllocationEditDialogComponent', () => {
-  let mockDialogRef: any;
-  let mockStore: any;
-
-  beforeEach(async () => {
-    mockDialogRef = {
+const createMockDialogRef = () => ({
       close: vi.fn()
-    };
-
-    mockStore = {
+    });
+const createMockStore = () => ({
       categories: signal([]),
       updateBudget: vi.fn().mockResolvedValue(undefined),
       syncVacationWindow: vi.fn().mockResolvedValue(undefined)
-    };
+    });
+const createMockDialogRefVacation = () => ({ close: vi.fn() });
+const createMockStoreVacation = () => ({ categories: signal([]), updateBudget: vi.fn().mockResolvedValue(undefined), syncVacationWindow: vi.fn().mockResolvedValue(undefined) });
+
+describe('AllocationEditDialogComponent', () => {
+  let mockDialogRef: ReturnType<typeof createMockDialogRef>;
+  let mockStore: ReturnType<typeof createMockStore>;
+
+  beforeEach(async () => {
+    mockDialogRef = createMockDialogRef();
+
+    mockStore = createMockStore();
 
     await TestBed.configureTestingModule({
       imports: [AllocationEditDialogComponent],
@@ -39,12 +44,12 @@ describe('AllocationEditDialogComponent', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    (component as any).budgetName = 'Renamed Budget';
-    (component as any).budgetAmount = 500;
-    (component as any).budgetStartDate = '2026-01-01';
-    (component as any).budgetEndDate = '2026-12-31';
+    component['budgetName'] = 'Renamed Budget';
+    component['budgetAmount'] = 500;
+    component['budgetStartDate'] = '2026-01-01';
+    component['budgetEndDate'] = '2026-12-31';
 
-    await (component as any).onSave();
+    await component['onSave']();
 
     expect(mockStore.updateBudget).toHaveBeenCalledWith(expect.objectContaining({
       id: '1',
@@ -58,12 +63,12 @@ describe('AllocationEditDialogComponent', () => {
 });
 
 describe('AllocationEditDialogComponent — vacation project dates', () => {
-  let mockDialogRef: any;
-  let mockStore: any;
+  let mockDialogRef: ReturnType<typeof createMockDialogRefVacation>;
+  let mockStore: ReturnType<typeof createMockStoreVacation>;
 
   beforeEach(async () => {
-    mockDialogRef = { close: vi.fn() };
-    mockStore = { categories: signal([]), updateBudget: vi.fn().mockResolvedValue(undefined), syncVacationWindow: vi.fn().mockResolvedValue(undefined) };
+    mockDialogRef = createMockDialogRefVacation();
+    mockStore = createMockStoreVacation();
 
     await TestBed.configureTestingModule({
       imports: [AllocationEditDialogComponent],
@@ -79,10 +84,10 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    (component as any).vacationStartDate = '2026-08-01';
-    (component as any).vacationEndDate = '2026-08-15';
+    component['vacationStartDate'] = '2026-08-01';
+    component['vacationEndDate'] = '2026-08-15';
 
-    await (component as any).onSave();
+    await component['onSave']();
 
     expect(mockStore.updateBudget).toHaveBeenCalledWith(expect.objectContaining({
       projectStartDate: '2026-08-01',
@@ -94,10 +99,10 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    (component as any).vacationStartDate = '2026-08-01';
-    (component as any).vacationEndDate = '2026-08-15';
+    component['vacationStartDate'] = '2026-08-01';
+    component['vacationEndDate'] = '2026-08-15';
 
-    await (component as any).onSave();
+    await component['onSave']();
 
     expect(mockStore.syncVacationWindow).toHaveBeenCalledWith(expect.objectContaining({
       projectStartDate: '2026-08-01',
@@ -109,7 +114,7 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    await (component as any).onSave();
+    await component['onSave']();
 
     expect(mockStore.syncVacationWindow).not.toHaveBeenCalled();
   });
@@ -118,12 +123,12 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    (component as any).vacationStartDate = '2026-08-01';
-    (component as any).vacationEndDate = '2026-07-31';
+    component['vacationStartDate'] = '2026-08-01';
+    component['vacationEndDate'] = '2026-07-31';
 
-    expect((component as any).vacationWindowReversed()).toBe(true);
+    expect(component['vacationWindowReversed']()).toBe(true);
 
-    await (component as any).onSave();
+    await component['onSave']();
 
     expect(mockStore.updateBudget).not.toHaveBeenCalled();
     expect(mockStore.syncVacationWindow).not.toHaveBeenCalled();
@@ -133,12 +138,12 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    (component as any).budgetStartDate = '2026-08-01';
-    (component as any).budgetEndDate = '2026-07-31';
+    component['budgetStartDate'] = '2026-08-01';
+    component['budgetEndDate'] = '2026-07-31';
 
-    expect((component as any).budgetPeriodReversed()).toBe(true);
+    expect(component['budgetPeriodReversed']()).toBe(true);
 
-    await (component as any).onSave();
+    await component['onSave']();
 
     expect(mockStore.updateBudget).not.toHaveBeenCalled();
   });
@@ -147,9 +152,9 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
     const fixture = TestBed.createComponent(AllocationEditDialogComponent);
     const component = fixture.componentInstance;
 
-    (component as any).vacationStartDate = '2026-08-01';
-    (component as any).vacationEndDate = '';
+    component['vacationStartDate'] = '2026-08-01';
+    component['vacationEndDate'] = '';
 
-    expect((component as any).vacationWindowReversed()).toBe(false);
+    expect(component['vacationWindowReversed']()).toBe(false);
   });
 });

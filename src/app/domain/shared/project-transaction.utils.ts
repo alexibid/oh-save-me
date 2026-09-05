@@ -17,12 +17,14 @@ export function matchesProjectBudget(
 ): boolean {
   if (t.budgetId === budget.id) return true;
 
+  const { projectStartDate, projectEndDate } = budget;
   const isAutoVacationWindow = budget.kind === 'vacation'
     && !budget.transactionsAutoAssigned
-    && budget.projectStartDate
-    && budget.projectEndDate;
-  if (isAutoVacationWindow && isCandidateVacationTransaction(t, isRecurring)) {
-    if (t.date >= budget.projectStartDate! && t.date <= budget.projectEndDate!) return true;
+    && !!projectStartDate
+    && !!projectEndDate;
+  if (isAutoVacationWindow && projectStartDate && projectEndDate
+    && isCandidateVacationTransaction(t, isRecurring)) {
+    if (t.date >= projectStartDate && t.date <= projectEndDate) return true;
   }
 
   const tagMatch = !!t.tags?.length && !!budget.tags?.length && t.tags.some(tag => budget.tags?.includes(tag));
@@ -75,13 +77,14 @@ export function findUnassignedVacationWindowTransactions(
   vacationProject: Budget,
   isRecurring: (t: Transaction) => boolean
 ): readonly Transaction[] {
-  if (vacationProject.kind !== 'vacation' || !vacationProject.projectStartDate || !vacationProject.projectEndDate) {
+  const { projectStartDate, projectEndDate } = vacationProject;
+  if (vacationProject.kind !== 'vacation' || !projectStartDate || !projectEndDate) {
     return [];
   }
   return transactions.filter(t =>
     !t.budgetId &&
     isCandidateVacationTransaction(t, isRecurring) &&
-    t.date >= vacationProject.projectStartDate! &&
-    t.date <= vacationProject.projectEndDate!
+    t.date >= projectStartDate &&
+    t.date <= projectEndDate
   );
 }

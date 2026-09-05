@@ -1300,7 +1300,7 @@ describe('suggestion-engine helpers', () => {
         ...DATES,
       });
       const safe = result.find(i => i.kind === 'safe_to_spend');
-      const weeklyVal = (safe?.payload as any)?.value as number;
+      const weeklyVal = (safe?.payload as { value?: number })?.value as number;
       const weeks = safe?.params?.['weeksRemaining'] as number;
       expect(weeklyVal).toBeCloseTo(1000 / weeks, 2);
     });

@@ -1,5 +1,5 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { BudgetSelectors, BudgetProgress } from '@application/selectors/budget.selectors';
 import { Budget } from '@domain/models/budget';
@@ -10,7 +10,7 @@ const SUGGESTED_BUDGET_ID_PREFIX = 'temp-';
 @Component({
   selector: 'ohsaveme-budget-execution-summary',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, FeatureIconComponent, IconComponent, ButtonComponent, HandDrawnDirective, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, FeatureIconComponent, IconComponent, ButtonComponent, HandDrawnDirective, ...I18N_SHARED],
   templateUrl: './budget-execution-summary.html',
   styleUrl: './budget-execution-summary.scss'
 })

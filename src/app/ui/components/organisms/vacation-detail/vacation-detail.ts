@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef, computed } from '@angular/core';
+
 import { Dialog, DialogRef, DialogModule } from '@angular/cdk/dialog';
-import { TransactionsTableComponent } from '@ui/components/organisms/transactions-table/transactions-table';
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { useStore } from '@application/app-store';
 import { formatDateDisplay, parseLocalDate, formatDateLocal } from '@ibid/utils';
@@ -21,7 +20,7 @@ export interface DailyBreakdown {
 @Component({
   selector: 'ohsaveme-vacation-detail',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, DialogModule, BottomSheetDialogComponent, ButtonComponent, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, DialogModule, BottomSheetDialogComponent, ButtonComponent, ...I18N_SHARED],
   templateUrl: './vacation-detail.html',
   styleUrl: './vacation-detail.scss'
 })

@@ -1,5 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
 import { BudgetSelectors } from '@application/selectors/budget.selectors';
@@ -13,12 +13,11 @@ import { EmptyStateComponent } from 'ibid-ui';
   selector: 'ohsaveme-category-budgets-dashboard',
   standalone: true,
   imports: [
-    CommonModule,
     DialogModule,
     CategoryBudgetCardComponent,
     EmptyStateComponent,
     ...I18N_SHARED
-  ],
+],
   templateUrl: './category-budgets-dashboard.html',
   styleUrl: './category-budgets-dashboard.scss'
 })

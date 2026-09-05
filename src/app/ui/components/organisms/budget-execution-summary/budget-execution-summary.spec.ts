@@ -87,7 +87,7 @@ describe('BudgetExecutionSummary', () => {
     ]);
     fixture.detectChanges();
 
-    const shown = (component as any).activeCategoryBudgets() as BudgetProgress[];
+    const shown = component['activeCategoryBudgets']() as BudgetProgress[];
     expect(shown.map(p => p.categoryName)).toEqual(['b', 'd', 'c', 'a']);
   });
 
@@ -95,16 +95,16 @@ describe('BudgetExecutionSummary', () => {
     mockAllCategoryExecutions.set([makeCategoryProgress('dining', 50, 'temp-cat-dining')]);
     fixture.detectChanges();
 
-    const shown = (component as any).activeCategoryBudgets() as BudgetProgress[];
-    expect((component as any).isSuggestedExecution(shown[0])).toBe(true);
+    const shown = component['activeCategoryBudgets']() as BudgetProgress[];
+    expect(component['isSuggestedExecution'](shown[0])).toBe(true);
   });
 
   it('does not flag a real configured category budget as a suggestion', () => {
     mockAllCategoryExecutions.set([makeCategoryProgress('dining', 50, 'b-real')]);
     fixture.detectChanges();
 
-    const shown = (component as any).activeCategoryBudgets() as BudgetProgress[];
-    expect((component as any).isSuggestedExecution(shown[0])).toBe(false);
+    const shown = component['activeCategoryBudgets']() as BudgetProgress[];
+    expect(component['isSuggestedExecution'](shown[0])).toBe(false);
   });
 
   it('excludes non-active project budgets from the projects group', () => {
@@ -112,14 +112,14 @@ describe('BudgetExecutionSummary', () => {
     fixture.componentRef.setInput('periodBudgetsProgress', [expired]);
     fixture.detectChanges();
 
-    expect((component as any).activeProjectBudgets()).toEqual([]);
+    expect(component['activeProjectBudgets']()).toEqual([]);
   });
 
   it('emits the categoryId on categoryItemClick when a category row is clicked', () => {
     const emitted: string[] = [];
     component.categoryItemClick.subscribe(id => emitted.push(id));
 
-    (component as any).onCategoryItemClick('cat-groceries');
+    component['onCategoryItemClick']('cat-groceries');
 
     expect(emitted).toEqual(['cat-groceries']);
   });
@@ -128,7 +128,7 @@ describe('BudgetExecutionSummary', () => {
     const emitted: string[] = [];
     component.categoryItemClick.subscribe(id => emitted.push(id));
 
-    (component as any).onCategoryItemClick(undefined);
+    component['onCategoryItemClick'](undefined);
 
     expect(emitted).toEqual([]);
   });
@@ -147,7 +147,7 @@ describe('BudgetExecutionSummary', () => {
     const emitted: string[] = [];
     component.categoryMovementsClick.subscribe(id => emitted.push(id));
 
-    (component as any).onCategoryMovementsClick('cat-groceries');
+    component['onCategoryMovementsClick']('cat-groceries');
 
     expect(emitted).toEqual(['cat-groceries']);
   });
@@ -156,7 +156,7 @@ describe('BudgetExecutionSummary', () => {
     const emitted: string[] = [];
     component.categoryMovementsClick.subscribe(id => emitted.push(id));
 
-    (component as any).onCategoryMovementsClick(undefined);
+    component['onCategoryMovementsClick'](undefined);
 
     expect(emitted).toEqual([]);
   });

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Transaction } from '@domain/models/transaction';
@@ -10,7 +10,7 @@ import { RxTransactionDocument } from './schemas/transaction.schema';
   providedIn: 'root'
 })
 export class RxdbTransactionRepository implements TransactionRepository {
-  constructor(private dbService: RxDbDatabaseService) {}
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

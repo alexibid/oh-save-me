@@ -77,7 +77,7 @@
                 />
 
                 <div class="p-database__scope-field">
-                  <label class="p-database__scope-label">{{ 'accountCreateScopeQuestion' | translate }}</label>
+                  <span class="p-database__scope-label">{{ 'accountCreateScopeQuestion' | translate }}</span>
                   <ibid-segmented-control [options]="scopeOptions()" [value]="editAccountScope" (valueChange)="onScopeChange($event)"></ibid-segmented-control>
                 </div>
 
@@ -202,7 +202,7 @@
       [accountsData]="store.accounts()"
       [categoriesData]="store.categories()"
       [budgetsData]="store.budgets()"
-      (close)="selectedDBName.set('')"
+      (closed)="selectedDBName.set('')"
       (undo)="triggerUndo($event)"
       (restore)="restoreRow($event)"
     ></ohsaveme-db-data-viewer>

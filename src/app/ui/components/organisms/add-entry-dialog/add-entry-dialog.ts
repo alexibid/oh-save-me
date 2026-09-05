@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { BottomSheetDialogComponent, IconComponent } from 'ibid-ui';
@@ -7,7 +7,7 @@ import { BottomSheetDialogComponent, IconComponent } from 'ibid-ui';
 @Component({
   selector: 'ohsaveme-add-entry-dialog',
   standalone: true,
-  imports: [CommonModule, DialogModule, IconComponent, BottomSheetDialogComponent, ...I18N_SHARED],
+  imports: [DialogModule, IconComponent, BottomSheetDialogComponent, ...I18N_SHARED],
   templateUrl: './add-entry-dialog.html',
   styleUrl: './add-entry-dialog.scss'
 })
@@ -25,7 +25,7 @@ export class AddEntryDialog implements OnChanges, OnDestroy {
   @Output() optionSelected = new EventEmitter<'transaction' | 'custom_record'>();
   @Output() createAccountSelected = new EventEmitter<void>();
   @Output() importSelected = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['visible']) {
@@ -82,6 +82,6 @@ export class AddEntryDialog implements OnChanges, OnDestroy {
 
   onCancel() {
     this.closeDialog();
-    this.cancel.emit();
+    this.cancelled.emit();
   }
 }

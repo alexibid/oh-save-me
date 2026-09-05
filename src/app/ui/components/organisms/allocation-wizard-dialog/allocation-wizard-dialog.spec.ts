@@ -30,19 +30,19 @@ describe('AllocationWizardDialogComponent', () => {
   it('detects reversed budget periods', () => {
     component.startDate = '2026-08-15';
     component.endDate = '2026-08-01';
-    expect((component as any).budgetPeriodReversed()).toBe(true);
+    expect(component['budgetPeriodReversed']()).toBe(true);
 
     component.endDate = '2026-08-30';
-    expect((component as any).budgetPeriodReversed()).toBe(false);
+    expect(component['budgetPeriodReversed']()).toBe(false);
   });
 
   it('detects reversed vacation windows', () => {
     component.projectKind = 'vacation';
     component.projectStartDate = '2026-08-20';
     component.projectEndDate = '2026-08-10';
-    expect((component as any).vacationWindowReversed()).toBe(true);
+    expect(component['vacationWindowReversed']()).toBe(true);
 
     component.projectEndDate = '2026-08-25';
-    expect((component as any).vacationWindowReversed()).toBe(false);
+    expect(component['vacationWindowReversed']()).toBe(false);
   });
 });

@@ -1,5 +1,7 @@
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatabaseRow } from './database-row';
+import { BudgetType } from '@domain/models/budget';
+
 import { FormsModule } from '@angular/forms';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
@@ -33,7 +35,6 @@ import {
   imports: [
     CurrencyDisplayComponent,
     IconComponent,
-    CommonModule,
     FormsModule,
     DialogModule,
     AppTranslatePipe,
@@ -47,7 +48,7 @@ import {
     ShareAccessManagerComponent,
     SegmentedControlComponent,
     BottomSheetDialogComponent
-  ],
+],
   templateUrl: './database.html',
   styleUrl: './database.scss'
 })
@@ -66,7 +67,7 @@ export class DatabaseComponent implements OnInit {
   protected readonly isConfirmResetImportsDB = signal<boolean>(false);
 
   protected readonly selectedDBName = signal<string>('');
-  protected readonly dbRows = signal<any[]>([]);
+  protected readonly dbRows = signal<DatabaseRow[]>([]);
 
   async ngOnInit(): Promise<void> {
     try {
@@ -285,8 +286,8 @@ export class DatabaseComponent implements OnInit {
     if (typeof window === 'undefined') return;
 
     const request = window.indexedDB.open(dbName);
-    request.onsuccess = (event: any) => {
-      const db = event.target.result;
+    request.onsuccess = () => {
+      const db = request.result;
       const storeNames = Array.from(db.objectStoreNames);
       if (storeNames.length === 0) {
         db.close();
@@ -299,13 +300,12 @@ export class DatabaseComponent implements OnInit {
         const getAllRequest = objectStore.getAll();
 
         getAllRequest.onsuccess = () => {
-          let data = getAllRequest.result || [];
-          data = data.map((item: any) => item);
+          const data = (getAllRequest.result ?? []) as DatabaseRow[];
 
           if (dbName.includes('transactions')) {
-            data.sort((a: any, b: any) => (b.date || '').localeCompare(a.date || ''));
+            data.sort((a, b) => String(b.date ?? '').localeCompare(String(a.date ?? '')));
           } else if (dbName.includes('history_logs') || dbName.includes('history-logs')) {
-            data.sort((a: any, b: any) => (b.timestamp || '').localeCompare(a.timestamp || ''));
+            data.sort((a, b) => String(b['timestamp'] ?? '').localeCompare(String(a['timestamp'] ?? '')));
           } else {
             data.reverse();
           }
@@ -332,7 +332,7 @@ export class DatabaseComponent implements OnInit {
     return name;
   }
 
-  protected async restoreRow(row: any): Promise<void> {
+  protected async restoreRow(row: DatabaseRow): Promise<void> {
     const dbName = this.selectedDBName();
     let entityType = '';
 
@@ -342,7 +342,7 @@ export class DatabaseComponent implements OnInit {
         await this.store.addBudget({
           id: row.id,
           name: row.name,
-          type: row.type,
+          type: row.type as BudgetType,
           amount: row.amount,
           categoryId: row.categoryId,
           tags: row.tags,

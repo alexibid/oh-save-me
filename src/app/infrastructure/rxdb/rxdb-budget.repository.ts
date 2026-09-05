@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RxCollection } from 'rxdb';
 import { Budget, BudgetType } from '@domain/models/budget';
 import { BudgetRepository } from '@domain/repositories/budget.repository';
@@ -9,7 +9,7 @@ import { RxBudgetDocument } from './schemas/budget.schema';
   providedIn: 'root'
 })
 export class RxdbBudgetRepository implements BudgetRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection(): Promise<RxCollection<RxBudgetDocument>> {
     const db = await this.dbService.getDatabase();

@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { StatCardData } from '@domain/models/ui';
 import { StatCardComponent } from 'ibid-ui';
 
 @Component({
   selector: 'ohsaveme-summary',
   standalone: true,
-  imports: [CommonModule, StatCardComponent],
+  imports: [StatCardComponent],
   template: `
     <section class="o-summary">
       @for (item of items; track item.label) {

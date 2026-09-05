@@ -25,8 +25,8 @@ describe('CsvParserService', () => {
   }
 
   const mlMock: MlMock = createMockCategoryMlService({
-    predict: (desc: string, isRefund?: boolean): CategoryType => 'Others',
-    learn: (desc: string, category: CategoryType) => {}
+    predict: (_desc: string, _isRefund?: boolean): CategoryType => 'Others',
+    learn: (_desc: string, _category: CategoryType) => {}
   }) as unknown as MlMock;
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('CsvParserService', () => {
 
   it('should parse CGD format statement and auto-detect categories using mocked ML', async () => {
     let predictCallCount = 0;
-    mlMock.predict = (desc: string, isRefund?: boolean): CategoryType => {
+    mlMock.predict = (desc: string, _isRefund?: boolean): CategoryType => {
       predictCallCount++;
       const lower = desc.toLowerCase();
       if (lower.includes('mango')) return 'Clothing';
@@ -84,7 +84,7 @@ Data mov. ;Data valor ;Descrição ;Débito ;Crédito ;Saldo contabilístico ;Sa
   });
 
   it('should parse Universo format statement using mocked ML', async () => {
-    mlMock.predict = (desc: string, isRefund?: boolean): CategoryType => {
+    mlMock.predict = (desc: string, _isRefund?: boolean): CategoryType => {
       const lower = desc.toLowerCase();
       if (lower.includes('steam')) return 'Entertainment';
       if (lower.includes('coursera')) return 'Education';

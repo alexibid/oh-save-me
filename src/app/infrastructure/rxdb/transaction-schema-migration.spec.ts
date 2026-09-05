@@ -41,17 +41,23 @@ const TRANSACTION_SCHEMA_V6: RxJsonSchema<Record<string, unknown>> = {
   required: ['id', 'date', 'description', 'amount', 'category', 'accountId', 'importBatchId', 'updatedAt']
 };
 
+interface LegacyTransactionDoc {
+  readonly [field: string]: unknown;
+  readonly id?: string;
+  readonly isRecurring?: boolean;
+}
+
 const MIGRATION_STRATEGIES = {
-  1: (d: any) => d,
-  2: (d: any) => d,
-  3: (d: any) => d,
-  4: (d: any) => d,
-  5: (d: any) => d,
-  6: (d: any) => d,
-  7: (d: any) => d,
-  8: (d: any) => d,
-  9: (d: any) => d,
-  10: (d: any) => d
+  1: (d: LegacyTransactionDoc) => d,
+  2: (d: LegacyTransactionDoc) => d,
+  3: (d: LegacyTransactionDoc) => d,
+  4: (d: LegacyTransactionDoc) => d,
+  5: (d: LegacyTransactionDoc) => d,
+  6: (d: LegacyTransactionDoc) => d,
+  7: (d: LegacyTransactionDoc) => d,
+  8: (d: LegacyTransactionDoc) => d,
+  9: (d: LegacyTransactionDoc) => d,
+  10: (d: LegacyTransactionDoc) => d
 };
 
 const LEGACY_ROWS = [
@@ -102,7 +108,7 @@ describe('TRANSACTION_SCHEMA migration v6 → current', () => {
     });
 
     const docs = await db.collections['transactions'].find().exec();
-    expect(docs.map((d: any) => d.id).sort()).toEqual(['tx-legacy-1', 'tx-legacy-2']);
+    expect(docs.map((d: LegacyTransactionDoc) => d.id).sort()).toEqual(['tx-legacy-1', 'tx-legacy-2']);
 
     await db.close();
   });
@@ -133,7 +139,7 @@ describe('TRANSACTION_SCHEMA migration v6 → current', () => {
     });
 
     const migrated = await db.collections['transactions'].find().exec();
-    expect(migrated.every((doc: any) => doc.isRecurring === undefined)).toBe(true);
+    expect(migrated.every((doc: LegacyTransactionDoc) => doc.isRecurring === undefined)).toBe(true);
 
     await db.close();
   });

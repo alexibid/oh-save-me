@@ -402,7 +402,7 @@ export class CsvParserService {
     return this.parseCsvWithMapping(lines.join('\n'), { dateIdx, descIdx, amountIdx }, delimiter, headerIdx);
   }
 
-  public saveFileToUploads(fileName: string, content: string | ArrayBuffer): boolean {
+  public saveFileToUploads(_fileName: string, _content: string | ArrayBuffer): boolean {
     return true;
   }
 

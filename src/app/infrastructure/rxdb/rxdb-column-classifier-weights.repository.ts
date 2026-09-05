@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ColumnClassifierWeights } from '@domain/models/column-classifier-model';
 import { ColumnClassifierWeightsRepository } from '@domain/repositories/column-classifier-weights.repository';
 import { RxDbDatabaseService } from './rxdb-database.service';
@@ -9,7 +9,7 @@ const SINGLETON_ID = 'default';
   providedIn: 'root'
 })
 export class RxdbColumnClassifierWeightsRepository implements ColumnClassifierWeightsRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
   private async getCollection() {
     const db = await this.dbService.getDatabase();

@@ -1,14 +1,9 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { DatabaseRow } from '@ui/pages/database/database-row';
 import { DbDataViewerComponent } from './db-data-viewer';
 import { I18nService } from '@application/i18n.service';
 
-describe('DbDataViewerComponent', () => {
-  let component: DbDataViewerComponent;
-  let fixture: ComponentFixture<DbDataViewerComponent>;
-  let mockI18nService: any;
-
-  beforeEach(async () => {
-    mockI18nService = {
+const createMockI18nService = () => ({
       currentLang: () => 'pt',
       t: () => ({
         dbViewerTitle: 'Visualizador de Dados:',
@@ -18,7 +13,15 @@ describe('DbDataViewerComponent', () => {
         dbUndo: 'Desfazer',
         dbRestore: 'Restaurar'
       })
-    };
+    });
+
+describe('DbDataViewerComponent', () => {
+  let component: DbDataViewerComponent;
+  let fixture: ComponentFixture<DbDataViewerComponent>;
+  let mockI18nService: ReturnType<typeof createMockI18nService>;
+
+  beforeEach(async () => {
+    mockI18nService = createMockI18nService();
 
     await TestBed.configureTestingModule({
       imports: [DbDataViewerComponent],
@@ -64,7 +67,7 @@ describe('DbDataViewerComponent', () => {
     fixture.detectChanges();
 
     let closed = false;
-    component.close.subscribe(() => closed = true);
+    component.closed.subscribe(() => closed = true);
 
     const closeBtn = fixture.nativeElement.querySelector('button') as HTMLElement;
     closeBtn?.click();
@@ -79,7 +82,7 @@ describe('DbDataViewerComponent', () => {
     ];
     fixture.detectChanges();
 
-    let restoredRow: any;
+    let restoredRow: DatabaseRow | undefined;
     component.restore.subscribe(row => restoredRow = row);
 
     const restoreBtn = fixture.nativeElement.querySelector('ibid-button button') as HTMLElement;

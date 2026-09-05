@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output, inject, signal, computed, forwardRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Transaction } from '@domain/models/transaction';
 import { CategoryInfo, CategoryType } from '@domain/models/category';
 import { Budget } from '@domain/models/budget';
 import { CategorySelectComponent } from '@ui/components/molecules/category-select/category-select';
 import { MlConfirmationDialogComponent } from '@ui/components/organisms/ml-confirmation-dialog/ml-confirmation-dialog';
-import { defaultSimilarityKeyword, matchesSimilarityKeyword } from '@domain/shared/similar-transactions.utils';
 import { isTransferCategory } from '@domain/shared/transfer.utils';
 import { UnlinkTransferUseCase } from '@application/use-cases/unlink-transfer.use-case';
 import { useStore } from '@application/app-store';
@@ -24,7 +23,7 @@ export interface BudgetAppliedEvent {
 @Component({
   selector: 'ohsaveme-category-recategorize',
   standalone: true,
-  imports: [CommonModule, CategorySelectComponent, forwardRef(() => MlConfirmationDialogComponent)],
+  imports: [CategorySelectComponent, forwardRef(() => MlConfirmationDialogComponent)],
   template: `
     <ohsaveme-category-select
       [selectedCategory]="displayCategory()"
@@ -47,7 +46,7 @@ export interface BudgetAppliedEvent {
       [categories]="categories"
       (visibleChange)="showMlDialog.set($event)"
       (confirm)="onMlConfirm($event)"
-      (cancel)="onMlCancel()"
+      (cancelled)="onMlCancel()"
     ></ohsaveme-ml-confirmation-dialog>
   `
 })

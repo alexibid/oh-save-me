@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Budget } from '@domain/models/budget';
 import { By } from '@angular/platform-browser';
 import { CategoriesListComponent } from './categories-list';
 import { CATEGORY_REPOSITORY_TOKEN, TRANSACTION_REPOSITORY_TOKEN } from '@application/tokens';
@@ -79,7 +80,7 @@ describe('CategoriesListComponent - Salarios Mapping Test', () => {
     it('renders the category budget card with a non-null progress when a matching budget exists', () => {
         mockStore.budgets.set([
             { id: 'b-income', name: 'Income Budget', type: 'category', categoryId: 'Income', amount: 500 }
-        ] as any);
+        ] as unknown as Budget[]);
         fixture.componentRef.setInput('id', 'income');
         fixture.detectChanges();
 

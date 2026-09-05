@@ -40,6 +40,10 @@
           class="o-share-access-manager__item"
           [class.o-share-access-manager__item--selected]="isSelected(user.email)"
           (click)="toggleEmailSelection(user.email)"
+          (keydown.enter)="toggleEmailSelection(user.email)"
+          (keydown.space)="toggleEmailSelection(user.email); $event.preventDefault()"
+          role="button"
+          tabindex="0"
         >
           <div class="o-share-access-manager__item-info">
             <div class="o-share-access-manager__checkbox" [class.o-share-access-manager__checkbox--checked]="isSelected(user.email)">

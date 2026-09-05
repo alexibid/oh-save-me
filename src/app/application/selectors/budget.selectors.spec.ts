@@ -361,13 +361,13 @@ describe('BudgetSelectors', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0 },
         { id: 'acc_credit', kind: 'financial', name: 'Credit Card', type: 'credit_card', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-01', description: 'Older', amount: -50, category: 'outros', accountId: 'acc_bank', balance: 950 },
         { id: 't2', date: '2026-07-10', description: 'Newer', amount: -20, category: 'outros', accountId: 'acc_bank', balance: 930 },
         { id: 't3', date: '2026-07-05', description: 'Purchase', amount: -100, category: 'outros', accountId: 'acc_credit' },
         { id: 't4', date: '2026-07-06', description: 'Payment', amount: 40, category: 'outros', accountId: 'acc_credit' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       expect(selectors.walletBalance()).toBe(870);
@@ -376,11 +376,11 @@ describe('BudgetSelectors', () => {
     it('should rewind each account balance to the selected period end date', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-01', description: 'Within period', amount: -50, category: 'outros', accountId: 'acc_bank', balance: 950 },
         { id: 't2', date: '2026-08-15', description: 'After period end', amount: -30, category: 'outros', accountId: 'acc_bank', balance: 920 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('2026-07-31');
 
       expect(selectors.walletBalance()).toBe(950);
@@ -390,10 +390,10 @@ describe('BudgetSelectors', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0 },
         { id: 'acc_invest', kind: 'financial', name: 'Investments', type: 'investment', updatedAt: 0, openingBalance: 5000 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-01', description: 'Salary', amount: 1000, category: 'outros', accountId: 'acc_bank', balance: 1000 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       expect(selectors.walletBalance()).toBe(1000);
@@ -405,10 +405,10 @@ describe('BudgetSelectors', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0 },
         { id: 'acc_invest', kind: 'financial', name: 'Investments', type: 'investment', updatedAt: 0, openingBalance: 5000 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-01', description: 'Salary', amount: 1000, category: 'outros', accountId: 'acc_bank', balance: 1000 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       expect(selectors.investmentBalance()).toBe(5000);
@@ -422,7 +422,7 @@ describe('BudgetSelectors', () => {
         { id: 't2', date: '2026-05-20', description: 'b', amount: -20, category: 'Groceries' },
         { id: 't3', date: '2026-06-05', description: 'c', amount: -150, category: 'Groceries' },
         { id: 't4', date: '2026-06-10', description: 'd', amount: -30, category: 'Housing' }
-      ] as any);
+      ] as unknown as Transaction[]);
 
       const result = selectors.categoryMonthlySpend('Groceries');
 
@@ -432,7 +432,7 @@ describe('BudgetSelectors', () => {
     it('ignores an income month for the category (net positive is not a spend)', () => {
       mockTransactions.set([
         { id: 't1', date: '2026-05-10', description: 'refund', amount: 50, category: 'Groceries' }
-      ] as any);
+      ] as unknown as Transaction[]);
 
       expect(selectors.categoryMonthlySpend('Groceries')).toEqual([]);
     });
@@ -442,7 +442,7 @@ describe('BudgetSelectors', () => {
         { id: 't1', date: '2026-01-10', description: 'a', amount: -100, category: 'Groceries' },
         { id: 't2', date: '2026-02-10', description: 'b', amount: -110, category: 'Groceries' },
         { id: 't3', date: '2026-03-10', description: 'c', amount: -105, category: 'Groceries' }
-      ] as any);
+      ] as unknown as Transaction[]);
 
       const result = selectors.suggestedBudgetAmount('Groceries');
 
@@ -452,7 +452,7 @@ describe('BudgetSelectors', () => {
     it('scales category budget periodAllocation according to active filter period length', () => {
       mockBudgets.set([
         { id: 'b-cat-1', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockStore.startDate.set('2026-01-01');
       mockStore.endDate.set('2026-12-31');
 
@@ -467,7 +467,7 @@ describe('BudgetSelectors', () => {
         { id: 't2', date: '2026-02-10', description: 'b', amount: -110, category: 'Groceries' },
         { id: 't3', date: '2026-03-15', description: 'c', amount: -105, category: 'Groceries' },
         { id: 't4', date: '2026-04-01', description: 'd', amount: -500, category: 'Groceries' }
-      ] as any);
+      ] as unknown as Transaction[]);
 
       const result = selectors.categoryMonthlyBreakdown('Groceries');
 
@@ -492,7 +492,7 @@ describe('BudgetSelectors', () => {
       mockTransactions.set([
         { id: 't1', date: '2026-07-15', description: 'Supermercado', amount: -120, category: 'cat-alimentacao', tags: [] },
         { id: 't2', date: '2026-07-16', description: 'Devolução', amount: 20, category: 'cat-alimentacao', tags: [] }
-      ] as any);
+      ] as unknown as Transaction[]);
 
       const progress = selectors.categoryBudgetProgress('cat-alimentacao');
 
@@ -517,14 +517,14 @@ describe('BudgetSelectors', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0 },
         { id: 'acc_credit', kind: 'financial', name: 'Credit Card', type: 'credit_card', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-01', description: 'Salary', amount: 1000, category: 'outros', accountId: 'acc_bank', balance: 1000 },
         { id: 't2', date: '2026-07-10', description: 'Groceries', amount: -50, category: 'outros', accountId: 'acc_bank', balance: 950 },
         { id: 't3', date: '2026-06-15', description: 'Outside period', amount: -999, category: 'outros', accountId: 'acc_bank', balance: 1 },
         { id: 't4', date: '2026-07-05', description: 'Purchase', amount: -100, category: 'outros', accountId: 'acc_credit' },
         { id: 't5', date: '2026-07-06', description: 'Payment', amount: 40, category: 'outros', accountId: 'acc_credit' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -550,10 +550,10 @@ describe('BudgetSelectors', () => {
     it('should report lastUpdateDate as the account\'s true most recent transaction even when it falls outside the selected period, so a stale account is still visible', () => {
       mockStore.accounts.set([
         { id: 'acc_stale', kind: 'financial', name: 'Stale Card', type: 'credit_card', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-03-16', description: 'Last real movement', amount: -20, category: 'outros', accountId: 'acc_stale' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -569,12 +569,12 @@ describe('BudgetSelectors', () => {
     it('should exclude Transfers-category transactions from totalIncome/totalExpenses (internal movement, not real income/expense)', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-01', description: 'Salary', amount: 1000, category: 'outros', accountId: 'acc_bank', balance: 1000 },
         { id: 't2', date: '2026-07-10', description: 'Groceries', amount: -50, category: 'outros', accountId: 'acc_bank', balance: 950 },
         { id: 't3', date: '2026-07-12', description: 'Transfer to investment', amount: -500, category: 'Transfers', accountId: 'acc_bank', balance: 450 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -588,7 +588,7 @@ describe('BudgetSelectors', () => {
     it('should report an empty lastUpdateDate only when the account has no transactions at all', () => {
       mockStore.accounts.set([
         { id: 'acc_empty', kind: 'financial', name: 'Empty', type: 'bank_account', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
@@ -604,11 +604,11 @@ describe('BudgetSelectors', () => {
     it('should value an investment account as cash plus the cost-basis of currently held positions, not just the plain transaction sum', () => {
       mockStore.accounts.set([
         { id: 'acc_invest', kind: 'financial', name: 'Broker', type: 'investment', updatedAt: 0 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-01-01', description: 'Deposit', amount: 1000, category: 'outros', accountId: 'acc_invest', investmentType: 'deposit' },
         { id: 't2', date: '2026-01-02', description: 'Buy', amount: -600, category: 'outros', accountId: 'acc_invest', investmentType: 'buy', symbol: 'ABC', shares: 10 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       const balances = selectors.accountBalances();
@@ -621,11 +621,11 @@ describe('BudgetSelectors', () => {
     it('should add openingBalance to the plain transaction-sum fallback, for an account whose statements never report a running balance', () => {
       mockStore.accounts.set([
         { id: 'acc_meal', kind: 'financial', name: 'Meal Card', type: 'meal_card', updatedAt: 0, openingBalance: 280.99 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-01-01', description: 'Lunch', amount: -100, category: 'outros', accountId: 'acc_meal' },
         { id: 't2', date: '2026-01-02', description: 'Lunch', amount: -180.99, category: 'outros', accountId: 'acc_meal' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       const balances = selectors.accountBalances();
@@ -636,10 +636,10 @@ describe('BudgetSelectors', () => {
     it('should add openingBalance to an investment account\'s cash side', () => {
       mockStore.accounts.set([
         { id: 'acc_invest', kind: 'financial', name: 'Broker', type: 'investment', updatedAt: 0, openingBalance: 50 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-01-02', description: 'Buy', amount: -600, category: 'outros', accountId: 'acc_invest', investmentType: 'buy', symbol: 'ABC', shares: 10 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       const balances = selectors.accountBalances();
@@ -650,10 +650,10 @@ describe('BudgetSelectors', () => {
     it('should not apply openingBalance when the account reports a real statement balance', () => {
       mockStore.accounts.set([
         { id: 'acc_bank', kind: 'financial', name: 'Bank', type: 'bank_account', updatedAt: 0, openingBalance: 1000 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([
         { id: 't1', date: '2026-01-01', description: 'Deposit', amount: 200, category: 'outros', accountId: 'acc_bank', balance: 200 }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.endDate.set('');
 
       const balances = selectors.accountBalances();
@@ -664,7 +664,7 @@ describe('BudgetSelectors', () => {
     it('should return openingBalance for an account with no transactions at all', () => {
       mockStore.accounts.set([
         { id: 'acc_empty', kind: 'financial', name: 'Empty', type: 'meal_card', updatedAt: 0, openingBalance: 42 }
-      ] as any);
+      ] as unknown as Account[]);
       mockTransactions.set([]);
       mockStore.endDate.set('');
 
@@ -679,11 +679,11 @@ describe('BudgetSelectors', () => {
       mockBudgets.set([
         { id: 'b-cat-1', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
         { id: 'b-cat-2', name: 'Alimentação', amount: 400, type: 'category', categoryId: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Bus ticket', amount: -20, category: 'cat-transport' },
         { id: 't2', date: '2026-07-06', description: 'Supermarket', amount: -350, category: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -693,14 +693,14 @@ describe('BudgetSelectors', () => {
     it('reserves nothing for a category the owner never budgeted, however regular its history', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([]);
       mockTransactions.set([
         { id: 't1', date: '2026-04-05', description: 'a', amount: -100, category: 'cat-transport' },
         { id: 't2', date: '2026-05-05', description: 'b', amount: -100, category: 'cat-transport' },
         { id: 't3', date: '2026-06-05', description: 'c', amount: -100, category: 'cat-transport' },
         { id: 't4', date: '2026-07-05', description: 'd', amount: -30, category: 'cat-transport' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -710,16 +710,16 @@ describe('BudgetSelectors', () => {
     it('should use the user-configured budget instead of the assistant suggestion once one is set for that category', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 50, type: 'category', categoryId: 'cat-transport' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-04-05', description: 'a', amount: -100, category: 'cat-transport' },
         { id: 't2', date: '2026-05-05', description: 'b', amount: -100, category: 'cat-transport' },
         { id: 't3', date: '2026-06-05', description: 'c', amount: -100, category: 'cat-transport' },
         { id: 't4', date: '2026-07-05', description: 'd', amount: -30, category: 'cat-transport' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -730,15 +730,15 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
         { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
         { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Overspent transport', amount: -150, category: 'cat-transport' },
         { id: 't2', date: '2026-07-06', description: 'Groceries', amount: -50, category: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -748,13 +748,13 @@ describe('BudgetSelectors', () => {
     it('should include an unbudgeted category with a meaningful historical suggestion even when it has zero spend in the current period', () => {
       mockStore.categories.set([
         { id: 'cat-books', name: 'Livros', icon: 'category-education', color: '#f59e0b' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([]);
       mockTransactions.set([
         { id: 't1', date: '2026-04-05', description: 'a', amount: -20, category: 'cat-books' },
         { id: 't2', date: '2026-05-05', description: 'b', amount: -20, category: 'cat-books' },
         { id: 't3', date: '2026-06-05', description: 'c', amount: -20, category: 'cat-books' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -767,15 +767,15 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
         { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
         { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Overspent transport', amount: -350, category: 'cat-transport' },
         { id: 't2', date: '2026-07-06', description: 'Groceries', amount: -50, category: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -786,15 +786,15 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
         { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
         { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Overspent transport', amount: -150, category: 'cat-transport' },
         { id: 't2', date: '2026-07-06', description: 'Groceries', amount: -50, category: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -804,10 +804,10 @@ describe('BudgetSelectors', () => {
     it('should report zero overspend when every category is still within budget', () => {
       mockBudgets.set([
         { id: 'b-cat-1', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Bus ticket', amount: -20, category: 'cat-transport' }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -822,26 +822,26 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
         { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockStore.accounts.set([
         { id: 'acc-1', kind: 'financial', name: 'Conta', type: 'bank_account', updatedAt: 0, openingBalance: 1200 }
-      ] as any);
+      ] as unknown as Account[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
-      mockBudgets.set(budgets as any);
+      mockBudgets.set(budgets as unknown as Budget[]);
 
       const freeBalance = () => selectors.walletBalance() - selectors.activeProjectReserve() - selectors.categoryRemainingReserve();
 
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Transport', amount: -100, accountId: 'acc-1', category: 'cat-transport' },
         { id: 't2', date: '2026-07-06', description: 'Groceries', amount: -50, accountId: 'acc-1', category: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Transaction[]);
       const withoutOverspend = freeBalance();
 
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Transport', amount: -150, accountId: 'acc-1', category: 'cat-transport' },
         { id: 't2', date: '2026-07-06', description: 'Groceries', amount: -50, accountId: 'acc-1', category: 'cat-alimentacao' }
-      ] as any);
+      ] as unknown as Transaction[]);
 
       expect(freeBalance()).toBe(withoutOverspend);
       expect(selectors.categoryOverspendTotal()).toBe(50);
@@ -869,10 +869,10 @@ describe('BudgetSelectors', () => {
     it('should calculate activeProjectReserve correctly based on monthlyAllocation and spent', () => {
       mockBudgets.set([
         { id: 'b-proj-1', name: 'Obras Casa', amount: 1000, type: 'project', tags: ['obras'], monthlyAllocation: 100, startDate: '2026-07-01', kind: 'works' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Paint', amount: -40, category: 'outros', tags: ['obras'] }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 
@@ -882,10 +882,10 @@ describe('BudgetSelectors', () => {
     it('should exclude a category budget whose category is investment-only (accountTypes includes investment) from every progress list', () => {
       mockStore.categories.set([
         { id: 'Investments', name: 'Investments & Savings', icon: 'category-investments', color: '#4f46e5', accountTypes: ['investment'] }
-      ] as any);
+      ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-invest', name: 'Investments', amount: 1000, type: 'category', categoryId: 'Investments' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
@@ -899,7 +899,7 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([]);
       mockBudgets.set([
         { id: 'b-transfers', name: 'Transfers', amount: 1000, type: 'category', categoryId: 'Transfers' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
@@ -911,7 +911,7 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([]);
       mockBudgets.set([
         { id: 'b-orphan', name: 'Compra de Ativos', amount: 1401, type: 'category', categoryId: 'AssetPurchase' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
@@ -923,7 +923,7 @@ describe('BudgetSelectors', () => {
       mockStore.categories.set([]);
       mockBudgets.set([
         { id: 'b-custom', name: 'Assinaturas', amount: 50, type: 'category', categoryId: 'cat-subscriptions' }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
@@ -944,7 +944,7 @@ describe('BudgetSelectors', () => {
           endDate: '2026-07-20',
           kind: 'other'
         }
-      ] as any);
+      ] as unknown as Budget[]);
       mockTransactions.set([
         {
           id: 't-manual-out',
@@ -954,7 +954,7 @@ describe('BudgetSelectors', () => {
           category: 'outros',
           budgetId: 'b-proj-manual'
         }
-      ] as any);
+      ] as unknown as Transaction[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');
 

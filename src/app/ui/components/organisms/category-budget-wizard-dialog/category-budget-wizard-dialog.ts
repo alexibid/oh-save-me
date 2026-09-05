@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { useStore } from '@application/app-store';
@@ -23,16 +23,7 @@ export interface CategoryBudgetWizardDialogData {
 @Component({
   selector: 'ohsaveme-category-budget-wizard-dialog',
   standalone: true,
-  imports: [CurrencyDisplayComponent,
-    CommonModule,
-    FormsModule,
-    DialogModule,
-    CategoryBudgetBreakdownComponent,
-    IconComponent,
-    BottomSheetDialogComponent,
-    ShareAccessManagerComponent,
-    ...I18N_SHARED
-  ],
+  imports: [CurrencyDisplayComponent, FormsModule, DialogModule, CategoryBudgetBreakdownComponent, IconComponent, BottomSheetDialogComponent, ShareAccessManagerComponent, ...I18N_SHARED],
   templateUrl: './category-budget-wizard-dialog.html',
   styleUrl: './category-budget-wizard-dialog.scss'
 })

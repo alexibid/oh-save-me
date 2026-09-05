@@ -2,11 +2,9 @@ import {
   buildFilterParams,
   interpolate,
   resolveSuggestion,
-  resolveOperationalTask,
   resolveFinancialInsight
 } from './suggestion-resolver';
 import { AssistantSuggestionTemplate } from '../models/assistant-suggestion.model';
-import { OperationalTaskTemplate } from '../models/assistant-task.model';
 import { FinancialInsightTemplate } from '../models/financial-insight.model';
 
 describe('suggestion-resolver', () => {

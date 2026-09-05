@@ -38,7 +38,7 @@ export interface NavigationExpandable {
     expandSignalKey: string;
     emptyFallbackKey?: string;
     emptyFallbackRoute?: string;
-    children?: NavigationLink[] | ((data: NavigationChildData[]) => NavigationLink[]);
+    children?: NavigationLink[] | ((data: readonly NavigationChildData[]) => NavigationLink[]);
 }
 
 export interface NavigationAction {

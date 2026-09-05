@@ -1,8 +1,7 @@
-import { Component, Input, Output, EventEmitter, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { AppTranslatePipe } from '@ui/pipes/app-translate.pipe';
-import { I18nService } from '@application/i18n.service';
 import { ButtonComponent, IconComponent } from 'ibid-ui';
 
 export interface SharedUser {
@@ -14,12 +13,11 @@ export interface SharedUser {
   selector: 'ohsaveme-share-access-manager',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     IconComponent,
     ButtonComponent,
     AppTranslatePipe
-  ],
+],
   templateUrl: './share-access-manager.html',
   styleUrl: './share-access-manager.scss'
 })

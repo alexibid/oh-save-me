@@ -19,7 +19,7 @@ import {
 } from '../../../../domain/services/column-detection-engine';
 import { suggestCurrentBalance } from '@domain/services/suggest-current-balance';
 import { computeChronologicalBalances } from '@domain/shared/balance-chain-order.utils';
-import { DetectableField, DetectedMapping } from '@domain/models/column-mapping';
+import { DetectedMapping } from '@domain/models/column-mapping';
 import { MappingRule } from '@domain/models/mapping-rule';
 import { PersistMappingCorrectionUseCase } from '@application/use-cases/persist-mapping-correction.use-case';
 import { LinkInternalTransfersUseCase } from '@application/use-cases/link-internal-transfers.use-case';

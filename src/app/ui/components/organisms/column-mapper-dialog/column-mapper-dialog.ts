@@ -1,6 +1,6 @@
 import { ColumnRole, MULTI_VALUE_ROLES } from '@domain/models/column-role';
 import { ViewEncapsulation, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ElementRef, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { I18nService, I18N_SHARED } from '@ui/shared/i18n-shared';
 import { UnitSelectComponent } from '@ui/components/molecules/unit-select/unit-select';
 
@@ -8,7 +8,7 @@ import { UnitSelectComponent } from '@ui/components/molecules/unit-select/unit-s
   encapsulation: ViewEncapsulation.None,
   selector: 'ohsaveme-column-mapper-dialog',
   standalone: true,
-  imports: [CommonModule, UnitSelectComponent, ...I18N_SHARED],
+  imports: [UnitSelectComponent, ...I18N_SHARED],
   template: `
     <div class="o-column-mapper-dialog" style="padding: 0; background: transparent; border: none; box-shadow: none; display: flex; flex-direction: column; width: 100%;">
       <div class="o-column-mapper-dialog__content" style="padding: 0; display: flex; flex-direction: column; width: 100%;">

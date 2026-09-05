@@ -10,21 +10,29 @@
       <div class="o-sum-movements-panel__list-container">
         <div class="o-sum-movements-panel__list">
           <div class="o-sum-movements-panel__list-header">
-            <div class="o-sum-movements-panel__header-cell" (click)="toggleSort('date')" style="cursor: pointer;">
+            <div class="o-sum-movements-panel__header-cell" (click)="toggleSort('date')" role="button" tabindex="0" (keydown.enter)="toggleSort('date')" (keydown.space)="toggleSort('date'); $event.preventDefault()" style="cursor: pointer;">
               {{ 'movementsHeaderDate' | translate }}
-              <span *ngIf="sortField === 'date'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              @if (sortField === 'date') {
+                <span>{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              }
             </div>
-            <div class="o-sum-movements-panel__header-cell o-sum-movements-panel__header-cell--desc" (click)="toggleSort('description')" style="cursor: pointer;">
+            <div class="o-sum-movements-panel__header-cell o-sum-movements-panel__header-cell--desc" (click)="toggleSort('description')" role="button" tabindex="0" (keydown.enter)="toggleSort('description')" (keydown.space)="toggleSort('description'); $event.preventDefault()" style="cursor: pointer;">
               {{ 'movementsHeaderDescription' | translate }}
-              <span *ngIf="sortField === 'description'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              @if (sortField === 'description') {
+                <span>{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              }
             </div>
-            <div class="o-sum-movements-panel__header-cell" (click)="toggleSort('category')" style="cursor: pointer;">
+            <div class="o-sum-movements-panel__header-cell" (click)="toggleSort('category')" role="button" tabindex="0" (keydown.enter)="toggleSort('category')" (keydown.space)="toggleSort('category'); $event.preventDefault()" style="cursor: pointer;">
               {{ 'movementsHeaderCategory' | translate }}
-              <span *ngIf="sortField === 'category'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              @if (sortField === 'category') {
+                <span>{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              }
             </div>
-            <div class="o-sum-movements-panel__header-cell text-right" (click)="toggleSort('amount')" style="cursor: pointer;">
+            <div class="o-sum-movements-panel__header-cell text-right" (click)="toggleSort('amount')" role="button" tabindex="0" (keydown.enter)="toggleSort('amount')" (keydown.space)="toggleSort('amount'); $event.preventDefault()" style="cursor: pointer;">
               {{ 'movementsHeaderAmount' | translate }}
-              <span *ngIf="sortField === 'amount'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              @if (sortField === 'amount') {
+                <span>{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+              }
             </div>
           </div>
           <div class="o-sum-movements-panel__list-body">
@@ -35,21 +43,21 @@
                 <div class="o-sum-movements-panel__cell">{{ i18n.getCategoryName(tx.category) }}</div>
                 <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--numeric" [class.o-sum-movements-panel__cell--danger]="tx.amount < 0" [class.o-sum-movements-panel__cell--success]="tx.amount > 0">
                   <ibid-currency-display [value]="tx.amount" size="sm" [status]="tx.amount >= 0 ? 'positive' : 'negative'" />
+                  </div>
                 </div>
+              }
+            </div>
+            <div class="o-sum-movements-panel__list-footer">
+              <div class="o-sum-movements-panel__totals-row">
+                <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--desc">{{ 'sumMovementsBalance' | translate }}: <ibid-currency-display [value]="totalBalance" size="sm" [status]="totalBalance >= 0 ? 'positive' : 'negative'" /></div>
+                <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--success">{{ 'sumMovementsIncome' | translate }}: <ibid-currency-display [value]="totalIncome" size="sm" status="positive" /></div>
+                <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--danger o-sum-movements-panel__cell--numeric">{{ 'sumMovementsExpenses' | translate }}: <ibid-currency-display [value]="totalExpenses" size="sm" status="negative" /></div>
               </div>
-            }
-          </div>
-          <div class="o-sum-movements-panel__list-footer">
-            <div class="o-sum-movements-panel__totals-row">
-              <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--desc">{{ 'sumMovementsBalance' | translate }}: <ibid-currency-display [value]="totalBalance" size="sm" [status]="totalBalance >= 0 ? 'positive' : 'negative'" /></div>
-              <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--success">{{ 'sumMovementsIncome' | translate }}: <ibid-currency-display [value]="totalIncome" size="sm" status="positive" /></div>
-              <div class="o-sum-movements-panel__cell o-sum-movements-panel__cell--danger o-sum-movements-panel__cell--numeric">{{ 'sumMovementsExpenses' | translate }}: <ibid-currency-display [value]="totalExpenses" size="sm" status="negative" /></div>
             </div>
           </div>
         </div>
-      </div>
-    } @else {
-      <p class="o-sum-movements-panel__empty">{{ 'sumMovementsEmpty' | translate }}</p>
+      } @else {
+        <p class="o-sum-movements-panel__empty">{{ 'sumMovementsEmpty' | translate }}</p>
+      }
     }
-  }
-</ibid-card>
+  </ibid-card>

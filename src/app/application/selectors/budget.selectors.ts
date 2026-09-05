@@ -9,7 +9,7 @@ import { FinancialAccount, isFinancialAccount } from '@domain/models/account';
 import { calculateCashBalance, calculateInvestedValue } from '@domain/shared/investment-valuation';
 import { isTransferCategory, isInvestmentCategory, isLegacyOrphanedCategory } from '@domain/shared/transfer.utils';
 import { matchesProjectBudget, isLinkedToAnyActiveProject } from '@domain/shared/project-transaction.utils';
-import { computeSuggestedCategoryBudget, computeSuggestedCategoryBudgetFromMovements, classifyOutliers, SuggestedCategoryBudget } from '@domain/shared/budget-suggestion.utils';
+import { computeSuggestedCategoryBudgetFromMovements, classifyOutliers, SuggestedCategoryBudget } from '@domain/shared/budget-suggestion.utils';
 import { Transaction } from '@domain/models/transaction';
 import { slugify } from '@ibid/utils';
 
@@ -174,13 +174,15 @@ export class BudgetSelectors {
         return { account, balance: Math.round(balance * 100) / 100 };
       }
 
-      const txsWithBalance = accountTxs.filter(t => t.balance !== undefined && t.balance !== null);
+      const txsWithBalance = accountTxs.filter(
+        (t): t is Transaction & { balance: number } => t.balance !== undefined && t.balance !== null
+      );
 
       let balance: number;
       if (txsWithBalance.length > 0) {
         const mostRecentDate = txsWithBalance.reduce((max, t) => t.date > max ? t.date : max, '');
         const onMostRecentDate = txsWithBalance.filter(t => t.date === mostRecentDate);
-        const referenceBalance = onMostRecentDate.reduce((max, t) => t.balance! > max ? t.balance! : max, onMostRecentDate[0].balance!);
+        const referenceBalance = onMostRecentDate.reduce((max, t) => (t.balance > max ? t.balance : max), onMostRecentDate[0].balance);
         balance = referenceBalance;
       } else {
         balance = openingBalance + accountTxs.reduce((sum, t) => sum + t.amount, 0);
@@ -292,22 +294,21 @@ export class BudgetSelectors {
       byMonth.set(monthKey, group);
     }
 
-    const monthKeys = Array.from(byMonth.keys()).sort();
-    if (monthKeys.length === 0) return [];
+    const months = Array.from(byMonth.entries()).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+    if (months.length === 0) return [];
 
-    const totals = monthKeys.map(monthKey => {
-      const txs = byMonth.get(monthKey)!;
+    const totals = months.map(([, txs]) => {
       const net = txs.reduce((sum, t) => sum + t.amount, 0);
       const totalSpend = net < 0 ? -net : txs.reduce((sum, t) => sum + Math.abs(t.amount), 0);
       return Math.round(totalSpend * 100) / 100;
     });
     const classified = classifyOutliers(totals);
 
-    return monthKeys.map((monthKey, i) => ({
+    return months.map(([monthKey, transactions], i) => ({
       monthKey,
       total: classified[i].value,
       isOutlier: classified[i].isOutlier,
-      transactions: byMonth.get(monthKey)!
+      transactions
     }));
   }
 

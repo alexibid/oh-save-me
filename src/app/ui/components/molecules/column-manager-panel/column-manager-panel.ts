@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Output, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { I18N_SHARED } from '@ui/shared/i18n-shared';
@@ -25,7 +25,7 @@ const PANEL_POSITIONS: ConnectedPosition[] = [
 @Component({
   selector: 'ohsaveme-column-manager-panel',
   standalone: true,
-  imports: [CommonModule, OverlayModule, DragDropModule, IconComponent, I18N_SHARED],
+  imports: [OverlayModule, DragDropModule, IconComponent, I18N_SHARED],
   templateUrl: './column-manager-panel.html',
   styleUrl: './column-manager-panel.scss'
 })

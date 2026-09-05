@@ -11,9 +11,7 @@ import {
 } from '../models/assistant-task.model';
 import {
   AssetEquityItem,
-  ComparisonBar,
   CompositionSlice,
-  RetrospectiveDay,
   SubscriptionItem,
   FinancialInsightTemplate,
 } from '../models/financial-insight.model';
@@ -58,9 +56,6 @@ import {
   DAYS_PER_WEEK,
   SUBSCRIPTION_SILENCE_DAYS,
   EMERGENCY_FUND_LOOKBACK_MONTHS,
-  CATEGORY_PRESSURE_THRESHOLD,
-  MAX_PRESSURE_BARS,
-  RETROSPECTIVE_DAY_COUNT,
   OUTLIER_WINDOW_DAYS,
 } from './suggestion-engine.types';
 import { DEFAULT_INSIGHT_CONFIG, InsightCardKind } from './insight-config';
@@ -658,7 +653,12 @@ export class SuggestionEngine {
       if (t.amount >= 0) continue;
       const key = normalizeDescription(t.description);
       if (!key) continue;
-      (groups.get(key) ?? groups.set(key, []).get(key)!).push(t);
+      const group = groups.get(key);
+      if (group) {
+        group.push(t);
+      } else {
+        groups.set(key, [t]);
+      }
     }
 
     const items: SubscriptionItem[] = [];
@@ -718,7 +718,12 @@ export class SuggestionEngine {
       if (t.amount >= 0) continue;
       const key = normalizeDescription(t.description);
       if (!key) continue;
-      (groups.get(key) ?? groups.set(key, []).get(key)!).push(t);
+      const group = groups.get(key);
+      if (group) {
+        group.push(t);
+      } else {
+        groups.set(key, [t]);
+      }
     }
 
     for (const txs of groups.values()) {
@@ -833,9 +838,12 @@ export class SuggestionEngine {
 
     if (!activeVacationBudget) return null;
 
+    const { projectStartDate, projectEndDate } = activeVacationBudget;
+    if (!projectStartDate || !projectEndDate) return null;
+
     const atypicalExpenses = transactions.filter(t => {
       if (t.amount >= 0) return false;
-      if (!t.date || t.date < activeVacationBudget.projectStartDate! || t.date > activeVacationBudget.projectEndDate!) return false;
+      if (!t.date || t.date < projectStartDate || t.date > projectEndDate) return false;
 
       const key = normalizeDescription(t.description);
       if (!key) return false;
@@ -1157,7 +1165,12 @@ export class SuggestionEngine {
       if (t.amount >= 0) continue;
       const key = normalizeDescription(t.description);
       if (!key) continue;
-      (groups.get(key) ?? groups.set(key, []).get(key)!).push(t);
+      const group = groups.get(key);
+      if (group) {
+        group.push(t);
+      } else {
+        groups.set(key, [t]);
+      }
     }
 
     let best: RecurringCandidate | null = null;

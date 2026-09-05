@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject, signal, ElementRef, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { I18nService, AppTranslatePipe } from '@ui/shared/i18n-shared';
 import { Language } from '@application/i18n.service';
 import { ButtonComponent, DividerComponent, FormFieldComponent, IconComponent, NumberInputComponent, SelectComponent } from 'ibid-ui';
@@ -8,7 +8,6 @@ import { ButtonComponent, DividerComponent, FormFieldComponent, IconComponent, N
   selector: 'ohsaveme-settings-panel',
   standalone: true,
   imports: [
-    CommonModule,
     ButtonComponent,
     SelectComponent,
     IconComponent,
@@ -16,7 +15,7 @@ import { ButtonComponent, DividerComponent, FormFieldComponent, IconComponent, N
     FormFieldComponent,
     DividerComponent,
     AppTranslatePipe
-  ],
+],
   template: `
     <div class="m-settings-panel">
       <ibid-button

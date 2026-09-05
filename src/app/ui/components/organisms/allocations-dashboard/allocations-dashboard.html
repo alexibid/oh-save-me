@@ -1,5 +1,5 @@
 <div class="m-allocations-dashboard">
-  
+
   <div class="m-allocations-dashboard__filters-bar">
     <ibid-toggle-tabs [items]="tabItems()" [(value)]="filterState" size="md" />
   </div>
@@ -63,157 +63,171 @@
                     [class.m-allocations-dashboard__wallet-value--positive]="item.result > 0"
                     [class.m-allocations-dashboard__wallet-value--negative]="item.result < 0">
                     <ibid-currency-display [value]="item.result" size="sm" [status]="item.result >= 0 ? 'positive' : 'negative'" />
-                  </strong>
-                </div>
-              }
+                    </strong>
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-        }
-      </div>
-    } @else {
-      <div class="m-allocations-dashboard__empty-state">
-        <ibid-icon name="investment-growth" iconClass="m-allocations-dashboard__empty-icon"></ibid-icon>
-        <p>
-          {{ (filterState() === 'active'
+          }
+        </div>
+      } @else {
+        <div class="m-allocations-dashboard__empty-state">
+          <ibid-icon name="investment-growth" iconClass="m-allocations-dashboard__empty-icon"></ibid-icon>
+          <p>
+            {{ (filterState() === 'active'
             ? 'walletEmptyHeld'
             : (filterState() === 'expired' ? 'walletEmptyExecuted' : 'walletEmptyAll')) | translate }}
-        </p>
-      </div>
-    }
-  } @else {
-
-  @if (filteredBudgets().length > 0) {
-    <div class="m-allocations-dashboard__grid">
-      @for (item of filteredBudgets(); track item.budget.id) {
-      <div class="m-allocations-dashboard__card" [ibidHandDrawn]="2" [class.m-allocations-dashboard__card--closed]="item.budget.isClosed">
-        <div class="m-allocations-dashboard__card-header">
-          <div class="m-allocations-dashboard__card-identity">
-            <div class="m-allocations-dashboard__card-badge-row">
-              <span *ngIf="item.status === 'expired'"
-                class="m-allocations-dashboard__card-status-badge m-allocations-dashboard__card-status-badge--expired">
-                {{ 'budgetStatusExpired' | translate }}
-              </span>
-              <span *ngIf="item.budget.isClosed" class="m-allocations-dashboard__card-status-badge m-allocations-dashboard__card-status-badge--closed">
-                {{ 'budgetStatusClosed' | translate }}
-              </span>
-              <span *ngIf="item.executionResult === 'success'"
-                class="m-allocations-dashboard__card-result-badge m-allocations-dashboard__card-result-badge--success"
-                [title]="'budgetSuccessTooltip' | translate">
-                <ibid-icon name="check-circle"></ibid-icon>
-                {{ 'budgetResultSuccess' | translate }}
-              </span>
-              <span *ngIf="item.executionResult === 'warning'"
-                class="m-allocations-dashboard__card-result-badge m-allocations-dashboard__card-result-badge--warning"
-                [title]="'budgetWarningTooltip' | translate">
-                <ibid-icon name="warning"></ibid-icon>
-                {{ 'budgetResultWarning' | translate }}
-              </span>
-              <span *ngIf="item.executionResult === 'danger'"
-                class="m-allocations-dashboard__card-result-badge m-allocations-dashboard__card-result-badge--danger"
-                [title]="'budgetDangerTooltip' | translate">
-                <ibid-icon name="status-error"></ibid-icon>
-                {{ 'budgetResultDanger' | translate }}
-              </span>
-              @if (item.budget.scope === 'joint' || (item.budget.tags && item.budget.tags.includes('joint'))) {
-                <span class="m-allocations-dashboard__card-status-badge m-allocations-dashboard__card-status-badge--shared">
-                  <ibid-icon name="people"></ibid-icon>
-                  {{ 'accountScopeJoint' | translate }}
-                </span>
-              }
-            </div>
-            <strong class="m-allocations-dashboard__card-name">{{ item.budget.name }}</strong>
-          </div>
-
-          <div class="m-allocations-dashboard__card-actions">
-            <ibid-icon-button class="m-allocations-dashboard__card-action" (clicked)="onOpenEditBudget(item.budget)"
-              [title]="'budgetTooltipEdit' | translate" [ariaLabel]="'budgetTooltipEdit' | translate">
-              <ibid-icon name="edit"></ibid-icon>
-            </ibid-icon-button>
-            <ibid-icon-button class="m-allocations-dashboard__card-action" (clicked)="onToggleProjectStatus(item.budget)"
-              [title]="item.budget.isClosed ? ('budgetTooltipReactivate' | translate) : ('budgetTooltipArchive' | translate)"
-              [ariaLabel]="item.budget.isClosed ? ('budgetTooltipReactivate' | translate) : ('budgetTooltipArchive' | translate)">
-              <ibid-icon [name]="item.budget.isClosed ? 'refresh' : 'archive-download'"></ibid-icon>
-            </ibid-icon-button>
-            <ibid-icon-button class="m-allocations-dashboard__card-delete" (clicked)="onDeleteBudget(item.budget.id)"
-              [title]="'budgetTooltipDelete' | translate" [ariaLabel]="'budgetTooltipDelete' | translate">
-              <ibid-icon name="delete-remove"></ibid-icon>
-            </ibid-icon-button>
-          </div>
+          </p>
         </div>
-
-        
-        <div class="m-allocations-dashboard__card-dates" *ngIf="item.budget.startDate || item.budget.endDate">
-          <ibid-icon name="calendar" iconClass="m-allocations-dashboard__date-icon"></ibid-icon>
-          <span>
-            {{ item.budget.startDate ? (item.budget.startDate | appDate) : '...' }}
-            →
-            {{ item.budget.endDate ? (item.budget.endDate | appDate) : '...' }}
-          </span>
-        </div>
-
-        
-        <div class="m-allocations-dashboard__card-monthly-allocation" *ngIf="item.budget.monthlyAllocation">
-          <ibid-icon name="savings" iconClass="m-allocations-dashboard__monthly-icon"></ibid-icon>
-          <span>
-            {{ 'budgetMonthlySavingsLabel' | translate }}
-            <strong><ibid-currency-display [value]="item.budget.monthlyAllocation" size="sm" status="positive" />{{ 'budgetMonthlySavingsSuffix' | translate }}</strong>
-          </span>
-        </div>
-
-        
-        <div class="m-allocations-dashboard__card-metrics">
-          <div class="m-allocations-dashboard__metric-wrapper">
-            <button type="button" class="m-allocations-dashboard__metric-btn" (click)="onOpenMovements(item.budget)"
-              [title]="'budgetClickToManageMovementsTooltip' | translate">
-              <span class="m-allocations-dashboard__metric-label">{{ 'budgetSpentLabel' | translate }}</span>
-              <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.spent" size="sm" status="negative" [showInfo]="false" />
-            </button>
-            <button type="button" class="m-allocations-dashboard__metric-icon-btn"
-              (click)="onOpenMovements(item.budget)" [title]="'budgetViewMovementsTooltip' | translate">
-              <ibid-icon name="list-bulleted"></ibid-icon>
-            </button>
-          </div>
-          <button type="button" class="m-allocations-dashboard__metric-btn m-allocations-dashboard__metric-btn--right"
-            (click)="onOpenMovements(item.budget)"
-            [title]="'budgetClickToManageMovementsTooltip' | translate">
-            <span class="m-allocations-dashboard__metric-label">{{ 'budgetLimitLabel' | translate }}</span>
-            <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.budget.amount" size="sm" status="warning" [showInfo]="false" />
-          </button>
-        </div>
-
-        
-        <div class="m-allocations-dashboard__progress-container">
-          <div class="m-allocations-dashboard__progress-track">
-            <div class="m-allocations-dashboard__progress-bar" [style.width.%]="item.percentage"
-              [style.background-color]="item.budget.isClosed ? 'var(--color-text-muted)' : item.progressColor"></div>
-          </div>
-          <div class="m-allocations-dashboard__progress-text">
-            <span>{{ item.percentage | number:'1.0-0' }}%</span>
-            <span [style.color]="item.isOverBudget && !item.budget.isClosed ? 'var(--color-danger)' : 'var(--color-success)'">
-              {{ item.isOverBudget
-              ? ('budgetOverBudgetPrefix' | translate) + (-item.remaining | appCurrency)
-              : ('budgetRemainingPrefix' | translate) + (item.remaining | appCurrency)
-              }}
-            </span>
-          </div>
-        </div>
-      </div>
       }
-    </div>
+    } @else {
 
-  } @else {
-    <div class="m-allocations-dashboard__empty-state">
-      <ibid-icon name="account_balance_wallet" iconClass="m-allocations-dashboard__empty-icon"></ibid-icon>
+      @if (filteredBudgets().length > 0) {
+        <div class="m-allocations-dashboard__grid">
+          @for (item of filteredBudgets(); track item.budget.id) {
+            <div class="m-allocations-dashboard__card" [ibidHandDrawn]="2" [class.m-allocations-dashboard__card--closed]="item.budget.isClosed">
+              <div class="m-allocations-dashboard__card-header">
+                <div class="m-allocations-dashboard__card-identity">
+                  <div class="m-allocations-dashboard__card-badge-row">
+                    @if (item.status === 'expired') {
+                      <span
+                        class="m-allocations-dashboard__card-status-badge m-allocations-dashboard__card-status-badge--expired">
+                        {{ 'budgetStatusExpired' | translate }}
+                      </span>
+                    }
+                    @if (item.budget.isClosed) {
+                      <span class="m-allocations-dashboard__card-status-badge m-allocations-dashboard__card-status-badge--closed">
+                        {{ 'budgetStatusClosed' | translate }}
+                      </span>
+                    }
+                    @if (item.executionResult === 'success') {
+                      <span
+                        class="m-allocations-dashboard__card-result-badge m-allocations-dashboard__card-result-badge--success"
+                        [title]="'budgetSuccessTooltip' | translate">
+                        <ibid-icon name="check-circle"></ibid-icon>
+                        {{ 'budgetResultSuccess' | translate }}
+                      </span>
+                    }
+                    @if (item.executionResult === 'warning') {
+                      <span
+                        class="m-allocations-dashboard__card-result-badge m-allocations-dashboard__card-result-badge--warning"
+                        [title]="'budgetWarningTooltip' | translate">
+                        <ibid-icon name="warning"></ibid-icon>
+                        {{ 'budgetResultWarning' | translate }}
+                      </span>
+                    }
+                    @if (item.executionResult === 'danger') {
+                      <span
+                        class="m-allocations-dashboard__card-result-badge m-allocations-dashboard__card-result-badge--danger"
+                        [title]="'budgetDangerTooltip' | translate">
+                        <ibid-icon name="status-error"></ibid-icon>
+                        {{ 'budgetResultDanger' | translate }}
+                      </span>
+                    }
+                    @if (item.budget.scope === 'joint' || (item.budget.tags && item.budget.tags.includes('joint'))) {
+                      <span class="m-allocations-dashboard__card-status-badge m-allocations-dashboard__card-status-badge--shared">
+                        <ibid-icon name="people"></ibid-icon>
+                        {{ 'accountScopeJoint' | translate }}
+                      </span>
+                    }
+                  </div>
+                  <strong class="m-allocations-dashboard__card-name">{{ item.budget.name }}</strong>
+                </div>
 
-      <p>
-        {{ filterState() === 'active'
-        ? ('budgetEmptyActive' | translate)
-        : (filterState() === 'closed'
-        ? ('budgetEmptyClosed' | translate)
-        : ('budgetEmptyAll' | translate))
-        }}
-      </p>
-    </div>
-  }
-  }
-</div>
+                <div class="m-allocations-dashboard__card-actions">
+                  <ibid-icon-button class="m-allocations-dashboard__card-action" (clicked)="onOpenEditBudget(item.budget)"
+                    [title]="'budgetTooltipEdit' | translate" [ariaLabel]="'budgetTooltipEdit' | translate">
+                    <ibid-icon name="edit"></ibid-icon>
+                  </ibid-icon-button>
+                  <ibid-icon-button class="m-allocations-dashboard__card-action" (clicked)="onToggleProjectStatus(item.budget)"
+                    [title]="item.budget.isClosed ? ('budgetTooltipReactivate' | translate) : ('budgetTooltipArchive' | translate)"
+                    [ariaLabel]="item.budget.isClosed ? ('budgetTooltipReactivate' | translate) : ('budgetTooltipArchive' | translate)">
+                    <ibid-icon [name]="item.budget.isClosed ? 'refresh' : 'archive-download'"></ibid-icon>
+                  </ibid-icon-button>
+                  <ibid-icon-button class="m-allocations-dashboard__card-delete" (clicked)="onDeleteBudget(item.budget.id)"
+                    [title]="'budgetTooltipDelete' | translate" [ariaLabel]="'budgetTooltipDelete' | translate">
+                    <ibid-icon name="delete-remove"></ibid-icon>
+                  </ibid-icon-button>
+                </div>
+              </div>
+
+
+              @if (item.budget.startDate || item.budget.endDate) {
+                <div class="m-allocations-dashboard__card-dates">
+                  <ibid-icon name="calendar" iconClass="m-allocations-dashboard__date-icon"></ibid-icon>
+                  <span>
+                    {{ item.budget.startDate ? (item.budget.startDate | appDate) : '...' }}
+                    →
+                    {{ item.budget.endDate ? (item.budget.endDate | appDate) : '...' }}
+                  </span>
+                </div>
+              }
+
+
+              @if (item.budget.monthlyAllocation) {
+                <div class="m-allocations-dashboard__card-monthly-allocation">
+                  <ibid-icon name="savings" iconClass="m-allocations-dashboard__monthly-icon"></ibid-icon>
+                  <span>
+                    {{ 'budgetMonthlySavingsLabel' | translate }}
+                    <strong><ibid-currency-display [value]="item.budget.monthlyAllocation" size="sm" status="positive" />{{ 'budgetMonthlySavingsSuffix' | translate }}</strong>
+                  </span>
+                </div>
+              }
+
+
+              <div class="m-allocations-dashboard__card-metrics">
+                <div class="m-allocations-dashboard__metric-wrapper">
+                  <button type="button" class="m-allocations-dashboard__metric-btn" (click)="onOpenMovements(item.budget)"
+                    [title]="'budgetClickToManageMovementsTooltip' | translate">
+                    <span class="m-allocations-dashboard__metric-label">{{ 'budgetSpentLabel' | translate }}</span>
+                    <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.spent" size="sm" status="negative" [showInfo]="false" />
+                  </button>
+                  <button type="button" class="m-allocations-dashboard__metric-icon-btn"
+                    (click)="onOpenMovements(item.budget)" [title]="'budgetViewMovementsTooltip' | translate">
+                    <ibid-icon name="list-bulleted"></ibid-icon>
+                  </button>
+                </div>
+                <button type="button" class="m-allocations-dashboard__metric-btn m-allocations-dashboard__metric-btn--right"
+                  (click)="onOpenMovements(item.budget)"
+                  [title]="'budgetClickToManageMovementsTooltip' | translate">
+                  <span class="m-allocations-dashboard__metric-label">{{ 'budgetLimitLabel' | translate }}</span>
+                  <ibid-currency-display class="m-allocations-dashboard__metric-value" [value]="item.budget.amount" size="sm" status="warning" [showInfo]="false" />
+                </button>
+              </div>
+
+
+              <div class="m-allocations-dashboard__progress-container">
+                <div class="m-allocations-dashboard__progress-track">
+                  <div class="m-allocations-dashboard__progress-bar" [style.width.%]="item.percentage"
+                  [style.background-color]="item.budget.isClosed ? 'var(--color-text-muted)' : item.progressColor"></div>
+                </div>
+                <div class="m-allocations-dashboard__progress-text">
+                  <span>{{ item.percentage | number:'1.0-0' }}%</span>
+                  <span [style.color]="item.isOverBudget && !item.budget.isClosed ? 'var(--color-danger)' : 'var(--color-success)'">
+                    {{ item.isOverBudget
+                    ? ('budgetOverBudgetPrefix' | translate) + (-item.remaining | appCurrency)
+                    : ('budgetRemainingPrefix' | translate) + (item.remaining | appCurrency)
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+      } @else {
+        <div class="m-allocations-dashboard__empty-state">
+          <ibid-icon name="account_balance_wallet" iconClass="m-allocations-dashboard__empty-icon"></ibid-icon>
+
+          <p>
+            {{ filterState() === 'active'
+            ? ('budgetEmptyActive' | translate)
+            : (filterState() === 'closed'
+            ? ('budgetEmptyClosed' | translate)
+            : ('budgetEmptyAll' | translate))
+            }}
+          </p>
+        </div>
+      }
+    }
+  </div>

@@ -56,7 +56,7 @@ export function computeSuggestedCategoryBudgetFromMovements(
   }
 
   const monthKeys = Array.from(monthlyTotalsMap.keys()).sort();
-  const monthValues = monthKeys.map(k => monthlyTotalsMap.get(k)!);
+  const monthValues = monthKeys.map(k => (monthlyTotalsMap.get(k) ?? 0));
 
   const classifiedMonths = classifyOutliers(monthValues);
 
@@ -71,13 +71,13 @@ export function computeSuggestedCategoryBudgetFromMovements(
   });
 
   const activeMonths = nonOutlierMonthKeys.length || 1;
-  const totalSpend = nonOutlierMonthKeys.reduce((sum, k) => sum + monthlyTotalsMap.get(k)!, 0);
+  const totalSpend = nonOutlierMonthKeys.reduce((sum, k) => sum + (monthlyTotalsMap.get(k) ?? 0), 0);
   const historicalAvg = totalSpend / activeMonths;
 
   let suggestedAvg = historicalAvg;
   if (nonOutlierMonthKeys.length > 6) {
     const recent6Keys = nonOutlierMonthKeys.slice(-6);
-    const recentSpend = recent6Keys.reduce((sum, k) => sum + monthlyTotalsMap.get(k)!, 0);
+    const recentSpend = recent6Keys.reduce((sum, k) => sum + (monthlyTotalsMap.get(k) ?? 0), 0);
     const recent6Avg = recentSpend / recent6Keys.length;
     suggestedAvg = 0.70 * recent6Avg + 0.30 * historicalAvg;
   }

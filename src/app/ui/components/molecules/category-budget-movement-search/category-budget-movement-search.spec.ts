@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CategoryAppliedEvent } from '@ui/components/organisms/category-recategorize/category-recategorize';
 import { By } from '@angular/platform-browser';
 import { signal } from '@angular/core';
 import { CategoryBudgetMovementSearchComponent } from './category-budget-movement-search';
@@ -84,7 +85,7 @@ describe('CategoryBudgetMovementSearchComponent', () => {
     fixture.detectChanges();
 
     const updated = { id: 't1', date: '2026-01-10', description: 'Continente Almada', amount: -20, category: 'Groceries' };
-    await component['onCategoryApplied']({ updatedTransactions: [updated], keyword: 'continente' } as any);
+    await component['onCategoryApplied']({ updatedTransactions: [updated], keyword: 'continente' } as unknown as CategoryAppliedEvent);
 
     expect(mockStore.applyTransactionCategories).toHaveBeenCalledWith([updated]);
   });

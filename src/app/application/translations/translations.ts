@@ -1,6 +1,5 @@
 import { en } from './en';
 import { pt } from './pt';
-import { Language } from '@application/i18n.service';
 
 export const TRANSLATIONS = { en, pt };
 

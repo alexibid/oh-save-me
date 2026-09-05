@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { Dialog, DialogRef, DialogModule } from '@angular/cdk/dialog';
@@ -28,7 +28,6 @@ interface PresetCategoryGroup {
   selector: 'ohsaveme-account-create-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     DialogModule,
     BottomSheetDialogComponent,
@@ -36,7 +35,7 @@ interface PresetCategoryGroup {
     ColumnMapperDialogComponent,
     ShareAccessManagerComponent,
     AppTranslatePipe
-  ],
+],
   templateUrl: './account-create-dialog.html',
   styleUrl: './account-create-dialog.scss'
 })
@@ -58,7 +57,7 @@ export class AccountCreateDialog implements OnChanges, OnDestroy {
   @Input({ required: true }) visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() accountCreated = new EventEmitter<Account>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
 
   protected readonly step = signal<WizardStep>('kind');
   protected readonly kind = signal<AccountKind>('financial');
@@ -295,6 +294,6 @@ export class AccountCreateDialog implements OnChanges, OnDestroy {
 
   protected onCancel(): void {
     this.closeDialog();
-    this.cancel.emit();
+    this.cancelled.emit();
   }
 }

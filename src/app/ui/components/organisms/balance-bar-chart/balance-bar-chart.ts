@@ -1,12 +1,12 @@
 import { Component, computed, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ChartPoint, ChartSeries } from '@domain/models/chart-series';
 import { BarChartComponent } from 'ibid-ui';
 
 @Component({
   selector: 'ohsaveme-balance-bar-chart',
   standalone: true,
-  imports: [CommonModule, BarChartComponent],
+  imports: [BarChartComponent],
   templateUrl: './balance-bar-chart.html',
   styleUrl: './balance-bar-chart.scss'
 })

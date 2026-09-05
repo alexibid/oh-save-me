@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ColumnManagerPanelComponent, ColumnManagerItem } from './column-manager-panel';
 import { I18nService } from '@ui/shared/i18n-shared';
 
@@ -57,7 +58,7 @@ describe('ColumnManagerPanelComponent', () => {
     const emitted: { previousIndex: number; currentIndex: number }[] = [];
     fixture.componentInstance.reorder.subscribe(e => emitted.push(e));
 
-    fixture.componentInstance.onDrop({ previousIndex: 1, currentIndex: 2 } as any);
+    fixture.componentInstance.onDrop({ previousIndex: 1, currentIndex: 2 } as unknown as CdkDragDrop<unknown>);
 
     expect(emitted).toEqual([{ previousIndex: 1, currentIndex: 2 }]);
   });
@@ -66,7 +67,7 @@ describe('ColumnManagerPanelComponent', () => {
     const emitted: unknown[] = [];
     fixture.componentInstance.reorder.subscribe(e => emitted.push(e));
 
-    fixture.componentInstance.onDrop({ previousIndex: 1, currentIndex: 1 } as any);
+    fixture.componentInstance.onDrop({ previousIndex: 1, currentIndex: 1 } as unknown as CdkDragDrop<unknown>);
 
     expect(emitted).toHaveLength(0);
   });

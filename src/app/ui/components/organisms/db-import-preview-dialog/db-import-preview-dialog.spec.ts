@@ -1,4 +1,7 @@
 import { signal } from '@angular/core';
+import { Transaction } from '@domain/models/transaction';
+import { Budget } from '@domain/models/budget';
+import { Account } from '@domain/models/account';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
@@ -39,11 +42,11 @@ describe('DbImportPreviewDialogComponent', () => {
   }
 
   const previewWithTransactions: DbImportPreview = {
-    accountsToImport: [account as any],
+    accountsToImport: [account as unknown as Account],
     categoriesToImport: [],
-    budgetsToImport: [{ id: 'b1' } as any],
+    budgetsToImport: [{ id: 'b1' } as unknown as Budget],
     customRecordsToImport: [],
-    transactionsToImport: [transaction as any],
+    transactionsToImport: [transaction as unknown as Transaction],
     skippedCounts: { accounts: 2, categories: 3, budgets: 0, customRecords: 1, transactions: 5 }
   };
 

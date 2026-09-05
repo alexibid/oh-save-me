@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RxCollection } from 'rxdb';
 import { HistoryLog } from '@domain/models/history-log';
 import { HistoryLogRepository } from '@domain/repositories/history-log.repository';
@@ -8,9 +8,9 @@ import { RxDbDatabaseService } from './rxdb-database.service';
   providedIn: 'root'
 })
 export class RxdbHistoryLogRepository implements HistoryLogRepository {
-  constructor(private dbService: RxDbDatabaseService) { }
+  private readonly dbService = inject(RxDbDatabaseService);
 
-  private async getCollection(): Promise<RxCollection<any>> {
+  private async getCollection(): Promise<RxCollection<HistoryLog>> {
     const db = await this.dbService.getDatabase();
     return db.collections.history_logs;
   }

@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, computed } from '@angular/core';
+
 import { useStore } from '@application/app-store';
 import { Unit, UnitCategory } from '@domain/models/unit';
 import { AppTranslatePipe } from '@ui/shared/i18n-shared';
@@ -7,17 +7,25 @@ import { AppTranslatePipe } from '@ui/shared/i18n-shared';
 @Component({
   selector: 'ohsaveme-unit-select',
   standalone: true,
-  imports: [CommonModule, AppTranslatePipe],
+  imports: [AppTranslatePipe],
   template: `
     <select class="m-unit-select" [value]="value" (change)="onSelect($event)">
-      <optgroup [label]="'unitCategoryCurrency' | translate" *ngIf="currencyUnits().length">
-        <option *ngFor="let u of currencyUnits()" [value]="u.code">{{ u.symbol }} · {{ u.label }}</option>
-      </optgroup>
-      <optgroup [label]="'unitCategoryPhysicalMeasure' | translate" *ngIf="physicalMeasureUnits().length">
-        <option *ngFor="let u of physicalMeasureUnits()" [value]="u.code">{{ u.symbol }} · {{ u.label }}</option>
-      </optgroup>
+      @if (currencyUnits().length) {
+        <optgroup [label]="'unitCategoryCurrency' | translate">
+          @for (u of currencyUnits(); track u) {
+            <option [value]="u.code">{{ u.symbol }} · {{ u.label }}</option>
+          }
+        </optgroup>
+      }
+      @if (physicalMeasureUnits().length) {
+        <optgroup [label]="'unitCategoryPhysicalMeasure' | translate">
+          @for (u of physicalMeasureUnits(); track u) {
+            <option [value]="u.code">{{ u.symbol }} · {{ u.label }}</option>
+          }
+        </optgroup>
+      }
     </select>
-  `,
+    `,
   styleUrl: './unit-select.scss'
 })
 export class UnitSelectComponent {

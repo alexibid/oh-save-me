@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, SimpleChanges, inject, ViewChild, TemplateRef, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogRef, DialogModule } from '@angular/cdk/dialog';
 import { FormsModule } from '@angular/forms';
 import { CategoryInfo } from '@domain/models/category';
 import { slugify } from '@ibid/utils';
-import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
+import { I18N_SHARED } from '@ui/shared/i18n-shared';
 import { BottomSheetDialogComponent, IconComponent } from 'ibid-ui';
 
 @Component({
   selector: 'ohsaveme-category-create-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, BottomSheetDialogComponent, ...I18N_SHARED, IconComponent, DialogModule],
+  imports: [FormsModule, BottomSheetDialogComponent, ...I18N_SHARED, IconComponent, DialogModule],
   template: `
     <ng-template #dialogTemplate>
       <ibid-bottom-sheet-dialog class="o-category-create-dialog" (closeClicked)="onCancel()">
@@ -18,8 +18,8 @@ import { BottomSheetDialogComponent, IconComponent } from 'ibid-ui';
 
         <div class="o-category-create-dialog__content">
           <div class="o-category-create-dialog__form-group">
-            <label class="o-category-create-dialog__label">Nome da Categoria</label>
-            <input
+            <label for="category-create-name" class="o-category-create-dialog__label">Nome da Categoria</label>
+            <input id="category-create-name"
               type="text"
               class="a-input o-category-create-dialog__input"
               [(ngModel)]="categoryName"
@@ -29,7 +29,7 @@ import { BottomSheetDialogComponent, IconComponent } from 'ibid-ui';
           </div>
 
           <div class="o-category-create-dialog__form-group">
-            <label class="o-category-create-dialog__label">Cor da Categoria</label>
+            <span class="o-category-create-dialog__label">Cor da Categoria</span>
             <div class="o-category-create-dialog__colors-grid">
               @for (color of presetColors; track color) {
                 <button
@@ -38,13 +38,14 @@ import { BottomSheetDialogComponent, IconComponent } from 'ibid-ui';
                   [style.background-color]="color"
                   [class.o-category-create-dialog__color-circle--selected]="color === selectedColor()"
                   (click)="selectedColor.set(color)"
+                  [attr.aria-label]="color"
                 ></button>
               }
             </div>
           </div>
 
           <div class="o-category-create-dialog__form-group">
-            <label class="o-category-create-dialog__label">Ícone</label>
+            <span class="o-category-create-dialog__label">Ícone</span>
             <div class="o-category-create-dialog__icons-grid">
               @for (icon of presetIcons; track icon) {
                 <button
@@ -89,7 +90,7 @@ export class CategoryCreateDialogComponent implements OnChanges, OnDestroy {
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() confirm = new EventEmitter<CategoryInfo>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
 
   protected categoryName = '';
   protected readonly selectedColor = signal<string>('#3b82f6');
@@ -170,7 +171,7 @@ export class CategoryCreateDialogComponent implements OnChanges, OnDestroy {
 
   onCancel() {
     this.closeDialog();
-    this.cancel.emit();
+    this.cancelled.emit();
   }
 
   onConfirm() {

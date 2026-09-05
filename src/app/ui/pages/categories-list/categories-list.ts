@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { CategoryInfo } from '@domain/models/category';
 import { TransactionsTableComponent } from '@ui/components/organisms/transactions-table/transactions-table';
@@ -20,7 +20,6 @@ import { CardComponent } from 'ibid-ui';
   selector: 'ohsaveme-categories-list-page',
   standalone: true,
   imports: [
-    CommonModule,
     DialogModule,
     I18N_SHARED,
     TransactionsTableComponent,
@@ -28,7 +27,7 @@ import { CardComponent } from 'ibid-ui';
     SummaryComponent,
     CategoryBudgetCardComponent,
     CardComponent
-  ],
+],
   templateUrl: './categories-list.html',
   styleUrl: './categories-list.scss'
 })
@@ -161,13 +160,15 @@ export class CategoriesListComponent {
   ]);
 
   protected readonly categoryBudgetProgress = computed(() => {
-    if (this.isAllCategories()) return null;
-    return this.budgetSelectors.categoryBudgetProgress(this.category()!.id);
+    const category = this.category();
+    if (this.isAllCategories() || !category) return null;
+    return this.budgetSelectors.categoryBudgetProgress(category.id);
   });
 
   protected readonly categoryBudgetSuggestion = computed(() => {
-    if (this.isAllCategories()) return { average: 0, includedMonths: 0, excludedOutlierMonths: 0 };
-    return this.budgetSelectors.suggestedBudgetAmount(this.category()!.id);
+    const category = this.category();
+    if (this.isAllCategories() || !category) return { average: 0, includedMonths: 0, excludedOutlierMonths: 0 };
+    return this.budgetSelectors.suggestedBudgetAmount(category.id);
   });
 
   constructor() {

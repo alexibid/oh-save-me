@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
@@ -14,7 +14,7 @@ export interface PositionSellSimulatorData {
 @Component({
   selector: 'ohsaveme-position-sell-simulator-dialog',
   standalone: true,
-  imports: [CurrencyDisplayComponent, CommonModule, FormsModule, BottomSheetDialogComponent, ButtonComponent, ...I18N_SHARED],
+  imports: [CurrencyDisplayComponent, FormsModule, BottomSheetDialogComponent, ButtonComponent, ...I18N_SHARED],
   templateUrl: './position-sell-simulator-dialog.html',
   styleUrl: './position-sell-simulator-dialog.scss',
 })
