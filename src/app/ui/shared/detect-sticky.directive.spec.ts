@@ -6,7 +6,7 @@ import { vi, describe, beforeEach, it, expect, afterEach } from 'vitest';
 @Component({
   template: `
     <div ohsavemeDetectSticky (stickyChange)="onStickyChange($event)">
-      Conteúdo de Teste
+      Test Content
     </div>
   `,
   standalone: true,
@@ -46,7 +46,7 @@ describe('DetectStickyDirective', () => {
     vi.restoreAllMocks();
   });
 
-  it('deve adicionar event listeners no ngOnInit', () => {
+  it('adds event listeners on ngOnInit', () => {
     const addSpy = vi.spyOn(window, 'addEventListener');
 
     fixture.destroy();
@@ -58,7 +58,7 @@ describe('DetectStickyDirective', () => {
     expect(addSpy).toHaveBeenCalledWith('resize', expect.any(Function));
   });
 
-  it('deve remover event listeners no ngOnDestroy', () => {
+  it('removes event listeners on ngOnDestroy', () => {
     const removeSpy = vi.spyOn(window, 'removeEventListener');
     fixture.destroy();
 
@@ -66,7 +66,7 @@ describe('DetectStickyDirective', () => {
     expect(removeSpy).toHaveBeenCalledWith('resize', expect.any(Function));
   });
 
-  it('deve emitir true quando getBoundingClientRect().top for menor ou igual a 111', () => {
+  it('emits true when getBoundingClientRect().top is less than or equal to 111', () => {
     directiveElement.getBoundingClientRect = vi.fn().mockReturnValue({ top: 110 });
 
     window.dispatchEvent(new Event('scroll'));
@@ -75,7 +75,7 @@ describe('DetectStickyDirective', () => {
     expect(component.isSticky).toBe(true);
   });
 
-  it('deve emitir false quando getBoundingClientRect().top for maior que 111', () => {
+  it('emits false when getBoundingClientRect().top is greater than 111', () => {
     directiveElement.getBoundingClientRect = vi.fn().mockReturnValue({ top: 100 });
     window.dispatchEvent(new Event('scroll'));
 
@@ -86,7 +86,7 @@ describe('DetectStickyDirective', () => {
     expect(component.isSticky).toBe(false);
   });
 
-  it('nao deve emitir multiplas vezes se o estado nao mudar', () => {
+  it('does not emit more than once while the state holds', () => {
     directiveElement.getBoundingClientRect = vi.fn().mockReturnValue({ top: 100 });
     const spy = vi.spyOn(component, 'onStickyChange');
 

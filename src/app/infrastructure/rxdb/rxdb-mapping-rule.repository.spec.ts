@@ -32,7 +32,7 @@ describe('RxdbMappingRuleRepository', () => {
 
   it('upserts and round-trips a learned mapping rule', async () => {
     const rule: MappingRule = {
-      signatureKey: 'data valor|descritivo|valor movimento',
+      signatureKey: 'value date|description|movement amount',
       mapping: { date: { columnIndex: 0, confidence: 1 }, desc: { columnIndex: 1, confidence: 1 } },
       updatedAt: Date.now()
     };

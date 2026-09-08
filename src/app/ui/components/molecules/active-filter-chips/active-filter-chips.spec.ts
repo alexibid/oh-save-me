@@ -23,7 +23,7 @@ describe('ActiveFilterChipsComponent', () => {
 
   it('renders one chip per active filter, tinting only the one with a category color', () => {
     fixture.componentRef.setInput('chips', [
-      { id: 'account', label: 'conta: cartão de crédito' },
+      { id: 'account', label: 'account: credit card' },
       { id: 'category', label: 'mercearia', color: '#10b981' }
     ]);
     fixture.detectChanges();
@@ -36,7 +36,7 @@ describe('ActiveFilterChipsComponent', () => {
   });
 
   it('emits remove with the chip id when its remove button is clicked', () => {
-    fixture.componentRef.setInput('chips', [{ id: 'account', label: 'conta: cartão de crédito' }]);
+    fixture.componentRef.setInput('chips', [{ id: 'account', label: 'account: credit card' }]);
     fixture.detectChanges();
 
     const emitted: string[] = [];

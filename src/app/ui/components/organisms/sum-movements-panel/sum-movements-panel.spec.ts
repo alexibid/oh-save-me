@@ -9,11 +9,11 @@ describe('SumMovementsPanelComponent', () => {
 
   const mockI18nService = {
     t: () => ({
-      sumMovementsTitle: 'Somar Movimentos',
-      sumMovementsBalance: 'Saldo',
-      sumMovementsIncome: 'Receitas',
-      sumMovementsExpenses: 'Despesas',
-      sumMovementsEmpty: 'Seleciona movimentos para somar'
+      sumMovementsTitle: 'Add Up Movements',
+      sumMovementsBalance: 'Balance',
+      sumMovementsIncome: 'Income',
+      sumMovementsExpenses: 'Expenses',
+      sumMovementsEmpty: 'Select movements to add up'
     }),
     currentLang: () => 'pt',
     getCategoryName: (id: string) => id

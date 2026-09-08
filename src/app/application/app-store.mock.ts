@@ -41,13 +41,13 @@ export const MOCK_SAVVY_STORE = {
       exportDate: '2026-08-05T09:46:12.771Z',
       data: {
         accounts: [
-          { id: 'acc_foreign_bank', name: 'Conta Bancária Externa', updatedAt: 0, kind: 'financial', type: 'bank_account', scope: 'individual', includeInConsolidatedBalance: true, unit: 'EUR' },
-          { id: 'acc_foreign_invest', name: 'Conta de Investimentos Externa', updatedAt: 0, kind: 'financial', type: 'investment', scope: 'individual', includeInConsolidatedBalance: true, unit: 'EUR' }
+          { id: 'acc_foreign_bank', name: 'External Bank Account', updatedAt: 0, kind: 'financial', type: 'bank_account', scope: 'individual', includeInConsolidatedBalance: true, unit: 'EUR' },
+          { id: 'acc_foreign_invest', name: 'External Investment Account', updatedAt: 0, kind: 'financial', type: 'investment', scope: 'individual', includeInConsolidatedBalance: true, unit: 'EUR' }
         ],
         transactions: [
-          { id: 'tx_foreign_hash_a', date: '2026-06-01', description: 'Farmácia', amount: -12, category: 'Healthcare', accountId: 'acc_foreign_bank' },
+          { id: 'tx_foreign_hash_a', date: '2026-06-01', description: 'Pharmacy', amount: -12, category: 'Healthcare', accountId: 'acc_foreign_bank' },
           { id: 'tx_foreign_hash_c', date: '2026-07-01', description: 'Restaurante', amount: -30, category: 'Restaurants', accountId: 'acc_foreign_bank' },
-          { id: 'tx_foreign_hash_tr', date: '2026-07-02', description: 'Depósito', amount: 500, category: 'Others', accountId: 'acc_foreign_invest' }
+          { id: 'tx_foreign_hash_tr', date: '2026-07-02', description: 'Deposit', amount: 500, category: 'Others', accountId: 'acc_foreign_invest' }
         ],
         categories: [], budgets: [], customRecords: []
       }

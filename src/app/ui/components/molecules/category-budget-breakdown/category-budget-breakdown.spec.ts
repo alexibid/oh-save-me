@@ -3,6 +3,7 @@ import { CategoryBudgetBreakdownComponent } from './category-budget-breakdown';
 import { BudgetSelectors } from '@application/selectors/budget.selectors';
 
 import { provideAppStore } from '@application/app-store.service';
+import { I18nService } from '@ui/shared/i18n-shared';
 
 describe('CategoryBudgetBreakdownComponent', () => {
   let component: CategoryBudgetBreakdownComponent;
@@ -94,6 +95,7 @@ describe('CategoryBudgetBreakdownComponent', () => {
   });
 
   it('formats a YYYY-MM key into a human month label', () => {
-    expect(component['formatMonthLabel']('2026-01')).toMatch(/janeiro/i);
+    TestBed.inject(I18nService).setLanguage('en');
+    expect(component['formatMonthLabel']('2026-01')).toMatch(/january/i);
   });
 });

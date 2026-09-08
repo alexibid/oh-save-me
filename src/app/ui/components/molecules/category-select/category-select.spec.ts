@@ -11,6 +11,7 @@ describe('CategorySelectComponent', () => {
   const mockI18nService = {
     t: () => ({}),
     currentLang: () => 'pt',
+    translate: (key: string, fallback?: string) => fallback ?? key,
     getCategoryName: (id: string) => id
   };
 
@@ -80,7 +81,7 @@ describe('CategorySelectComponent', () => {
   describe('project options', () => {
     beforeEach(() => {
       component.projects = [
-        { id: 'proj-1', name: 'Férias Algarve 2026', type: 'project', amount: 1000 } as never,
+        { id: 'proj-1', name: 'Algarve Holiday 2026', type: 'project', amount: 1000 } as never,
         { id: 'proj-2', name: 'Obras Casa', type: 'project', amount: 2000 } as never
       ];
       fixture.detectChanges();
@@ -94,7 +95,7 @@ describe('CategorySelectComponent', () => {
 
       component.onGroupToggle({
         group: component['groups']()[0],
-        option: { value: 'proj-1', label: 'Férias Algarve 2026', selected: false }
+        option: { value: 'proj-1', label: 'Algarve Holiday 2026', selected: false }
       });
 
       expect(emittedProjectId).toBe('proj-1');

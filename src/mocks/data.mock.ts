@@ -13,7 +13,7 @@ export const MOCK_HISTORY_LOGS: HistoryLog[] = [
   }
 ];
 
-export const MOCK_TABLE_STATS = [{ name: 'Transações', count: 42, schemaVersion: 1, dbName: 'transactions-db' }];
+export const MOCK_TABLE_STATS = [{ name: 'Transactions', count: 42, schemaVersion: 1, dbName: 'transactions-db' }];
 
 export const createMockTransaction = (overrides?: Partial<Transaction>): Transaction => ({
   id: `tx-${Math.random().toString(36).substr(2, 9)}`,

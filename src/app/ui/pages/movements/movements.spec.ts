@@ -309,7 +309,7 @@ describe('MovementsComponent', () => {
     it('adds a chip for an active account filter', () => {
       component['onAccountFilterChange']('acc-invest-main');
       const chips = component['activeFilterChips']();
-      expect(chips).toEqual([{ id: 'account', label: 'Conta de Investimentos' }]);
+      expect(chips).toEqual([{ id: 'account', label: 'Investment Account' }]);
     });
 
     it('adds a chip for an active project filter', () => {
@@ -335,8 +335,9 @@ describe('MovementsComponent', () => {
     });
 
     it('removes special filter when special chip is removed', () => {
+      TestBed.inject(I18nService).setLanguage('en');
       component['activeSpecialFilter'].set('pending_review');
-      expect(component['activeFilterChips']()).toEqual([{ id: 'special', label: 'A mostrar apenas movimentos por rever' }]);
+      expect(component['activeFilterChips']()).toEqual([{ id: 'special', label: 'Showing only movements to review' }]);
       component['onRemoveFilterChip']('special');
       expect(component['activeSpecialFilter']()).toBeNull();
       expect(component['activeFilterChips']()).toEqual([]);
@@ -351,8 +352,9 @@ describe('MovementsComponent', () => {
     });
 
     it('removes overspend filter when overspend chip is removed', () => {
+      TestBed.inject(I18nService).setLanguage('en');
       component['showOverspendBanner'].set(true);
-      expect(component['activeFilterChips']()).toEqual([{ id: 'overspend', label: 'Excesso de Orçamento' }]);
+      expect(component['activeFilterChips']()).toEqual([{ id: 'overspend', label: 'Over budget' }]);
       component['onRemoveFilterChip']('overspend');
       expect(component['showOverspendBanner']()).toBe(false);
       expect(component['activeFilterChips']()).toEqual([]);

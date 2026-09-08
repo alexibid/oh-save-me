@@ -10,8 +10,8 @@ describe('AssistantPeekCardComponent', () => {
     id: 's1',
     kind: 'no_accounts',
     icon: 'wallet-line',
-    question: 'Sem contas ativas',
-    subtext: 'Adiciona a tua primeira conta.',
+    question: 'No active accounts',
+    subtext: 'Add your first account.',
     filter: null,
     route: '/',
     action: 'open_add_entry'
@@ -32,7 +32,7 @@ describe('AssistantPeekCardComponent', () => {
   it('should create and display suggestion content', () => {
     expect(component).toBeTruthy();
     const label = fixture.nativeElement.querySelector('.m-assistant-peek-card__label');
-    expect(label.textContent).toContain('Sem contas ativas');
+    expect(label.textContent).toContain('No active accounts');
   });
 
   it('should expand on card click when front card', () => {

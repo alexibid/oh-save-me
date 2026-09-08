@@ -8,7 +8,7 @@ describe('MovementsChartComponent', () => {
   let fixture: ComponentFixture<MovementsChartComponent>;
 
   const mockTransactions: Transaction[] = [
-    { id: 'tx_1', date: '2026-06-01', description: 'Salário', amount: 1000, category: 'Income' },
+    { id: 'tx_1', date: '2026-06-01', description: 'Salary', amount: 1000, category: 'Income' },
     { id: 'tx_2', date: '2026-06-02', description: 'Renda', amount: -400, category: 'Housing' }
   ];
 

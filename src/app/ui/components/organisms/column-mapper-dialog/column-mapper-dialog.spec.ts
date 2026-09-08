@@ -31,7 +31,7 @@ describe('ColumnMapperDialogComponent', () => {
       { role: 'amount', label: 'Amount' }
     ];
     component.rawRows = [
-      ['Data de Movimento', 'Detalhes do Pagamento', 'Valor Debitado', 'Valor Creditado', 'Saldo'],
+      ['Transaction Date', 'Detalhes do Pagamento', 'Debited Amount', 'Credited Amount', 'Balance'],
       ['22-07-2026', 'VIA VERDE', '2.80', '', '2800']
     ];
 
@@ -55,7 +55,7 @@ describe('ColumnMapperDialogComponent', () => {
       { role: 'balance', label: 'Balance' }
     ];
     component.rawRows = [
-      ['Data', 'Descrição', 'Debito', 'Credito', 'Saldo'],
+      ['Date', 'Description', 'Debito', 'Credito', 'Balance'],
       ['22-07-2026', 'VIA VERDE', '2.80', '', '2800']
     ];
 
@@ -103,7 +103,7 @@ describe('ColumnMapperDialogComponent', () => {
       component.accountKind = 'custom';
       component.fileName = 'ev.csv';
       component.rawRows = [
-        ['Data', 'kWh', 'Custo', 'Estação'],
+        ['Date', 'kWh', 'Cost', 'Station'],
         ['2026-07-15', '42.3', '12.50', 'IONITY Lisboa']
       ];
       component.ngOnChanges({

@@ -83,7 +83,7 @@ describe('GetOperationalTasksUseCase', () => {
       },
       {
         id: 'tx_exp_1',
-        description: 'Despesa',
+        description: 'Expense',
         amount: -500,
         date: '2026-07-10',
         category: 'Utilities',

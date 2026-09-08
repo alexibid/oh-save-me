@@ -104,7 +104,7 @@ describe('DriveSyncCoordinatorService', () => {
   it('should sync joint vault using joint scope and share with recipients when owner', async () => {
     const jointAccount = {
       id: 'acc_joint_1',
-      name: 'Conta Conjunta',
+      name: 'Joint Account',
       kind: 'financial' as const,
       type: 'bank_account' as const,
       scope: 'joint' as const,

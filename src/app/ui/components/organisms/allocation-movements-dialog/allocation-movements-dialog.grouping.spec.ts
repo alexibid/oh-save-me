@@ -18,7 +18,7 @@ const wallet: Budget = {
 };
 
 function instalment(id: string, date: string, budgetId?: string): Transaction {
-  return { id, date, description: 'Prestação Crédito Habitação', amount: -450, category: 'Housing', budgetId };
+  return { id, date, description: 'Mortgage Instalment', amount: -450, category: 'Housing', budgetId };
 }
 
 describe('AllocationMovementsDialogComponent — grouping similar movements', () => {
@@ -83,7 +83,7 @@ describe('AllocationMovementsDialogComponent — grouping similar movements', ()
 
   it('associates only what the search left on screen', async () => {
     component['activeTab'].set('available');
-    component['searchQuery'].set('Prestação');
+    component['searchQuery'].set('Instalment');
 
     await component['onSelectAllListed']();
 

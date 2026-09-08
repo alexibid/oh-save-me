@@ -7,9 +7,9 @@ describe('buildActiveFilterChips', () => {
 
   it('keeps account, category, project and date order', () => {
     const chips = buildActiveFilterChips({
-      account: { name: 'Conta Ordenado' },
+      account: { name: 'Salary Account' },
       category: { label: 'Supermercado e Compras', color: '#10b981' },
-      project: { name: 'Férias de Verão' },
+      project: { name: 'Summer Holiday' },
       dateRange: { start: '2026-08-01', end: '2026-08-31' }
     });
 
@@ -17,22 +17,22 @@ describe('buildActiveFilterChips', () => {
   });
 
   it('carries the category color so the chip can match the category', () => {
-    const [chip] = buildActiveFilterChips({ category: { label: 'Supermercado e Compras', color: '#10b981' } });
+    const [chip] = buildActiveFilterChips({ category: { label: 'Supermarket and Shopping', color: '#10b981' } });
 
-    expect(chip).toEqual({ id: 'category', label: 'Supermercado e Compras', color: '#10b981' });
+    expect(chip).toEqual({ id: 'category', label: 'Supermarket and Shopping', color: '#10b981' });
   });
 
   it('renders specialFilter, search query and overspend as chips', () => {
     const chips = buildActiveFilterChips({
-      specialFilter: { label: 'Por Rever' },
+      specialFilter: { label: 'To Review' },
       search: 'Continente',
-      overspend: true
+      overspend: { label: 'Over budget' }
     });
 
     expect(chips).toEqual([
-      { id: 'special', label: 'Por Rever' },
+      { id: 'special', label: 'To Review' },
       { id: 'search', label: '"Continente"' },
-      { id: 'overspend', label: 'Excesso de Orçamento' }
+      { id: 'overspend', label: 'Over budget' }
     ]);
   });
 

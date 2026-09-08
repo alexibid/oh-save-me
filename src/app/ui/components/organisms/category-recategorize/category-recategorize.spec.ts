@@ -199,7 +199,7 @@ describe('CategoryRecategorizeComponent', () => {
 
   describe('project assignment and simultaneous category selection', () => {
     const activeProjects = [
-      { id: 'proj-1', name: 'Férias Algarve 2026', type: 'project', amount: 1000 } as never,
+      { id: 'proj-1', name: 'Algarve Holiday 2026', type: 'project', amount: 1000 } as never,
       { id: 'proj-2', name: 'Obras Casa', type: 'project', amount: 2000 } as never
     ];
 
@@ -250,7 +250,7 @@ describe('CategoryRecategorizeComponent', () => {
       const tagged = { ...similarTxs[0], tags: ['ferias', 'viagem'] };
       setUp(tagged, [tagged]);
       component.activeProjects = [
-        { id: 'proj-1', name: 'Férias Algarve 2026', type: 'project', amount: 1000, tags: ['ferias', 'viagem'] } as never
+        { id: 'proj-1', name: 'Algarve Holiday 2026', type: 'project', amount: 1000, tags: ['ferias', 'viagem'] } as never
       ];
 
       expect(component['buildUpdatedTrigger']('Healthcare' as never).tags).toEqual(['ferias', 'viagem']);
@@ -276,7 +276,7 @@ describe('CategoryRecategorizeComponent', () => {
       setUp(duringVacation, [duringVacation]);
       component.activeProjects = [
         {
-          id: 'proj-vacation', name: 'Férias Algarve 2026', type: 'project', amount: 1000,
+          id: 'proj-vacation', name: 'Algarve Holiday 2026', type: 'project', amount: 1000,
           kind: 'vacation', projectStartDate: '2026-08-01', projectEndDate: '2026-08-15'
         } as never
       ];
@@ -289,12 +289,12 @@ describe('CategoryRecategorizeComponent', () => {
       setUp(duringVacation, [duringVacation]);
       component.activeProjects = [
         {
-          id: 'proj-vacation', name: 'Férias Algarve 2026', type: 'project', amount: 1000,
+          id: 'proj-vacation', name: 'Algarve Holiday 2026', type: 'project', amount: 1000,
           kind: 'vacation', projectStartDate: '2026-08-01', projectEndDate: '2026-08-15'
         } as never
       ];
 
-      expect(component['selectedProjectName']()).toBe('Férias Algarve 2026');
+      expect(component['selectedProjectName']()).toBe('Algarve Holiday 2026');
     });
 
     it('preserves project assignment made in the same session when recategorizing', () => {

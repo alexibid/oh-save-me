@@ -26,10 +26,10 @@ describe('SidenavMenuComponent', () => {
     setLanguage: vi.fn(),
     translate: (key: string) => key,
     t: () => ({
-      settingsTitle: 'Definições',
+      settingsTitle: 'Settings',
       languageLabel: 'Idioma',
-      startDayLabel: 'Dia de Início',
-      resetBtn: 'Limpar Importações'
+      startDayLabel: 'Start Day',
+      resetBtn: 'Clear Imports'
     })
   };
 

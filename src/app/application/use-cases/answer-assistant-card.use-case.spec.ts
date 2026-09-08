@@ -21,7 +21,7 @@ const charge: Transaction = {
 
 const trip: Budget = {
   id: 'bud-trip',
-  name: 'Férias',
+  name: 'Holiday',
   type: 'project',
   amount: 1000,
   kind: 'vacation'

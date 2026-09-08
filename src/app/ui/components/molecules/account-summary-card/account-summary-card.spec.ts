@@ -24,8 +24,8 @@ describe('AccountSummaryCardComponent', () => {
   });
 
   it('should render the account name, type and formatted balance', () => {
-    component.accountName = 'Conta à Ordem CGD';
-    component.accountTypeLabel = 'Conta à Ordem';
+    component.accountName = 'CGD Current Account';
+    component.accountTypeLabel = 'Current Account';
     component.walletBalance = 5943.62;
     component.periodCashflow = 250.15;
     component.totalIncome = 1200;
@@ -36,13 +36,13 @@ describe('AccountSummaryCardComponent', () => {
     fixture.detectChanges();
 
     const text = fixture.nativeElement.textContent as string;
-    expect(text).toContain('Conta à Ordem CGD');
-    expect(text).toContain('Conta à Ordem');
+    expect(text).toContain('CGD Current Account');
+    expect(text).toContain('Current Account');
   });
 
   it('should render a "view more" link scoped to this card\'s account id', () => {
-    component.accountName = 'Conta à Ordem CGD';
-    component.accountTypeLabel = 'Conta à Ordem';
+    component.accountName = 'CGD Current Account';
+    component.accountTypeLabel = 'Current Account';
     component.accountId = 'acc-123';
     component.walletBalance = 100;
     component.periodCashflow = 0;
@@ -57,8 +57,8 @@ describe('AccountSummaryCardComponent', () => {
   });
 
   it('shows the credit-installment caveat only for credit_card accounts', () => {
-    component.accountName = 'Cartão Universo';
-    component.accountTypeLabel = 'Cartão de Crédito';
+    component.accountName = 'Universe Card';
+    component.accountTypeLabel = 'Credit Card';
     component.accountType = 'credit_card';
     component.walletBalance = -100;
     component.periodCashflow = 0;
@@ -70,8 +70,8 @@ describe('AccountSummaryCardComponent', () => {
   });
 
   it('hides the credit-installment caveat for non-credit_card accounts', () => {
-    component.accountName = 'Conta à Ordem CGD';
-    component.accountTypeLabel = 'Conta à Ordem';
+    component.accountName = 'CGD Current Account';
+    component.accountTypeLabel = 'Current Account';
     component.accountType = 'bank_account';
     component.walletBalance = 100;
     component.periodCashflow = 0;
@@ -83,8 +83,8 @@ describe('AccountSummaryCardComponent', () => {
   });
 
   it('should mark a negative wallet balance with the danger class', () => {
-    component.accountName = 'Cartão Universo';
-    component.accountTypeLabel = 'Cartão de Crédito';
+    component.accountName = 'Universe Card';
+    component.accountTypeLabel = 'Credit Card';
     component.walletBalance = -1125.66;
     component.periodCashflow = -300;
     component.totalIncome = 0;

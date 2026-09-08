@@ -13,7 +13,7 @@ export const FREE_BALANCE_CATEGORY: CategoryInfo = {
 export const FREE_BALANCE_ACCOUNT: FinancialAccount = {
   id: 'acc-1',
   kind: 'financial',
-  name: 'Conta',
+  name: 'Account',
   type: 'bank_account',
   scope: 'individual',
   includeInConsolidatedBalance: true,

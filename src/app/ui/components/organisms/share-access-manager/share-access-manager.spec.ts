@@ -41,7 +41,7 @@ describe('ShareAccessManagerComponent', () => {
     component.newEmail = 'invalid-email';
     component.addRecipient();
 
-    expect(component.errorMessage()).toBe('Email inválido');
+    expect(component.errorMessage()).toBe('Invalid email');
   });
 
   it('should remove recipient and update storage', () => {

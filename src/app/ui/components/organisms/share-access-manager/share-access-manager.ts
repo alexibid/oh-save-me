@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppTranslatePipe } from '@ui/pipes/app-translate.pipe';
 import { ButtonComponent, IconComponent } from 'ibid-ui';
 import { GoogleDriveSyncService } from '@ibid/services';
+import { I18nService } from '@application/i18n.service';
 
 export interface SharedUser {
   readonly email: string;
@@ -23,6 +24,7 @@ export interface SharedUser {
   styleUrl: './share-access-manager.scss'
 })
 export class ShareAccessManagerComponent {
+  private readonly i18n?: I18nService;
   private readonly STORAGE_KEY = 'savvy_shared_recipients';
   private readonly driveSync?: GoogleDriveSyncService;
 
@@ -36,11 +38,20 @@ export class ShareAccessManagerComponent {
 
   constructor() {
     try {
+      this.i18n = inject(I18nService, { optional: true }) ?? undefined;
+    } catch {
+      this.i18n = undefined;
+    }
+    try {
       this.driveSync = inject(GoogleDriveSyncService, { optional: true }) ?? undefined;
     } catch {
       this.driveSync = undefined;
     }
     this.sharedUsers.set(this.loadRecipients());
+  }
+
+  private text(key: string, fallback: string): string {
+    return this.i18n?.translate(key, fallback) ?? fallback;
   }
 
   private loadRecipients(): readonly SharedUser[] {
@@ -94,7 +105,7 @@ export class ShareAccessManagerComponent {
   public addRecipient(): void {
     const cleanEmail = this.newEmail.trim().toLowerCase();
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-      this.errorMessage.set('Email inválido');
+      this.errorMessage.set(this.text('shareInvalidEmail', 'Invalid email'));
       return;
     }
 

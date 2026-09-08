@@ -63,7 +63,7 @@ describe('DashboardInsightsComponent', () => {
       { id: '2', date: '2026-08-05', description: 'Groceries', amount: -200, category: 'groceries' },
     ]);
     mockStore.budgets.set([
-      { id: 'b1', name: 'Alimentação', type: 'category', amount: 100, categoryId: 'groceries' },
+      { id: 'b1', name: 'Groceries', type: 'category', amount: 100, categoryId: 'groceries' },
     ]);
     fixture.detectChanges();
 
@@ -79,8 +79,8 @@ describe('DashboardInsightsComponent', () => {
       { id: '3', date: '2026-08-06', description: 'Netflix', amount: -15, category: 'entertainment' },
     ]);
     mockStore.budgets.set([
-      { id: 'b1', name: 'Alimentação', type: 'category', amount: 100, categoryId: 'groceries' },
-      { id: 'b2', name: 'Lazer', type: 'category', amount: 50, categoryId: 'entertainment' },
+      { id: 'b1', name: 'Groceries', type: 'category', amount: 100, categoryId: 'groceries' },
+      { id: 'b2', name: 'Leisure', type: 'category', amount: 50, categoryId: 'entertainment' },
     ]);
     fixture.detectChanges();
 

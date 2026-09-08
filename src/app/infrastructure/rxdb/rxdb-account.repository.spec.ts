@@ -6,7 +6,7 @@ import { Account, FinancialAccount, CustomAccount } from '@domain/models/account
 const financialAccount: FinancialAccount = {
   id: 'acc_1',
   kind: 'financial',
-  name: 'Conta Pessoal',
+  name: 'Personal Account',
   type: 'bank_account',
   scope: 'individual',
   includeInConsolidatedBalance: true,
@@ -47,17 +47,17 @@ describe('RxdbAccountRepository', () => {
     const all = await repository.getAll();
 
     expect(all).toHaveLength(1);
-    expect(all[0].name).toBe('Conta Pessoal');
+    expect(all[0].name).toBe('Personal Account');
   });
 
   it('updates an existing account', async () => {
     const account: Account = financialAccount;
     await repository.save(account);
 
-    await repository.update({ ...account, name: 'Conta Renomeada' });
+    await repository.update({ ...account, name: 'Renamed Account' });
     const all = await repository.getAll();
 
-    expect(all[0].name).toBe('Conta Renomeada');
+    expect(all[0].name).toBe('Renamed Account');
   });
 
   it('soft-deletes an account so it no longer appears in getAll', async () => {
@@ -71,14 +71,14 @@ describe('RxdbAccountRepository', () => {
   });
 
   it('saves and returns a custom account, distinct from the financial branch', async () => {
-    const account: CustomAccount = { id: 'acc_custom', kind: 'custom', name: 'Carro Elétrico', purpose: 'Consumo do carro elétrico', updatedAt: Date.now() };
+    const account: CustomAccount = { id: 'acc_custom', kind: 'custom', name: 'Electric Car', purpose: 'Electric car consumption', updatedAt: Date.now() };
 
     await repository.save(account);
     const all = await repository.getAll();
 
     expect(all).toHaveLength(1);
     expect(all[0]).toEqual(expect.objectContaining({
-      id: 'acc_custom', kind: 'custom', name: 'Carro Elétrico', purpose: 'Consumo do carro elétrico'
+      id: 'acc_custom', kind: 'custom', name: 'Electric Car', purpose: 'Electric car consumption'
     }));
   });
 });

@@ -11,7 +11,7 @@ describe('buildInvestmentPositions', () => {
 
   it('ignores movements that carry no asset symbol', () => {
     const cash: Transaction[] = [
-      { id: 'c1', date: '2026-07-20', description: 'Depósito', amount: 500, category: 'Transfers', investmentType: 'deposit' }
+      { id: 'c1', date: '2026-07-20', description: 'Deposit', amount: 500, category: 'Transfers', investmentType: 'deposit' }
     ];
     expect(buildInvestmentPositions(cash)).toEqual([]);
   });

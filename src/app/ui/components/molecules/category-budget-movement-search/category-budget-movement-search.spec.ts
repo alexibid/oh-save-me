@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { signal } from '@angular/core';
 import { CategoryBudgetMovementSearchComponent } from './category-budget-movement-search';
 import { APP_STORE_TOKEN } from '@application/app-store';
+import { I18nService } from '@application/i18n.service';
 import { TransactionsTableComponent } from '@ui/components/organisms/transactions-table/transactions-table';
 
 describe('CategoryBudgetMovementSearchComponent', () => {
@@ -74,10 +75,11 @@ describe('CategoryBudgetMovementSearchComponent', () => {
   });
 
   it('shows the empty-results copy when nothing matches', () => {
+    TestBed.inject(I18nService).setLanguage('en');
     component['searchQuery'].set('nonexistent-merchant');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Nenhum movimento encontrado');
+    expect(fixture.nativeElement.textContent).toContain('No movements found.');
   });
 
   it('persists the whole recategorized batch through the store in one call', async () => {

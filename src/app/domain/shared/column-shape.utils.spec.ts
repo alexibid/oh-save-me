@@ -11,20 +11,20 @@ import {
 describe('column-shape.utils', () => {
   describe('normalizeHeader', () => {
     it('should lower-case and remove accents', () => {
-      expect(normalizeHeader('Data Valor')).toBe('data valor');
-      expect(normalizeHeader('Descrição')).toBe('descricao');
+      expect(normalizeHeader('Débit Café')).toBe('debit cafe');
+      expect(normalizeHeader('Naïve Header')).toBe('naive header');
     });
   });
 
   describe('headerScore', () => {
     it('should return 1 when header keywords match the detectable field', () => {
-      expect(headerScore('Data Movimento', 'date')).toBe(1);
-      expect(headerScore('Valor em Euro', 'amount')).toBe(1);
-      expect(headerScore('Saldo Contabilistico', 'balance')).toBe(1);
+      expect(headerScore('Transaction Date', 'date')).toBe(1);
+      expect(headerScore('Amount in Euro', 'amount')).toBe(1);
+      expect(headerScore('Book Balance', 'balance')).toBe(1);
     });
 
     it('should return 0 when header keywords do not match', () => {
-      expect(headerScore('Observações', 'amount')).toBe(0);
+      expect(headerScore('Notes', 'amount')).toBe(0);
     });
   });
 

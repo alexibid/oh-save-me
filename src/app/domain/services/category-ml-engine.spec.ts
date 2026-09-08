@@ -25,7 +25,7 @@ describe('CategoryMlEngine', () => {
     });
 
     it('should handle accents and diacritics', () => {
-      expect(calculateLearnKey('Águas de Gaia')).toBe('de gaia');
+      expect(calculateLearnKey('Zürich Café Ström')).toBe('cafe strom');
     });
   });
 

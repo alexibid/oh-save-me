@@ -77,7 +77,7 @@ test.describe('User Journey 15: Form Validations and Disabled Error States', () 
       await flow.step(5, 'allocation-wizard-empty', 'submit-button-disabled');
 
       const nameInput = allocationWizard.locator('input[name="budgetName"], input[type="text"]').first();
-      await nameInput.fill('Projeto Férias Válido');
+      await nameInput.fill('Valid Holiday Project');
       await nameInput.evaluate(el => el.dispatchEvent(new Event('input', { bubbles: true })));
 
       const amountInput = allocationWizard.locator('input[name="budgetAmount"], input[type="number"]').first();

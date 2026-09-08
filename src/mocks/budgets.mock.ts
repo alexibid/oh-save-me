@@ -14,7 +14,7 @@ export const MOCK_BUDGET_PROJECT_HOME: Budget = {
 
 export const MOCK_BUDGET_PROJECT_VACATION: Budget = {
   id: 'bud-proj-vacation',
-  name: 'Férias de Verão',
+  name: 'Summer Holiday',
   amount: 1500,
   type: 'project',
   tags: ['viagem', 'ferias'],
@@ -28,7 +28,7 @@ export const MOCK_BUDGET_PROJECT_VACATION: Budget = {
 
 export const MOCK_BUDGET_CATEGORY_GROCERIES: Budget = {
   id: 'bud-cat-groceries',
-  name: 'Alimentação & Supermercado',
+  name: 'Groceries & Supermarket',
   amount: 400,
   type: 'category',
   categoryId: 'Groceries'
@@ -36,7 +36,7 @@ export const MOCK_BUDGET_CATEGORY_GROCERIES: Budget = {
 
 export const MOCK_BUDGET_CATEGORY_RESTAURANTS: Budget = {
   id: 'bud-cat-restaurants',
-  name: 'Restauração & Jantares',
+  name: 'Dining & Restaurants',
   amount: 150,
   type: 'category',
   categoryId: 'Restaurants'
@@ -44,7 +44,7 @@ export const MOCK_BUDGET_CATEGORY_RESTAURANTS: Budget = {
 
 export const MOCK_BUDGET_CATEGORY_UTILITIES: Budget = {
   id: 'bud-cat-utilities',
-  name: 'Serviços & Utilidades',
+  name: 'Services & Utilities',
   amount: 200,
   type: 'category',
   categoryId: 'Utilities'

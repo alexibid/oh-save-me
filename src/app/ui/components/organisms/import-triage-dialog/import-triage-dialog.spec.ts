@@ -22,7 +22,7 @@ describe('ImportTriageDialog', () => {
   ];
 
   const budgets: Budget[] = [
-    { id: 'bud-1', name: 'Férias 2027', type: 'project', amount: 1000 },
+    { id: 'bud-1', name: 'Holiday 2027', type: 'project', amount: 1000 },
     { id: 'bud-2', name: 'Cozinha Nova', type: 'project', amount: 5000, isClosed: true },
     { id: 'bud-3', name: 'Groceries', type: 'category', amount: 300, categoryId: 'Groceries' }
   ];

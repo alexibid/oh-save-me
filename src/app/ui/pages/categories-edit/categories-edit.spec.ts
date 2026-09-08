@@ -14,7 +14,7 @@ describe('CategoriesEditComponent - Unit Tests', () => {
 
   const initialCategories: CategoryInfo[] = [
     ...TEMPLATE_CATEGORIES,
-    { id: 'cartao-de-credito', name: 'Cartão de Crédito', icon: 'pi-wallet', color: '#8b5cf6' }
+    { id: 'cartao-de-credito', name: 'Credit Card', icon: 'pi-wallet', color: '#8b5cf6' }
   ];
 
   const categoryRepositoryMock = {
@@ -32,7 +32,7 @@ describe('CategoriesEditComponent - Unit Tests', () => {
   };
 
   const mockUserRules = [
-    { token: 'mesada', category: 'Crianças' },
+    { token: 'mesada', category: 'Children' },
     { token: 'uber', category: 'Transportation' }
   ];
 
@@ -103,14 +103,14 @@ describe('CategoriesEditComponent - Unit Tests', () => {
 
     component['startEdit'](targetCustomCat);
     expect(component['isEditing']()).toBe(targetCustomCat);
-    expect(component['formName']).toBe('Cartão de Crédito');
+    expect(component['formName']).toBe('Credit Card');
 
-    component['formName'] = 'Cartão de Crédito Atualizado';
+    component['formName'] = 'Updated Credit Card';
     await component['saveCategory']();
 
     expect(categoryRepositoryMock.save).toHaveBeenCalledWith({
       id: 'cartao-de-credito',
-      name: 'Cartão de Crédito Atualizado',
+      name: 'Updated Credit Card',
       color: '#8b5cf6',
       icon: 'pi-wallet'
     });
@@ -124,7 +124,7 @@ describe('CategoriesEditComponent - Unit Tests', () => {
   });
 
   it('should support toggling ML rules and trigger reclassification if disabled', async () => {
-    const targetRule = { token: 'mesada', category: 'Crianças', enabled: true };
+    const targetRule = { token: 'mesada', category: 'Children', enabled: true };
     await component['toggleRule'](targetRule);
 
     expect(mlServiceMock.toggleRule).toHaveBeenCalledWith('mesada');

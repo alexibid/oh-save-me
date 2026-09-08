@@ -24,11 +24,11 @@ import {
       [groups]="groups()"
       [options]="categoryOptions()"
       [showCreateOption]="true"
-      [createOptionLabel]="'+ ' + (i18n.currentLang() === 'pt' ? 'Nova Categoria' : 'New Category') + '...'"
+      [createOptionLabel]="'+ ' + i18n.translate('categorySelectCreateOption') + '...'"
       [disabled]="_disabled()"
       [assistantSuggested]="_assistantSuggested()"
-      [ariaLabel]="i18n.currentLang() === 'pt' ? 'Selecionar categoria' : 'Select category'"
-      [searchPlaceholder]="i18n.currentLang() === 'pt' ? 'Pesquisar categoria ou projeto' : 'Search category or project'"
+      [ariaLabel]="i18n.translate('categorySelectAriaLabel')"
+      [searchPlaceholder]="i18n.translate('categorySelectSearchPlaceholder')"
       (valueChange)="selectCategory($event)"
       (groupToggle)="onGroupToggle($event)"
       (createClick)="onCreateCategory()"
@@ -73,7 +73,7 @@ export class CategorySelectComponent {
     if (!this.projects || this.projects.length === 0) return [];
     return [
       {
-        title: this.i18n.currentLang() === 'pt' ? 'Projetos' : 'Projects',
+        title: this.i18n.translate('categorySelectProjectsGroup'),
         mode: 'checkbox',
         options: this.projects.map(p => ({
           value: p.id,

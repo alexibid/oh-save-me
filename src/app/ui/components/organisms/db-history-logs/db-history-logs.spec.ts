@@ -6,10 +6,10 @@ import { HistoryLog } from '@domain/models/history-log';
 const createMockI18nService = () => ({
       currentLang: () => 'pt',
       t: () => ({
-        dbHistoryTitle: 'Histórico de Alterações e Undo',
-        dbHistoryEmpty: 'Nenhuma alteração recente registada para Undo.',
+        dbHistoryTitle: 'Change History and Undo',
+        dbHistoryEmpty: 'No recent change recorded for Undo.',
         dbUndo: 'Desfazer',
-        dbHistoryTransaction: 'Movimento'
+        dbHistoryTransaction: 'Movement'
       })
     });
 
@@ -41,7 +41,7 @@ describe('DbHistoryLogsComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Nenhuma alteração recente registada para Undo.');
+    expect(compiled.textContent).toContain('No recent change recorded for Undo.');
   });
 
   it('should list logs and emit undo event when click undo', () => {
@@ -58,7 +58,7 @@ describe('DbHistoryLogsComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Movimento');
+    expect(compiled.textContent).toContain('Movement');
 
     let emittedId: string | undefined;
     component.undo.subscribe(id => emittedId = id);

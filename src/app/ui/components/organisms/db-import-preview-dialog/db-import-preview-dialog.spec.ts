@@ -22,7 +22,7 @@ describe('DbImportPreviewDialogComponent', () => {
   function setup(preview: DbImportPreview) {
     dialogRefSpy = { close: vi.fn() };
     mockStore = {
-      categories: signal([{ id: 'cat-1', name: 'Cafés', icon: 'label', color: '#000' }]),
+      categories: signal([{ id: 'cat-1', name: 'Coffee', icon: 'label', color: '#000' }]),
       importDbSnapshot: vi.fn().mockResolvedValue(undefined)
     };
 

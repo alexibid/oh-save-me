@@ -10,7 +10,7 @@ describe('buildAssetBalanceHistory', () => {
   it('ignores dividends, interest and plain cash movements', () => {
     const noise: Transaction[] = [
       { id: 'd1', date: '2026-07-15', description: 'Dividendos', amount: 15.2, category: 'Dividends', investmentType: 'dividend', symbol: 'IWDA' },
-      { id: 'c1', date: '2026-07-20', description: 'Depósito', amount: 500, category: 'Transfers', investmentType: 'deposit' }
+      { id: 'c1', date: '2026-07-20', description: 'Deposit', amount: 500, category: 'Transfers', investmentType: 'deposit' }
     ];
     expect(buildAssetBalanceHistory(noise)).toEqual([]);
   });

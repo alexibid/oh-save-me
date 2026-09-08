@@ -282,7 +282,9 @@ export class MovementsComponent implements OnInit {
       category: category && { label: this.i18n.getCategoryName(category.id), color: category.color },
       project: this.selectedProject(),
       search: this.searchQuery().trim() || undefined,
-      overspend: this.showOverspendBanner(),
+      overspend: this.showOverspendBanner()
+        ? { label: this.i18n.translate('budgetOverBudgetLabel') }
+        : undefined,
       dateRange: this.startDate && this.endDate ? { start: this.startDate, end: this.endDate } : undefined
     });
   });

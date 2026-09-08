@@ -26,9 +26,9 @@ describe('ingested-csv.utils', () => {
     expect(lines[1]).toContain('"COMPRA PINGO DOCE GAIA, PT"');
     expect(lines[1]).toContain('-45.80');
     expect(lines[1]).toContain('expense');
-    expect(lines[1]).toContain('CGD Conta Ordem');
-    expect(lines[1]).toContain('Supermercado & Alimentação');
-    expect(lines[1]).toContain('Férias Algarve');
+    expect(lines[1]).toContain('CGD Current Account');
+    expect(lines[1]).toContain('Supermarket & Groceries');
+    expect(lines[1]).toContain('Algarve Holiday');
     expect(lines[1]).toContain('Jantar de amigos');
     expect(lines[1]).toContain('false');
     expect(lines[1]).toContain('tx_1');
@@ -36,7 +36,7 @@ describe('ingested-csv.utils', () => {
     expect(lines[2]).toContain('2026-08-20');
     expect(lines[2]).toContain('2150.00');
     expect(lines[2]).toContain('income');
-    expect(lines[2]).toContain('Salário & Vencimento');
+    expect(lines[2]).toContain('Salary & Wages');
   });
 
   it('should handle empty transactions array gracefully', () => {

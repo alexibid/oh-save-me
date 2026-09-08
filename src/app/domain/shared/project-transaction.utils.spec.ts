@@ -17,7 +17,7 @@ const alwaysRecurring = (): boolean => true;
 describe('matchesProjectBudget', () => {
   const vacation: Budget = {
     id: 'proj-1',
-    name: 'Férias',
+    name: 'Holiday',
     type: 'project',
     kind: 'vacation',
     amount: 1000,
@@ -88,7 +88,7 @@ describe('matchesProjectBudget', () => {
 describe('isLinkedToAnyActiveProject', () => {
   it('returns true when a transaction falls within an active vacation project date range', () => {
     const vacation: Budget = {
-      id: 'proj-1', name: 'Férias', type: 'project', kind: 'vacation', amount: 1000,
+      id: 'proj-1', name: 'Holiday', type: 'project', kind: 'vacation', amount: 1000,
       projectStartDate: '2026-08-01', projectEndDate: '2026-08-25'
     };
     const tx = makeTx('t1', '2026-08-10');
@@ -103,7 +103,7 @@ describe('isLinkedToAnyActiveProject', () => {
 
 describe('findUnassignedVacationWindowTransactions', () => {
   const vacation: Budget = {
-    id: 'proj-1', name: 'Férias', type: 'project', kind: 'vacation', amount: 1000,
+    id: 'proj-1', name: 'Holiday', type: 'project', kind: 'vacation', amount: 1000,
     projectStartDate: '2026-08-10', projectEndDate: '2026-08-20'
   };
 
@@ -126,7 +126,7 @@ describe('findUnassignedVacationWindowTransactions', () => {
 
   it('returns nothing for a non-vacation project or a vacation project without a date window', () => {
     const works: Budget = { id: 'proj-2', name: 'Obras', type: 'project', kind: 'works', amount: 500 };
-    const incompleteVacation: Budget = { id: 'proj-3', name: 'Férias', type: 'project', kind: 'vacation', amount: 500 };
+    const incompleteVacation: Budget = { id: 'proj-3', name: 'Holiday', type: 'project', kind: 'vacation', amount: 500 };
     const tx = makeTx('t1', '2026-08-15');
     expect(findUnassignedVacationWindowTransactions([tx], works, neverRecurring)).toEqual([]);
     expect(findUnassignedVacationWindowTransactions([tx], incompleteVacation, neverRecurring)).toEqual([]);
@@ -136,7 +136,7 @@ describe('findUnassignedVacationWindowTransactions', () => {
 describe('syncVacationWindow', () => {
   const vacation: Budget = {
     id: 'proj-vac',
-    name: 'Férias',
+    name: 'Holiday',
     type: 'project',
     kind: 'vacation',
     amount: 1000,

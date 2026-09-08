@@ -69,11 +69,14 @@ describe('CategoryBudgetCardComponent', () => {
     fixture.componentRef.setInput('budgetProgress', progress);
     fixture.detectChanges();
 
+    TestBed.inject(I18nService).setLanguage('en');
+    fixture.detectChanges();
+
     const text = fixture.nativeElement.textContent;
-    expect(text).toContain('Acima do orçamento');
-    expect(text).not.toContain('Restante');
-    expect(text).toContain('25,00 €');
-    expect(text).not.toContain('-25,00 €');
+    expect(text).toContain('Over budget');
+    expect(text).not.toContain('Remaining');
+    expect(text).toContain('€25.00');
+    expect(text).not.toContain('-€25.00');
   });
 
   it('emits editBudgetClick when the card is clicked', () => {

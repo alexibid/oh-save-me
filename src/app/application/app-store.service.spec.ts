@@ -115,11 +115,11 @@ describe('Cross-device .db merge — end to end (computeDbImportPreview → AppS
 
   it('merges a .db export from another device into the existing local account instead of duplicating it (the reported bug)', async () => {
     await store.addAccount({
-      id: 'acc_local_1754390000000', name: 'Conta Bancária Externa', updatedAt: 0, kind: 'financial',
+      id: 'acc_local_1754390000000', name: 'External Bank Account', updatedAt: 0, kind: 'financial',
       type: 'bank_account', scope: 'individual', includeInConsolidatedBalance: true, unit: 'EUR'
     });
     store.setTransactions([
-      { id: 'tx_local_hash_a', date: '2026-06-01', description: 'Farmácia', amount: -12, category: 'Healthcare', accountId: 'acc_local_1754390000000' },
+      { id: 'tx_local_hash_a', date: '2026-06-01', description: 'Pharmacy', amount: -12, category: 'Healthcare', accountId: 'acc_local_1754390000000' },
       { id: 'tx_local_hash_b', date: '2026-06-05', description: 'Supermercado', amount: -45, category: 'Groceries', accountId: 'acc_local_1754390000000' }
     ]);
     vi.clearAllMocks();
@@ -134,18 +134,18 @@ describe('Cross-device .db merge — end to end (computeDbImportPreview → AppS
 
     await store.importDbSnapshot(preview);
 
-    const bankAccounts = store.accounts().filter(a => a.name === 'Conta Bancária Externa');
+    const bankAccounts = store.accounts().filter(a => a.name === 'External Bank Account');
     expect(bankAccounts).toHaveLength(1);
     expect(bankAccounts[0].id).toBe('acc_local_1754390000000');
-    expect(store.accounts().map(a => a.name)).toEqual(['Conta Bancária Externa', 'Conta de Investimentos Externa']);
+    expect(store.accounts().map(a => a.name)).toEqual(['External Bank Account', 'External Investment Account']);
 
     expect(store.transactions()).toHaveLength(4);
     const bankTxs = store.transactions().filter(t => t.accountId === 'acc_local_1754390000000');
-    expect(bankTxs.map(t => t.description).sort()).toEqual(['Farmácia', 'Restaurante', 'Supermercado']);
+    expect(bankTxs.map(t => t.description).sort()).toEqual(['Pharmacy', 'Restaurante', 'Supermercado']);
     expect(store.transactions().some(t => t.accountId === 'acc_foreign_bank')).toBe(false);
 
     expect(mockAccountRepository.save).toHaveBeenCalledTimes(1);
-    expect(mockAccountRepository.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'Conta de Investimentos Externa' }));
+    expect(mockAccountRepository.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'External Investment Account' }));
   });
 });
 
@@ -157,7 +157,7 @@ describe('AppStoreService — auto-assign vacation transactions on load', () => 
   const mockHistoryLogRepository = { save: vi.fn().mockResolvedValue(undefined), getAll: vi.fn().mockResolvedValue([]) };
 
   const vacation: Budget = {
-    id: 'proj-vacation', name: 'Férias', type: 'project', kind: 'vacation', amount: 1000,
+    id: 'proj-vacation', name: 'Holiday', type: 'project', kind: 'vacation', amount: 1000,
     projectStartDate: '2026-08-10', projectEndDate: '2026-08-20'
   };
 
@@ -228,7 +228,7 @@ describe('AppStoreService — syncVacationWindow', () => {
 
   const vacation: Budget = {
     id: 'proj-vac',
-    name: 'Férias',
+    name: 'Holiday',
     type: 'project',
     kind: 'vacation',
     amount: 1000,

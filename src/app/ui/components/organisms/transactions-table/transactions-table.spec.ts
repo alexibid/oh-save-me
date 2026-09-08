@@ -113,10 +113,10 @@ describe('TransactionsTableComponent', () => {
 
     it('flags recurring income (e.g. a monthly salary) as recurring too, not just expenses', async () => {
       const monthlySalary: Transaction[] = [
-        tx({ id: 't1', date: '2026-01-01', description: 'Salário Mensal', amount: 2500 }),
-        tx({ id: 't2', date: '2026-02-01', description: 'Salário Mensal', amount: 2500 }),
-        tx({ id: 't3', date: '2026-03-01', description: 'Salário Mensal', amount: 2500 }),
-        tx({ id: 't4', date: '2026-04-01', description: 'Salário Mensal', amount: 2500 })
+        tx({ id: 't1', date: '2026-01-01', description: 'Monthly Salary', amount: 2500 }),
+        tx({ id: 't2', date: '2026-02-01', description: 'Monthly Salary', amount: 2500 }),
+        tx({ id: 't3', date: '2026-03-01', description: 'Monthly Salary', amount: 2500 }),
+        tx({ id: 't4', date: '2026-04-01', description: 'Monthly Salary', amount: 2500 })
       ];
 
       await TestBed.resetTestingModule().configureTestingModule({

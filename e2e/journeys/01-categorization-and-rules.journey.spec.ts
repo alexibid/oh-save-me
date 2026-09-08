@@ -29,7 +29,7 @@ test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
     });
 
     await test.step('Step 4: Select Vacation project in multi-select', async () => {
-      const projectOption = page.locator('.m-searchable-select__option--project').filter({ hasText: 'Férias de Verão' }).first();
+      const projectOption = page.locator('.m-searchable-select__option--project').filter({ hasText: 'Summer Holiday' }).first();
       await expect(projectOption).toBeVisible();
       await projectOption.click();
       await flow.step(4, 'select-project-ferias', 'project-badge-previewed');
@@ -61,7 +61,7 @@ test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
       await expect(dialog).not.toBeVisible();
       await flow.step(7, 'confirm-batch-rule', 'dialog-closed-table-updated');
 
-      await expect(firstCell).toHaveText(/Férias de Verão/);
+      await expect(firstCell).toHaveText(/Summer Holiday/);
       await expect(firstCell).toHaveText(/Refeições/i);
     });
 
@@ -73,7 +73,7 @@ test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
       await reloadedSearch.evaluate(el => el.dispatchEvent(new Event('input', { bubbles: true })));
 
       const reloadedFirstCell = page.locator('ibid-smart-budget-cell').first();
-      await expect(reloadedFirstCell).toHaveText(/Férias de Verão/);
+      await expect(reloadedFirstCell).toHaveText(/Summer Holiday/);
       await expect(reloadedFirstCell).toHaveText(/Refeições/i);
       await flow.step(8, 'reload-page', 'changes-persisted-in-database');
     });

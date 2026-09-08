@@ -74,7 +74,7 @@ describe('AllocationEditDialogComponent — vacation project dates', () => {
       imports: [AllocationEditDialogComponent],
       providers: [
         { provide: DialogRef, useValue: mockDialogRef },
-        { provide: DIALOG_DATA, useValue: { budget: { id: 'v1', type: 'project', kind: 'vacation', name: 'Férias', amount: 1000 } } },
+        { provide: DIALOG_DATA, useValue: { budget: { id: 'v1', type: 'project', kind: 'vacation', name: 'Holiday', amount: 1000 } } },
         { provide: APP_STORE_TOKEN, useValue: mockStore }
       ]
     }).compileComponents();

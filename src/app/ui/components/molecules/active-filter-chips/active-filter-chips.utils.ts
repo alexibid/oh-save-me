@@ -6,7 +6,7 @@ export interface ActiveFilterSelection {
   readonly project?: { readonly name: string };
   readonly specialFilter?: { readonly label: string };
   readonly search?: string;
-  readonly overspend?: boolean;
+  readonly overspend?: { readonly label: string };
   readonly dateRange?: { readonly start: string; readonly end: string };
 }
 
@@ -18,7 +18,7 @@ export function buildActiveFilterChips(selection: ActiveFilterSelection): Active
   if (selection.category) chips.push({ id: 'category', label: selection.category.label, color: selection.category.color });
   if (selection.project) chips.push({ id: 'project', label: selection.project.name });
   if (selection.search) chips.push({ id: 'search', label: `"${selection.search}"` });
-  if (selection.overspend) chips.push({ id: 'overspend', label: 'Excesso de Orçamento' });
+  if (selection.overspend) chips.push({ id: 'overspend', label: selection.overspend.label });
   if (selection.dateRange) chips.push({ id: 'dates', label: `${selection.dateRange.start} → ${selection.dateRange.end}` });
 
   return chips;

@@ -28,7 +28,7 @@ describe('BudgetSelectors', () => {
     },
     {
       id: 'b-2',
-      name: 'Alimentação',
+      name: 'Groceries',
       amount: 400,
       type: 'category',
       categoryId: 'cat-alimentacao'
@@ -71,7 +71,7 @@ describe('BudgetSelectors', () => {
     {
       id: 't-2',
       date: '2026-07-12',
-      description: 'Devolução cimento',
+      description: 'Cement refund',
       amount: 50,
       category: 'outros',
       tags: ['obras']
@@ -119,7 +119,7 @@ describe('BudgetSelectors', () => {
   ]);
 
   const mockCategories = signal<CategoryInfo[]>([
-    { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' },
+    { id: 'cat-alimentacao', name: 'Groceries', icon: 'category-groceries', color: '#10b981' },
     { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' }
   ]);
 
@@ -136,7 +136,7 @@ describe('BudgetSelectors', () => {
     mockStore.startDate.set('2026-07-01');
     mockStore.endDate.set('2026-07-31');
     mockCategories.set([
-      { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' },
+      { id: 'cat-alimentacao', name: 'Groceries', icon: 'category-groceries', color: '#10b981' },
       { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' }
     ]);
     TestBed.configureTestingModule({
@@ -487,11 +487,11 @@ describe('BudgetSelectors', () => {
 
     it('returns the matching BudgetProgress when a category budget exists', () => {
       mockBudgets.set([
-        { id: 'b-cat', name: 'Alimentação', amount: 400, type: 'category', categoryId: 'cat-alimentacao' }
+        { id: 'b-cat', name: 'Groceries', amount: 400, type: 'category', categoryId: 'cat-alimentacao' }
       ]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-15', description: 'Supermercado', amount: -120, category: 'cat-alimentacao', tags: [] },
-        { id: 't2', date: '2026-07-16', description: 'Devolução', amount: 20, category: 'cat-alimentacao', tags: [] }
+        { id: 't2', date: '2026-07-16', description: 'Refund', amount: 20, category: 'cat-alimentacao', tags: [] }
       ] as unknown as Transaction[]);
 
       const progress = selectors.categoryBudgetProgress('cat-alimentacao');
@@ -678,7 +678,7 @@ describe('BudgetSelectors', () => {
     it('should calculate categoryRemainingReserve correctly', () => {
       mockBudgets.set([
         { id: 'b-cat-1', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
-        { id: 'b-cat-2', name: 'Alimentação', amount: 400, type: 'category', categoryId: 'cat-alimentacao' }
+        { id: 'b-cat-2', name: 'Groceries', amount: 400, type: 'category', categoryId: 'cat-alimentacao' }
       ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Bus ticket', amount: -20, category: 'cat-transport' },
@@ -729,11 +729,11 @@ describe('BudgetSelectors', () => {
     it('should reserve the sum of targets minus the sum of executed across categories, not the sum of each category floored at zero individually', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
-        { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
+        { id: 'cat-alimentacao', name: 'Groceries', icon: 'category-groceries', color: '#10b981' }
       ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
-        { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
+        { id: 'b-cat-alimentacao', name: 'Groceries', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
       ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Overspent transport', amount: -150, category: 'cat-transport' },
@@ -763,14 +763,14 @@ describe('BudgetSelectors', () => {
       expect(items.find(i => i.budget.categoryId === 'cat-books')?.spent).toBe(0);
     });
 
-    it('should go negative when the aggregate spent exceeds the aggregate target, to keep Saldo Livre Real additive and visible', () => {
+    it('should go negative when the aggregate spent exceeds the aggregate target, to keep Balance Livre Real additive and visible', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
-        { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
+        { id: 'cat-alimentacao', name: 'Groceries', icon: 'category-groceries', color: '#10b981' }
       ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
-        { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
+        { id: 'b-cat-alimentacao', name: 'Groceries', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
       ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Overspent transport', amount: -350, category: 'cat-transport' },
@@ -785,11 +785,11 @@ describe('BudgetSelectors', () => {
     it('should report the overspend total as the sum of each category excess, ignoring categories still under budget', () => {
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
-        { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
+        { id: 'cat-alimentacao', name: 'Groceries', icon: 'category-groceries', color: '#10b981' }
       ] as unknown as CategoryInfo[]);
       mockBudgets.set([
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
-        { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
+        { id: 'b-cat-alimentacao', name: 'Groceries', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
       ] as unknown as Budget[]);
       mockTransactions.set([
         { id: 't1', date: '2026-07-05', description: 'Overspent transport', amount: -150, category: 'cat-transport' },
@@ -817,14 +817,14 @@ describe('BudgetSelectors', () => {
     it('should leave the free balance untouched by an overspend, since the extra spend leaves the wallet and frees the same amount of budget', () => {
       const budgets = [
         { id: 'b-cat-transport', name: 'Transport', amount: 100, type: 'category', categoryId: 'cat-transport' },
-        { id: 'b-cat-alimentacao', name: 'Alimentação', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
+        { id: 'b-cat-alimentacao', name: 'Groceries', amount: 200, type: 'category', categoryId: 'cat-alimentacao' }
       ];
       mockStore.categories.set([
         { id: 'cat-transport', name: 'Transporte', icon: 'category-transport', color: '#6366f1' },
-        { id: 'cat-alimentacao', name: 'Alimentação', icon: 'category-groceries', color: '#10b981' }
+        { id: 'cat-alimentacao', name: 'Groceries', icon: 'category-groceries', color: '#10b981' }
       ] as unknown as CategoryInfo[]);
       mockStore.accounts.set([
-        { id: 'acc-1', kind: 'financial', name: 'Conta', type: 'bank_account', updatedAt: 0, openingBalance: 1200 }
+        { id: 'acc-1', kind: 'financial', name: 'Account', type: 'bank_account', updatedAt: 0, openingBalance: 1200 }
       ] as unknown as Account[]);
       mockStore.startDate.set('2026-07-01');
       mockStore.endDate.set('2026-07-31');

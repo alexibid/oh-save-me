@@ -18,13 +18,13 @@ describe('BudgetSummaryRowComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(BudgetSummaryRowComponent);
-    fixture.componentRef.setInput('label', 'orçamento geral');
+    fixture.componentRef.setInput('label', 'general budget');
     fixture.componentRef.setInput('value', 220);
   });
 
   it('renders the label', () => {
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('orçamento geral');
+    expect(fixture.nativeElement.textContent).toContain('general budget');
   });
 
   it('renders the formatted value', () => {

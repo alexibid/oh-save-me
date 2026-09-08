@@ -24,14 +24,14 @@ describe('CreateFinancialAccountUseCase', () => {
 
   it('builds a FinancialAccount from the given input and persists it via the store', async () => {
     const result = await useCase.execute({
-      name: '  Conta Nova  ',
+      name: '  New Account  ',
       type: 'bank_account',
       scope: 'individual',
       includeInConsolidatedBalance: true
     });
 
     expect(result.kind).toBe('financial');
-    expect(result.name).toBe('Conta Nova');
+    expect(result.name).toBe('New Account');
     expect(result.type).toBe('bank_account');
     expect(result.scope).toBe('individual');
     expect(result.includeInConsolidatedBalance).toBe(true);
@@ -41,7 +41,7 @@ describe('CreateFinancialAccountUseCase', () => {
 
   it('respects a joint scope with consolidated balance excluded', async () => {
     const result = await useCase.execute({
-      name: 'Conta do Avô',
+      name: 'Grandfather Account',
       type: 'bank_account',
       scope: 'joint',
       includeInConsolidatedBalance: false

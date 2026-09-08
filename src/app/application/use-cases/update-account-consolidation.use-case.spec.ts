@@ -8,7 +8,7 @@ describe('UpdateAccountConsolidationUseCase', () => {
   let updated: FinancialAccount[];
 
   const account: FinancialAccount = {
-    id: 'acc_1', kind: 'financial', name: 'Conta do Avô', type: 'bank_account',
+    id: 'acc_1', kind: 'financial', name: 'Grandfather Account', type: 'bank_account',
     scope: 'joint', includeInConsolidatedBalance: true, unit: 'EUR', updatedAt: 0
   };
 

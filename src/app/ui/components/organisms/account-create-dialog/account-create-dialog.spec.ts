@@ -19,11 +19,11 @@ describe('AccountCreateDialog', () => {
   let mockImportCustomRecords: { execute: ReturnType<typeof vi.fn> };
 
   const financialResult: FinancialAccount = {
-    id: 'acc_1', kind: 'financial', name: 'Conta à Ordem', type: 'bank_account',
+    id: 'acc_1', kind: 'financial', name: 'Current Account', type: 'bank_account',
     scope: 'individual', includeInConsolidatedBalance: true, unit: 'EUR', updatedAt: 0
   };
   const customResult: CustomAccount = {
-    id: 'acc_2', kind: 'custom', name: 'Consumo do carro elétrico', purpose: 'Consumo do carro elétrico', updatedAt: 0
+    id: 'acc_2', kind: 'custom', name: 'Electric car consumption', purpose: 'Electric car consumption', updatedAt: 0
   };
 
   beforeEach(async () => {
@@ -76,12 +76,12 @@ describe('AccountCreateDialog', () => {
   it('disables confirm until the relevant field is filled, per kind', () => {
     component['selectKind']('financial');
     expect(component['isConfirmDisabled']()).toBe(true);
-    component['accountName'] = 'Conta à Ordem';
+    component['accountName'] = 'Current Account';
     expect(component['isConfirmDisabled']()).toBe(false);
 
     component['selectKind']('custom');
     expect(component['isConfirmDisabled']()).toBe(true);
-    component['purposeText'] = 'Consumo do carro elétrico';
+    component['purposeText'] = 'Electric car consumption';
     expect(component['isConfirmDisabled']()).toBe(false);
   });
 
@@ -90,14 +90,14 @@ describe('AccountCreateDialog', () => {
     component.accountCreated.subscribe(acc => { emitted = acc; });
 
     component['selectKind']('financial');
-    component['accountName'] = 'Conta à Ordem';
+    component['accountName'] = 'Current Account';
     component['selectScope']('joint');
     component['includeInConsolidatedBalance'].set(false);
 
     await component['confirm']();
 
     expect(mockCreateFinancialAccount.execute).toHaveBeenCalledWith({
-      name: 'Conta à Ordem', type: 'bank_account', scope: 'joint', includeInConsolidatedBalance: false
+      name: 'Current Account', type: 'bank_account', scope: 'joint', includeInConsolidatedBalance: false
     });
     expect(mockCreateCustomAccount.execute).not.toHaveBeenCalled();
     expect(emitted).toBe(financialResult);
@@ -108,12 +108,12 @@ describe('AccountCreateDialog', () => {
     component.accountCreated.subscribe(acc => { emitted = acc; });
 
     component['selectKind']('custom');
-    component['purposeText'] = 'Consumo do carro elétrico';
+    component['purposeText'] = 'Electric car consumption';
 
     await component['confirm']();
 
     expect(mockCreateCustomAccount.execute).toHaveBeenCalledWith({
-      name: 'Consumo do carro elétrico', purpose: 'Consumo do carro elétrico'
+      name: 'Electric car consumption', purpose: 'Electric car consumption'
     });
     expect(mockCreateFinancialAccount.execute).not.toHaveBeenCalled();
     expect(emitted).toBe(customResult);
@@ -177,7 +177,7 @@ describe('AccountCreateDialog', () => {
   describe('custom-account upload + mapping steps', () => {
     it('proceedFromDetails advances a custom account to the upload step instead of creating immediately', () => {
       component['selectKind']('custom');
-      component['purposeText'] = 'Consumo do carro elétrico';
+      component['purposeText'] = 'Electric car consumption';
 
       component['proceedFromDetails']();
 
@@ -187,7 +187,7 @@ describe('AccountCreateDialog', () => {
 
     it('proceedFromDetails creates a financial account immediately (no upload step)', async () => {
       component['selectKind']('financial');
-      component['accountName'] = 'Conta à Ordem';
+      component['accountName'] = 'Current Account';
 
       component['proceedFromDetails']();
       await Promise.resolve();
@@ -197,7 +197,7 @@ describe('AccountCreateDialog', () => {
 
     it('skipUpload creates the custom account with no records imported', async () => {
       component['selectKind']('custom');
-      component['purposeText'] = 'Consumo do carro elétrico';
+      component['purposeText'] = 'Electric car consumption';
       component['proceedFromDetails']();
 
       await component['skipUpload']();
@@ -208,11 +208,11 @@ describe('AccountCreateDialog', () => {
 
     it('confirm at the mapping step creates the account then imports the mapped rows against its id', async () => {
       component['selectKind']('custom');
-      component['purposeText'] = 'Consumo do carro elétrico';
+      component['purposeText'] = 'Electric car consumption';
       component['proceedFromDetails']();
 
       component['rawFileRows'].set([
-        ['Data', 'kWh', 'Custo'],
+        ['Date', 'kWh', 'Cost'],
         ['2026-07-15', '42.3', '12.50']
       ]);
       component['columnMappings'].set(['date', 'measure', 'measure']);
@@ -224,7 +224,7 @@ describe('AccountCreateDialog', () => {
       expect(mockCreateCustomAccount.execute).toHaveBeenCalled();
       expect(mockImportCustomRecords.execute).toHaveBeenCalledWith({
         accountId: customResult.id,
-        headers: ['Data', 'kWh', 'Custo'],
+        headers: ['Date', 'kWh', 'Cost'],
         rows: [['2026-07-15', '42.3', '12.50']],
         columnRoles: ['date', 'measure', 'measure'],
         measureUnits: { 1: 'kWh', 2: 'EUR' }

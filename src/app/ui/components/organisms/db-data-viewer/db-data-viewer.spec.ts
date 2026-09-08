@@ -7,9 +7,9 @@ const createMockI18nService = () => ({
       currentLang: () => 'pt',
       t: () => ({
         dbViewerTitle: 'Visualizador de Dados:',
-        dbViewerEmpty: 'Esta tabela física não contém registos.',
+        dbViewerEmpty: 'This physical table holds no records.',
         dbRecordDetails: 'Detalhes do Registo',
-        dbViewerRecordAction: 'Ação',
+        dbViewerRecordAction: 'Action',
         dbUndo: 'Desfazer',
         dbRestore: 'Restaurar'
       })
@@ -40,7 +40,7 @@ describe('DbDataViewerComponent', () => {
 
   it('should render rows list correctly and format details', () => {
     component.dbName = 'rxdb-dexie-app_db--1--transactions';
-    component.friendlyName = 'Transações';
+    component.friendlyName = 'Transactions';
     component.rows = [
       {
         id: 'tx-1',
@@ -62,7 +62,7 @@ describe('DbDataViewerComponent', () => {
 
   it('should emit close event when click close button', () => {
     component.dbName = 'rxdb-dexie-app_db--1--transactions';
-    component.friendlyName = 'Transações';
+    component.friendlyName = 'Transactions';
     component.rows = [];
     fixture.detectChanges();
 
@@ -76,7 +76,7 @@ describe('DbDataViewerComponent', () => {
 
   it('should emit restore event when click restore button', () => {
     component.dbName = 'rxdb-dexie-app_db--1--transactions';
-    component.friendlyName = 'Transações';
+    component.friendlyName = 'Transactions';
     component.rows = [
       { id: 'tx-1', date: '2026-07-30', description: 'Teste' }
     ];

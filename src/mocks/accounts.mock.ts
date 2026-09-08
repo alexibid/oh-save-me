@@ -2,7 +2,7 @@ import { FinancialAccount, CustomAccount, Account } from '@domain/models/account
 
 export const MOCK_ACCOUNT_BANK: FinancialAccount = {
   id: 'acc-bank-main',
-  name: 'Conta Bancária Principal',
+  name: 'Primary Bank Account',
   updatedAt: 1704067200000,
   kind: 'financial',
   type: 'bank_account',
@@ -14,7 +14,7 @@ export const MOCK_ACCOUNT_BANK: FinancialAccount = {
 
 export const MOCK_ACCOUNT_INVESTMENT: FinancialAccount = {
   id: 'acc-invest-main',
-  name: 'Conta de Investimentos',
+  name: 'Investment Account',
   updatedAt: 1704067200000,
   kind: 'financial',
   type: 'investment',
@@ -26,7 +26,7 @@ export const MOCK_ACCOUNT_INVESTMENT: FinancialAccount = {
 
 export const MOCK_ACCOUNT_MEAL: FinancialAccount = {
   id: 'acc-meal-main',
-  name: 'Cartão Refeição',
+  name: 'Meal Card',
   updatedAt: 1704067200000,
   kind: 'financial',
   type: 'meal_card',
@@ -41,7 +41,7 @@ export const MOCK_ACCOUNT_CUSTOM: CustomAccount = {
   name: 'Registos Personalizados',
   updatedAt: 1704067200000,
   kind: 'custom',
-  purpose: 'Acompanhamento de Leituras e Métricas'
+  purpose: 'Readings and Metrics Tracking'
 };
 
 export const MOCK_ACCOUNTS: readonly Account[] = [

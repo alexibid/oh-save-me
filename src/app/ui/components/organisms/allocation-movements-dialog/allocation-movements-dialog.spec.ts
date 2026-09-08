@@ -11,7 +11,7 @@ const createMockStore = () => ({
       transactions: signal([
         { id: 't1', date: '2026-08-05', description: 'Hotel', amount: -800, category: 'Travel' },
         { id: 't2', date: '2026-08-10', description: 'Restaurante', amount: -630.61, category: 'Restaurants' },
-        { id: 't3', date: '2026-08-30', description: 'Fora do período de férias', amount: -50, category: 'Groceries' }
+        { id: 't3', date: '2026-08-30', description: 'Outside the holiday period', amount: -50, category: 'Groceries' }
       ]),
       categories: signal([]),
       startDate: signal('2026-07-28'),
@@ -25,7 +25,7 @@ describe('AllocationMovementsDialogComponent — vacation project date-range mat
 
   const vacationBudget = {
     id: 'proj-vacation',
-    name: 'Férias Algarve 2026',
+    name: 'Algarve Holiday 2026',
     type: 'project' as const,
     kind: 'vacation' as const,
     amount: 1000,
@@ -98,7 +98,7 @@ describe('AllocationMovementsDialogComponent — vacation project date-range mat
 describe('AllocationMovementsDialogComponent — detaching after the window was materialised', () => {
   const materialisedVacation = {
     id: 'proj-vacation',
-    name: 'Férias Algarve 2026',
+    name: 'Algarve Holiday 2026',
     type: 'project' as const,
     kind: 'vacation' as const,
     amount: 1000,

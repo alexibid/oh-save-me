@@ -6,7 +6,7 @@ import { Budget } from '@domain/models/budget';
 export const MOCK_INGESTED_ACCOUNTS: readonly FinancialAccount[] = [
   {
     id: 'acc_cgd',
-    name: 'CGD Conta Ordem',
+    name: 'CGD Current Account',
     type: 'bank_account',
     scope: 'individual',
     kind: 'financial',
@@ -16,7 +16,7 @@ export const MOCK_INGESTED_ACCOUNTS: readonly FinancialAccount[] = [
   },
   {
     id: 'acc_activo',
-    name: 'ActivoBank Poupança',
+    name: 'ActivoBank Savings',
     type: 'bank_account',
     scope: 'individual',
     kind: 'financial',
@@ -29,13 +29,13 @@ export const MOCK_INGESTED_ACCOUNTS: readonly FinancialAccount[] = [
 export const MOCK_INGESTED_CATEGORIES: readonly CategoryInfo[] = [
   {
     id: 'cat_groceries',
-    name: 'Supermercado & Alimentação',
+    name: 'Supermarket & Groceries',
     color: '#059669',
     icon: 'category-groceries'
   },
   {
     id: 'cat_salary',
-    name: 'Salário & Vencimento',
+    name: 'Salary & Wages',
     color: '#2563eb',
     icon: 'category-income'
   }
@@ -44,7 +44,7 @@ export const MOCK_INGESTED_CATEGORIES: readonly CategoryInfo[] = [
 export const MOCK_INGESTED_BUDGETS: readonly Budget[] = [
   {
     id: 'bud_vacation',
-    name: 'Férias Algarve',
+    name: 'Algarve Holiday',
     amount: 1500,
     type: 'project',
     isClosed: false

@@ -101,16 +101,12 @@ export class DatabaseComponent implements OnInit {
       downloadBackupJson(backup);
 
       this.addLog(
-        this.i18n.currentLang() === 'pt'
-          ? 'Backup exportado com sucesso!'
-          : 'Backup exported successfully!'
+        this.i18n.translate('databaseBackupExported')
       );
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
       this.addLog(
-        this.i18n.currentLang() === 'pt'
-          ? `Erro ao exportar backup: ${errMsg}`
-          : `Error exporting backup: ${errMsg}`
+        `${this.i18n.translate('databaseBackupExportError')}: ${errMsg}`
       );
     }
   }
@@ -129,9 +125,7 @@ export class DatabaseComponent implements OnInit {
 
         if (!backup.data || !backup.data.transactions || !backup.data.categories || !backup.data.budgets) {
           throw new Error(
-            this.i18n.currentLang() === 'pt'
-              ? 'Ficheiro de backup inválido. Chaves obrigatórias ausentes.'
-              : 'Invalid backup file. Required keys are missing.'
+            this.i18n.translate('databaseBackupInvalid')
           );
         }
 
@@ -156,9 +150,7 @@ export class DatabaseComponent implements OnInit {
         });
 
         this.addLog(
-          this.i18n.currentLang() === 'pt'
-            ? 'Ficheiro carregado! A abrir pré-visualização da importação...'
-            : 'File loaded! Opening import preview...'
+          this.i18n.translate('databaseFileLoaded')
         );
 
         const dialogRef = this.dialog.open(DbImportPreviewDialogComponent, {
@@ -171,22 +163,19 @@ export class DatabaseComponent implements OnInit {
 
           if (!confirmed) {
             this.addLog(
-              this.i18n.currentLang() === 'pt' ? 'Importação cancelada pelo utilizador.' : 'Import cancelled by user.'
+              this.i18n.translate('databaseImportCancelled')
             );
             return;
           }
           this.addLog(
-            this.i18n.currentLang() === 'pt'
-              ? `Importação concluída: ${preview.transactionsToImport.length} movimento(s) novo(s) adicionado(s).`
-              : `Import complete: ${preview.transactionsToImport.length} new movement(s) added.`
+            `${this.i18n.translate('databaseImportComplete')} ${preview.transactionsToImport.length} `
+            + `${this.i18n.translate('databaseImportCompleteMovements')}`
           );
         });
       } catch (err: unknown) {
         const errMsg = err instanceof Error ? err.message : String(err);
         this.addLog(
-          this.i18n.currentLang() === 'pt'
-            ? `Erro ao carregar ficheiro: ${errMsg}`
-            : `Error loading backup file: ${errMsg}`
+          `${this.i18n.translate('databaseFileLoadError')}: ${errMsg}`
         );
       } finally {
         input.value = '';
@@ -202,9 +191,7 @@ export class DatabaseComponent implements OnInit {
 
   protected async confirmResetDatabase(): Promise<void> {
     this.addLog(
-      this.i18n.currentLang() === 'pt'
-        ? 'A efetuar reposição de fábrica de todos os dados...'
-        : 'Performing factory reset of all data...'
+      this.i18n.translate('databaseFactoryResetStart')
     );
 
     try {
@@ -217,16 +204,12 @@ export class DatabaseComponent implements OnInit {
       this.store.setBudgets([]);
 
       this.addLog(
-        this.i18n.currentLang() === 'pt'
-          ? 'Reposição concluída com sucesso! Todos os dados foram apagados.'
-          : 'Factory reset completed! All data has been cleared.'
+        this.i18n.translate('databaseFactoryResetDone')
       );
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
       this.addLog(
-        this.i18n.currentLang() === 'pt'
-          ? `Erro ao limpar base de dados: ${errMsg}`
-          : `Error resetting database: ${errMsg}`
+        `${this.i18n.translate('databaseFactoryResetError')}: ${errMsg}`
       );
     } finally {
       this.isConfirmReset.set(false);
@@ -243,9 +226,7 @@ export class DatabaseComponent implements OnInit {
 
   protected async confirmResetImports(): Promise<void> {
     this.addLog(
-      this.i18n.currentLang() === 'pt'
-        ? 'A iniciar a limpeza de movimentos importados...'
-        : 'Clearing imported transactions...'
+      this.i18n.translate('databaseClearImportsStart')
     );
 
     try {
@@ -259,16 +240,12 @@ export class DatabaseComponent implements OnInit {
       }
 
       this.addLog(
-        this.i18n.currentLang() === 'pt'
-          ? 'Limpeza concluída! Todos os movimentos, saldo e histórico de importações foram apagados.'
-          : 'Cleanup completed! All transactions, balance, and import history have been cleared.'
+        this.i18n.translate('databaseClearImportsDone')
       );
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
       this.addLog(
-        this.i18n.currentLang() === 'pt'
-          ? `Erro ao limpar movimentos importados: ${errMsg}`
-          : `Error clearing imported transactions: ${errMsg}`
+        `${this.i18n.translate('databaseClearImportsError')}: ${errMsg}`
       );
     } finally {
       this.isConfirmResetImports.set(false);
@@ -324,11 +301,11 @@ export class DatabaseComponent implements OnInit {
   }
 
   protected getFriendlyDBName(name: string): string {
-    if (name.includes('transactions')) return this.i18n.currentLang() === 'pt' ? 'Transações (Antiga)' : 'Transactions (Obsolete)';
-    if (name.includes('categories')) return this.i18n.currentLang() === 'pt' ? 'Categorias (Antiga)' : 'Categories (Obsolete)';
-    if (name.includes('budgets')) return this.i18n.currentLang() === 'pt' ? 'Orçamentos (Antiga)' : 'Budgets (Obsolete)';
-    if (name.includes('customizations')) return this.i18n.currentLang() === 'pt' ? 'Personalizações (Antiga)' : 'Customizations (Obsolete)';
-    if (name.includes('history_logs')) return this.i18n.currentLang() === 'pt' ? 'Histórico (Antiga)' : 'History Logs (Obsolete)';
+    if (name.includes('transactions')) return this.i18n.translate('databaseLegacyTransactions');
+    if (name.includes('categories')) return this.i18n.translate('databaseLegacyCategories');
+    if (name.includes('budgets')) return this.i18n.translate('databaseLegacyBudgets');
+    if (name.includes('customizations')) return this.i18n.translate('databaseLegacyCustomizations');
+    if (name.includes('history_logs')) return this.i18n.translate('databaseLegacyHistoryLogs');
     return name;
   }
 
@@ -338,7 +315,7 @@ export class DatabaseComponent implements OnInit {
 
     try {
       if (dbName.includes('budgets')) {
-        entityType = this.i18n.currentLang() === 'pt' ? 'Orçamento' : 'Budget';
+        entityType = this.i18n.translate('databaseEntityBudget');
         await this.store.addBudget({
           id: row.id,
           name: row.name,
@@ -352,7 +329,7 @@ export class DatabaseComponent implements OnInit {
           monthlyAllocation: row.monthlyAllocation
         });
       } else if (dbName.includes('transactions')) {
-        entityType = this.i18n.currentLang() === 'pt' ? 'Transação' : 'Transaction';
+        entityType = this.i18n.translate('databaseEntityTransaction');
         const cleanRow = {
           id: row.id,
           date: row.date,
@@ -374,7 +351,7 @@ export class DatabaseComponent implements OnInit {
           this.store.setTransactions(current);
         }
       } else if (dbName.includes('categories')) {
-        entityType = this.i18n.currentLang() === 'pt' ? 'Categoria' : 'Category';
+        entityType = this.i18n.translate('databaseEntityCategory');
         const cleanRow = {
           id: row.id,
           name: row.name,
@@ -394,23 +371,20 @@ export class DatabaseComponent implements OnInit {
           this.store.setCategories(current);
         }
       } else if (dbName.includes('customizations')) {
-        entityType = this.i18n.currentLang() === 'pt' ? 'Personalização' : 'Customization';
+        entityType = this.i18n.translate('databaseEntityCustomization');
         await this.store.saveCustomization(row.key, row.value);
       }
 
       alert(
-        this.i18n.currentLang() === 'pt'
-          ? `${entityType} com ID "${row.id || row.key}" restaurado com sucesso!`
-          : `${entityType} with ID "${row.id || row.key}" restored successfully!`
+        `${entityType} ${this.i18n.translate('databaseRowRestoredIdLabel')} "${row.id || row.key}" `
+        + `${this.i18n.translate('databaseRowRestoredDone')}`
       );
 
       this.selectAndLoadTable(dbName);
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
       alert(
-        this.i18n.currentLang() === 'pt'
-          ? `Erro ao restaurar registo: ${errMsg}`
-          : `Error restoring record: ${errMsg}`
+        `${this.i18n.translate('databaseRowRestoreError')}: ${errMsg}`
       );
     }
   }
@@ -515,14 +489,15 @@ export class DatabaseComponent implements OnInit {
   }
 
   protected async deleteAccount(accountId: string, name: string): Promise<void> {
-    const pt = this.i18n.currentLang() === 'pt';
-    const msg = pt
-      ? `Tem a certeza que deseja eliminar a conta "${name}" e todos os seus movimentos? Esta ação é irreversível.`
-      : `Are you sure you want to delete the account "${name}" and all its transactions? This action is irreversible.`;
+    const msg = `${this.i18n.translate('databaseDeleteAccountConfirmPrefix')} "${name}" `
+      + `${this.i18n.translate('databaseDeleteAccountConfirmSuffix')}`;
 
     if (confirm(msg)) {
       await this.store.deleteAccount(accountId);
-      this.addLog(pt ? `Conta "${name}" eliminada com sucesso.` : `Account "${name}" deleted successfully.`);
+      this.addLog(
+        `${this.i18n.translate('databaseAccountDeletedPrefix')} "${name}" `
+        + `${this.i18n.translate('databaseAccountDeletedSuffix')}`
+      );
     }
   }
 }

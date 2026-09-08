@@ -11,8 +11,8 @@ describe('defaultSimilarityKeyword', () => {
   });
 
   it('drops a trailing month/year so recurring monthly descriptions cluster together', () => {
-    expect(defaultSimilarityKeyword('Salário Mensal 08/2026')).toBe('Salário Mensal');
-    expect(defaultSimilarityKeyword('Salário Mensal 07/2026')).toBe('Salário Mensal');
+    expect(defaultSimilarityKeyword('Monthly Salary 08/2026')).toBe('Monthly Salary');
+    expect(defaultSimilarityKeyword('Monthly Salary 07/2026')).toBe('Monthly Salary');
   });
 
   it('drops a trailing full date (DD/MM/YYYY) before picking the keyword', () => {
@@ -26,7 +26,7 @@ describe('matchesSimilarityKeyword', () => {
   });
 
   it('matches accent-insensitively', () => {
-    expect(matchesSimilarityKeyword('Farmácia Central', 'farmacia')).toBe(true);
+    expect(matchesSimilarityKeyword('Café Central', 'cafe')).toBe(true);
   });
 
   it('does not match an unrelated description', () => {

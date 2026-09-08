@@ -75,7 +75,7 @@ describe('RxdbBudgetRepository', () => {
     };
     const b2: Budget = {
       id: 'b2',
-      name: 'Férias',
+      name: 'Holiday',
       type: 'project',
       amount: 1500,
       tags: ['ferias']
@@ -94,7 +94,7 @@ describe('RxdbBudgetRepository', () => {
   it('round-trips every field of a vacation project, so nothing the domain sets is silently dropped', async () => {
     const vacation: Budget = {
       id: 'proj-vac',
-      name: 'Férias de Verão',
+      name: 'Summer Holiday',
       type: 'project',
       kind: 'vacation',
       amount: 1500,
@@ -122,7 +122,7 @@ describe('RxdbBudgetRepository', () => {
   it('keeps transactionsAutoAssigned false-y when it was never set, so the first sync still runs', async () => {
     const vacation: Budget = {
       id: 'proj-vac-2',
-      name: 'Férias',
+      name: 'Holiday',
       type: 'project',
       kind: 'vacation',
       amount: 500,

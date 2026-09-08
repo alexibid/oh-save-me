@@ -23,18 +23,18 @@ describe('CreateCustomAccountUseCase', () => {
   });
 
   it('builds a CustomAccount with no scope/consolidated-balance fields at all and persists it via the store', async () => {
-    const result = await useCase.execute({ name: ' Carro Elétrico ', purpose: ' Consumo do carro elétrico ' });
+    const result = await useCase.execute({ name: ' Electric Car ', purpose: ' Electric car consumption ' });
 
     expect(result.kind).toBe('custom');
-    expect(result.name).toBe('Carro Elétrico');
-    expect(result.purpose).toBe('Consumo do carro elétrico');
+    expect(result.name).toBe('Electric Car');
+    expect(result.purpose).toBe('Electric car consumption');
     expect(result).not.toHaveProperty('scope');
     expect(result).not.toHaveProperty('includeInConsolidatedBalance');
     expect(added).toEqual([result]);
   });
 
   it('carries the presetId through when the account was created from a preset', async () => {
-    const result = await useCase.execute({ name: 'Carro Elétrico', purpose: 'Consumo do carro elétrico', presetId: 'ev_charging' });
+    const result = await useCase.execute({ name: 'Electric Car', purpose: 'Electric car consumption', presetId: 'ev_charging' });
 
     expect(result.presetId).toBe('ev_charging');
   });

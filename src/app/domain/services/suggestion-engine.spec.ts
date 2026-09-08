@@ -327,11 +327,11 @@ describe('SuggestionEngine', () => {
 describe('suggestion-engine helpers', () => {
   describe('interpolate()', () => {
     it('substitutes known params', () => {
-      expect(interpolate('Tens {count} movimentos', { count: 3 })).toBe('Tens 3 movimentos');
+      expect(interpolate('You have {count} movements', { count: 3 })).toBe('You have 3 movements');
     });
 
     it('leaves unknown tokens untouched', () => {
-      expect(interpolate('Olá {name}', {})).toBe('Olá {name}');
+      expect(interpolate('Hello {name}', {})).toBe('Hello {name}');
     });
   });
 
@@ -348,14 +348,14 @@ describe('suggestion-engine helpers', () => {
       action: null,
     };
     const translate = (key: string) => ({
-      assistantPendingTriageOther: 'Tens {count} movimentos por rever',
-      assistantPendingTriageBody: 'Confirma a categoria antes de fechares o mês',
+      assistantPendingTriageOther: 'You have {count} movements to review',
+      assistantPendingTriageBody: 'Confirm the category before closing the month',
     })[key] ?? key;
 
     it('translates and interpolates question and subtext', () => {
       const resolved = resolveSuggestion(template, translate);
-      expect(resolved.question).toBe('Tens 5 movimentos por rever');
-      expect(resolved.subtext).toBe('Confirma a categoria antes de fechares o mês');
+      expect(resolved.question).toBe('You have 5 movements to review');
+      expect(resolved.subtext).toBe('Confirm the category before closing the month');
     });
 
     it('resolves a categoryId param to a display name, exposed as {name}', () => {
@@ -377,9 +377,9 @@ describe('suggestion-engine helpers', () => {
         questionKey: 'assistantSavingsTitle',
         params: { amount: 120.5 },
       };
-      const t = (key: string) => (key === 'assistantSavingsTitle' ? 'Poupaste {amount} este período' : key);
+      const t = (key: string) => (key === 'assistantSavingsTitle' ? 'You saved {amount} this period' : key);
       const resolved = resolveSuggestion(savingsTemplate, t, amount => `${amount.toFixed(2)} €`);
-      expect(resolved.question).toBe('Poupaste 120.50 € este período');
+      expect(resolved.question).toBe('You saved 120.50 € this period');
     });
   });
 
@@ -390,7 +390,7 @@ describe('suggestion-engine helpers', () => {
       const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).toLocaleDateString('en-CA');
 
       const budget: Budget = {
-        id: 'vacation1', name: 'Férias Algarve', type: 'project', kind: 'vacation',
+        id: 'vacation1', name: 'Algarve Holiday', type: 'project', kind: 'vacation',
         amount: 1000, projectStartDate: start, projectEndDate: end,
       };
       const txs = [
@@ -409,7 +409,7 @@ describe('suggestion-engine helpers', () => {
       const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).toLocaleDateString('en-CA');
 
       const budget: Budget = {
-        id: 'vacation1', name: 'Férias Algarve', type: 'project', kind: 'vacation',
+        id: 'vacation1', name: 'Algarve Holiday', type: 'project', kind: 'vacation',
         amount: 1000, projectStartDate: start, projectEndDate: end,
       };
       const txs = [{ id: '1', date: end, description: 'Restaurante Mar', amount: -50, category: 'restaurants' }] as Transaction[];
@@ -427,7 +427,7 @@ describe('suggestion-engine helpers', () => {
       const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 20).toLocaleDateString('en-CA');
 
       const budget: Budget = {
-        id: 'vacation1', name: 'Férias Algarve', type: 'project', kind: 'vacation',
+        id: 'vacation1', name: 'Algarve Holiday', type: 'project', kind: 'vacation',
         amount: 1000, projectStartDate: start, projectEndDate: end,
       };
       const txs = [{ id: '1', date: start, description: 'Restaurante Mar', amount: -50, category: 'restaurants' }] as Transaction[];
@@ -444,7 +444,7 @@ describe('suggestion-engine helpers', () => {
 
       const budget: Budget = {
         id: 'vacation1',
-        name: 'Férias Algarve',
+        name: 'Algarve Holiday',
         type: 'project',
         kind: 'vacation',
         amount: 1000,
@@ -478,7 +478,7 @@ describe('suggestion-engine helpers', () => {
 
       const budget: Budget = {
         id: 'vacation1',
-        name: 'Férias Algarve',
+        name: 'Algarve Holiday',
         type: 'project',
         kind: 'vacation',
         amount: 1000,
@@ -512,7 +512,7 @@ describe('suggestion-engine helpers', () => {
 
       const budget: Budget = {
         id: 'vacation2',
-        name: 'Férias Passadas',
+        name: 'Past Holidays',
         type: 'project',
         kind: 'vacation',
         amount: 1000,
@@ -545,7 +545,7 @@ describe('suggestion-engine helpers', () => {
     it('flags empty string category', () => expect(isUncategorized(make(''))).toBe(true));
     it('flags literal "uncategorized"', () => expect(isUncategorized(make('uncategorized'))).toBe(true));
     it('flags "Others" category', () => expect(isUncategorized(make('Others'))).toBe(true));
-    it('flags "Outros" category', () => expect(isUncategorized(make('Outros'))).toBe(true));
+    it('flags "Others" category', () => expect(isUncategorized(make('Others'))).toBe(true));
     it('does not flag a real category', () => expect(isUncategorized(make('groceries'))).toBe(false));
   });
 
@@ -634,7 +634,7 @@ describe('suggestion-engine helpers', () => {
 
     it('detects unmatched transfer transactions', () => {
       const txs = [
-        makeTx('1', -200, 'Transfers', { description: 'Transferência para Poupança' }),
+        makeTx('1', -200, 'Transfers', { description: 'Transfer to Savings' }),
       ];
       const result = engine.buildOperationalTasks({
         accounts: [BASE_ACCOUNT],
@@ -733,7 +733,7 @@ describe('suggestion-engine helpers', () => {
     });
 
     it('detects spending velocity when total budget is defined', () => {
-      const budget: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 500, categoryId: 'groceries' };
+      const budget: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 500, categoryId: 'groceries' };
       const txs = [makeTx('1', -200, 'groceries', { date: dayOffset(1) })];
       const result = engine.buildFinancialInsights({
         accounts: [BASE_ACCOUNT],
@@ -843,7 +843,7 @@ describe('suggestion-engine helpers', () => {
     });
 
     it('stays silent on a pace of zero, which says nothing on the first days of a cycle', () => {
-      const budget: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 500, categoryId: 'groceries' };
+      const budget: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 500, categoryId: 'groceries' };
       const result = engine.buildFinancialInsights({
         accounts: [BASE_ACCOUNT],
         transactions: [makeTx('1', 1200, 'income', { date: '2026-08-01' })],
@@ -855,7 +855,7 @@ describe('suggestion-engine helpers', () => {
     });
 
     it('measures the pace over the last seven days, not over the slice of cycle already elapsed', () => {
-      const budget: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 500, categoryId: 'groceries' };
+      const budget: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 500, categoryId: 'groceries' };
       const result = engine.buildFinancialInsights({
         accounts: [BASE_ACCOUNT],
         transactions: [
@@ -873,8 +873,8 @@ describe('suggestion-engine helpers', () => {
     });
 
     it('leaves envelope spending out of the pace, since that money was already set aside', () => {
-      const trip: Budget = { id: 'p1', name: 'Férias', type: 'project', amount: 1000, monthlyAllocation: 1000 };
-      const budget: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 500, categoryId: 'groceries' };
+      const trip: Budget = { id: 'p1', name: 'Holiday', type: 'project', amount: 1000, monthlyAllocation: 1000 };
+      const budget: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 500, categoryId: 'groceries' };
 
       const result = engine.buildFinancialInsights({
         accounts: [BASE_ACCOUNT],
@@ -892,8 +892,8 @@ describe('suggestion-engine helpers', () => {
     });
 
     it('reports the excess once a project spends past what was set aside for it', () => {
-      const trip: Budget = { id: 'p1', name: 'Férias', type: 'project', amount: 300, monthlyAllocation: 300 };
-      const budget: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 500, categoryId: 'groceries' };
+      const trip: Budget = { id: 'p1', name: 'Holiday', type: 'project', amount: 300, monthlyAllocation: 300 };
+      const budget: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 500, categoryId: 'groceries' };
 
       const result = engine.buildFinancialInsights({
         accounts: [BASE_ACCOUNT],
@@ -911,7 +911,7 @@ describe('suggestion-engine helpers', () => {
     });
 
     it('caps the reference limit at the money that actually exists to spend', () => {
-      const budget: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 5000, categoryId: 'groceries' };
+      const budget: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 5000, categoryId: 'groceries' };
       const result = engine.buildFinancialInsights({
         accounts: [BASE_ACCOUNT],
         transactions: [makeTx('1', -200, 'groceries', { date: dayOffset(1) })],
@@ -926,8 +926,8 @@ describe('suggestion-engine helpers', () => {
 
     it('leaves projects and investment wallets out of the weekly spendable pool', () => {
       const house: Budget = { id: 'w1', name: 'Casa', type: 'investment', kind: 'house', amount: 100000 };
-      const trip: Budget = { id: 'p1', name: 'Férias', type: 'project', amount: 1000 };
-      const groceries: Budget = { id: 'b1', name: 'Alimentação', type: 'category', amount: 500, categoryId: 'groceries' };
+      const trip: Budget = { id: 'p1', name: 'Holiday', type: 'project', amount: 1000 };
+      const groceries: Budget = { id: 'b1', name: 'Groceries', type: 'category', amount: 500, categoryId: 'groceries' };
       const txs = [makeTx('1', -100, 'groceries', { date: '2026-08-05' })];
 
       const result = engine.buildFinancialInsights({
@@ -1111,7 +1111,7 @@ describe('suggestion-engine helpers', () => {
     describe('project retrospective', () => {
       const trip: Budget = {
         id: 'p1',
-        name: 'Férias Algarve',
+        name: 'Algarve Holiday',
         type: 'project',
         kind: 'vacation',
         amount: 1000,
@@ -1308,7 +1308,7 @@ describe('suggestion-engine helpers', () => {
     it('does not trigger category overspend alert for project/vacation budgets', () => {
       const projectBudget: Budget = {
         id: 'p1',
-        name: 'Férias de Verão',
+        name: 'Summer Holiday',
         type: 'project',
         kind: 'vacation',
         amount: 100,
