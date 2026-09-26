@@ -472,6 +472,7 @@ describe('MovementsComponent', () => {
       fixture.detectChanges();
 
       expect(component['chartAsOfDate']()).toBe('2026-08-28');
+      vi.useRealTimers();
     });
   });
 
