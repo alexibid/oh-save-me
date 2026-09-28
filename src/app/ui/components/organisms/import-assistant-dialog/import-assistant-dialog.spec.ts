@@ -249,6 +249,30 @@ describe('ImportAssistantDialog', () => {
       expect(component['showNewAccountForm']()).toBe(false);
     });
 
+    it('does not re-suggest CGD\'s "Consulta de Movimentos" export when the account already exists under CGD\'s other export name (regression: the two CGD statement formats — website export and app export — are the same bank account and must be accepted as the same account under either suggested name)', () => {
+      mockStore.accounts.set([financialAccount({ id: 'acc_cgd', name: 'CGD Consulta de Movimentos', type: 'bank_account', updatedAt: Date.now() })]);
+
+      component['applyAutoDetectedMapping'](
+        ['Data Mov.', 'Descrição', 'Débito', 'Crédito', 'Saldo Cont.'],
+        [['23-07-2026', 'COMPRAS C.DEB LIDL', '15,50', '', '1234,56']]
+      );
+
+      expect(component['newAccountName']).toBe('');
+      expect(component['showNewAccountForm']()).toBe(false);
+    });
+
+    it('does not re-suggest CGD\'s debit/credit export when the account already exists under CGD\'s "Consulta de Movimentos" name, and vice versa', () => {
+      mockStore.accounts.set([financialAccount({ id: 'acc_cgd', name: 'CGD Extrato Normal', type: 'bank_account', updatedAt: Date.now() })]);
+
+      component['applyAutoDetectedMapping'](
+        ['Data mov.', 'Data-valor', 'Descrição', 'Montante', 'Saldo contabilístico após movimento'],
+        [['15-09-2026', '13-09-2026', 'COMPRAS C.DEB REPSOL', '-10,10', '1.887,75']]
+      );
+
+      expect(component['newAccountName']).toBe('');
+      expect(component['showNewAccountForm']()).toBe(false);
+    });
+
     it('never overwrites a name the user already typed', () => {
       component['newAccountName'] = 'A Minha Conta';
 
@@ -372,12 +396,29 @@ describe('ImportAssistantDialog', () => {
       expect(component['isStep2Invalid']()).toBe(false);
     });
 
+    it('should not require a separate "Crédito" column for a bank account whose statement only has a single signed amount column (regression: CGD\'s "Consulta de Movimentos" export has no debit/credit split and was blocked by an unconditional "credit" requirement)', () => {
+      component['selectedAccountId'].set(testAccount.id);
+      component['columnMappings'].set(['date', 'desc', 'amount', 'balance']);
+      component['statementBalanceInput'].set('100');
+
+      expect(component['isStep2Invalid']()).toBe(false);
+      expect(component['missingRequiredColumns']()).toEqual([]);
+    });
+
     it('should drop the "amount" chip from the mapper once debit or credit is already mapped', () => {
       component['selectedAccountId'].set(testAccount.id);
       component['columnMappings'].set(['date', 'desc', 'debit']);
 
       const roles = component['requiredFieldsForMapper']().map(f => f.role);
       expect(roles).not.toContain('amount');
+    });
+
+    it('should drop the "credit" chip from the mapper once a single amount column is already mapped', () => {
+      component['selectedAccountId'].set(testAccount.id);
+      component['columnMappings'].set(['date', 'desc', 'amount']);
+
+      const roles = component['requiredFieldsForMapper']().map(f => f.role);
+      expect(roles).not.toContain('credit');
     });
   });
 

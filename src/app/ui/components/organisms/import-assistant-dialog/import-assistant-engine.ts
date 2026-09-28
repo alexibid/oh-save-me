@@ -10,6 +10,9 @@ export function isRequiredFieldSatisfied(field: string, mappingArr: readonly str
   if (field === 'amount') {
     return mappingArr.includes('amount') || mappingArr.includes('debit') || mappingArr.includes('credit');
   }
+  if (field === 'credit') {
+    return mappingArr.includes('credit') || mappingArr.includes('amount');
+  }
   return mappingArr.includes(field);
 }
 

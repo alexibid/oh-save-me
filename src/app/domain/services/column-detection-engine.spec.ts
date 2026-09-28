@@ -46,6 +46,26 @@ describe('detectColumnMapping — known bank signatures', () => {
     expect(mapping.amount).toEqual({ columnIndex: 2, confidence: 1 });
   });
 
+  it('detects CGD "Consulta de Movimentos" statement columns (single signed amount, no debit/credit split)', () => {
+    const headers = ['Data mov.', 'Data-valor', 'Descrição', 'Montante', 'Saldo contabilístico após movimento'];
+    const rows = [['15-09-2026', '13-09-2026', 'COMPRAS C.DEB REPSOL', '-10,10', '1.887,75']];
+
+    const mapping = detectColumnMapping(headers, rows, 'bank_account');
+
+    expect(mapping.date).toEqual({ columnIndex: 0, confidence: 1 });
+    expect(mapping.desc).toEqual({ columnIndex: 2, confidence: 1 });
+    expect(mapping.amount).toEqual({ columnIndex: 3, confidence: 1 });
+    expect(mapping.balance).toEqual({ columnIndex: 4, confidence: 1 });
+  });
+
+  it('is not confused into a Cartão Universo match by a balance column named "... após movimento" (regression: the word "movimento" inside the balance header must not be read as the description column)', () => {
+    const headers = ['Data mov.', 'Data-valor', 'Descrição', 'Montante', 'Saldo contabilístico após movimento'];
+
+    const suggestion = suggestAccountFromSignature(headers);
+
+    expect(suggestion).toEqual({ name: 'CGD Consulta de Movimentos', type: 'bank_account' });
+  });
+
   it('detects Cartão Refeição / Caixa Classic statement columns (debit/credit split)', () => {
     const headers = ['Data', 'Descricao', 'Debito', 'Credito'];
     const rows = [['23-07-2026', 'PINGO DOCE', '12,00', '']];

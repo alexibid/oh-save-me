@@ -45,6 +45,18 @@ export const DEFAULT_TEMPLATES: MappingTemplate[] = [
     headerIdx: 0
   },
   {
+    id: 'cgd_consulta_movimentos',
+    name: 'CGD Consulta de Movimentos',
+    accountType: 'bank_account',
+    dateCol: 'data mov',
+    descCol: 'descri',
+    amountCol: 'montante',
+    balanceCol: 'saldo cont',
+    availableBalanceCol: 'saldo dispon',
+    delimiter: ',',
+    headerIdx: 0
+  },
+  {
     id: 'universo',
     name: 'Cartão Universo / Universo',
     accountType: 'credit_card',
@@ -94,4 +106,8 @@ export const DEFAULT_TEMPLATES: MappingTemplate[] = [
     delimiter: ',',
     headerIdx: 0
   }
+];
+
+export const ACCOUNT_NAME_ALIASES: readonly (readonly string[])[] = [
+  ['CGD Extrato Normal', 'CGD Consulta de Movimentos']
 ];

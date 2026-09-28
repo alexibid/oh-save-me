@@ -7,7 +7,7 @@ import { CsvParserService } from '@application/csv-parser.service';
 import { useStore } from '@application/app-store';
 import { FinancialAccount, AccountType, isFinancialAccount } from '@domain/models/account';
 import { ImportBatch } from '@domain/models/import-batch';
-import { ACCOUNT_TYPE_REQUIRED_FIELDS } from '@domain/data/templates';
+import { ACCOUNT_NAME_ALIASES, ACCOUNT_TYPE_REQUIRED_FIELDS } from '@domain/data/templates';
 import { Transaction } from '@domain/models/transaction';
 import { TRANSACTION_REPOSITORY_TOKEN, MAPPING_RULE_REPOSITORY_TOKEN } from '@application/tokens';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
@@ -156,6 +156,7 @@ export class ImportAssistantDialog implements OnChanges {
     const mappingArr = this.columnMappings();
     return required
       .filter(role => role !== 'amount' || !isRequiredFieldSatisfied('amount', mappingArr))
+      .filter(role => role !== 'credit' || !isRequiredFieldSatisfied('credit', mappingArr))
       .map(role => ({ role: role as ColumnRole, label: this.requiredFieldLabel(role) }));
   });
 
@@ -350,8 +351,17 @@ export class ImportAssistantDialog implements OnChanges {
     this.notifyAccountSuggestion(suggestion.name);
   }
 
+  private acceptedNamesFor(name: string): readonly string[] {
+    const normalized = name.trim().toLowerCase();
+    const aliasGroup = ACCOUNT_NAME_ALIASES.find(group =>
+      group.some(alias => alias.trim().toLowerCase() === normalized)
+    );
+    return aliasGroup ?? [name];
+  }
+
   private hasAccountNamed(name: string): boolean {
-    return this.accounts.some(a => a.name.trim().toLowerCase() === name.trim().toLowerCase());
+    const acceptedNames = this.acceptedNamesFor(name).map(n => n.trim().toLowerCase());
+    return this.accounts.some(a => acceptedNames.includes(a.name.trim().toLowerCase()));
   }
 
   protected chooseAccountCandidate(candidate: AccountSuggestion): void {
