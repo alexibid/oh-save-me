@@ -1,3 +1,45 @@
+## 0.1.11 (2026-09-28)
+
+### 🐛 Bug Fixes
+
+- **oh-save-me:** remove randomized card background colors from dashboard widgets (da64fb7)
+- **oh-save-me:** restore real timers in movements spec teardown (a159adb)
+- **oh-save-me:** move inline language ternaries into translation tables and translate specs (f3c0ced)
+- **oh-save-me:** scope joint vault sync and recalculate date preset on import (e3843c0)
+- **oh-save-me:** trim the gitignore to what the package needs (f207ef6)
+- **oh-save-me:** remove redundant button role from dashboard insights and normalize gradle wrapper (db44cb0)
+- **tools:** follow the running job in xbar and sync the platform versions (b6ce3c5)
+- **tools:** route workflows to self-hosted runner and configure Firebase multi-site delivery (ee361ae)
+- **oh-save-me:** resolve Gradle 9 Android deprecations and update native platforms (8274f55)
+- **oh-save-me:** configure android oauth credentials, desktop bundle path and xbar runner plugin (b757835)
+- **oh-save-me:** resolve platform build dependencies and push release tags sequentially (5e9c2ff)
+- **tools:** gate every commit on secret and dependency scanning and pin qs above the advisory (cd880fc)
+- **oh-save-me:** add feature-icon and toggle-tabs, and fix e2e selectors (ae8dba0)
+- **oh-save-me:** apply sea-glass-pebbles theme and feature display standardization (b8fd400)
+- **ibid-ui:** add collection-header, collection-list, searchable-select, icon-toggle and sort-button (b4b0924)
+- **oh-save-me:** condense account cards and remove legacy highlight system (1954814)
+- **ibid-ui:** implement parametric 8-point svg clip-path pebble engine (3a00ab9)
+- **oh-save-me:** style dashboard with glass surface and optimize husky pre-commit for branches (6934804)
+- **ibid-ui:** refactor select with cdk overlay, expand glass palette, and harmonize header controls (2f69935)
+- **ibid-ui:** modularize glass surface tokens and encapsulate component styles (3c62919)
+- **oh-save-me:** integrate glass surface theme into header and expand journey 08 (a52f616)
+- **workspace:** theme surfaces, hand-drawn contours and table header architecture (c8dbf21)
+- **ibid-ui:** add data table and nav menu molecules, split the boilerplate into pages (87994b7)
+- **workspace:** set up the ibid monorepo with the design system and Oh Save Me! (94baed8)
+
+### 🔥 Performance
+
+- **ui:** fix every Angular build budget at its cause (656e288)
+- **ci:** stop shipping the npm cache over the network (bcbf444)
+
+### 💅 Refactors
+
+- **oh-save-me:** eliminate every lint warning and lower the ceiling to zero (068faf7)
+
+### 🚀 Features
+
+- **release:** configure independent package versioning and multi-project release workflows (2e31cf7)
+
 ## 0.1.9 (2026-09-05)
 
 ### 🐛 Bug Fixes
