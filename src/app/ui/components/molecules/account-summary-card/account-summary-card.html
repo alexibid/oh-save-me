@@ -1,4 +1,4 @@
-<ibid-card [intensity]="2" [customClass]="'o-metrics-summary-card o-metrics-summary-card--compact ' + cardColorClass">
+<ibid-card [intensity]="2" customClass="o-metrics-summary-card o-metrics-summary-card--compact">
   <ibid-view-more-link [accountId]="accountId" class="o-metrics-summary-card__view-more"></ibid-view-more-link>
 
   <div class="o-metrics-summary-card__section">
@@ -38,7 +38,7 @@
 
   <div class="o-metrics-summary-card__metrics">
     
-    <div [class]="'o-metrics-summary-card__child-card ' + childColor1" [ibidHandDrawn]="1">
+    <div class="o-metrics-summary-card__child-card" [ibidHandDrawn]="1">
       <div class="o-metrics-summary-card__info">
         <span class="o-metrics-summary-card__title">{{ 'accountCardBalance' | translate }}</span>
         @if (lastUpdateDate) {
@@ -51,7 +51,7 @@
     </div>
 
     
-    <div [class]="'o-metrics-summary-card__child-card ' + childColor2" [ibidHandDrawn]="1">
+    <div class="o-metrics-summary-card__child-card" [ibidHandDrawn]="1">
       <div class="o-metrics-summary-card__info">
         <span class="o-metrics-summary-card__title">{{ 'periodCashflow' | translate }}</span>
         @if (periodStartDate && periodEndDate) {
@@ -66,7 +66,7 @@
     </div>
 
     
-    <div [class]="'o-metrics-summary-card__child-card ' + childColor3" [ibidHandDrawn]="1">
+    <div class="o-metrics-summary-card__child-card" [ibidHandDrawn]="1">
       <div class="o-metrics-summary-card__header">
         <span class="o-metrics-summary-card__title">{{ 'incomeExpenses' | translate }}</span>
       </div>

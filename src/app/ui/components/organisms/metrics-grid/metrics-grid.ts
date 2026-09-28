@@ -4,21 +4,6 @@ import { CommonModule } from '@angular/common';
 import { I18N_SHARED, I18nService } from '@ui/shared/i18n-shared';
 import { CurrencyDisplayComponent, CurrencyExplanationRow, HandDrawnDirective, ViewMoreLinkComponent } from 'ibid-ui';
 
-const PALETTE = ['coral', 'amber', 'pink'] as const;
-
-function getRandomPaletteSequence(count: number): string[] {
-  const colors = [...PALETTE];
-  for (let i = colors.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [colors[i], colors[j]] = [colors[j], colors[i]];
-  }
-  const result: string[] = [];
-  for (let i = 0; i < count; i++) {
-    result.push('u-bg-' + colors[i % colors.length]);
-  }
-  return result;
-}
-
 @Component({
   selector: 'ohsaveme-metrics-grid',
   standalone: true,
@@ -35,7 +20,6 @@ function getRandomPaletteSequence(count: number): string[] {
 })
 export class MetricsGridComponent {
   private readonly i18n = inject(I18nService);
-  protected readonly cardColors = getRandomPaletteSequence(5);
 
   @Input() incomePeriod = 0;
   @Input() expensePeriod = 0;
