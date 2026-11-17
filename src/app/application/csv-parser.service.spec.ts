@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CsvParserService } from './csv-parser.service';
 import { CategoryMlService } from '@application/services/category-ml.service';

@@ -19,8 +19,8 @@ export const E2E_SEED_DATA = {
   customizations: MOCK_CUSTOMIZATIONS,
 };
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 export function loadBackupData(filename = 'app_backup_2026-08-28_23-32-12.json') {
   const filePath = path.resolve(__dirname, '../../imports', filename);
