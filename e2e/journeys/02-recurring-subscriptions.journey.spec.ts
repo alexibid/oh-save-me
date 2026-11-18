@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 02: Recurring Subscriptions and Selected Sorting', () => {
   test('executes complete journey for recurring expenses detection, selection sorting and batch toggling', async ({ page }, testInfo) => {

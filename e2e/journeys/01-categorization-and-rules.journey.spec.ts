@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 01: Categorization and Batch ML Rules', () => {
   test('executes complete journey for assigning project, category and batch rules with persistence', async ({ page }, testInfo) => {

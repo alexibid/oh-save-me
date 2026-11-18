@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 11: Categories Management, Subcategories, Colors and Editing', () => {
   test('executes complete journey for listing categories, editing colors and creating subcategories', async ({ page }, testInfo) => {

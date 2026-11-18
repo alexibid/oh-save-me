@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 07: Portfolio Assets, Allocation Wizard and Movements Dialog', () => {
   test('executes complete journey for portfolio overview, asset creation wizard and asset movements bottom sheet', async ({ page }, testInfo) => {

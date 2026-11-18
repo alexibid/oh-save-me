@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 15: Form Validations and Disabled Error States', () => {
   test('executes negative journey validating disabled submit buttons on empty inputs across dialogs', async ({ page }, testInfo) => {

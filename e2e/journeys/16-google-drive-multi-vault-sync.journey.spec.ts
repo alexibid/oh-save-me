@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', () => {
   test('executes complete journey for Google OAuth login via redirect callback, multi-vault sync and persistence', async ({ page }, testInfo) => {
@@ -43,6 +42,14 @@ test.describe('User Journey 16: Google Drive OAuth and Multi-Vault Cloud Sync', 
         } else {
           await route.continue();
         }
+      });
+
+      await page.route('https://www.googleapis.com/drive/v3/files/**', async (route) => {
+        await route.fulfill({
+          status: 404,
+          contentType: 'application/json',
+          body: JSON.stringify({ error: { code: 404, message: 'File not found' } })
+        });
       });
 
       await page.route('https://www.googleapis.com/upload/drive/v3/files*', async (route) => {

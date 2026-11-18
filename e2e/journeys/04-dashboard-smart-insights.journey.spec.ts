@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 04: Dashboard Consolidation and Smart Financial Insights', () => {
   test('executes complete journey for dashboard metrics, cycling archetypes, archive management and assisted navigation', async ({ page }, testInfo) => {

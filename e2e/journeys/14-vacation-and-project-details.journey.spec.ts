@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 14: Vacation Projects and Detail Breakdown Bottom Sheet', () => {
   test('executes complete journey for vacation projects summary and opening vacation detail bottom sheet', async ({ page }, testInfo) => {

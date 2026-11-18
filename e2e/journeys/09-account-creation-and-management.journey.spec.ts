@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 09: Account Creation and Add Entry Bottom Sheet', () => {
   test('executes complete journey for creating accounts via global entry chooser and account wizard dialog', async ({ page }, testInfo) => {

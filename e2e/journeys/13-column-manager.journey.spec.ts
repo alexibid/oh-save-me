@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 13: Column Manager Panel and Dynamic Table Customization', () => {
   test('executes complete journey for opening column manager, toggling column visibility and live reordering', async ({ page }, testInfo) => {

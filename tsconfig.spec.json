@@ -10,6 +10,7 @@
   "include": [
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
-    "../../tools/vitest/forbid-local-services.ts"
+    "../../tools/vitest/forbid-network.ts",
+    "../../tools/vitest/mock-icon-assets.ts"
   ]
 }

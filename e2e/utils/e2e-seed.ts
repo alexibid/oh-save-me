@@ -19,16 +19,6 @@ export const E2E_SEED_DATA = {
   customizations: MOCK_CUSTOMIZATIONS,
 };
 
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-
-export function loadBackupData(filename = 'app_backup_2026-08-28_23-32-12.json') {
-  const filePath = path.resolve(__dirname, '../../imports', filename);
-  const raw = fs.readFileSync(filePath, 'utf8');
-  const parsed = JSON.parse(raw);
-  return parsed.data;
-}
-
 export async function seedE2eDatabase(
   page: Page,
   overrides: Partial<typeof E2E_SEED_DATA> = {},
@@ -37,18 +27,6 @@ export async function seedE2eDatabase(
   if (now) await page.clock.setFixedTime(now);
 
   const data = { ...E2E_SEED_DATA, ...overrides };
-  await page.addInitScript((seedData) => {
-    (window as unknown as { __E2E_SEED_DATA__?: typeof seedData }).__E2E_SEED_DATA__ = seedData;
-  }, data);
-}
-
-export async function seedE2eDatabaseWithBackup(
-  page: Page,
-  filename = 'app_backup_2026-08-28_23-32-12.json',
-  now: Date | null = new Date('2026-08-28T22:32:12.863Z'),
-): Promise<void> {
-  const data = loadBackupData(filename);
-  if (now) await page.clock.setFixedTime(now);
   await page.addInitScript((seedData) => {
     (window as unknown as { __E2E_SEED_DATA__?: typeof seedData }).__E2E_SEED_DATA__ = seedData;
   }, data);

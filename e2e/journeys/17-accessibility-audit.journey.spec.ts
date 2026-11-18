@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { A11yAuditor, FlowRecorder } from '@ibid/testing';
+import { A11yAuditor, FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 17: Multi-Page Accessibility (a11y) & Typography Audit', () => {
   test('executes automated a11y audit and font-size checks across all routes and dialogs', async ({ page }, testInfo) => {

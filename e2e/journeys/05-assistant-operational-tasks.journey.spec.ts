@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 05: Floating Assistant and Operational Tasks', () => {
   test('executes complete journey for floating assistant interaction and operational tasks resolution', async ({ page }, testInfo) => {

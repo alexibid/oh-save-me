@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 12: Database Maintenance, RxDB Data Viewer and History Logs', () => {
   test('executes complete journey for inspecting rxdb storage stats, history logs and table viewer', async ({ page }, testInfo) => {

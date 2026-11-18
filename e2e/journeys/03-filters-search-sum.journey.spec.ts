@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 03: Filters, Search and Sum Mode', () => {
   test('executes complete journey for combined filters, search input and interactive sum calculation', async ({ page }, testInfo) => {

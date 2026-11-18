@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 08: Global Navigation, Header Controls and Presets', () => {
   test('executes complete journey for header controls, sidenav drawer, quick add, brand routing, presets, date picker and language switching', async ({ page }, testInfo) => {

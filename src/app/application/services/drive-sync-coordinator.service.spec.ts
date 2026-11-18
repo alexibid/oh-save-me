@@ -147,6 +147,12 @@ describe('DriveSyncCoordinatorService', () => {
       isShared: false
     });
     vi.spyOn(driveSyncService, 'downloadVaultFile').mockResolvedValue(mockSnapshot);
+    vi.spyOn(driveSyncService, 'ensureAppFolders').mockResolvedValue({
+      rootFolderId: 'folder-root',
+      privateImportsFolderId: 'folder-private-imports',
+      sharedFolderId: 'folder-shared',
+      sharedImportsFolderId: 'folder-shared-imports'
+    });
     const updateSpy = vi.spyOn(driveSyncService, 'updateVaultFile').mockResolvedValue(true);
     const shareSpy = vi.spyOn(driveSyncService, 'shareFileWithUser').mockResolvedValue(true);
 

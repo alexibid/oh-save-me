@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 10: Import Assistant, Column Mapper and Triage Bottom Sheet', () => {
   test('executes complete journey for bank statement import wizard and post-import triage dialog', async ({ page }, testInfo) => {

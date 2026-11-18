@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
 import { seedE2eDatabase } from '../utils/e2e-seed';
-import { FlowRecorder } from '@ibid/testing';
+import { FlowRecorder, expect, test } from '@ibid/testing';
 
 test.describe('User Journey 06: Budget, Category Wizard and Vacation Projects', () => {
   test('executes complete journey for budget management, category budget breakdown wizard and project details', async ({ page }, testInfo) => {
