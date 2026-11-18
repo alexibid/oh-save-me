@@ -1,3 +1,10 @@
+## 0.1.14 (2026-11-18)
+
+### 🐛 Bug Fixes
+
+- **oh-save-me:** mock google drive in tests and drop the real backup loader (af822e2)
+- **oh-save-me:** use node protocol for fs and path imports (9d97b5e)
+
 ## 0.1.11 (2026-09-28)
 
 ### 🐛 Bug Fixes
